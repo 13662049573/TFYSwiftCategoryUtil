@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UIDevice: TFYCompatible {}
-
 /// MARK ---------------------------------------------------------------  UIDevice ---------------------------------------------------------------
 extension TFY where Base == UIDevice {
     

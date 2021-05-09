@@ -126,3 +126,6 @@ internal protocol TFYSwiftPropertyCompatible {
     /// 定义闭包类型的计算属性
     var swiftCallBack: SwiftCallBack?  { get set }
 }
+
+/// 类型view
+extension NSObject: TFYCompatible {}

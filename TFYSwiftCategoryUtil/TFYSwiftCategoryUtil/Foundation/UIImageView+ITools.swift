@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UIImageView: TFYCompatible {}
-
 extension TFY where Base == UIImageView {
     
     func loadGif(name: String) {
@@ -70,6 +68,13 @@ extension TFY where Base == UIImageView {
     @discardableResult
     func shadowRadius(_ radius: CGFloat) -> Self {
         base.layer.shadowRadius = radius
+        return self
+    }
+    
+    /// 圆角
+    @discardableResult
+    func cornerRadius(_ radius:CGFloat) -> Self {
+        base.layer.cornerRadius = radius
         return self
     }
     

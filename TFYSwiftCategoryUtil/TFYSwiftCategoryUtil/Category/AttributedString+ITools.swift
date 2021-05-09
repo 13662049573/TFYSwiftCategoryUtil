@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension NSMutableAttributedString: TFYCompatible {}
-
 extension TFY where Base == NSMutableAttributedString {
     
     /// 字体大小

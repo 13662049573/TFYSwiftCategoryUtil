@@ -29,7 +29,6 @@
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
 		3612E16526475C4100476696 /* TFYLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15426475C4100476696 /* TFYLog.swift */; };
 		3612E16626475C4100476696 /* BaseFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15626475C4100476696 /* BaseFoundation.swift */; };
-		3612E16726475C4100476696 /* TFYBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15726475C4100476696 /* TFYBaseModel.swift */; };
 		3612E16D26475EF000476696 /* image+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E16C26475EF000476696 /* image+ITools.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,7 +78,6 @@
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E15426475C4100476696 /* TFYLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYLog.swift; sourceTree = "<group>"; };
 		3612E15626475C4100476696 /* BaseFoundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFoundation.swift; sourceTree = "<group>"; };
-		3612E15726475C4100476696 /* TFYBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYBaseModel.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
 		3612E16C26475EF000476696 /* image+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "image+ITools.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -245,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				3612E15626475C4100476696 /* BaseFoundation.swift */,
-				3612E15726475C4100476696 /* TFYBaseModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -387,7 +384,6 @@
 				3612E16026475C4100476696 /* CollectionView+ITools.swift in Sources */,
 				3612E15C26475C4100476696 /* String+ITools.swift in Sources */,
 				3612E16226475C4100476696 /* View+ITools.swift in Sources */,
-				3612E16726475C4100476696 /* TFYBaseModel.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
 				3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */,
 				3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */,

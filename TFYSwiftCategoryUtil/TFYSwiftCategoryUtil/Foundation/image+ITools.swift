@@ -9,7 +9,7 @@ import Foundation
 import ImageIO
 import UIKit
 
-extension UIImage: TFYCompatible {
+extension UIImage {
 
     public class func tfy_gif(data: Data) -> UIImage? {
         // 从数据创建源

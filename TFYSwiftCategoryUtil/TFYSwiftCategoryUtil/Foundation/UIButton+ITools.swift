@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UIButton: TFYCompatible {}
-
 extension TFY where Base == UIButton {
     
     /// text: 文字内容
@@ -30,6 +28,13 @@ extension TFY where Base == UIButton {
     @discardableResult
     func backgroundColor(_ color: UIColor?) -> Self {
         base.backgroundColor = color
+        return self
+    }
+    
+    /// 圆角
+    @discardableResult
+    func cornerRadius(_ radius:CGFloat) -> Self {
+        base.layer.cornerRadius = radius
         return self
     }
     
@@ -68,9 +73,10 @@ extension TFY where Base == UIButton {
         return self
     }
     
+    
     /// 背景图片
     @discardableResult
-    func backImage(_ image: UIImage?, state: UIControl.State) -> Self {
+    func backgroundImage(_ image: UIImage?, state: UIControl.State) -> Self {
         base.setBackgroundImage(image, for: state)
         return self
     }
@@ -107,13 +113,6 @@ extension TFY where Base == UIButton {
     @discardableResult
     func lineBreakMode(_ breadMode: NSLineBreakMode) -> Self {
         base.titleLabel!.lineBreakMode = breadMode
-        return self
-    }
-    
-    ///  影子的颜色。默认为不透明的黑色。颜色创建from模式目前不支持。可以做成动画。
-    @discardableResult
-    func layershadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
         return self
     }
     

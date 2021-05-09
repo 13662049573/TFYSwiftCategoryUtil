@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UICollectionView: TFYCompatible {}
-
 /// MARK ---------------------------------------------------------------  UICollectionView ---------------------------------------------------------------
 extension TFY where Base == UICollectionView {
     
@@ -68,6 +66,21 @@ extension TFY where Base == UICollectionView {
         base.backgroundColor = color
         return self
     }
+    
+    /// 偏移量
+    @discardableResult
+    func contentSize(_ size: CGSize) -> Self {
+        base.contentSize = size
+        return self
+    }
+    
+    /// 圆角
+    @discardableResult
+    func cornerRadius(_ radius:CGFloat) -> Self {
+        base.layer.cornerRadius = radius
+        return self
+    }
+    
     
     /// 参数cellType: ' UICollectionViewCell ' (' TFYReusable ' & ' TFYNibLoadable ' - consistency)子类来注册
     @discardableResult

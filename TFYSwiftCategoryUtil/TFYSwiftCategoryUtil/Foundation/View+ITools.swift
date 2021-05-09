@@ -9,35 +9,10 @@ import Foundation
 import UIKit
 
 extension UIView {
-    static var tfy: TFY<UIView>.Type {
-        set {}
-        get { TFY<UIView>.self }
-    }
-    
-    var tfy: TFY<UIView> {
-        set {}
-        get { TFY(self) }
-    }
-}
-
-/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
-    /// 部分圆角
-    ///
-    /// - Parameters:
-    ///   - corners: 需要实现为圆角的角，可传入多个
-    ///   - radii: 圆角半径
-    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) {
-        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = viewBounds
-        maskLayer.path = maskPath.cgPath
-        base.layer.mask = maskLayer
-    }
     
     /// 加载xib
     func loadViewFromNib() -> UIView {
-        let className = type(of: base)
+        let className = type(of: self)
         let bundle = Bundle(for: className)
         let name = NSStringFromClass(className).components(separatedBy: ".").last
         let nib = UINib(nibName: name!, bundle: bundle)
@@ -48,92 +23,92 @@ extension TFY where Base == UIView {
     ///x轴坐标
     var x: CGFloat {
         get {
-            return base.frame.origin.x
+            return self.frame.origin.x
         }
         set {
-            var tmpFrame = base.frame
+            var tmpFrame = self.frame
             tmpFrame.origin.x = newValue
-            base.frame = tmpFrame
+            self.frame = tmpFrame
         }
     }
     
     ///y轴坐标
     var y: CGFloat {
         get {
-            return base.frame.origin.y
+            return self.frame.origin.y
         }
         set {
-            var tmpFrame = base.frame
+            var tmpFrame = self.frame
             tmpFrame.origin.y = newValue
-            base.frame = tmpFrame
+            self.frame = tmpFrame
         }
     }
     
     ///宽度
     var width: CGFloat {
         get {
-            return base.frame.size.width
+            return self.frame.size.width
         }
         set {
-            var tmpFrame = base.frame
+            var tmpFrame = self.frame
             tmpFrame.size.width = newValue
-            base.frame = tmpFrame
+            self.frame = tmpFrame
         }
     }
     
     ///高度
     var height: CGFloat {
         get {
-            return base.frame.size.height
+            return self.frame.size.height
         }
         set {
-            var tmpFrame = base.frame
+            var tmpFrame = self.frame
             tmpFrame.size.height = newValue
-            base.frame = tmpFrame
+            self.frame = tmpFrame
         }
     }
     
     /// 最右边约束x值
     var maxX: CGFloat {
         get {
-            return base.frame.origin.x + base.frame.size.width
+            return self.frame.origin.x + self.frame.size.width
         }
         set {
-            var tmpFrame = base.frame;
+            var tmpFrame = self.frame;
             tmpFrame.origin.x = newValue - tmpFrame.size.width;
-            base.frame = tmpFrame;
+            self.frame = tmpFrame;
         }
     }
     
     /// 最下边约束y值
     var maxY: CGFloat {
         get {
-            return base.frame.origin.y + base.frame.size.height
+            return self.frame.origin.y + self.frame.size.height
         }
         set {
-            var tmpFrame = base.frame;
+            var tmpFrame = self.frame;
             tmpFrame.origin.y = newValue - tmpFrame.size.height;
-            base.frame = tmpFrame;
+            self.frame = tmpFrame;
         }
     }
     
     /// 设置x轴中心点
     var centerX: CGFloat {
         get {
-            return base.center.x
+            return self.center.x
         }
         set {
-            base.center = CGPoint(x: newValue, y: base.center.y);
+            self.center = CGPoint(x: newValue, y: self.center.y);
         }
     }
     
     /// 设置y轴中心点
     var centerY: CGFloat {
         get {
-            return base.center.y
+            return self.center.y
         }
         set {
-            base.center = CGPoint(x: base.center.x, y: newValue);
+            self.center = CGPoint(x: self.center.x, y: newValue);
         }
         
     }
@@ -141,38 +116,48 @@ extension TFY where Base == UIView {
     /// 设置size
     var size: CGSize {
         get {
-            return base.frame.size
+            return self.frame.size
         }
         set {
-            base.frame = CGRect(x: base.frame.origin.x, y: base.frame.origin.y, width: newValue.width, height: newValue.height)
+            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: newValue.width, height: newValue.height)
         }
     }
     
     /// 设置orgin
     var origin: CGPoint {
         get {
-            return base.frame.origin
+            return self.frame.origin
         }
         set {
-            base.frame = CGRect(x: newValue.x, y: newValue.y, width: base.frame.size.width, height: base.frame.size.height)
+            self.frame = CGRect(x: newValue.x, y: newValue.y, width: self.frame.size.width, height: self.frame.size.height)
         }
     }
-    
-    /// 设置圆角
-    var cornerRadius: CGFloat {
-        get {
-            return base.layer.cornerRadius
-        }
-        set {
-            base.layer.cornerRadius = newValue
-            base.layer.masksToBounds = true
-        }
-    }
-    
+
     /// 移除所有子视图
     func removeAllSubviews() {
-        while base.subviews.count > 0 {
-            base.subviews.last?.removeFromSuperview()
+        while self.subviews.count > 0 {
+            self.subviews.last?.removeFromSuperview()
         }
     }
+    
+}
+
+/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
+extension TFY where Base == UIView {
+    /// 部分圆角
+    ///
+    /// - Parameters:
+    ///   - corners: 需要实现为圆角的角，可传入多个
+    ///   - radii: 圆角半径
+    @discardableResult
+    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) -> Self {
+        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = viewBounds
+        maskLayer.path = maskPath.cgPath
+        base.layer.mask = maskLayer
+        return self
+    }
+    
+    
 }

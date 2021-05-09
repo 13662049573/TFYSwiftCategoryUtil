@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension Timer: TFYCompatible {
+extension Timer {
     
    /// 创建并调度一个计时器，该计时器将在指定的时间之后调用“block”。
    @discardableResult

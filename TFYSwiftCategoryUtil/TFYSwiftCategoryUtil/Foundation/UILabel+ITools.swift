@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UILabel: TFYCompatible {}
-
 // MARK: 链式编程
 extension TFY where Base == UILabel {
     
@@ -136,6 +134,13 @@ extension TFY where Base == UILabel {
     @discardableResult
     func addSubview(_ subView: UIView) -> Self {
         subView.addSubview(base)
+        return self
+    }
+    
+    /// 圆角
+    @discardableResult
+    func cornerRadius(_ radius:CGFloat) -> Self {
+        base.layer.cornerRadius = radius
         return self
     }
     

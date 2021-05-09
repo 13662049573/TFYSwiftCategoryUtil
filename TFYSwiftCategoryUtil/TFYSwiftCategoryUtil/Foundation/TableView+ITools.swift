@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension UITableView: TFYCompatible {}
-
 /// MARK ---------------------------------------------------------------  UITableView ---------------------------------------------------------------
 
 extension TFY where Base == UITableView {
@@ -200,6 +198,13 @@ extension TFY where Base == UITableView {
     @discardableResult
     func backgroundColor(_ color: UIColor?) -> Self {
         base.backgroundColor = color
+        return self
+    }
+    
+    /// 圆角
+    @discardableResult
+    func cornerRadius(_ radius:CGFloat) -> Self {
+        base.layer.cornerRadius = radius
         return self
     }
     

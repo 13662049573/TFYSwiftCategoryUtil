@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-extension NSMutableParagraphStyle: TFYCompatible {}
-
 extension TFY where Base == NSMutableParagraphStyle {
     
     /// 字体的行间距
