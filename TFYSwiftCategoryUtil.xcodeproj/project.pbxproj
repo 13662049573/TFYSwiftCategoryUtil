@@ -7,14 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3612E0FE26475AEB00476696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E0FD26475AEB00476696 /* AppDelegate.swift */; };
-		3612E10026475AEB00476696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E0FF26475AEB00476696 /* SceneDelegate.swift */; };
-		3612E10226475AEB00476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E10126475AEB00476696 /* ViewController.swift */; };
-		3612E10526475AEB00476696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E10326475AEB00476696 /* Main.storyboard */; };
-		3612E10726475AEC00476696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3612E10626475AEC00476696 /* Assets.xcassets */; };
-		3612E10A26475AEC00476696 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E10826475AEC00476696 /* LaunchScreen.storyboard */; };
 		3612E11526475AEC00476696 /* TFYSwiftCategoryUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */; };
 		3612E12026475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11F26475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift */; };
+		3612E13A26475B6700476696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E12E26475B6700476696 /* AppDelegate.swift */; };
+		3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E12F26475B6700476696 /* SceneDelegate.swift */; };
+		3612E13D26475B6700476696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3612E13326475B6700476696 /* Assets.xcassets */; };
+		3612E13E26475B6700476696 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E13426475B6700476696 /* LaunchScreen.storyboard */; };
+		3612E13F26475B6700476696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E13626475B6700476696 /* Main.storyboard */; };
+		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
+		3612E15826475C4100476696 /* device+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14526475C4100476696 /* device+ITools.swift */; };
+		3612E15A26475C4100476696 /* Timer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14726475C4100476696 /* Timer+ITools.swift */; };
+		3612E15B26475C4100476696 /* AttributedString+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14826475C4100476696 /* AttributedString+ITools.swift */; };
+		3612E15C26475C4100476696 /* String+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14926475C4100476696 /* String+ITools.swift */; };
+		3612E15D26475C4100476696 /* ParagraphStyle+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14A26475C4100476696 /* ParagraphStyle+ITools.swift */; };
+		3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14C26475C4100476696 /* UIImageView+ITools.swift */; };
+		3612E15F26475C4100476696 /* UIButton+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14D26475C4100476696 /* UIButton+ITools.swift */; };
+		3612E16026475C4100476696 /* CollectionView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14E26475C4100476696 /* CollectionView+ITools.swift */; };
+		3612E16126475C4100476696 /* TableView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14F26475C4100476696 /* TableView+ITools.swift */; };
+		3612E16226475C4100476696 /* View+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15026475C4100476696 /* View+ITools.swift */; };
+		3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15126475C4100476696 /* UILabel+ITools.swift */; };
+		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
+		3612E16526475C4100476696 /* TFYLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15426475C4100476696 /* TFYLog.swift */; };
+		3612E16626475C4100476696 /* BaseFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15626475C4100476696 /* BaseFoundation.swift */; };
+		3612E16726475C4100476696 /* TFYBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15726475C4100476696 /* TFYBaseModel.swift */; };
+		3612E16D26475EF000476696 /* image+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E16C26475EF000476696 /* image+ITools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,19 +52,36 @@
 
 /* Begin PBXFileReference section */
 		3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftCategoryUtil.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3612E0FD26475AEB00476696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3612E0FF26475AEB00476696 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3612E10126475AEB00476696 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3612E10426475AEB00476696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3612E10626475AEC00476696 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3612E10926475AEC00476696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3612E10B26475AEC00476696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3612E11026475AEC00476696 /* TFYSwiftCategoryUtilTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftCategoryUtilTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCategoryUtilTests.swift; sourceTree = "<group>"; };
 		3612E11626475AEC00476696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3612E11B26475AEC00476696 /* TFYSwiftCategoryUtilUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftCategoryUtilUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11F26475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCategoryUtilUITests.swift; sourceTree = "<group>"; };
 		3612E12126475AEC00476696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3612E12E26475B6700476696 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3612E12F26475B6700476696 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3612E13326475B6700476696 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3612E13526475B6700476696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3612E13726475B6700476696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3612E13826475B6700476696 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3612E14126475BA400476696 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3612E14526475C4100476696 /* device+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "device+ITools.swift"; sourceTree = "<group>"; };
+		3612E14726475C4100476696 /* Timer+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Timer+ITools.swift"; sourceTree = "<group>"; };
+		3612E14826475C4100476696 /* AttributedString+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AttributedString+ITools.swift"; sourceTree = "<group>"; };
+		3612E14926475C4100476696 /* String+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+ITools.swift"; sourceTree = "<group>"; };
+		3612E14A26475C4100476696 /* ParagraphStyle+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ParagraphStyle+ITools.swift"; sourceTree = "<group>"; };
+		3612E14C26475C4100476696 /* UIImageView+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+ITools.swift"; sourceTree = "<group>"; };
+		3612E14D26475C4100476696 /* UIButton+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+ITools.swift"; sourceTree = "<group>"; };
+		3612E14E26475C4100476696 /* CollectionView+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionView+ITools.swift"; sourceTree = "<group>"; };
+		3612E14F26475C4100476696 /* TableView+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView+ITools.swift"; sourceTree = "<group>"; };
+		3612E15026475C4100476696 /* View+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+ITools.swift"; sourceTree = "<group>"; };
+		3612E15126475C4100476696 /* UILabel+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ITools.swift"; sourceTree = "<group>"; };
+		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
+		3612E15426475C4100476696 /* TFYLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYLog.swift; sourceTree = "<group>"; };
+		3612E15626475C4100476696 /* BaseFoundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFoundation.swift; sourceTree = "<group>"; };
+		3612E15726475C4100476696 /* TFYBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYBaseModel.swift; sourceTree = "<group>"; };
+		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
+		3612E16C26475EF000476696 /* image+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "image+ITools.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +132,11 @@
 		3612E0FC26475AEB00476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
-				3612E0FD26475AEB00476696 /* AppDelegate.swift */,
-				3612E0FF26475AEB00476696 /* SceneDelegate.swift */,
-				3612E10126475AEB00476696 /* ViewController.swift */,
-				3612E10326475AEB00476696 /* Main.storyboard */,
-				3612E10626475AEC00476696 /* Assets.xcassets */,
-				3612E10826475AEC00476696 /* LaunchScreen.storyboard */,
-				3612E10B26475AEC00476696 /* Info.plist */,
+				3612E14326475C4100476696 /* TFYSwiftCategoryUtil */,
+				3612E13026475B6700476696 /* PCH */,
+				3612E12D26475B6700476696 /* TFYAppDelegate */,
+				3612E13926475B6700476696 /* TFYClass */,
+				3612E13126475B6700476696 /* TFYResources */,
 			);
 			path = TFYSwiftCategoryUtil;
 			sourceTree = "<group>";
@@ -126,6 +157,97 @@
 				3612E12126475AEC00476696 /* Info.plist */,
 			);
 			path = TFYSwiftCategoryUtilUITests;
+			sourceTree = "<group>";
+		};
+		3612E12D26475B6700476696 /* TFYAppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				3612E12E26475B6700476696 /* AppDelegate.swift */,
+				3612E12F26475B6700476696 /* SceneDelegate.swift */,
+			);
+			path = TFYAppDelegate;
+			sourceTree = "<group>";
+		};
+		3612E13026475B6700476696 /* PCH */ = {
+			isa = PBXGroup;
+			children = (
+				3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */,
+			);
+			path = PCH;
+			sourceTree = "<group>";
+		};
+		3612E13126475B6700476696 /* TFYResources */ = {
+			isa = PBXGroup;
+			children = (
+				3612E13326475B6700476696 /* Assets.xcassets */,
+				3612E13426475B6700476696 /* LaunchScreen.storyboard */,
+				3612E13626475B6700476696 /* Main.storyboard */,
+				3612E13826475B6700476696 /* Info.plist */,
+			);
+			path = TFYResources;
+			sourceTree = "<group>";
+		};
+		3612E13926475B6700476696 /* TFYClass */ = {
+			isa = PBXGroup;
+			children = (
+				3612E14126475BA400476696 /* ViewController.swift */,
+			);
+			path = TFYClass;
+			sourceTree = "<group>";
+		};
+		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
+			isa = PBXGroup;
+			children = (
+				3612E14426475C4100476696 /* Category */,
+				3612E14B26475C4100476696 /* Foundation */,
+				3612E15226475C4100476696 /* Utils */,
+				3612E15526475C4100476696 /* Base */,
+			);
+			path = TFYSwiftCategoryUtil;
+			sourceTree = "<group>";
+		};
+		3612E14426475C4100476696 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				3612E14526475C4100476696 /* device+ITools.swift */,
+				3612E14726475C4100476696 /* Timer+ITools.swift */,
+				3612E14826475C4100476696 /* AttributedString+ITools.swift */,
+				3612E14926475C4100476696 /* String+ITools.swift */,
+				3612E14A26475C4100476696 /* ParagraphStyle+ITools.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		3612E14B26475C4100476696 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				3612E14C26475C4100476696 /* UIImageView+ITools.swift */,
+				3612E16C26475EF000476696 /* image+ITools.swift */,
+				3612E14D26475C4100476696 /* UIButton+ITools.swift */,
+				3612E14E26475C4100476696 /* CollectionView+ITools.swift */,
+				3612E14F26475C4100476696 /* TableView+ITools.swift */,
+				3612E15026475C4100476696 /* View+ITools.swift */,
+				3612E15126475C4100476696 /* UILabel+ITools.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		3612E15226475C4100476696 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3612E15326475C4100476696 /* TFYAsynce.swift */,
+				3612E15426475C4100476696 /* TFYLog.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		3612E15526475C4100476696 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3612E15626475C4100476696 /* BaseFoundation.swift */,
+				3612E15726475C4100476696 /* TFYBaseModel.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +317,7 @@
 				TargetAttributes = {
 					3612E0F926475AEB00476696 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1250;
 					};
 					3612E10F26475AEC00476696 = {
 						CreatedOnToolsVersion = 12.5;
@@ -231,9 +354,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3612E10A26475AEC00476696 /* LaunchScreen.storyboard in Resources */,
-				3612E10726475AEC00476696 /* Assets.xcassets in Resources */,
-				3612E10526475AEB00476696 /* Main.storyboard in Resources */,
+				3612E13D26475B6700476696 /* Assets.xcassets in Resources */,
+				3612E13F26475B6700476696 /* Main.storyboard in Resources */,
+				3612E13E26475B6700476696 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +381,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3612E10226475AEB00476696 /* ViewController.swift in Sources */,
-				3612E0FE26475AEB00476696 /* AppDelegate.swift in Sources */,
-				3612E10026475AEB00476696 /* SceneDelegate.swift in Sources */,
+				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
+				3612E14226475BA400476696 /* ViewController.swift in Sources */,
+				3612E15A26475C4100476696 /* Timer+ITools.swift in Sources */,
+				3612E16026475C4100476696 /* CollectionView+ITools.swift in Sources */,
+				3612E15C26475C4100476696 /* String+ITools.swift in Sources */,
+				3612E16226475C4100476696 /* View+ITools.swift in Sources */,
+				3612E16726475C4100476696 /* TFYBaseModel.swift in Sources */,
+				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
+				3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */,
+				3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */,
+				3612E15B26475C4100476696 /* AttributedString+ITools.swift in Sources */,
+				3612E16626475C4100476696 /* BaseFoundation.swift in Sources */,
+				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
+				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
+				3612E16126475C4100476696 /* TableView+ITools.swift in Sources */,
+				3612E15F26475C4100476696 /* UIButton+ITools.swift in Sources */,
+				3612E16D26475EF000476696 /* image+ITools.swift in Sources */,
+				3612E15826475C4100476696 /* device+ITools.swift in Sources */,
+				3612E15D26475C4100476696 /* ParagraphStyle+ITools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,20 +435,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3612E10326475AEB00476696 /* Main.storyboard */ = {
+		3612E13426475B6700476696 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				3612E10426475AEB00476696 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		3612E10826475AEC00476696 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3612E10926475AEC00476696 /* Base */,
+				3612E13526475B6700476696 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		3612E13626475B6700476696 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3612E13726475B6700476696 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -436,15 +575,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH95759TSS;
-				INFOPLIST_FILE = TFYSwiftCategoryUtil/Info.plist;
+				INFOPLIST_FILE = TFYSwiftCategoryUtil/TFYResources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tfy.TFYSwiftCategoryUtil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TFYSwiftCategoryUtil/PCH/TFYSwiftCategoryUtil-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -455,15 +598,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QH95759TSS;
-				INFOPLIST_FILE = TFYSwiftCategoryUtil/Info.plist;
+				INFOPLIST_FILE = TFYSwiftCategoryUtil/TFYResources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tfy.TFYSwiftCategoryUtil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TFYSwiftCategoryUtil/PCH/TFYSwiftCategoryUtil-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
