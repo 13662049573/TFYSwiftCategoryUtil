@@ -1,168 +1,159 @@
 //
-//  View+ITools.swift
-//  TFYCategoryUtil
+//  UIScrollView+ITools.swift
+//  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/4/21.
+//  Created by 田风有 on 2021/5/9.
 //
 
 import Foundation
 import UIKit
 
-extension UIView {
+extension TFY where Base == UIScrollView {
     
-    /// 加载xib
-    func loadViewFromNib() -> UIView {
-        let className = type(of: self)
-        let bundle = Bundle(for: className)
-        let name = NSStringFromClass(className).components(separatedBy: ".").last
-        let nib = UINib(nibName: name!, bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        return view
-    }
-    
-    ///x轴坐标
-    var x: CGFloat {
-        get {
-            return self.frame.origin.x
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.x = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///y轴坐标
-    var y: CGFloat {
-        get {
-            return self.frame.origin.y
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.y = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///宽度
-    var width: CGFloat {
-        get {
-            return self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.width = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///高度
-    var height: CGFloat {
-        get {
-            return self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.height = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    /// 最右边约束x值
-    var maxX: CGFloat {
-        get {
-            return self.frame.origin.x + self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.x = newValue - tmpFrame.size.width;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 最下边约束y值
-    var maxY: CGFloat {
-        get {
-            return self.frame.origin.y + self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.y = newValue - tmpFrame.size.height;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 设置x轴中心点
-    var centerX: CGFloat {
-        get {
-            return self.center.x
-        }
-        set {
-            self.center = CGPoint(x: newValue, y: self.center.y);
-        }
-    }
-    
-    /// 设置y轴中心点
-    var centerY: CGFloat {
-        get {
-            return self.center.y
-        }
-        set {
-            self.center = CGPoint(x: self.center.x, y: newValue);
-        }
-        
-    }
-    
-    /// 设置size
-    var size: CGSize {
-        get {
-            return self.frame.size
-        }
-        set {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: newValue.width, height: newValue.height)
-        }
-    }
-    
-    /// 设置orgin
-    var origin: CGPoint {
-        get {
-            return self.frame.origin
-        }
-        set {
-            self.frame = CGRect(x: newValue.x, y: newValue.y, width: self.frame.size.width, height: self.frame.size.height)
-        }
-    }
-
-    /// 移除所有子视图
-    func removeAllSubviews() {
-        while self.subviews.count > 0 {
-            self.subviews.last?.removeFromSuperview()
-        }
-    }
-    
-}
-
-/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
-    /// 部分圆角
-    ///
-    /// - Parameters:
-    ///   - corners: 需要实现为圆角的角，可传入多个
-    ///   - radii: 圆角半径
+    /// 默认 CGSizeZero
     @discardableResult
-    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) -> Self {
-        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = viewBounds
-        maskLayer.path = maskPath.cgPath
-        base.layer.mask = maskLayer
+    func contentSize(_ size: CGSize) -> Self {
+        base.contentSize = size
         return self
     }
     
-    /// 是否隐藏
+    /// 默认 CGPointZero
     @discardableResult
-    func hidden(_ hidden: Bool) -> Self {
-        base.isHidden = hidden
+    func contentOffset(_ offset: CGPoint) -> Self {
+        base.contentOffset = offset
+        return self
+    }
+    
+    /// 默认UIEdgeInsetsZero。在内容周围添加额外的滚动区域
+    @discardableResult
+    func contentInset(_ inset: UIEdgeInsets) -> Self {
+        base.contentInset = inset
+        return self
+    }
+    
+    /// 默认的是的。如果是，则跳过内容的边缘并返回
+    @discardableResult
+    func bounces(_ bounces: Bool) -> Self {
+        base.bounces = bounces
+        return self
+    }
+    
+    /// 没有违约。如果是并且bounce是YES，即使内容小于边界，也允许垂直拖动
+    @discardableResult
+    func alwaysBounceVertical(_ vertical: Bool) -> Self {
+        base.alwaysBounceVertical = vertical
+        return self
+    }
+    
+    /// 没有违约。如果是并且bounce是YES，即使内容小于边界，也允许水平拖动
+    @discardableResult
+    func alwaysBounceHorizontal(_ horizontal: Bool) -> Self {
+        base.alwaysBounceHorizontal = horizontal
+        return self
+    }
+    
+    /// 没有违约。如果是，在多个视图边界上停止
+    @discardableResult
+    func pagingEnabled(_ endbled: Bool) -> Self {
+        base.isPagingEnabled = endbled
+        return self
+    }
+    
+    /// 默认的是的。暂时关闭任何拖拽
+    @discardableResult
+    func scrollEnabled(_ enabled: Bool) -> Self {
+        base.isScrollEnabled = enabled
+        return self
+    }
+    
+    /// 默认的是的。当我们跟踪时，显示指示器。跟踪后淡出
+    @discardableResult
+    func showsHorizontalScrollIndicator(_ horizontal: Bool) -> Self {
+        base.showsHorizontalScrollIndicator = horizontal
+        return self
+    }
+    
+    /// 默认的是的。当我们跟踪时，显示指示器。跟踪后淡出
+    @discardableResult
+    func showsVerticalScrollIndicator(_ vertical: Bool) -> Self {
+        base.showsVerticalScrollIndicator = vertical
+        return self
+    }
+    
+    /// 默认是肯定的。
+    @discardableResult
+    func scrollsToTop(_ totop: Bool) -> Self {
+        base.scrollsToTop = totop
+        return self
+    }
+    
+    /// 默认是UIScrollViewIndicatorStyleDefault
+    @discardableResult
+    func indicatorStyle(_ style: UIScrollView.IndicatorStyle) -> Self {
+        base.indicatorStyle = style
+        return self
+    }
+    
+    /// 只使用setter，方便将verticalScrollIndicatorInsets和horizontalScrollIndicatorInsets设置为相同的值。如果这些属性被设置为不同的值，则该getter(已弃用)的返回值是未定义的。
+    @discardableResult
+    func scrollIndicatorInsets(_ insets: UIEdgeInsets) -> Self {
+        base.scrollIndicatorInsets = insets
+        return self
+    }
+    
+    /// 没有违约。如果是，请在拖动时锁定垂直或水平滚动
+    @discardableResult
+    func directionalLockEnabled(_ enabled: Bool) -> Self {
+        base.isDirectionalLockEnabled = enabled
+        return self
+    }
+    
+    /// 默认 1.0
+    @discardableResult
+    func minimumZoomScale(_ min: CGFloat) -> Self {
+        base.minimumZoomScale = min
+        return self
+    }
+    
+    /// 默认是1.0。必须是>最小缩放比例，使缩放
+    @discardableResult
+    func maximumZoomScale(_ max: CGFloat) -> Self {
+        base.maximumZoomScale = max
+        return self
+    }
+    
+    /// 默认 1.0
+    @discardableResult
+    func zoomScale(_ zoom: CGFloat) -> Self {
+        base.zoomScale = zoom
+        return self
+    }
+    
+    /// 以恒定速度动画到新的偏移量
+    @discardableResult
+    func contentOffsetAnimated(_ point: CGPoint, animated: Bool) -> Self {
+        base.setContentOffset(point, animated: animated)
+        return self
+    }
+    
+    /// 以恒定速度动画到新的偏移量
+    @discardableResult
+    func contentOffsetToVisible(_ point: CGPoint, animated: Bool) -> Self {
+        base.setContentOffset(point, animated: animated)
+        return self
+    }
+    
+    /// 默认为零。弱引用
+    @discardableResult
+    func delegate(_ delegate: UIScrollViewDelegate) -> Self {
+        base.delegate = delegate
+        return self
+    }
+    
+    /// 设置滚动指示灯是否由系统自动调整。默认是肯定的。
+    @discardableResult
+    func automaticallyAdjustsScrollIndicatorInsets(_ insets: Bool) -> Self {
+        base.automaticallyAdjustsScrollIndicatorInsets = insets
         return self
     }
     
@@ -173,38 +164,10 @@ extension TFY where Base == UIView {
         return self
     }
     
-    /// 添加容器
+    /// tintColor
     @discardableResult
-    func addSubview(_ subView: UIView) -> Self {
-        subView.addSubview(base)
-        return self
-    }
-    
-    /// 圆角
-    @discardableResult
-    func cornerRadius(_ radius:CGFloat) -> Self {
-        base.layer.cornerRadius = radius
-        return self
-    }
-    
-    ///  影子的颜色。默认为不透明的黑色。颜色创建from模式目前不支持。可以做成动画。
-    @discardableResult
-    func layershadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
-        return self
-    }
-    
-    /// layer 影子偏移量。默认为(0，-3)。可以做成动画。
-    @discardableResult
-    func layershadowOffset(_ size: CGSize) -> Self {
-        base.layer.shadowOffset = size
-        return self
-    }
-    
-    /// layer 用于创建阴影的模糊半径。默认为3。可以做成动画。
-    @discardableResult
-    func shadowRadius(_ radius: CGFloat) -> Self {
-        base.layer.shadowRadius = radius
+    func tintColor(_ color: UIColor) -> Self {
+        base.tintColor = color
         return self
     }
     
@@ -215,10 +178,10 @@ extension TFY where Base == UIView {
         return self
     }
     
-    /// tintColor
+    /// 是否隐藏
     @discardableResult
-    func tintColor(_ color: UIColor) -> Self {
-        base.tintColor = color
+    func hidden(_ hidden: Bool) -> Self {
+        base.isHidden = hidden
         return self
     }
     
@@ -320,6 +283,13 @@ extension TFY where Base == UIView {
         return self
     }
     
+    /// 当为正数时，该层的背景将被绘制圆角。也影响掩码生成“masksToBounds”属性。默认值为零。可以做成动画。
+    @discardableResult
+    func cornerRadius(_ radius: CGFloat) -> Self {
+        base.layer.cornerRadius = radius
+        return self
+    }
+    
     /// 图层边界的宽度，从图层边界中插入。的边框是合成在层的内容和子层和 包含了' cornerRadius'属性的效果。默认为0。可以做成动画。
     @discardableResult
     func borderWidth(_ width: CGFloat) -> Self {
@@ -362,6 +332,13 @@ extension TFY where Base == UIView {
         return self
     }
     
+    /// 用于创建阴影的模糊半径。默认为3。可以做成动画。
+    @discardableResult
+    func shadowRadius(_ radius: CGFloat) -> Self {
+        base.layer.shadowRadius = radius
+        return self
+    }
+    
     /// 相对于该层的锚点应用到该层的转换默认为标识转换。可以做成动画。
     @discardableResult
     func transform(_ transform: CATransform3D) -> Self {
@@ -375,5 +352,4 @@ extension TFY where Base == UIView {
         base.layer.shadowPath = path
         return self
     }
-    
 }

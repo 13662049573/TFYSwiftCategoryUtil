@@ -1,164 +1,14 @@
 //
-//  View+ITools.swift
-//  TFYCategoryUtil
+//  UISlider+ITools.swift
+//  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/4/21.
+//  Created by 田风有 on 2021/5/9.
 //
 
 import Foundation
 import UIKit
 
-extension UIView {
-    
-    /// 加载xib
-    func loadViewFromNib() -> UIView {
-        let className = type(of: self)
-        let bundle = Bundle(for: className)
-        let name = NSStringFromClass(className).components(separatedBy: ".").last
-        let nib = UINib(nibName: name!, bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        return view
-    }
-    
-    ///x轴坐标
-    var x: CGFloat {
-        get {
-            return self.frame.origin.x
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.x = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///y轴坐标
-    var y: CGFloat {
-        get {
-            return self.frame.origin.y
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.y = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///宽度
-    var width: CGFloat {
-        get {
-            return self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.width = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///高度
-    var height: CGFloat {
-        get {
-            return self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.height = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    /// 最右边约束x值
-    var maxX: CGFloat {
-        get {
-            return self.frame.origin.x + self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.x = newValue - tmpFrame.size.width;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 最下边约束y值
-    var maxY: CGFloat {
-        get {
-            return self.frame.origin.y + self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.y = newValue - tmpFrame.size.height;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 设置x轴中心点
-    var centerX: CGFloat {
-        get {
-            return self.center.x
-        }
-        set {
-            self.center = CGPoint(x: newValue, y: self.center.y);
-        }
-    }
-    
-    /// 设置y轴中心点
-    var centerY: CGFloat {
-        get {
-            return self.center.y
-        }
-        set {
-            self.center = CGPoint(x: self.center.x, y: newValue);
-        }
-        
-    }
-    
-    /// 设置size
-    var size: CGSize {
-        get {
-            return self.frame.size
-        }
-        set {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: newValue.width, height: newValue.height)
-        }
-    }
-    
-    /// 设置orgin
-    var origin: CGPoint {
-        get {
-            return self.frame.origin
-        }
-        set {
-            self.frame = CGRect(x: newValue.x, y: newValue.y, width: self.frame.size.width, height: self.frame.size.height)
-        }
-    }
-
-    /// 移除所有子视图
-    func removeAllSubviews() {
-        while self.subviews.count > 0 {
-            self.subviews.last?.removeFromSuperview()
-        }
-    }
-    
-}
-
-/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
-    /// 部分圆角
-    ///
-    /// - Parameters:
-    ///   - corners: 需要实现为圆角的角，可传入多个
-    ///   - radii: 圆角半径
-    @discardableResult
-    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) -> Self {
-        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = viewBounds
-        maskLayer.path = maskPath.cgPath
-        base.layer.mask = maskLayer
-        return self
-    }
-    
+extension TFY where Base == UISlider {
     /// 是否隐藏
     @discardableResult
     func hidden(_ hidden: Bool) -> Self {
@@ -375,5 +225,151 @@ extension TFY where Base == UIView {
         base.layer.shadowPath = path
         return self
     }
+    /// 默认是肯定的。如果否，忽略触摸事件和子类可能绘制不同
+    @discardableResult
+    func enabled(_ enabled: Bool) -> Self {
+        base.isEnabled = enabled
+        return self
+    }
     
+    /// NO可以被一些子类或应用程序使用
+    @discardableResult
+    func selected(_ selected: Bool) -> Self {
+        base.isSelected = selected
+        return self
+    }
+    
+    /// 默认是否定的。当触摸在跟踪过程中进入/退出时自动设置/清除并清除
+    @discardableResult
+    func highlighted(_ highlighted: Bool) -> Self {
+        base.isHighlighted = highlighted
+        return self
+    }
+    
+    /// 如何在控件内垂直定位内容。默认是中心
+    @discardableResult
+    func contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+        base.contentVerticalAlignment = alignment
+        return self
+    }
+    
+    /// 如何在控件内水平位置内容。默认是中心
+    @discardableResult
+    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+        base.contentHorizontalAlignment = alignment
+        return self
+    }
+    
+    /// 添加点击事件
+    @discardableResult
+    func addTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
+        base.addTarget(target, action: action, for: controlEvents)
+        return self
+    }
+    
+    /// 移除一组事件的目标/操作。为操作传入NULL，以删除该目标的所有操作
+    @discardableResult
+    func removeTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
+        base.removeTarget(target, action: action, for: controlEvents)
+        return self
+    }
+    
+    /// 从传递的控制事件集中删除具有提供标识符的操作。
+    @available(iOS 14.0, *)
+    @discardableResult
+    func removeAllTarget(_ identifiedBy: UIAction.Identifier,controlEvents: UIControl.Event) -> Self {
+        base.removeAction(identifiedBy: identifiedBy, for: controlEvents)
+        return self
+    }
+    
+    /// 0.0违约。这个值将被固定为min/max
+    @discardableResult
+    func value(_ value: Float) -> Self {
+        base.value = value
+        return self
+    }
+    
+    /// 0.0违约。如果在新的最小值之外，当前值可能会改变
+    @discardableResult
+    func minimumValue(_ value: Float) -> Self {
+        base.minimumValue = value
+        return self
+    }
+    
+    /// 1.0违约。如果超出新的Max值，当前值可能会改变
+    @discardableResult
+    func maximumValue(_ value: Float) -> Self {
+        base.maximumValue = value
+        return self
+    }
+    
+    /// 默认是零。出现在控制左侧的图像(例如，关闭扬声器)
+    @discardableResult
+    func minimumValueImage(_ image: UIImage?) -> Self {
+        base.minimumValueImage = image
+        return self
+    }
+    
+    /// 默认是零。出现在控制右方的图像(例如max扬声器)
+    @discardableResult
+    func maximumValueImage(_ image: UIImage?) -> Self {
+        base.maximumValueImage = image
+        return self
+    }
+    
+    /// 如果设置，则值更改事件会在由于拖拽而发生值更改时产生。默认= YES
+    @discardableResult
+    func continuous(_ continuous: Bool) -> Self {
+        base.isContinuous = continuous
+        return self
+    }
+    
+    /// 最小滑块颜色
+    @discardableResult
+    func minimumTrackTintColor(_ color: UIColor?) -> Self {
+        base.minimumTrackTintColor = color
+        return self
+    }
+    
+    /// 最大滑块颜色
+    @discardableResult
+    func maximumTrackTintColor(_ color: UIColor?) -> Self {
+        base.maximumTrackTintColor = color
+        return self
+    }
+    
+    /// 滑块颜色
+    @discardableResult
+    func thumbTintColor(_ color: UIColor?) -> Self {
+        base.thumbTintColor = color
+        return self
+    }
+    
+    /// 例如:拇指增加时，左边为蓝色，右边为白色。轨道图像应该是3部分大小可调整(通过UIImage的resizableImage方法)沿着较长的方向
+    @discardableResult
+    func setThumbImage(_ image: UIImage?, state: UIControl.State) -> Self {
+        base.setThumbImage(image, for: state)
+        return self
+    }
+    
+    /// 最小图片
+    @discardableResult
+    func setMinimumTrackImage(_ image: UIImage?, state: UIControl.State) -> Self {
+        base.setMinimumTrackImage(image, for: state)
+        return self
+    }
+    
+    /// 最大图片
+    @discardableResult
+    func setMaximumTrackImage(_ image: UIImage?, state: UIControl.State) -> Self {
+        base.setMaximumTrackImage(image, for: state)
+        return self
+    }
+    
+    /// 以固定的速度移动滑块(即持续时间取决于距离)。不发送动作
+    @discardableResult
+    func setValueAnimated(_ value: Float, animated: Bool) -> Self {
+        base.setValue(value, animated: animated)
+        return self
+    }
 }

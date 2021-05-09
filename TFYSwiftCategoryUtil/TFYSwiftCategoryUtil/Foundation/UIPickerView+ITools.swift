@@ -1,171 +1,14 @@
 //
-//  View+ITools.swift
-//  TFYCategoryUtil
+//  UIPickerView+ITools.swift
+//  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/4/21.
+//  Created by 田风有 on 2021/5/9.
 //
 
 import Foundation
 import UIKit
 
-extension UIView {
-    
-    /// 加载xib
-    func loadViewFromNib() -> UIView {
-        let className = type(of: self)
-        let bundle = Bundle(for: className)
-        let name = NSStringFromClass(className).components(separatedBy: ".").last
-        let nib = UINib(nibName: name!, bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        return view
-    }
-    
-    ///x轴坐标
-    var x: CGFloat {
-        get {
-            return self.frame.origin.x
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.x = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///y轴坐标
-    var y: CGFloat {
-        get {
-            return self.frame.origin.y
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.y = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///宽度
-    var width: CGFloat {
-        get {
-            return self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.width = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///高度
-    var height: CGFloat {
-        get {
-            return self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.height = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    /// 最右边约束x值
-    var maxX: CGFloat {
-        get {
-            return self.frame.origin.x + self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.x = newValue - tmpFrame.size.width;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 最下边约束y值
-    var maxY: CGFloat {
-        get {
-            return self.frame.origin.y + self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.y = newValue - tmpFrame.size.height;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 设置x轴中心点
-    var centerX: CGFloat {
-        get {
-            return self.center.x
-        }
-        set {
-            self.center = CGPoint(x: newValue, y: self.center.y);
-        }
-    }
-    
-    /// 设置y轴中心点
-    var centerY: CGFloat {
-        get {
-            return self.center.y
-        }
-        set {
-            self.center = CGPoint(x: self.center.x, y: newValue);
-        }
-        
-    }
-    
-    /// 设置size
-    var size: CGSize {
-        get {
-            return self.frame.size
-        }
-        set {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: newValue.width, height: newValue.height)
-        }
-    }
-    
-    /// 设置orgin
-    var origin: CGPoint {
-        get {
-            return self.frame.origin
-        }
-        set {
-            self.frame = CGRect(x: newValue.x, y: newValue.y, width: self.frame.size.width, height: self.frame.size.height)
-        }
-    }
-
-    /// 移除所有子视图
-    func removeAllSubviews() {
-        while self.subviews.count > 0 {
-            self.subviews.last?.removeFromSuperview()
-        }
-    }
-    
-}
-
-/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
-    /// 部分圆角
-    ///
-    /// - Parameters:
-    ///   - corners: 需要实现为圆角的角，可传入多个
-    ///   - radii: 圆角半径
-    @discardableResult
-    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) -> Self {
-        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = viewBounds
-        maskLayer.path = maskPath.cgPath
-        base.layer.mask = maskLayer
-        return self
-    }
-    
-    /// 是否隐藏
-    @discardableResult
-    func hidden(_ hidden: Bool) -> Self {
-        base.isHidden = hidden
-        return self
-    }
-    
+extension TFY where Base == UIPickerView {
     /// 背景颜色
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
@@ -173,38 +16,10 @@ extension TFY where Base == UIView {
         return self
     }
     
-    /// 添加容器
+    /// tintColor
     @discardableResult
-    func addSubview(_ subView: UIView) -> Self {
-        subView.addSubview(base)
-        return self
-    }
-    
-    /// 圆角
-    @discardableResult
-    func cornerRadius(_ radius:CGFloat) -> Self {
-        base.layer.cornerRadius = radius
-        return self
-    }
-    
-    ///  影子的颜色。默认为不透明的黑色。颜色创建from模式目前不支持。可以做成动画。
-    @discardableResult
-    func layershadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
-        return self
-    }
-    
-    /// layer 影子偏移量。默认为(0，-3)。可以做成动画。
-    @discardableResult
-    func layershadowOffset(_ size: CGSize) -> Self {
-        base.layer.shadowOffset = size
-        return self
-    }
-    
-    /// layer 用于创建阴影的模糊半径。默认为3。可以做成动画。
-    @discardableResult
-    func shadowRadius(_ radius: CGFloat) -> Self {
-        base.layer.shadowRadius = radius
+    func tintColor(_ color: UIColor) -> Self {
+        base.tintColor = color
         return self
     }
     
@@ -215,10 +30,10 @@ extension TFY where Base == UIView {
         return self
     }
     
-    /// tintColor
+    /// 是否隐藏
     @discardableResult
-    func tintColor(_ color: UIColor) -> Self {
-        base.tintColor = color
+    func hidden(_ hidden: Bool) -> Self {
+        base.isHidden = hidden
         return self
     }
     
@@ -275,6 +90,13 @@ extension TFY where Base == UIView {
     @discardableResult
     func autoresizesSubviews(_ sizes: Bool) -> Self {
         base.autoresizesSubviews = sizes
+        return self
+    }
+    
+    /// 添加容器
+    @discardableResult
+    func addSubview(_ subView: UIView) -> Self {
+        subView.addSubview(base)
         return self
     }
     
@@ -373,6 +195,53 @@ extension TFY where Base == UIView {
     @discardableResult
     func shadowPath(_ path: CGPath?) -> Self {
         base.layer.shadowPath = path
+        return self
+    }
+    
+    ///
+    @discardableResult
+    func dataSource(_ dataSource: UIPickerViewDataSource?) -> Self {
+        base.dataSource = dataSource
+        return self
+    }
+
+    ///
+    @discardableResult
+    func delegate(_ delegate: UIPickerViewDelegate?) -> Self {
+        base.delegate = delegate
+        return self
+    }
+
+    ///
+    @discardableResult
+    func showsLargeContentViewer(_ large: Bool) -> Self {
+        base.showsLargeContentViewer = large
+        return self
+    }
+
+    ///
+    func reloadAllComponents()  {
+        base.reloadAllComponents()
+    }
+
+    ///
+    @discardableResult
+    func reloadComponent(_ com: Int) -> Self {
+        base.reloadComponent(com)
+        return self
+    }
+    
+    ///
+    @discardableResult
+    func selectRowInComponent(_ row: Int,component: Int, animated: Bool) -> Self {
+        base.selectRow(row, inComponent: component, animated: animated)
+        return self
+    }
+
+    ///
+    @discardableResult
+    func selectedRowInComponent(_ com: Int) -> Self {
+        base.selectedRow(inComponent: com)
         return self
     }
     

@@ -129,3 +129,5 @@ internal protocol TFYSwiftPropertyCompatible {
 
 /// 类型view
 extension NSObject: TFYCompatible {}
+
+

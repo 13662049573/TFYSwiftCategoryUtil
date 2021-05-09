@@ -1,164 +1,14 @@
 //
-//  View+ITools.swift
-//  TFYCategoryUtil
+//  UISegmentedControl+ITools.swift
+//  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/4/21.
+//  Created by 田风有 on 2021/5/9.
 //
 
 import Foundation
 import UIKit
 
-extension UIView {
-    
-    /// 加载xib
-    func loadViewFromNib() -> UIView {
-        let className = type(of: self)
-        let bundle = Bundle(for: className)
-        let name = NSStringFromClass(className).components(separatedBy: ".").last
-        let nib = UINib(nibName: name!, bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        return view
-    }
-    
-    ///x轴坐标
-    var x: CGFloat {
-        get {
-            return self.frame.origin.x
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.x = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///y轴坐标
-    var y: CGFloat {
-        get {
-            return self.frame.origin.y
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.origin.y = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///宽度
-    var width: CGFloat {
-        get {
-            return self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.width = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    ///高度
-    var height: CGFloat {
-        get {
-            return self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame
-            tmpFrame.size.height = newValue
-            self.frame = tmpFrame
-        }
-    }
-    
-    /// 最右边约束x值
-    var maxX: CGFloat {
-        get {
-            return self.frame.origin.x + self.frame.size.width
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.x = newValue - tmpFrame.size.width;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 最下边约束y值
-    var maxY: CGFloat {
-        get {
-            return self.frame.origin.y + self.frame.size.height
-        }
-        set {
-            var tmpFrame = self.frame;
-            tmpFrame.origin.y = newValue - tmpFrame.size.height;
-            self.frame = tmpFrame;
-        }
-    }
-    
-    /// 设置x轴中心点
-    var centerX: CGFloat {
-        get {
-            return self.center.x
-        }
-        set {
-            self.center = CGPoint(x: newValue, y: self.center.y);
-        }
-    }
-    
-    /// 设置y轴中心点
-    var centerY: CGFloat {
-        get {
-            return self.center.y
-        }
-        set {
-            self.center = CGPoint(x: self.center.x, y: newValue);
-        }
-        
-    }
-    
-    /// 设置size
-    var size: CGSize {
-        get {
-            return self.frame.size
-        }
-        set {
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: newValue.width, height: newValue.height)
-        }
-    }
-    
-    /// 设置orgin
-    var origin: CGPoint {
-        get {
-            return self.frame.origin
-        }
-        set {
-            self.frame = CGRect(x: newValue.x, y: newValue.y, width: self.frame.size.width, height: self.frame.size.height)
-        }
-    }
-
-    /// 移除所有子视图
-    func removeAllSubviews() {
-        while self.subviews.count > 0 {
-            self.subviews.last?.removeFromSuperview()
-        }
-    }
-    
-}
-
-/// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
-    /// 部分圆角
-    ///
-    /// - Parameters:
-    ///   - corners: 需要实现为圆角的角，可传入多个
-    ///   - radii: 圆角半径
-    @discardableResult
-    func corner(byRoundingCorners corners: UIRectCorner, radii: CGFloat,viewBounds:CGRect) -> Self {
-        let maskPath = UIBezierPath(roundedRect: viewBounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = viewBounds
-        maskLayer.path = maskPath.cgPath
-        base.layer.mask = maskLayer
-        return self
-    }
-    
+extension TFY where Base == UISegmentedControl {
     /// 是否隐藏
     @discardableResult
     func hidden(_ hidden: Bool) -> Self {
@@ -375,5 +225,166 @@ extension TFY where Base == UIView {
         base.layer.shadowPath = path
         return self
     }
+    /// 默认是肯定的。如果否，忽略触摸事件和子类可能绘制不同
+    @discardableResult
+    func enabled(_ enabled: Bool) -> Self {
+        base.isEnabled = enabled
+        return self
+    }
     
+    /// NO可以被一些子类或应用程序使用
+    @discardableResult
+    func selected(_ selected: Bool) -> Self {
+        base.isSelected = selected
+        return self
+    }
+    
+    /// 默认是否定的。当触摸在跟踪过程中进入/退出时自动设置/清除并清除
+    @discardableResult
+    func highlighted(_ highlighted: Bool) -> Self {
+        base.isHighlighted = highlighted
+        return self
+    }
+    
+    /// 如何在控件内垂直定位内容。默认是中心
+    @discardableResult
+    func contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+        base.contentVerticalAlignment = alignment
+        return self
+    }
+    
+    /// 如何在控件内水平位置内容。默认是中心
+    @discardableResult
+    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+        base.contentHorizontalAlignment = alignment
+        return self
+    }
+    
+    /// 添加点击事件
+    @discardableResult
+    func addTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
+        base.addTarget(target, action: action, for: controlEvents)
+        return self
+    }
+    
+    /// 移除一组事件的目标/操作。为操作传入NULL，以删除该目标的所有操作
+    @discardableResult
+    func removeTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
+        base.removeTarget(target, action: action, for: controlEvents)
+        return self
+    }
+    
+    /// 从传递的控制事件集中删除具有提供标识符的操作。
+    @available(iOS 14.0, *)
+    @discardableResult
+    func removeAllTarget(_ identifiedBy: UIAction.Identifier,controlEvents: UIControl.Event) -> Self {
+        base.removeAction(identifiedBy: identifiedBy, for: controlEvents)
+        return self
+    }
+    
+    /// 如果设置了，那么我们就不会在跟踪结束后继续显示选定的状态。默认是没有
+    @discardableResult
+    func momentary(_ momentary: Bool) -> Self {
+        base.isMomentary = momentary
+        return self
+    }
+    
+    /// 对于宽度值为0的段，将此属性设置为YES将尝试根据其内容宽度调整段宽度。默认是否定的。
+    @discardableResult
+    func apportionsSegmentWidthsByContent(_ content: Bool) -> Self {
+        base.apportionsSegmentWidthsByContent = content
+        return self
+    }
+    
+    /// 删除所有的容器
+    func removeAllSegments()  {
+        base.removeAllSegments()
+    }
+    
+    /// 插入容器文字
+    @discardableResult
+    func insertSegmentWithTitle(_ title: String,index: Int, animated: Bool) -> Self {
+        base.insertSegment(withTitle: title, at: index, animated: animated)
+        return self
+    }
+    
+    /// 插入容器图片
+    @discardableResult
+    func insertSegmentWithImage(_ image: UIImage?,index: Int, animated: Bool) -> Self {
+        base.insertSegment(with: image, at: index, animated: animated)
+        return self
+    }
+    
+    /// 删除对应的容器
+    @discardableResult
+    func removeSegmentAtIndex(_ index: Int,animated: Bool) -> Self {
+        base.removeSegment(at: index, animated: animated)
+        return self
+    }
+    
+    /// 只能有图像或标题，而不是两者。必须是0 . .#segments - 1(或忽略)。默认为零
+    @discardableResult
+    func setTitle(_ title: String, index: Int) -> Self {
+        base.setTitle(title, forSegmentAt: index)
+        return self
+    }
+    
+    /// 只能有图像或标题，而不是两者。必须是0 . .#segments - 1(或忽略)。默认为零
+    @discardableResult
+    func setImage(_ image: UIImage?, index: Int) -> Self {
+        base.setImage(image, forSegmentAt: index)
+        return self
+    }
+    
+    /// 设置为0.0宽度自动大小。默认是0.0
+    @discardableResult
+    func setWidth(_ width: CGFloat,index: Int) -> Self {
+        base.setWidth(width, forSegmentAt: index)
+        return self
+    }
+    
+    /// 调整段内图像或文本的偏移量。默认的是(0,0)
+    @discardableResult
+    func setContentOffset(_ size: CGSize,index: Int) -> Self {
+        base.setContentOffset(size, forSegmentAt: index)
+        return self
+    }
+    
+    ///  默认是 YES
+    @discardableResult
+    func setEnabled(_ enabled: Bool,index: Int) -> Self {
+        base.setEnabled(enabled, forSegmentAt: index)
+        return self
+    }
+    
+    /// 在瞬间模式中被忽略。返回按下的最后一个段。默认是UISegmentedControlNoSegment，直到一个段被按下
+    /// 当段通过用户事件改变时，UIControlEventValueChanged动作被调用。设置为UISegmentedControlNoSegment来关闭选择
+    @discardableResult
+    func selectedSegmentIndex(_ index: Int) -> Self {
+        base.selectedSegmentIndex = index
+        return self
+    }
+    
+    /// 通常，您应该为正常状态指定一个值，以供其他没有自定义值集的状态使用。
+    /// 类似地，当一个属性依赖于条形指标时，确保为UIBarMetricsDefault指定一个值。
+    /// 在分段控件的情况下，UIBarMetricsCompact的外观属性只适用于较小的导航栏和工具栏中的分段控件。
+    @discardableResult
+    func setBackgroundImage(_ image: UIImage?,state: UIControl.State,metrice: UIBarMetrics) -> Self {
+        base.setBackgroundImage(image, for: state, barMetrics: metrice)
+        return self
+    }
+    
+    /// 你可以使用NSAttributedString.h中的键在文本属性字典中为标题指定字体、文本颜色和阴影属性。
+    @discardableResult
+    func setTitleTextAttributes(_ attributes: [NSAttributedString.Key : Any]?,state: UIControl.State) -> Self {
+        base.setTitleTextAttributes(attributes, for: state)
+        return self
+    }
+    
+    /// 用于调整标题或图像在分段控件的给定分段中的位置。
+    @discardableResult
+    func setContentPositionAdjustment(_ offset: UIOffset,type: UISegmentedControl.Segment,metrics: UIBarMetrics) -> Self {
+        base.setContentPositionAdjustment(offset, forSegmentType: type, barMetrics: metrics)
+        return self
+    }
 }

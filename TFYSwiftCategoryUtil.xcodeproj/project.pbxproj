@@ -30,6 +30,14 @@
 		3612E16526475C4100476696 /* TFYLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15426475C4100476696 /* TFYLog.swift */; };
 		3612E16626475C4100476696 /* BaseFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15626475C4100476696 /* BaseFoundation.swift */; };
 		3612E16D26475EF000476696 /* image+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E16C26475EF000476696 /* image+ITools.swift */; };
+		3612E1732647CA3E00476696 /* UIScrollView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1722647CA3E00476696 /* UIScrollView+ITools.swift */; };
+		3612E1752647DA3D00476696 /* UIProgressView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1742647DA3D00476696 /* UIProgressView+ITools.swift */; };
+		3612E1772647F02700476696 /* UISegmentedControl+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1762647F02700476696 /* UISegmentedControl+ITools.swift */; };
+		3612E17B2647FD4C00476696 /* UISlider+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E17A2647FD4C00476696 /* UISlider+ITools.swift */; };
+		3612E17D26480CF300476696 /* UISwitch+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E17C26480CF300476696 /* UISwitch+ITools.swift */; };
+		3612E17F26480EA100476696 /* UITextField+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E17E26480EA100476696 /* UITextField+ITools.swift */; };
+		3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E18026481A7100476696 /* UITextView+ITools.swift */; };
+		3612E1832648207100476696 /* UIPickerView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1822648207100476696 /* UIPickerView+ITools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +88,14 @@
 		3612E15626475C4100476696 /* BaseFoundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFoundation.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
 		3612E16C26475EF000476696 /* image+ITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "image+ITools.swift"; sourceTree = "<group>"; };
+		3612E1722647CA3E00476696 /* UIScrollView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+ITools.swift"; sourceTree = "<group>"; };
+		3612E1742647DA3D00476696 /* UIProgressView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIProgressView+ITools.swift"; sourceTree = "<group>"; };
+		3612E1762647F02700476696 /* UISegmentedControl+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+ITools.swift"; sourceTree = "<group>"; };
+		3612E17A2647FD4C00476696 /* UISlider+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+ITools.swift"; sourceTree = "<group>"; };
+		3612E17C26480CF300476696 /* UISwitch+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwitch+ITools.swift"; sourceTree = "<group>"; };
+		3612E17E26480EA100476696 /* UITextField+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+ITools.swift"; sourceTree = "<group>"; };
+		3612E18026481A7100476696 /* UITextView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+ITools.swift"; sourceTree = "<group>"; };
+		3612E1822648207100476696 /* UIPickerView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+ITools.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +242,14 @@
 				3612E14F26475C4100476696 /* TableView+ITools.swift */,
 				3612E15026475C4100476696 /* View+ITools.swift */,
 				3612E15126475C4100476696 /* UILabel+ITools.swift */,
+				3612E1722647CA3E00476696 /* UIScrollView+ITools.swift */,
+				3612E1742647DA3D00476696 /* UIProgressView+ITools.swift */,
+				3612E1762647F02700476696 /* UISegmentedControl+ITools.swift */,
+				3612E17A2647FD4C00476696 /* UISlider+ITools.swift */,
+				3612E17C26480CF300476696 /* UISwitch+ITools.swift */,
+				3612E17E26480EA100476696 /* UITextField+ITools.swift */,
+				3612E18026481A7100476696 /* UITextView+ITools.swift */,
+				3612E1822648207100476696 /* UIPickerView+ITools.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -379,21 +403,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
+				3612E1752647DA3D00476696 /* UIProgressView+ITools.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3612E15A26475C4100476696 /* Timer+ITools.swift in Sources */,
 				3612E16026475C4100476696 /* CollectionView+ITools.swift in Sources */,
 				3612E15C26475C4100476696 /* String+ITools.swift in Sources */,
 				3612E16226475C4100476696 /* View+ITools.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
+				3612E1772647F02700476696 /* UISegmentedControl+ITools.swift in Sources */,
+				3612E17D26480CF300476696 /* UISwitch+ITools.swift in Sources */,
 				3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */,
 				3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */,
 				3612E15B26475C4100476696 /* AttributedString+ITools.swift in Sources */,
 				3612E16626475C4100476696 /* BaseFoundation.swift in Sources */,
+				3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
+				3612E17F26480EA100476696 /* UITextField+ITools.swift in Sources */,
 				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
 				3612E16126475C4100476696 /* TableView+ITools.swift in Sources */,
 				3612E15F26475C4100476696 /* UIButton+ITools.swift in Sources */,
+				3612E1832648207100476696 /* UIPickerView+ITools.swift in Sources */,
 				3612E16D26475EF000476696 /* image+ITools.swift in Sources */,
+				3612E17B2647FD4C00476696 /* UISlider+ITools.swift in Sources */,
+				3612E1732647CA3E00476696 /* UIScrollView+ITools.swift in Sources */,
 				3612E15826475C4100476696 /* device+ITools.swift in Sources */,
 				3612E15D26475C4100476696 /* ParagraphStyle+ITools.swift in Sources */,
 			);
