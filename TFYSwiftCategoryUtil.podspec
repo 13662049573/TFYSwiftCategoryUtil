@@ -13,7 +13,7 @@ Pod::Spec.new do |spec|
 
   spec.homepage     = "https://github.com/13662049573/TFYSwiftCategoryUtil"
   
-  spec.license      = "MIT (example)"
+  spec.license      = "MIT"
 
   spec.author       = { "田风有" => "420144542@qq.com" }
   
@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
 
   spec.source       = { :git => "https://github.com/13662049573/TFYSwiftCategoryUtil.git", :tag => spec.version }
 
-  
+
   spec.subspec 'Base' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/*.{swift}"
   end
