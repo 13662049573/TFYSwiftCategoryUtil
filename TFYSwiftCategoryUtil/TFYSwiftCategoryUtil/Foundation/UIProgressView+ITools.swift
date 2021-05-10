@@ -282,4 +282,11 @@ extension TFY where Base == UIProgressView {
         base.setProgress(progress, animated: animated)
         return self
     }
+    
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
 }

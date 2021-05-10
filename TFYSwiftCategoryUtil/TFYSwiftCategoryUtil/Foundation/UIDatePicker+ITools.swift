@@ -1,21 +1,15 @@
 //
-//  UITextField+ITools.swift
+//  UIDatePicker+ITools.swift
 //  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/5/9.
+//  Created by 田风有 on 2021/5/10.
 //
 
 import Foundation
 import UIKit
 
-extension TFY where Base == UITextField {
-    /// 是否隐藏
-    @discardableResult
-    func hidden(_ hidden: Bool) -> Self {
-        base.isHidden = hidden
-        return self
-    }
-    
+// MACK ----- 链式编程 ------------
+extension TFY where Base == UIDatePicker {
     /// 背景颜色
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
@@ -23,38 +17,10 @@ extension TFY where Base == UITextField {
         return self
     }
     
-    /// 添加容器
+    /// tintColor
     @discardableResult
-    func addSubview(_ subView: UIView) -> Self {
-        subView.addSubview(base)
-        return self
-    }
-    
-    /// 圆角
-    @discardableResult
-    func cornerRadius(_ radius:CGFloat) -> Self {
-        base.layer.cornerRadius = radius
-        return self
-    }
-    
-    ///  影子的颜色。默认为不透明的黑色。颜色创建from模式目前不支持。可以做成动画。
-    @discardableResult
-    func layershadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
-        return self
-    }
-    
-    /// layer 影子偏移量。默认为(0，-3)。可以做成动画。
-    @discardableResult
-    func layershadowOffset(_ size: CGSize) -> Self {
-        base.layer.shadowOffset = size
-        return self
-    }
-    
-    /// layer 用于创建阴影的模糊半径。默认为3。可以做成动画。
-    @discardableResult
-    func shadowRadius(_ radius: CGFloat) -> Self {
-        base.layer.shadowRadius = radius
+    func tintColor(_ color: UIColor) -> Self {
+        base.tintColor = color
         return self
     }
     
@@ -65,10 +31,10 @@ extension TFY where Base == UITextField {
         return self
     }
     
-    /// tintColor
+    /// 是否隐藏
     @discardableResult
-    func tintColor(_ color: UIColor) -> Self {
-        base.tintColor = color
+    func hidden(_ hidden: Bool) -> Self {
+        base.isHidden = hidden
         return self
     }
     
@@ -125,6 +91,13 @@ extension TFY where Base == UITextField {
     @discardableResult
     func autoresizesSubviews(_ sizes: Bool) -> Self {
         base.autoresizesSubviews = sizes
+        return self
+    }
+    
+    /// 添加容器
+    @discardableResult
+    func addSubview(_ subView: UIView) -> Self {
+        subView.addSubview(base)
         return self
     }
     
@@ -225,6 +198,7 @@ extension TFY where Base == UITextField {
         base.layer.shadowPath = path
         return self
     }
+    
     /// 默认是肯定的。如果否，忽略触摸事件和子类可能绘制不同
     @discardableResult
     func enabled(_ enabled: Bool) -> Self {
@@ -282,234 +256,73 @@ extension TFY where Base == UITextField {
         return self
     }
     
-    /// 文本
+    /// 默认是UIDatePickerModeDateAndTime
     @discardableResult
-    func text(_ text: String) -> Self {
-        base.text = text
+    func datePickerMode(_ mode: UIDatePicker.Mode) -> Self {
+        base.datePickerMode = mode
         return self
     }
     
-    /// 默认为零
+    /// default是[NSLocale currentLocale]。设置nil将返回默认值
     @discardableResult
-    func attributedText(_ attribut: NSAttributedString) -> Self {
-        base.attributedText = attribut
-        return self
-    }
-    
-    /// 默认是零。使用系统字体12 pt
-    @discardableResult
-    func font(_ font: UIFont) -> Self {
-        base.font = font
-        return self
-    }
-    
-    /// 默认是零。使用不透明的黑色
-    @discardableResult
-    func textColor(_ color: UIColor?) -> Self {
-        base.textColor = color
+    func locale(_ locale: Locale?) -> Self {
+        base.locale = locale
         return self
     }
 
-    /// 默认是NSLeftTextAlignment
+    /// default是[NSCalendar currentCalendar]。设置nil将返回默认值
     @discardableResult
-    func textAlignment(_ alignment: NSTextAlignment) -> Self {
-        base.textAlignment = alignment
-        return self
-    }
-    
-    /// 默认是UITextBorderStyleNone。如果设置为UITextBorderStyleRoundedRect，自定义背景图像将被忽略。
-    @discardableResult
-    func borderStyle(_ style: UITextField.BorderStyle) -> Self {
-        base.borderStyle = style
+    func calendar(_ calendar: Calendar!) -> Self {
+        base.calendar = calendar
         return self
     }
 
-    /// 将属性应用到全部文本范围。未设置属性类似于默认值。
+    /// 默认是零。从日历中使用当前时区或时区
     @discardableResult
-    func defaultTextAttributes(_ attributes: [NSAttributedString.Key : Any]) -> Self {
-        base.defaultTextAttributes = attributes
+    func timeZone(_ zone: TimeZone?) -> Self {
+        base.timeZone = zone
+        return self
+    }
+    
+    /// 默认值是创建选择器时的当前日期。在倒计时模式中被忽略。对于该模式，picker从0:00开始
+    @discardableResult
+    func date(_ date: Date) -> Self {
+        base.date = date
         return self
     }
 
-    /// 默认是零。绳子是灰色的70%
+    /// 指定最小/最大日期范围。默认是零。当min > max时，这些值将被忽略。在倒计时模式中被忽略
     @discardableResult
-    func placeholder(_ placeholder: String?) -> Self {
-        base.placeholder = placeholder
-        return self
-    }
-    
-    /// 默认为零
-    @discardableResult
-    func attributedPlaceholder(_ attribute: NSAttributedString?) -> Self {
-        base.attributedPlaceholder = attribute
-        return self
-    }
-
-    /// 默认为NO，将光标移动到单击的位置。如果是，则清除所有文本
-    @discardableResult
-    func clearsOnBeginEditing(_ onediting: Bool) -> Self {
-        base.clearsOnBeginEditing = onediting
-        return self
-    }
-    
-    /// 默认是否定的。如果是，文本将缩小到minFontSize沿基线
-    @discardableResult
-    func adjustsFontSizeToFitWidth(_ adjusts: Bool) -> Self {
-        base.adjustsFontSizeToFitWidth = adjusts
-        return self
-    }
-    
-    /// 默认是0.0。实际最小值可能被固定在可读的东西上。当adjustsFontSizeToFitWidth为YES时使用
-    @discardableResult
-    func minimumFontSize(_ minFontSize: CGFloat) -> Self {
-        base.minimumFontSize = minFontSize
-        return self
-    }
-
-    /// 默认是零。弱引用
-    @discardableResult
-    func delegate(_ delegate: UITextFieldDelegate) -> Self {
-        base.delegate = delegate
-        return self
-    }
-    
-    /// 默认是零。画在边界矩形。图像应该是可伸缩的
-    @discardableResult
-    func background(_ background: UIImage?) -> Self {
-        base.background = background
-        return self
-    }
-
-    /// 默认是零。如果背景没有设置，则忽略。图像应该是可伸缩的
-    @discardableResult
-    func disabledBackground(_ background: UIImage?) -> Self {
-        base.disabledBackground = background
-        return self
-    }
-    
-    /// 默认是否定的。允许编辑文本属性与样式操作和粘贴富文本
-    @discardableResult
-    func allowsEditingTextAttributes(_ allowsEditing: Bool) -> Self {
-        base.allowsEditingTextAttributes = allowsEditing
-        return self
-    }
-    
-    /// 选择更改时自动重置
-    @discardableResult
-    func typingAttributes(_ attributes: [NSAttributedString.Key : Any]?) -> Self {
-        base.typingAttributes = attributes
-        return self
-    }
-    
-    /// 设置清除按钮显示的时间。默认是UITextFieldViewModeNever
-    @discardableResult
-    func clearButtonMode(_ clearMode: UITextField.ViewMode) -> Self {
-        base.clearButtonMode = clearMode
-        return self
-    }
-    
-    /// 如放大镜
-    @discardableResult
-    func leftView(_ view: UIView?) -> Self {
-        base.leftView = view
-        return self
-    }
-
-    /// 设置左边视图显示的时间。默认是UITextFieldViewModeNever
-    @discardableResult
-    func leftViewMode(_ leftMode: UITextField.ViewMode) -> Self {
-        base.leftViewMode = leftMode
-        return self
-    }
-    
-    /// 例如书签按钮
-    @discardableResult
-    func rightView(_ view: UIView?) -> Self {
-        base.rightView = view
-        return self
-    }
-
-    /// 设置何时显示正确的视图。默认是UITextFieldViewModeNever
-    @discardableResult
-    func rightViewMode(_ rightMode: UITextField.ViewMode) -> Self {
-        base.rightViewMode = rightMode
-        return self
-    }
-    
-    /// set while first responder，在reloadInputViews被调用之前不会生效。
-    @discardableResult
-    func inputView(_ input: UIView?) -> Self {
-        base.inputView = input
-        return self
-    }
-    
-    /// inputAccessoryView
-    @discardableResult
-    func inputAccessoryView(_ inputView: UIView?) -> Self {
-        base.inputAccessoryView = inputView
-        return self
-    }
-
-    /// 默认是UITextAutocapitalizationTypeSentences
-    @discardableResult
-    func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
-        base.autocapitalizationType = type
-        return self
-    }
-    
-    /// 默认是UITextAutocorrectionTypeDefault
-    @discardableResult
-    func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
-        base.autocorrectionType = type
-        return self
-    }
-
-    /// 默认是UITextSpellCheckingTypeDefault;
-    @discardableResult
-    func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
-        base.spellCheckingType = type
-        return self
-    }
-
-    /// 默认是UIKeyboardTypeDefault
-    @discardableResult
-    func keyboardType(_ type: UIKeyboardType) -> Self {
-        base.keyboardType = type
-        return self
-    }
-
-    /// 默认是UIKeyboardAppearanceDefault
-    @discardableResult
-    func keyboardAppearance(_ keyboard: UIKeyboardAppearance) -> Self {
-        base.keyboardAppearance = keyboard
-        return self
-    }
-
-    /// default是UIReturnKeyDefault(参见UIReturnKeyType enum下面的注释)
-    @discardableResult
-    func returnKeyType(_ type: UIReturnKeyType) -> Self {
-        base.returnKeyType = type
-        return self
-    }
-
-    /// default是NO(当YES时，当文本小部件有零长度的内容时将自动禁用返回键，当文本小部件有非零长度的内容时将自动启用)
-    @discardableResult
-    func enablesReturnKeyAutomatically(_ enables: Bool) -> Self {
-        base.enablesReturnKeyAutomatically = enables
-        return self
-    }
-    
-    /// 默认是没有
-    @discardableResult
-    func secureTextEntry(_ secure: Bool) -> Self {
-        base.isSecureTextEntry = secure
+    func minimumDate(_ min: Date?) -> Self {
+        base.minimumDate = min
         return self
     }
 
     /// 默认为零
     @discardableResult
-    func textContentType(_ type: UITextContentType!) -> Self {
-        base.textContentType = type
+    func maximumDate(_ max: Date?) -> Self {
+        base.maximumDate = max
+        return self
+    }
+
+    /// UIDatePickerModeCountDownTimer，否则忽略。默认是0.0。限制是23:59(86,399秒)。正在设置的值是div 60(剩下的秒)。
+    @discardableResult
+    func countDownDuration(_ duration: TimeInterval) -> Self {
+        base.countDownDuration = duration
+        return self
+    }
+    
+    /// 显示分钟轮与间隔。间隔必须均匀分成60。默认值为1。最小值是1，最大值是30
+    @discardableResult
+    func minuteInterval(_ interval: Int) -> Self {
+        base.minuteInterval = interval
+        return self
+    }
+
+    /// 如果“动画”是“YES”，则动画时间轮以显示新的日期
+    @discardableResult
+    func setDateWithAnimated(_ date: Date,animated: Bool) -> Self {
+        base.setDate(date, animated: animated)
         return self
     }
     
@@ -519,5 +332,6 @@ extension TFY where Base == UITextField {
         base.addGestureRecognizer(gesture)
         return self
     }
-    
+
 }
+

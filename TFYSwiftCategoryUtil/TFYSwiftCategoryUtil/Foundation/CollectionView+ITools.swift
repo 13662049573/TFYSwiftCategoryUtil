@@ -263,6 +263,13 @@ extension TFY where Base == UICollectionView {
         return self
     }
     
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
+    
     /// 参数cellType: ' UICollectionViewCell ' (' TFYReusable ' & ' TFYNibLoadable ' - consistency)子类来注册
     @discardableResult
     func register<T: UICollectionViewCell>(cellType:T.Type) -> Self where T:TFYReusable & TFYNibLoadable {

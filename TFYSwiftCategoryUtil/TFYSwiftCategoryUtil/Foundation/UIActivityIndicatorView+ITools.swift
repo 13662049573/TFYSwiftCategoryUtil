@@ -1,20 +1,14 @@
 //
-//  UISwitch+ITools.swift
+//  UIActivityIndicatorView+ITools.swift
 //  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/5/9.
+//  Created by 田风有 on 2021/5/10.
 //
 
 import Foundation
 import UIKit
 
-extension TFY where Base == UISwitch {
-    /// 是否隐藏
-    @discardableResult
-    func hidden(_ hidden: Bool) -> Self {
-        base.isHidden = hidden
-        return self
-    }
+extension TFY where Base == UIActivityIndicatorView {
     
     /// 背景颜色
     @discardableResult
@@ -23,38 +17,10 @@ extension TFY where Base == UISwitch {
         return self
     }
     
-    /// 添加容器
+    /// tintColor
     @discardableResult
-    func addSubview(_ subView: UIView) -> Self {
-        subView.addSubview(base)
-        return self
-    }
-    
-    /// 圆角
-    @discardableResult
-    func cornerRadius(_ radius:CGFloat) -> Self {
-        base.layer.cornerRadius = radius
-        return self
-    }
-    
-    ///  影子的颜色。默认为不透明的黑色。颜色创建from模式目前不支持。可以做成动画。
-    @discardableResult
-    func layershadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
-        return self
-    }
-    
-    /// layer 影子偏移量。默认为(0，-3)。可以做成动画。
-    @discardableResult
-    func layershadowOffset(_ size: CGSize) -> Self {
-        base.layer.shadowOffset = size
-        return self
-    }
-    
-    /// layer 用于创建阴影的模糊半径。默认为3。可以做成动画。
-    @discardableResult
-    func shadowRadius(_ radius: CGFloat) -> Self {
-        base.layer.shadowRadius = radius
+    func tintColor(_ color: UIColor) -> Self {
+        base.tintColor = color
         return self
     }
     
@@ -65,10 +31,10 @@ extension TFY where Base == UISwitch {
         return self
     }
     
-    /// tintColor
+    /// 是否隐藏
     @discardableResult
-    func tintColor(_ color: UIColor) -> Self {
-        base.tintColor = color
+    func hidden(_ hidden: Bool) -> Self {
+        base.isHidden = hidden
         return self
     }
     
@@ -125,6 +91,13 @@ extension TFY where Base == UISwitch {
     @discardableResult
     func autoresizesSubviews(_ sizes: Bool) -> Self {
         base.autoresizesSubviews = sizes
+        return self
+    }
+    
+    /// 添加容器
+    @discardableResult
+    func addSubview(_ subView: UIView) -> Self {
+        subView.addSubview(base)
         return self
     }
     
@@ -225,96 +198,36 @@ extension TFY where Base == UISwitch {
         base.layer.shadowPath = path
         return self
     }
-    /// 默认是肯定的。如果否，忽略触摸事件和子类可能绘制不同
+    
+    /// 默认是UIActivityIndicatorViewStyleMedium
     @discardableResult
-    func enabled(_ enabled: Bool) -> Self {
-        base.isEnabled = enabled
+    func activityIndicatorViewStyle(_ style:  UIActivityIndicatorView.Style) -> Self {
+        base.style = style
         return self
     }
     
-    /// NO可以被一些子类或应用程序使用
+    /// 默认是肯定的。当动画设置为NO时调用-setHidden
     @discardableResult
-    func selected(_ selected: Bool) -> Self {
-        base.isSelected = selected
-        return self
-    }
-    
-    /// 默认是否定的。当触摸在跟踪过程中进入/退出时自动设置/清除并清除
-    @discardableResult
-    func highlighted(_ highlighted: Bool) -> Self {
-        base.isHighlighted = highlighted
-        return self
-    }
-    
-    /// 如何在控件内垂直定位内容。默认是中心
-    @discardableResult
-    func contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
-        base.contentVerticalAlignment = alignment
-        return self
-    }
-    
-    /// 如何在控件内水平位置内容。默认是中心
-    @discardableResult
-    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
-        base.contentHorizontalAlignment = alignment
-        return self
-    }
-    
-    /// 添加点击事件
-    @discardableResult
-    func addTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
-        base.addTarget(target, action: action, for: controlEvents)
-        return self
-    }
-    
-    /// 移除一组事件的目标/操作。为操作传入NULL，以删除该目标的所有操作
-    @discardableResult
-    func removeTarget(_ target: Any?, action: Selector, controlEvents: UIControl.Event) -> Self {
-        base.removeTarget(target, action: action, for: controlEvents)
-        return self
-    }
-    
-    /// 从传递的控制事件集中删除具有提供标识符的操作。
-    @available(iOS 14.0, *)
-    @discardableResult
-    func removeAllTarget(_ identifiedBy: UIAction.Identifier,controlEvents: UIControl.Event) -> Self {
-        base.removeAction(identifiedBy: identifiedBy, for: controlEvents)
-        return self
-    }
-    
-    /// 滑块开关
-    @discardableResult
-    func on(_ on: Bool) -> Self {
-        base.isOn = on
+    func hidesWhenStopped(_ hides: Bool) -> Self {
+        base.hidesWhenStopped = hides
         return self
     }
 
-    /// 滑块内部颜色
+    /// 颜色设置
     @discardableResult
-    func onTintColor(_ color: UIColor?) -> Self {
-        base.onTintColor = color
+    func color(_ color: UIColor!) -> Self {
+        base.color = color
         return self
     }
-
-    /// 滑块颜色
-    @discardableResult
-    func thumbTintColor(_ color: UIColor?) -> Self {
-        base.thumbTintColor = color
-        return self
+    
+    /// 开始
+    func startAnimating() {
+        base.startAnimating()
     }
-
-    /// 开启图片
-    @discardableResult
-    func onImage(_ image: UIImage?) -> Self {
-        base.onImage = image
-        return self
-    }
-
-    /// 关闭图片
-    @discardableResult
-    func offImage(_ image: UIImage?) -> Self {
-        base.offImage = image
-        return self
+    
+    /// 结束
+    func stopAnimating() {
+        base.stopAnimating()
     }
     
     /// 手势添加
@@ -323,5 +236,5 @@ extension TFY where Base == UISwitch {
         base.addGestureRecognizer(gesture)
         return self
     }
-    
 }
+

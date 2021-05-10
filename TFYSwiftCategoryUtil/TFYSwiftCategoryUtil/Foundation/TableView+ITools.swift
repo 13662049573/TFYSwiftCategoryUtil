@@ -390,6 +390,13 @@ extension TFY where Base == UITableView {
         return self
     }
     
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
+    
     /// 注册一个基于nib的' UITableViewCell '子类(符合' TFYReusable ' & ' TFYNibLoadable ')
     @discardableResult
     func register<T: UITableViewCell>(cellType: T.Type) -> Self where T: TFYReusable & TFYNibLoadable {

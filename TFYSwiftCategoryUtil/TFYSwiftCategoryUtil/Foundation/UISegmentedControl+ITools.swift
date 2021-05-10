@@ -387,4 +387,11 @@ extension TFY where Base == UISegmentedControl {
         base.setContentPositionAdjustment(offset, forSegmentType: type, barMetrics: metrics)
         return self
     }
+    
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
 }

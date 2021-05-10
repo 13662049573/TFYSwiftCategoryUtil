@@ -504,5 +504,12 @@ extension TFY where Base == UITextView {
         base.textContentType = type
         return self
     }
+    
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
 
 }

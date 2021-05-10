@@ -367,4 +367,11 @@ extension TFY where Base == UIButton {
         base.layer.shadowPath = path
         return self
     }
+    
+    /// 手势添加
+    @discardableResult
+    func addGubview(_ gesture: UIGestureRecognizer) -> Self {
+        base.addGestureRecognizer(gesture)
+        return self
+    }
 }

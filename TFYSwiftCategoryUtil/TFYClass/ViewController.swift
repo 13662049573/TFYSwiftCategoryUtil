@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,12 @@ class ViewController: UIViewController {
             .addSubview(view)
         
         
-        
+        let tap = UITapGestureRecognizer()
+        tap.tfy
+            .delegate(self)
+            .name("name")
+            .addTarget(self, action: #selector(buttonclick))
+        label.tfy.addGubview(tap)
 
     }
     

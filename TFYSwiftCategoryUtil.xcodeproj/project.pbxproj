@@ -38,6 +38,14 @@
 		3612E17F26480EA100476696 /* UITextField+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E17E26480EA100476696 /* UITextField+ITools.swift */; };
 		3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E18026481A7100476696 /* UITextView+ITools.swift */; };
 		3612E1832648207100476696 /* UIPickerView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1822648207100476696 /* UIPickerView+ITools.swift */; };
+		368367A926494D210024939A /* UIDatePicker+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367A826494D210024939A /* UIDatePicker+ITools.swift */; };
+		368367AB2649513A0024939A /* UIActivityIndicatorView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */; };
+		368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */; };
+		368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AF26495D170024939A /* UIPanGestureRecognizer+ITools.swift */; };
+		368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B126495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift */; };
+		368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B326495EB40024939A /* UIRotationGestureRecognizer+ITools.swift */; };
+		368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */; };
+		368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +104,14 @@
 		3612E17E26480EA100476696 /* UITextField+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+ITools.swift"; sourceTree = "<group>"; };
 		3612E18026481A7100476696 /* UITextView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+ITools.swift"; sourceTree = "<group>"; };
 		3612E1822648207100476696 /* UIPickerView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+ITools.swift"; sourceTree = "<group>"; };
+		368367A826494D210024939A /* UIDatePicker+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+ITools.swift"; sourceTree = "<group>"; };
+		368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+ITools.swift"; sourceTree = "<group>"; };
+		368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILongPressGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		368367AF26495D170024939A /* UIPanGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPanGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		368367B126495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPinchGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		368367B326495EB40024939A /* UIRotationGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRotationGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwipeGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +228,7 @@
 		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
+				368367AC264953E50024939A /* Gesture */,
 				3612E14426475C4100476696 /* Category */,
 				3612E14B26475C4100476696 /* Foundation */,
 				3612E15226475C4100476696 /* Utils */,
@@ -250,6 +267,8 @@
 				3612E17E26480EA100476696 /* UITextField+ITools.swift */,
 				3612E18026481A7100476696 /* UITextView+ITools.swift */,
 				3612E1822648207100476696 /* UIPickerView+ITools.swift */,
+				368367A826494D210024939A /* UIDatePicker+ITools.swift */,
+				368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -269,6 +288,19 @@
 				3612E15626475C4100476696 /* BaseFoundation.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		368367AC264953E50024939A /* Gesture */ = {
+			isa = PBXGroup;
+			children = (
+				368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */,
+				368367AF26495D170024939A /* UIPanGestureRecognizer+ITools.swift */,
+				368367B126495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift */,
+				368367B326495EB40024939A /* UIRotationGestureRecognizer+ITools.swift */,
+				368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */,
+				368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */,
+			);
+			path = Gesture;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,21 +443,29 @@
 				3612E16226475C4100476696 /* View+ITools.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
 				3612E1772647F02700476696 /* UISegmentedControl+ITools.swift in Sources */,
+				368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */,
 				3612E17D26480CF300476696 /* UISwitch+ITools.swift in Sources */,
+				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
 				3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */,
 				3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */,
+				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
+				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				3612E15B26475C4100476696 /* AttributedString+ITools.swift in Sources */,
 				3612E16626475C4100476696 /* BaseFoundation.swift in Sources */,
 				3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */,
+				368367AB2649513A0024939A /* UIActivityIndicatorView+ITools.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				3612E17F26480EA100476696 /* UITextField+ITools.swift in Sources */,
 				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
 				3612E16126475C4100476696 /* TableView+ITools.swift in Sources */,
 				3612E15F26475C4100476696 /* UIButton+ITools.swift in Sources */,
+				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				3612E1832648207100476696 /* UIPickerView+ITools.swift in Sources */,
 				3612E16D26475EF000476696 /* image+ITools.swift in Sources */,
+				368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */,
 				3612E17B2647FD4C00476696 /* UISlider+ITools.swift in Sources */,
 				3612E1732647CA3E00476696 /* UIScrollView+ITools.swift in Sources */,
+				368367A926494D210024939A /* UIDatePicker+ITools.swift in Sources */,
 				3612E15826475C4100476696 /* device+ITools.swift in Sources */,
 				3612E15D26475C4100476696 /* ParagraphStyle+ITools.swift in Sources */,
 			);
