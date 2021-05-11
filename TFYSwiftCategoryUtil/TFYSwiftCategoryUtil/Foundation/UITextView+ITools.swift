@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UITextView {
+public extension TFY where Base == UITextView {
     /// 添加容器
     @discardableResult
     func addSubview(_ subView: UIView) -> Self {

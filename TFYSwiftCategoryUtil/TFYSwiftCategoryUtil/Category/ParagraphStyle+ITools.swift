@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == NSMutableParagraphStyle {
+public extension TFY where Base == NSMutableParagraphStyle {
     
     /// 字体的行间距
     @discardableResult

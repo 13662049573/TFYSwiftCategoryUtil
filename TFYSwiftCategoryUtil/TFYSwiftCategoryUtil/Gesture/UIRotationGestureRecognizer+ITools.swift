@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIRotationGestureRecognizer {
+public extension TFY where Base == UIRotationGestureRecognizer {
     
     /// 手势识别器的委托
     @discardableResult

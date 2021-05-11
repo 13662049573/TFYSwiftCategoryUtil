@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UILongPressGestureRecognizer {
+public extension TFY where Base == UILongPressGestureRecognizer {
     /// 手势识别器的委托
     @discardableResult
     func delegate(_ delegate: UIGestureRecognizerDelegate?) -> Self {

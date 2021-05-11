@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CommonCrypto
 
-extension String: TFYCompatible{
+extension String {
     
     static func ~= (pattern:(String) -> Bool,value:String) -> Bool {
         pattern(value)

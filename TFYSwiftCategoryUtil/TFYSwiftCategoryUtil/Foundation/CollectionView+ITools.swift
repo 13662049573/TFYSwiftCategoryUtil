@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// MARK ---------------------------------------------------------------  UICollectionView ---------------------------------------------------------------
-extension TFY where Base == UICollectionView {
+public extension TFY where Base == UICollectionView {
     
     /// 代理delegate
     @discardableResult

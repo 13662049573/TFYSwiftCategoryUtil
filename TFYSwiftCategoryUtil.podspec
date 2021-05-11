@@ -51,4 +51,6 @@ Pod::Spec.new do |spec|
   
   spec.requires_arc = true
 
+  # spec.resources = "RWPickFlavor/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
+  
 end

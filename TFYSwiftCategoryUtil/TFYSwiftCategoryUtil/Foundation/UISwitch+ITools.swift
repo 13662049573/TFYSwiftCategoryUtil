@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UISwitch {
+public extension TFY where Base == UISwitch {
     /// 是否隐藏
     @discardableResult
     func hidden(_ hidden: Bool) -> Self {

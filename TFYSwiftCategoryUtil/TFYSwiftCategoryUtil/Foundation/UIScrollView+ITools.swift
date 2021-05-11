@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIScrollView {
+public extension TFY where Base == UIScrollView {
     
     /// 默认 CGSizeZero
     @discardableResult

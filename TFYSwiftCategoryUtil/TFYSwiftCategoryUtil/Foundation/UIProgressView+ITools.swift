@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIProgressView {
+public extension TFY where Base == UIProgressView {
     
     /// 是否隐藏
     @discardableResult

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UISwipeGestureRecognizer {
+public extension TFY where Base == UISwipeGestureRecognizer {
     
     /// 手势识别器的委托
     @discardableResult

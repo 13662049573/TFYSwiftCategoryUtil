@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == NSMutableAttributedString {
+public extension TFY where Base == NSMutableAttributedString {
     
     /// 字体大小
     @discardableResult

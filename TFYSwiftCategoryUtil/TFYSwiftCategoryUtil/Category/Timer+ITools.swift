@@ -144,6 +144,6 @@ public extension Timer {
 }
 
 /// MARK ---------------------------------------------------------------  Timer ---------------------------------------------------------------
-extension TFY where Base == Timer {
+public extension TFY where Base == Timer {
     
 }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIImageView {
+public extension TFY where Base == UIImageView {
     
     func loadGif(name: String) {
         DispatchQueue.global().async {

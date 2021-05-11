@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIButton {
+public extension TFY where Base == UIButton {
     
     /// text: 文字内容
     @discardableResult

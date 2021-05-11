@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // MARK: 链式编程
-extension TFY where Base == UILabel {
+public extension TFY where Base == UILabel {
     
     /// text: 文字内容
     @discardableResult

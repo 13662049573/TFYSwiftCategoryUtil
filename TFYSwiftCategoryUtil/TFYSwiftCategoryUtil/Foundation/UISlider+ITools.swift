@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UISlider {
+public extension TFY where Base == UISlider {
     /// 是否隐藏
     @discardableResult
     func hidden(_ hidden: Bool) -> Self {

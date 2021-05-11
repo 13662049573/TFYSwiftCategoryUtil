@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// MARK ---------------------------------------------------------------  UIDevice ---------------------------------------------------------------
-extension TFY where Base == UIDevice {
+public extension TFY where Base == UIDevice {
     
     func isPhoneX() -> Bool {
         var isMore:Bool = false

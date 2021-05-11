@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIActivityIndicatorView {
+public extension TFY where Base == UIActivityIndicatorView {
     
     /// 背景颜色
     @discardableResult

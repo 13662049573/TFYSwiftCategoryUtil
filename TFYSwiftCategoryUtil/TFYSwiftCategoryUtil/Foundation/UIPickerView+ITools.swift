@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UIPickerView {
+public extension TFY where Base == UIPickerView {
     /// 背景颜色
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {

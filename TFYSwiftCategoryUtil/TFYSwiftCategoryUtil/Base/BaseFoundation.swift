@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-struct TFY<Base> {
+public struct TFY<Base> {
     var base: Base
     init(_ base: Base) {
         self.base = base
     }
 }
 
-protocol TFYCompatible {}
-extension TFYCompatible {
+public protocol TFYCompatible {}
+public extension TFYCompatible {
     static var tfy: TFY<Self>.Type {
         set {}
         get { TFY<Self>.self }

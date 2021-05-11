@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // MACK ----- 链式编程 ------------
-extension TFY where Base == UIDatePicker {
+public extension TFY where Base == UIDatePicker {
     /// 背景颜色
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {

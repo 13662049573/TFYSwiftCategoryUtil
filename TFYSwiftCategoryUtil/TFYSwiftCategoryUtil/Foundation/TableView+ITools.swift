@@ -10,7 +10,7 @@ import UIKit
 
 /// MARK ---------------------------------------------------------------  UITableView ---------------------------------------------------------------
 
-extension TFY where Base == UITableView {
+public extension TFY where Base == UITableView {
     
     /// 代理delegate
     @discardableResult

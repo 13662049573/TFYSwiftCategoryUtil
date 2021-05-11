@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIView {
+public extension UIView {
     
     /// 加载xib
     func loadViewFromNib() -> UIView {
@@ -143,7 +143,7 @@ extension UIView {
 }
 
 /// MARK ---------------------------------------------------------------  VIEW ---------------------------------------------------------------
-extension TFY where Base == UIView {
+public extension TFY where Base == UIView {
     /// 部分圆角
     ///
     /// - Parameters:

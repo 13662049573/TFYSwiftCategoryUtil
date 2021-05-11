@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TFY where Base == UITextField {
+public extension TFY where Base == UITextField {
     /// 是否隐藏
     @discardableResult
     func hidden(_ hidden: Bool) -> Self {
