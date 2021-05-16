@@ -46,6 +46,14 @@
 		368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B326495EB40024939A /* UIRotationGestureRecognizer+ITools.swift */; };
 		368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */; };
 		368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */; };
+		36FD4B242651404C000B5036 /* Bundle+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B232651404C000B5036 /* Bundle+ITools.swift */; };
+		36FD4B262651415E000B5036 /* CAGradientLayer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B252651415E000B5036 /* CAGradientLayer+ITools.swift */; };
+		36FD4B2826514271000B5036 /* CALayer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B2726514271000B5036 /* CALayer+ITools.swift */; };
+		36FD4B2A26514535000B5036 /* CGFloat+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B2926514535000B5036 /* CGFloat+ITools.swift */; };
+		36FD4B2C2651472F000B5036 /* Data+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B2B2651472F000B5036 /* Data+ITools.swift */; };
+		36FD4B2E26514764000B5036 /* Date+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B2D26514764000B5036 /* Date+ITools.swift */; };
+		36FD4B3026514AB6000B5036 /* Double+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B2F26514AB6000B5036 /* Double+ITools.swift */; };
+		36FD4B3226514C05000B5036 /* UIColor+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FD4B3126514C05000B5036 /* UIColor+ITools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +120,14 @@
 		368367B326495EB40024939A /* UIRotationGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRotationGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 		368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwipeGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 		368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B232651404C000B5036 /* Bundle+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B252651415E000B5036 /* CAGradientLayer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B2726514271000B5036 /* CALayer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B2926514535000B5036 /* CGFloat+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B2B2651472F000B5036 /* Data+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B2D26514764000B5036 /* Date+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B2F26514AB6000B5036 /* Double+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ITools.swift"; sourceTree = "<group>"; };
+		36FD4B3126514C05000B5036 /* UIColor+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ITools.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +261,14 @@
 				3612E14826475C4100476696 /* AttributedString+ITools.swift */,
 				3612E14926475C4100476696 /* String+ITools.swift */,
 				3612E14A26475C4100476696 /* ParagraphStyle+ITools.swift */,
+				36FD4B232651404C000B5036 /* Bundle+ITools.swift */,
+				36FD4B252651415E000B5036 /* CAGradientLayer+ITools.swift */,
+				36FD4B2726514271000B5036 /* CALayer+ITools.swift */,
+				36FD4B2926514535000B5036 /* CGFloat+ITools.swift */,
+				36FD4B2B2651472F000B5036 /* Data+ITools.swift */,
+				36FD4B2D26514764000B5036 /* Date+ITools.swift */,
+				36FD4B2F26514AB6000B5036 /* Double+ITools.swift */,
+				36FD4B3126514C05000B5036 /* UIColor+ITools.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -436,6 +460,8 @@
 			files = (
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
 				3612E1752647DA3D00476696 /* UIProgressView+ITools.swift in Sources */,
+				36FD4B3026514AB6000B5036 /* Double+ITools.swift in Sources */,
+				36FD4B2A26514535000B5036 /* CGFloat+ITools.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3612E15A26475C4100476696 /* Timer+ITools.swift in Sources */,
 				3612E16026475C4100476696 /* CollectionView+ITools.swift in Sources */,
@@ -445,15 +471,20 @@
 				3612E1772647F02700476696 /* UISegmentedControl+ITools.swift in Sources */,
 				368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */,
 				3612E17D26480CF300476696 /* UISwitch+ITools.swift in Sources */,
+				36FD4B3226514C05000B5036 /* UIColor+ITools.swift in Sources */,
 				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
 				3612E15E26475C4100476696 /* UIImageView+ITools.swift in Sources */,
 				3612E16326475C4100476696 /* UILabel+ITools.swift in Sources */,
 				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
+				36FD4B2826514271000B5036 /* CALayer+ITools.swift in Sources */,
 				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				3612E15B26475C4100476696 /* AttributedString+ITools.swift in Sources */,
+				36FD4B2C2651472F000B5036 /* Data+ITools.swift in Sources */,
 				3612E16626475C4100476696 /* BaseFoundation.swift in Sources */,
 				3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */,
+				36FD4B262651415E000B5036 /* CAGradientLayer+ITools.swift in Sources */,
 				368367AB2649513A0024939A /* UIActivityIndicatorView+ITools.swift in Sources */,
+				36FD4B242651404C000B5036 /* Bundle+ITools.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				3612E17F26480EA100476696 /* UITextField+ITools.swift in Sources */,
 				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
@@ -468,6 +499,7 @@
 				368367A926494D210024939A /* UIDatePicker+ITools.swift in Sources */,
 				3612E15826475C4100476696 /* device+ITools.swift in Sources */,
 				3612E15D26475C4100476696 /* ParagraphStyle+ITools.swift in Sources */,
+				36FD4B2E26514764000B5036 /* Date+ITools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
