@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.0.2"
+  spec.version      = "2.0.4"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS13 Swift5 "
 
@@ -37,16 +37,19 @@ Pod::Spec.new do |spec|
   spec.subspec 'Category' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Category/*.{swift}"
     ss.dependency "TFYSwiftCategoryUtil/Base"
+    ss.dependency "TFYSwiftCategoryUtil/Utils"
   end
 
   spec.subspec 'Foundation' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/*.{swift}"
     ss.dependency "TFYSwiftCategoryUtil/Base"
+    ss.dependency "TFYSwiftCategoryUtil/Utils"
   end
 
   spec.subspec 'Gesture' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/*.{swift}"
     ss.dependency "TFYSwiftCategoryUtil/Base"
+    ss.dependency "TFYSwiftCategoryUtil/Utils"
   end
   
   spec.requires_arc = true
