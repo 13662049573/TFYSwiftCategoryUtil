@@ -375,3 +375,124 @@ public extension TFY where Base == UIButton {
         return self
     }
 }
+
+// MARK:- 三、UIButton 图片 与 title 位置关系
+public extension TFY where Base: UIButton {
+    /// 图片 和 title 的布局样式
+    enum ImageTitleLayout {
+        case imgTop
+        case imgBottom
+        case imgLeft
+        case imgRight
+    }
+    
+    // MARK: 3.1、设置图片和 title 的位置关系(提示：title和image要在设置布局关系之前设置)
+    /// 设置图片和 title 的位置关系(提示：title和image要在设置布局关系之前设置)
+    /// - Parameters:
+    ///   - layout: 布局
+    ///   - spacing: 间距
+    /// - Returns: 返回自身
+    @discardableResult
+    func setImageTitleLayout(_ layout: ImageTitleLayout, spacing: CGFloat = 0) -> UIButton {
+        switch layout {
+        case .imgLeft:
+            alignHorizontal(spacing: spacing, imageFirst: true)
+        case .imgRight:
+            alignHorizontal(spacing: spacing, imageFirst: false)
+        case .imgTop:
+            alignVertical(spacing: spacing, imageTop: true)
+        case .imgBottom:
+            alignVertical(spacing: spacing, imageTop: false)
+        }
+        return self.base
+    }
+    
+    /// 水平方向
+    /// - Parameters:
+    ///   - spacing: 间距
+    ///   - imageFirst: 图片是否优先
+    private func alignHorizontal(spacing: CGFloat, imageFirst: Bool) {
+        let edgeOffset = spacing / 2
+        base.imageEdgeInsets = UIEdgeInsets(top: 0,
+                                       left: -edgeOffset,
+                                       bottom: 0,
+                                       right: edgeOffset)
+        base.titleEdgeInsets = UIEdgeInsets(top: 0,
+                                       left: edgeOffset,
+                                       bottom: 0,
+                                       right: -edgeOffset)
+        if !imageFirst {
+            base.transform = CGAffineTransform(scaleX: -1, y: 1)
+            base.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+            base.titleLabel?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+        base.contentEdgeInsets = UIEdgeInsets(top: 0, left: edgeOffset, bottom: 0, right: edgeOffset)
+    }
+    
+    /// 垂直方向
+    /// - Parameters:
+    ///   - spacing: 间距
+    ///   - imageTop: 图片是不是在顶部
+    private func alignVertical(spacing: CGFloat, imageTop: Bool) {
+        guard let imageSize = self.base.imageView?.image?.size,
+              let text = self.base.titleLabel?.text,
+              let font = self.base.titleLabel?.font
+            else {
+                return
+        }
+        let labelString = NSString(string: text)
+        let titleSize = labelString.size(withAttributes: [NSAttributedString.Key.font: font])
+        
+        let imageVerticalOffset = (titleSize.height + spacing) / 2
+        let titleVerticalOffset = (imageSize.height + spacing) / 2
+        let imageHorizontalOffset = (titleSize.width) / 2
+        let titleHorizontalOffset = (imageSize.width) / 2
+        let sign: CGFloat = imageTop ? 1 : -1
+        
+        base.imageEdgeInsets = UIEdgeInsets(top: -imageVerticalOffset * sign,
+                                       left: imageHorizontalOffset,
+                                       bottom: imageVerticalOffset * sign,
+                                       right: -imageHorizontalOffset)
+        base.titleEdgeInsets = UIEdgeInsets(top: titleVerticalOffset * sign,
+                                       left: -titleHorizontalOffset,
+                                       bottom: -titleVerticalOffset * sign,
+                                       right: titleHorizontalOffset)
+        // increase content height to avoid clipping
+        let edgeOffset = (min(imageSize.height, titleSize.height) + spacing) / 2
+        base.contentEdgeInsets = UIEdgeInsets(top: edgeOffset, left: 0, bottom: edgeOffset, right: 0)
+    }
+}
+
+
+// MARK:- 六、Button扩大点击事件
+private var ButtonExpandSizeKey = "ButtonExpandSizeKey"
+public extension UIButton {
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let buttonRect = self.tfy.expandRect()
+        if (buttonRect.equalTo(bounds)) {
+            return super.point(inside: point, with: event)
+        }else{
+            return buttonRect.contains(point)
+        }
+    }
+    
+}
+public extension TFY where Base: UIButton {
+
+    // MARK: 6.1、扩大UIButton的点击区域，向四周扩展10像素的点击范围
+    /// 扩大UIButton的点击区域，向四周扩展10像素的点击范围
+    /// - Parameter size: 向四周扩展像素的点击范围
+    func expandSize(size: CGFloat) {
+        objc_setAssociatedObject(self.base, &ButtonExpandSizeKey, size, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY)
+    }
+
+    fileprivate func expandRect() -> CGRect {
+        let expandSize = objc_getAssociatedObject(self.base, &ButtonExpandSizeKey)
+        if (expandSize != nil) {
+            return CGRect(x: self.base.bounds.origin.x - (expandSize as! CGFloat), y: self.base.bounds.origin.y - (expandSize as! CGFloat), width: self.base.bounds.size.width + 2 * (expandSize as! CGFloat), height: self.base.bounds.size.height + 2 * (expandSize as! CGFloat))
+        } else {
+            return self.base.bounds
+        }
+    }
+}
