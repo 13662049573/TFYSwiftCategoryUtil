@@ -442,4 +442,37 @@ extension UIDevice {
             $0.withMemoryRebound(to: CChar.self, capacity: 1) { ptr in String(validatingUTF8: ptr) } ?? UIDevice.current.systemVersion
         }
     }
+    
+    struct Orientation {
+        // indicate current device is in the LandScape orientation
+        static var isLandscape: Bool {
+            get {
+                return UIDevice.current.orientation.isValidInterfaceOrientation
+                    ? UIDevice.current.orientation.isLandscape
+                    : (UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isLandscape)!
+            }
+        }
+        // indicate current device is in the Portrait orientation
+        static var isPortrait: Bool {
+            get {
+                return UIDevice.current.orientation.isValidInterfaceOrientation
+                    ? UIDevice.current.orientation.isPortrait
+                    : (UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isPortrait)!
+            }
+        }
+    }
+}
+
+extension UIWindow {
+    static var isLandscape: Bool {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.windows
+                .first?
+                .windowScene?
+                .interfaceOrientation
+                .isLandscape ?? false
+        } else {
+            return UIApplication.shared.statusBarOrientation.isLandscape
+        }
+    }
 }
