@@ -40,7 +40,23 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             .name("name")
             .addTarget(self, action: #selector(buttonclick))
         label.tfy.addGubview(tap)
-
+        
+        ///定时器
+        let timer = TFYCountDownTimer(interval: .fromSeconds(0.1), times: 10) { timer , leftTimes in
+            label.text = "\(leftTimes)"
+        }
+        timer.start()
+        
+        let timer2 = TFYTimer.repeaticTimer(interval: .seconds(5)) { timer in
+            print("doSomething")
+        }
+        timer2.start()
+        
+        
+        func speedUp(timer: TFYTimer) {
+            timer2.rescheduleRepeating(interval: .seconds(1))
+        }
+        speedUp(timer: timer2) // print doSomething every 1 second
     }
     
     @objc func buttonclick() {

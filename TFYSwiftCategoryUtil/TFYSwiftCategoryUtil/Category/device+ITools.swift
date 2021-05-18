@@ -10,7 +10,7 @@ import UIKit
 
 /// MARK ---------------------------------------------------------------  UIDevice ---------------------------------------------------------------
 public extension TFY where Base == UIDevice {
-    
+    /// 判断是否是IphoneX
     func isPhoneX() -> Bool {
         var isMore:Bool = false
         if #available(iOS 11.0, *) {
