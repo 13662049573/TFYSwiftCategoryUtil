@@ -39,6 +39,7 @@
 		3612E18126481A7100476696 /* UITextView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E18026481A7100476696 /* UITextView+ITools.swift */; };
 		3612E1832648207100476696 /* UIPickerView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E1822648207100476696 /* UIPickerView+ITools.swift */; };
 		367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367264CE26536E6C00049CEF /* TFYTimer.swift */; };
+		36812C4926578150003E3256 /* UIViewController+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36812C4826578150003E3256 /* UIViewController+ITools.swift */; };
 		368367A926494D210024939A /* UIDatePicker+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367A826494D210024939A /* UIDatePicker+ITools.swift */; };
 		368367AB2649513A0024939A /* UIActivityIndicatorView+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */; };
 		368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */; };
@@ -117,6 +118,7 @@
 		3612E18026481A7100476696 /* UITextView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+ITools.swift"; sourceTree = "<group>"; };
 		3612E1822648207100476696 /* UIPickerView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+ITools.swift"; sourceTree = "<group>"; };
 		367264CE26536E6C00049CEF /* TFYTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYTimer.swift; sourceTree = "<group>"; };
+		36812C4826578150003E3256 /* UIViewController+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ITools.swift"; sourceTree = "<group>"; };
 		368367A826494D210024939A /* UIDatePicker+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+ITools.swift"; sourceTree = "<group>"; };
 		368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+ITools.swift"; sourceTree = "<group>"; };
 		368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILongPressGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				3612E1822648207100476696 /* UIPickerView+ITools.swift */,
 				368367A826494D210024939A /* UIDatePicker+ITools.swift */,
 				368367AA2649513A0024939A /* UIActivityIndicatorView+ITools.swift */,
+				36812C4826578150003E3256 /* UIViewController+ITools.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
 				3612E1752647DA3D00476696 /* UIProgressView+ITools.swift in Sources */,
 				36FD4B3026514AB6000B5036 /* Double+ITools.swift in Sources */,
+				36812C4926578150003E3256 /* UIViewController+ITools.swift in Sources */,
 				36FD4B2A26514535000B5036 /* CGFloat+ITools.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3612E15A26475C4100476696 /* Timer+ITools.swift in Sources */,

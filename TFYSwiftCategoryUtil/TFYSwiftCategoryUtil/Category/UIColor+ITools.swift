@@ -280,4 +280,21 @@ extension UIColor {
 
 }
 
-
+extension CGColor {
+    
+    func isBlack() -> Bool {
+        let count = numberOfComponents
+        if count > 1 {
+            if let components = components {
+                for c in 0..<components.count-1 { // skip the alpha component
+                    // All components are 0 for black
+                    if components[c] != 0.0 {
+                        return false
+                    }
+                }
+                return true
+            }
+        }
+        return false
+    }
+}

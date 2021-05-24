@@ -14,6 +14,12 @@ extension String {
     static func ~= (pattern:(String) -> Bool,value:String) -> Bool {
         pattern(value)
     }
+    
+    /// 判断字符串是否为空
+    var isBlank: Bool {
+        let trimmedStr = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedStr.isEmpty
+    }
 }
 
 public func hasPrefix(_ prefix:String) -> ((String) -> Bool) {
@@ -365,6 +371,7 @@ extension TFY where Base: ExpressibleByStringLiteral {
     func copy() {
         UIPasteboard.general.string = (self.base as! String)
     }
+    
 }
 
 public extension TFY where Base: ExpressibleByStringLiteral {
@@ -1949,4 +1956,32 @@ public extension TFY where Base == String {
         }
         return returnStr.replacingOccurrences(of: "\\r\\n", with: "\n")
     }
+    
+    /// 字符转CGFloat
+    func StringToFloat(str:String)->(CGFloat) {
+        
+        let string = str
+        
+        var cgFloat:CGFloat = 0
+        
+        if let doubleValue = Double(string) {
+            
+            cgFloat = CGFloat(doubleValue)
+        }
+        return cgFloat
+   }
+    
+    /// 字符串转 int
+    func stringToInt(str:String) -> (Int) {
+        let string = str
+        var int:Int?
+        if let doubleValue = Int(string) {
+            int = Int(doubleValue)
+        }
+        if int == nil {
+            return 0
+        }
+        return int!
+    }
+
 }
