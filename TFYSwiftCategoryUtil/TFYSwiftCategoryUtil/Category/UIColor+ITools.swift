@@ -282,7 +282,7 @@ extension UIColor {
 
 extension CGColor {
     
-    func isBlack() -> Bool {
+    var isBlack: Bool {
         let count = numberOfComponents
         if count > 1 {
             if let components = components {
