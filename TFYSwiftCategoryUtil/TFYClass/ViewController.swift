@@ -57,6 +57,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             timer2.rescheduleRepeating(interval: .seconds(1))
         }
         speedUp(timer: timer2) // print doSomething every 1 second
+     
+        
     }
     
     @objc func buttonclick() {

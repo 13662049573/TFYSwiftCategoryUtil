@@ -329,7 +329,7 @@ public extension TFY where Base == Date {
     // MARK: 4.1、取得与当前时间的间隔差
     /// 取得与当前时间的间隔差
     /// - Returns: 时间差
-    func callTimeAfterNow() -> String {
+    var callTimeAfterNow: String {
         let timeInterval = Date().timeIntervalSince(self.base)
         if timeInterval < 0 {
             return "刚刚"
