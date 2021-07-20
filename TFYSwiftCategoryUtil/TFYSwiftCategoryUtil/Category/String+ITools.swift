@@ -1983,5 +1983,26 @@ public extension TFY where Base == String {
         }
         return int!
     }
+    
+    func addchildVcClass(childVCname: String) -> UIViewController {
+       /// 获取命名空间
+       guard let nameSpace = Bundle.main.infoDictionary!["CFBundleExecutable"] as? String else {
+           print("-------没有获取命名空间---")
+        return UIViewController.init()
+       }
+       /// 根据字符串获取对应的class
+       guard let ChildVcClass = NSClassFromString(nameSpace + "." + childVCname) else {
+           print("没有获取到对应的Class")
+           return UIViewController.init()
+       }
+       /// 将对应的AnyClass 转成对应的控制器
+       guard let childVcType = ChildVcClass as? UIViewController.Type else {
+           print("没有找到对应的控制器类型")
+           return UIViewController.init()
+       }
+       /// 创建对应的控制
+       let childVc = childVcType.init()
+       return childVc
+   }
 
 }

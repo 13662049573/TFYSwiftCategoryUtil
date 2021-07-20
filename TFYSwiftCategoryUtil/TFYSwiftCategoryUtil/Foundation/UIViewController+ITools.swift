@@ -10,8 +10,6 @@ import UIKit
 
 public extension TFY where Base == UIViewController {
     
-   
-
 }
 
 extension UIViewController {
@@ -52,5 +50,6 @@ extension UIViewController {
    public func removeNotificationsObserver() {
         NotificationCenter.default.removeObserver(self)
     }
+
 }
 

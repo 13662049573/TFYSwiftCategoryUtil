@@ -58,7 +58,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         speedUp(timer: timer2) // print doSomething every 1 second
      
-        
     }
     
     @objc func buttonclick() {
