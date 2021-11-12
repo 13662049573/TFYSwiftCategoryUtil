@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.0.6"
+  spec.version      = "2.0.8"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS13 Swift5 "
 
