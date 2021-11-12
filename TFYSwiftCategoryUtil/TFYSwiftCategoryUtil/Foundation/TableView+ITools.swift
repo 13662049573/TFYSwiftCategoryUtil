@@ -117,6 +117,24 @@ public extension TFY where Base == UITableView {
         return self
     }
     
+    /// iOS 15 新添加属性
+    @available(iOS 15.0, *)
+    @discardableResult
+    func sectionHeaderTopPadding(_ sectionHeaderTopPadding: CGFloat) -> Self {
+        base.sectionHeaderTopPadding = sectionHeaderTopPadding
+        return self
+    }
+    
+    
+    ///当没有足够的行来填充普通样式表视图时，在最后一行下面添加填充行的高度。
+    ///设置0完全禁用填充行，使用' UITableViewAutomaticDimension '为默认高度。
+    @available(iOS 15.0, *)
+    @discardableResult
+    func fillerRowHeight(_ fillerRowHeight: CGFloat) -> Self {
+        base.fillerRowHeight = fillerRowHeight
+        return self
+    }
+    
     /// 默认的是的。如果是，则跳过内容的边缘并返回
     @discardableResult
     func bounces(_ bounces: Bool) -> Self {
