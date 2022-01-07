@@ -22,24 +22,6 @@ class ViewController: UIViewController {
             .addTarget(self, action: #selector(buttonAction), for: .touchUpInside).build
     }()
     
-    private lazy var tableView: UITableView = {
-        UITableView(frame: view.bounds, style: .plain).tfy
-            .rowHeight(44)
-            .borderColor(.red)
-            .register(UITableViewCell.self, forCellReuseIdentifier: "cellID").build
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout().tfy
-            .itemSize(width: 80, height: 80)
-            .minimumLineSpacing(20)
-            .minimumInteritemSpacing(10).build
-        return UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout).tfy
-            .backgroundColor(UIColor.white)
-            .register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellID")
-            .register(UICollectionReusableView.self, forSectionHeaderWithReuseIdentifier: "header").build
-    }()
-    
     private lazy var lablel: UILabel = {
         let labe = UILabel().tfy
             .text("shish")
@@ -53,20 +35,19 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(tableView)
+    
         view.addSubview(button)
         
-        let attrText = NSMutableAttributedString(string: "Hello World").tfy
-            .systemFont(ofSize: 18)
-            .foregroundColor(UIColor.yellow, range: NSMakeRange(0, 5))
-            .backgroundColor(UIColor.blue)
-            .baselineOffset(5, range: NSMakeRange(6, 5))
-            .kern(0.5)
-            .strikethroughStyle(1)
-            .underlineStyle(1)
-            .writingDirection([3]).build
-        button.setAttributedTitle(attrText, for: .normal)
+//        let attrText = NSMutableAttributedString(string: "Hello World").tfy
+//            .systemFont(ofSize: 18)
+//            .foregroundColor(UIColor.yellow, range: NSMakeRange(0, 5))
+//            .backgroundColor(UIColor.blue)
+//            .baselineOffset(5, range: NSMakeRange(6, 5))
+//            .kern(0.5)
+//            .strikethroughStyle(1)
+//            .underlineStyle(1)
+//            .writingDirection([3]).build
+//        button.setAttributedTitle(attrText, for: .normal)
         
         UserDefaults.standard.tfy
             .set(123, forKey: "integer")
