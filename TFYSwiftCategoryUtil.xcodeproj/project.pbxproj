@@ -25,7 +25,6 @@
 		368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */; };
 		368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */; };
 		3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3694B0D62652A1D900296A92 /* TFYRuntime.swift */; };
-		36DAFEB72787FC6000D05EE1 /* HasFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEB32787FC6000D05EE1 /* HasFont.swift */; };
 		36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */; };
 		36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */; };
 		36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */; };
@@ -518,7 +517,6 @@
 				36DAFEE22787FF9D00D05EE1 /* UIStepper+Chain.swift in Sources */,
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
-				36DAFEB72787FC6000D05EE1 /* HasFont.swift in Sources */,
 				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
 				36DAFEE62787FF9D00D05EE1 /* UIDatePicker+Chain.swift in Sources */,
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,

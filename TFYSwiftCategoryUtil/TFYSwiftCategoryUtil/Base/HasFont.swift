@@ -1,9 +1,10 @@
 //
 //  HasFont.swift
-//  CocoaChainKit
+//  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2021/5/5.
+//  Created by 田风有 on 2021/5/10.
 //
+
 import UIKit
 
 public protocol HasFont {

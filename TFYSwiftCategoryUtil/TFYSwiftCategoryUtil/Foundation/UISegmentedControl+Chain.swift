@@ -1,9 +1,10 @@
 //
 //  UISegmentedControl+TFY.swift
-//  CocoaChainKit
+//  TFYSwiftCategoryUtil
 //
-//  Created by GorXion on 2018/7/12.
+//  Created by 田风有 on 2021/5/10.
 //
+
 import UIKit
 
 public extension TFY where Base: UISegmentedControl {
