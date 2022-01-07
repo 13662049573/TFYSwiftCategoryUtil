@@ -18,17 +18,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let buttoon = UIButton(frame: CGRect(x: 0, y: 0, width: w_w, height: 88))
         buttoon.tfy
             .backgroundColor(.orange)
-            .text("点击按钮", state: .normal)
-            .systemFont(16)
-            .textColor(.white, state: .normal)
-            .addTarget(self, action: #selector(buttonclick), controlEvents: .touchUpInside)
+            .title("点击按钮", for: .normal)
+            .systemFont(ofSize: 14, weight: .bold)
+            .titleColor(.white, for: .normal)
+            .addTarget(self, action: #selector(buttonclick), for: .touchDragInside)
             .addSubview(view)
           
         
         let label = UILabel(frame: CGRect(x: 0, y: buttoon.maxY, width: w_w, height: 50))
         label.tfy
             .text("描述")
-            .systemFont(15)
+            .systemFont(ofSize: 14)
             .backgroundColor(.blue)
             .textAlignment(.center)
             .addSubview(view)
@@ -39,7 +39,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             .delegate(self)
             .name("name")
             .addTarget(self, action: #selector(buttonclick))
-        label.tfy.addGubview(tap)
         
         ///定时器
         let timer = TFYCountDownTimer(interval: .fromSeconds(0.1), times: 10) { timer , leftTimes in
