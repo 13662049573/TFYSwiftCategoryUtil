@@ -59,6 +59,8 @@
 		36F1B82F278808360005E8B6 /* HasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B829278808360005E8B6 /* HasText.swift */; };
 		36F1B830278808360005E8B6 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B82A278808360005E8B6 /* Chain.swift */; };
 		36F1B831278808360005E8B6 /* HasText+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B82B278808360005E8B6 /* HasText+Chain.swift */; };
+		36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */; };
+		36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +141,8 @@
 		36F1B829278808360005E8B6 /* HasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasText.swift; sourceTree = "<group>"; };
 		36F1B82A278808360005E8B6 /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 		36F1B82B278808360005E8B6 /* HasText+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HasText+Chain.swift"; sourceTree = "<group>"; };
+		36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYUtils.swift; sourceTree = "<group>"; };
+		36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +277,7 @@
 				36DAFEBD2787FEAA00D05EE1 /* NSMutableAttributedString+Chain.swift */,
 				36DAFEBC2787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift */,
 				36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */,
+				36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				3612E15426475C4100476696 /* TFYLog.swift */,
 				3694B0D62652A1D900296A92 /* TFYRuntime.swift */,
 				367264CE26536E6C00049CEF /* TFYTimer.swift */,
+				36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -488,6 +494,7 @@
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */,
+				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
 				36DAFEE42787FF9D00D05EE1 /* UISegmentedControl+Chain.swift in Sources */,
 				36DAFEED2787FF9D00D05EE1 /* UIResponder+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
@@ -528,6 +535,7 @@
 				36F1B831278808360005E8B6 /* HasText+Chain.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
 				36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */,
+				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
 			);

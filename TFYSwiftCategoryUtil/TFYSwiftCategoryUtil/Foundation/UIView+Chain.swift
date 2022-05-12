@@ -283,7 +283,7 @@ public extension TFY where Base: UIView {
     
     @discardableResult
     func addToSuperView(_ view: UIView) -> TFY {
-        base.addSubview(view)
+        view.addSubview(base)
         return self
     }
     
