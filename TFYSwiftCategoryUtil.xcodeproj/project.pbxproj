@@ -17,6 +17,7 @@
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
 		3612E16526475C4100476696 /* TFYLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15426475C4100476696 /* TFYLog.swift */; };
+		36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36616C91282E41A400E0E1B1 /* String+Chain.swift */; };
 		367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367264CE26536E6C00049CEF /* TFYTimer.swift */; };
 		368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */; };
 		368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AF26495D170024939A /* UIPanGestureRecognizer+ITools.swift */; };
@@ -98,6 +99,7 @@
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E15426475C4100476696 /* TFYLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYLog.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
+		36616C91282E41A400E0E1B1 /* String+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Chain.swift"; sourceTree = "<group>"; };
 		367264CE26536E6C00049CEF /* TFYTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYTimer.swift; sourceTree = "<group>"; };
 		368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILongPressGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 		368367AF26495D170024939A /* UIPanGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPanGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				36DAFEBC2787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift */,
 				36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */,
 				36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */,
+				36616C91282E41A400E0E1B1 /* String+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
+				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,
 				36DAFEE62787FF9D00D05EE1 /* UIDatePicker+Chain.swift in Sources */,
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
