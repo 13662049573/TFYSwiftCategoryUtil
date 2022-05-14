@@ -132,6 +132,25 @@ public extension TFY where Base: UITextField {
         }
         return self
     }
+    
+    @discardableResult
+    func placeHolderColor(_ placeHolderColor: UIColor) -> TFY {
+        if #available(iOS 10.0, *) {
+            base.placeHolderColor = placeHolderColor
+        }
+        return self
+    }
+}
+
+extension UITextField {
+   @IBInspectable var placeHolderColor: UIColor? {
+        get {
+            return self.placeHolderColor
+        }
+        set {
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: newValue!])
+        }
+    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.
