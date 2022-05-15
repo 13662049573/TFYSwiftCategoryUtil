@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 public extension UITableViewCell {
+    
     func getTableView() -> UITableView? {
         for view in sequence(first: self.superview, next: { $0?.superview }) {
             if let tableView = view as? UITableView {
@@ -17,7 +18,10 @@ public extension UITableViewCell {
         }
         return nil
     }
+    
     func getIndexPath() -> IndexPath? {
         return getTableView()?.indexPath(for: self)
     }
+    
+    
 }
