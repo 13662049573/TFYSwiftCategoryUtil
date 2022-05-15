@@ -28,68 +28,86 @@ public extension TFY where Base: UICollectionView {
     }
     
     @discardableResult
-    func register(_ cellClass: Swift.AnyClass?, forCellWithReuseIdentifier identifier: String) -> TFY {
-        base.register(cellClass, forCellWithReuseIdentifier: identifier)
+    func registerCell(_ cellClass: UICollectionViewCell.Type) -> TFY {
+        base.register(cell: cellClass)
         return self
     }
     
     @discardableResult
-    func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) -> TFY {
-        base.register(nib, forCellWithReuseIdentifier: identifier)
+    func registerNibCell(_ nibCell: UICollectionViewCell.Type) -> TFY {
+        base.register(nibCell: nibCell)
         return self
     }
     
     @discardableResult
-    func register(_ viewClass: Swift.AnyClass?,
-                  forSupplementaryViewOfKind elementKind: String,
-                  withReuseIdentifier identifier: String) -> TFY {
-        base.register(viewClass,
-                      forSupplementaryViewOfKind: elementKind,
-                      withReuseIdentifier: identifier)
+    func registerHeader(_ viewClass: UICollectionReusableView.Type) -> TFY {
+        base.register(header: viewClass)
         return self
     }
     
     @discardableResult
-    func register(_ viewClass: Swift.AnyClass?,
-                  forSectionHeaderWithReuseIdentifier identifier: String) -> TFY {
-        base.register(viewClass,
-                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                      withReuseIdentifier: identifier)
+    func registerFooter(_ viewClass: UICollectionReusableView.Type) -> TFY {
+        base.register(footer: viewClass)
         return self
     }
     
     @discardableResult
-    func register(_ viewClass: Swift.AnyClass?,
-                  forSectionFooterWithReuseIdentifier identifier: String) -> TFY {
-        base.register(viewClass,
-                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                      withReuseIdentifier: identifier)
+    func registerNibHeader(_ nibHeader: UICollectionReusableView.Type) -> TFY {
+        base.register(nibHeader: nibHeader)
         return self
     }
     
     @discardableResult
-    func register(_ nib: UINib?,
-                  forSupplementaryViewOfKind kind: String,
-                  withReuseIdentifier identifier: String) -> TFY {
-        base.register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+    func registerNibFooter(_ nibFooter: UICollectionReusableView.Type) -> TFY {
+        base.register(nibFooter: nibFooter)
         return self
     }
-    
-    @discardableResult
-    func register(_ nib: UINib?,
-                  forSectionHeaderWithReuseIdentifier identifier: String) -> TFY {
-        base.register(nib,
-                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                      withReuseIdentifier: identifier)
-        return self
+}
+
+extension UICollectionView {
+
+    public func register<C>(cell clz:C.Type) where C : UICollectionViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(clz as AnyClass, forCellWithReuseIdentifier: identifier)
     }
     
-    @discardableResult
-    func register(_ nib: UINib?,
-                  forSectionFooterWithReuseIdentifier identifier: String) -> TFY {
-        base.register(nib,
-                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                      withReuseIdentifier: identifier)
-        return self
+    public func register<C>(nibCell clz:C.Type) where C : UICollectionViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(identifier.nib(), forCellWithReuseIdentifier: identifier)
+    }
+    
+    public func register<C>(header clz:C.Type) where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(clz as AnyClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
+    }
+    public func register<C>(nibHeader clz:C.Type) where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(identifier.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
+    }
+    
+    public func register<C>(footer clz:C.Type) where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(clz as AnyClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier)
+    }
+    public func register<C>(nibFooter clz:C.Type) where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(identifier.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier)
+    }
+    
+    public func dequeueReusable<C>(cell clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        return dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! C
+    }
+
+    public func dequeueReusable<C>(header clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier, for: indexPath) as! C
+    }
+    
+    public func dequeueReusable<C>(footer clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionReusableView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier, for: indexPath) as! C
     }
 }

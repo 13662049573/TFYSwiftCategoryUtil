@@ -18,7 +18,6 @@ class ViewController: UIViewController {
             .title("Hello World", for: .normal)
             .titleColor(UIColor.blue, for: .normal, .highlighted)
             .cornerRadius(15)
-            .masksToBounds(true)
             .addTarget(self, action: #selector(buttonAction), for: .touchUpInside).build
     }()
     
@@ -30,6 +29,13 @@ class ViewController: UIViewController {
             .borderColor(.orange)
             .build
         return labe
+    }()
+    
+    lazy var tableView: UITableView = {
+        let tab = UITableView(frame: CGRect(x: 0, y: 0, width: TFYSwiftWidth, height: TFYSwiftHeight), style: .plain)
+        tab.tfy
+            .registerHeaderOrFooter(UITableViewHeaderFooterView.self)
+        return tab
     }()
     
 

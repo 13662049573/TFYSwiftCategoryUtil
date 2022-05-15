@@ -7,6 +7,14 @@
 
 import UIKit
 
+public func adaptWidth(designWidth: CGFloat = 375.0, _ vaule: CGFloat) -> CGFloat {
+    return UIScreen.main.bounds.size.width / designWidth * vaule
+}
+
+extension CGColor {
+    var uiColor:UIColor { return UIColor(cgColor: self) }
+}
+
 public extension UIView {
     /// 加载xib
     func loadViewFromNib() -> UIView {
@@ -138,6 +146,115 @@ public extension UIView {
         }
     }
     
+    /// 屏幕适配
+    func adaptSubViews() {
+        // 约束
+        for cons in constraints {
+            cons.constant = adaptWidth(cons.constant)
+        }
+        // 圆角
+        layer.cornerRadius = adaptWidth(layer.cornerRadius)
+
+        // 字体大小
+        if isKind(of: UILabel.self) == true {
+            let lbl = self as! UILabel
+            lbl.font = UIFont(name: lbl.font.fontName, size: adaptWidth(lbl.font.pointSize))
+        }
+        if isKind(of: UITextField.self) == true {
+            let tf = self as! UITextField
+            guard let f = tf.font else {
+                return
+            }
+            tf.font = UIFont(name: f.fontName, size: adaptWidth(f.pointSize))
+        }
+
+        if isKind(of: UITextView.self) == true {
+            let tf = self as! UITextView
+            guard let f = tf.font else {
+                return
+            }
+            tf.font = UIFont(name: f.fontName, size: adaptWidth(f.pointSize))
+        }
+
+        if isKind(of: UIButton.self) == true {
+            let btn = self as! UIButton
+            if let f = btn.titleLabel?.font {
+                btn.titleLabel?.font = UIFont(name: f.fontName, size: adaptWidth(f.pointSize))
+            }
+        }
+
+        for v in subviews {
+            v.adaptSubViews()
+        }
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+
+    /// 添加圆角
+    ///
+    /// - Parameters:
+    ///   - direction: 圆角方向
+    ///   - vaule: 圆角值
+    func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) {
+        let masPath = UIBezierPath(roundedRect: bounds,
+                                   byRoundingCorners: direction,
+                                   cornerRadii: CGSize(width: vaule, height: vaule))
+        let masLayer = CAShapeLayer()
+        masLayer.path = masPath.cgPath
+        masLayer.frame = bounds
+
+        layer.mask = masLayer
+        layer.contentsScale = UIScreen.main.scale
+    }
+
+    @IBInspectable var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = newValue > 0
+        }
+    }
+
+    @IBInspectable var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        }
+        set {
+            layer.borderWidth = newValue > 0 ? newValue : 0
+        }
+    }
+
+    @IBInspectable var borderColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.borderColor!)
+        }
+        set {
+            layer.borderColor = newValue.cgColor
+        }
+    }
+    
+    @objc @IBInspectable var shadowOffset:CGSize {
+        set { layer.shadowOffset = newValue }
+        get { return layer.shadowOffset }
+    }
+    
+    @objc @IBInspectable var shadowColor:UIColor? {
+        set { layer.shadowColor = newValue?.cgColor }
+        get { return layer.shadowColor?.uiColor }
+    }
+    
+    @objc @IBInspectable var shadowRadius:CGFloat {
+        set { layer.shadowRadius = newValue }
+        get { return layer.shadowRadius }
+    }
+    
+    @objc @IBInspectable var shadowOpacity:Float {
+        set { layer.shadowOpacity = newValue }
+        get { return layer.shadowOpacity }
+    }
+    
 }
 
 
@@ -229,49 +346,43 @@ public extension TFY where Base: UIView {
     
     @discardableResult
     func cornerRadius(_ cornerRadius: CGFloat) -> TFY {
-        base.layer.cornerRadius = cornerRadius
-        return self
-    }
-    
-    @discardableResult
-    func masksToBounds(_ masksToBounds: Bool) -> TFY {
-        base.layer.masksToBounds = masksToBounds
+        base.cornerRadius = cornerRadius
         return self
     }
     
     @discardableResult
     func borderWidth(_ borderWidth: CGFloat) -> TFY {
-        base.layer.borderWidth = borderWidth
+        base.borderWidth = borderWidth
         return self
     }
     
     @discardableResult
     func borderColor(_ borderColor: UIColor) -> TFY {
-        base.layer.borderColor = borderColor.cgColor
+        base.borderColor = borderColor
         return self
     }
     
     @discardableResult
     func shadowColor(_ shadowColor: UIColor?) -> TFY {
-        base.layer.shadowColor = shadowColor?.cgColor
+        base.shadowColor = shadowColor
         return self
     }
     
     @discardableResult
     func shadowOpacity(_ shadowOpacity: Float) -> TFY {
-        base.layer.shadowOpacity = shadowOpacity
+        base.shadowOpacity = shadowOpacity
         return self
     }
     
     @discardableResult
     func shadowOffset(_ shadowOffset: CGSize) -> TFY {
-        base.layer.shadowOffset = shadowOffset
+        base.shadowOffset = shadowOffset
         return self
     }
     
     @discardableResult
     func shadowRadius(_ shadowRadius: CGFloat) -> TFY {
-        base.layer.shadowRadius = shadowRadius
+        base.shadowRadius = shadowRadius
         return self
     }
     
@@ -304,4 +415,11 @@ public extension TFY where Base: UIView {
         base.addConstraints(constraints)
         return self
     }
+    
+    @discardableResult
+    func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) -> TFY {
+        base.addRadius(direction: direction, vaule: vaule)
+        return self
+    }
+    
 }

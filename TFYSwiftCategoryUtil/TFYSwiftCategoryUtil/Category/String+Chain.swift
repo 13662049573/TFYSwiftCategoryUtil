@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 import CommonCrypto
 
-extension String {
+public extension String {
     
     /// - Returns:  md5 加密
-    public var md5 : String {
+    var md5 : String {
         
         let str = self.cString(using: String.Encoding.utf8)
         let strLen = CUnsignedInt(self.lengthOfBytes(using: String.Encoding.utf8))
@@ -28,7 +28,7 @@ extension String {
      }
     
     /// - Returns: md5j加密返回data
-    public func md5_data(string: String) -> Data {
+     func md5_data(string: String) -> Data {
         let length = Int(CC_MD5_DIGEST_LENGTH)
         let messageData = string.data(using:.utf8)!
         var digestData = Data(count: length)
@@ -46,7 +46,7 @@ extension String {
     }
     
     /// - Returns: 返回文件的 md5 值
-    public func md5_File() -> String? {
+    func md5_File() -> String? {
         guard let fileHandle = FileHandle(forReadingAtPath: self) else {
             return nil
         }
@@ -85,25 +85,89 @@ extension String {
     }
     
     /// - Returns: 计算文本宽度
-    public func widthForComment(fontSize: CGFloat, height: CGFloat = 15) -> CGFloat {
+    func widthForComment(fontSize: CGFloat, height: CGFloat = 15) -> CGFloat {
         let font = UIFont.systemFont(ofSize: fontSize)
         let rect = NSString(string: self).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: height), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         return ceil(rect.width)
     }
     
     /// - Returns: 计算文本高度
-    public func heightForComment(fontSize: CGFloat, width: CGFloat) -> CGFloat {
+    func heightForComment(fontSize: CGFloat, width: CGFloat) -> CGFloat {
         let font = UIFont.systemFont(ofSize: fontSize)
         let rect = NSString(string: self).boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         return ceil(rect.height)
     }
            
     /// - Returns: 计算文本最大高度
-    public func heightForComment(fontSize: CGFloat, width: CGFloat, maxHeight: CGFloat) -> CGFloat {
+    func heightForComment(fontSize: CGFloat, width: CGFloat, maxHeight: CGFloat) -> CGFloat {
         let font = UIFont.systemFont(ofSize: fontSize)
         let rect = NSString(string: self).boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         return ceil(rect.height)>maxHeight ? maxHeight : ceil(rect.height)
     }
    
+}
+
+public extension String {
+    /// 字符串转换成UIViewController?
+    /// - Returns: UIViewController?
+    func toViewController() -> UIViewController? {
+        if isEmpty {
+            return nil
+        }
+        // 1.获取命名空间
+        guard let name = Bundle.main.infoDictionary!["CFBundleExecutable"] as? String else {
+            return nil
+        }
+        // 2.获取Class
+        let vcClass: AnyClass? = NSClassFromString(name + "." + self)
+        guard let typeClass = vcClass as? UIViewController.Type else {
+            return nil
+        }
+        // 3.创建vc
+        let vc = typeClass.init()
+        return vc
+    }
+}
+
+public extension String {
+    func contains(regular: String) -> Bool {
+        return range(of: regular, options: .regularExpression, range: nil, locale: nil) != nil
+    }
+}
+
+public extension String {
+    subscript(r: Range<Int>) -> String {
+        let start = index(startIndex, offsetBy: r.lowerBound, limitedBy: endIndex) ?? endIndex
+        let end = index(startIndex, offsetBy: r.upperBound, limitedBy: endIndex) ?? endIndex
+        return String(self[start ..< end])
+    }
+
+    subscript(str: String) -> Range<Index>? {
+        return range(of: str)
+    }
+
+    subscript(value: PartialRangeUpTo<Int>) -> Substring {
+        return self[..<index(startIndex, offsetBy: value.upperBound)]
+    }
+
+    subscript(value: PartialRangeThrough<Int>) -> Substring {
+        return self[...index(startIndex, offsetBy: value.upperBound)]
+    }
+
+    subscript(value: PartialRangeFrom<Int>) -> Substring {
+        return self[index(startIndex, offsetBy: value.lowerBound)...]
+    }
+
+    subscript(value: CountableRange<Int>) -> Substring {
+        let start = index(startIndex, offsetBy: value.lowerBound)
+        let end = index(startIndex, offsetBy: value.upperBound)
+        return self[start ..< end]
+    }
+
+    subscript(value: ClosedRange<Int>) -> Substring {
+        let start = index(startIndex, offsetBy: value.lowerBound)
+        let end = index(startIndex, offsetBy: value.upperBound)
+        return self[start ... end]
+    }
 }
 

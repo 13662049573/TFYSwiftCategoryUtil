@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,28 @@
 		3612E13F26475B6700476696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E13626475B6700476696 /* Main.storyboard */; };
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
-		3612E16526475C4100476696 /* TFYLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15426475C4100476696 /* TFYLog.swift */; };
+		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
+		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
+		365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BC283077B900E4DE22 /* UIWindow+Chain.swift */; };
+		365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BE283077FC00E4DE22 /* NSNumber+Chain.swift */; };
+		365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477FE2830802200E4DE22 /* UIStoryboard+Chain.swift */; };
+		3654780F283091B100E4DE22 /* WKEncoderUnkeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547803283091B000E4DE22 /* WKEncoderUnkeyedContainer.swift */; };
+		36547810283091B100E4DE22 /* WKWebManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547804283091B000E4DE22 /* WKWebManager.swift */; };
+		36547811283091B100E4DE22 /* WKScriptHandlerParamsDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547805283091B000E4DE22 /* WKScriptHandlerParamsDecoder.swift */; };
+		36547812283091B100E4DE22 /* WKDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547806283091B000E4DE22 /* WKDelegate.swift */; };
+		36547813283091B100E4DE22 /* WKEncoderValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547807283091B000E4DE22 /* WKEncoderValueContainer.swift */; };
+		36547814283091B100E4DE22 /* WKEncoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547808283091B000E4DE22 /* WKEncoderKeyedContainer.swift */; };
+		36547815283091B100E4DE22 /* WKWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36547809283091B100E4DE22 /* WKWebController.swift */; };
+		36547816283091B100E4DE22 /* WKWebHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780A283091B100E4DE22 /* WKWebHandler.swift */; };
+		36547817283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780B283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift */; };
+		36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780C283091B100E4DE22 /* WKDecoderKeyedContainer.swift */; };
+		36547819283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780D283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift */; };
+		3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780E283091B100E4DE22 /* WKDecoderValueContainer.swift */; };
+		3654781D283092AE00E4DE22 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3654781C283092AE00E4DE22 /* Algorithms */; };
+		3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654781E2830937E00E4DE22 /* WKOperatorLayout.swift */; };
+		365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365478202830A1E700E4DE22 /* UIImage+Chain.swift */; };
+		365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365478852830A4D800E4DE22 /* UITableViewCell+Chain.swift */; };
+		365478882830A51C00E4DE22 /* UIViewController+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365478872830A51C00E4DE22 /* UIViewController+Chain.swift */; };
 		36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36616C91282E41A400E0E1B1 /* String+Chain.swift */; };
 		367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367264CE26536E6C00049CEF /* TFYTimer.swift */; };
 		368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */; };
@@ -97,8 +118,28 @@
 		3612E13826475B6700476696 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3612E14126475BA400476696 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
-		3612E15426475C4100476696 /* TFYLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYLog.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
+		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
+		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
+		365477BC283077B900E4DE22 /* UIWindow+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Chain.swift"; sourceTree = "<group>"; };
+		365477BE283077FC00E4DE22 /* NSNumber+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNumber+Chain.swift"; sourceTree = "<group>"; };
+		365477FE2830802200E4DE22 /* UIStoryboard+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Chain.swift"; sourceTree = "<group>"; };
+		36547803283091B000E4DE22 /* WKEncoderUnkeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKEncoderUnkeyedContainer.swift; sourceTree = "<group>"; };
+		36547804283091B000E4DE22 /* WKWebManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebManager.swift; sourceTree = "<group>"; };
+		36547805283091B000E4DE22 /* WKScriptHandlerParamsDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKScriptHandlerParamsDecoder.swift; sourceTree = "<group>"; };
+		36547806283091B000E4DE22 /* WKDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKDelegate.swift; sourceTree = "<group>"; };
+		36547807283091B000E4DE22 /* WKEncoderValueContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKEncoderValueContainer.swift; sourceTree = "<group>"; };
+		36547808283091B000E4DE22 /* WKEncoderKeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKEncoderKeyedContainer.swift; sourceTree = "<group>"; };
+		36547809283091B100E4DE22 /* WKWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebController.swift; sourceTree = "<group>"; };
+		3654780A283091B100E4DE22 /* WKWebHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebHandler.swift; sourceTree = "<group>"; };
+		3654780B283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKDecoderUnkeyedContainer.swift; sourceTree = "<group>"; };
+		3654780C283091B100E4DE22 /* WKDecoderKeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKDecoderKeyedContainer.swift; sourceTree = "<group>"; };
+		3654780D283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKScriptHandlerParamsEncoder.swift; sourceTree = "<group>"; };
+		3654780E283091B100E4DE22 /* WKDecoderValueContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKDecoderValueContainer.swift; sourceTree = "<group>"; };
+		3654781E2830937E00E4DE22 /* WKOperatorLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKOperatorLayout.swift; sourceTree = "<group>"; };
+		365478202830A1E700E4DE22 /* UIImage+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Chain.swift"; sourceTree = "<group>"; };
+		365478852830A4D800E4DE22 /* UITableViewCell+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Chain.swift"; sourceTree = "<group>"; };
+		365478872830A51C00E4DE22 /* UIViewController+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Chain.swift"; sourceTree = "<group>"; };
 		36616C91282E41A400E0E1B1 /* String+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Chain.swift"; sourceTree = "<group>"; };
 		367264CE26536E6C00049CEF /* TFYTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYTimer.swift; sourceTree = "<group>"; };
 		368367AD264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILongPressGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
@@ -152,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3654781D283092AE00E4DE22 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +304,7 @@
 		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
+				365478022830913800E4DE22 /* WKWeb */,
 				368367AC264953E50024939A /* Gesture */,
 				3612E14426475C4100476696 /* Category */,
 				3612E14B26475C4100476696 /* Foundation */,
@@ -281,6 +324,11 @@
 				36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */,
 				36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */,
 				36616C91282E41A400E0E1B1 /* String+Chain.swift */,
+				365477B82830771E00E4DE22 /* CALayer+Chain.swift */,
+				365477BA2830779500E4DE22 /* Bundle+Chain.swift */,
+				365477BC283077B900E4DE22 /* UIWindow+Chain.swift */,
+				365477BE283077FC00E4DE22 /* NSNumber+Chain.swift */,
+				365478872830A51C00E4DE22 /* UIViewController+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -312,6 +360,9 @@
 				36DAFED32787FF9D00D05EE1 /* UITextField+Chain.swift */,
 				36DAFED62787FF9D00D05EE1 /* UITextView+Chain.swift */,
 				36DAFED72787FF9D00D05EE1 /* UIView+Chain.swift */,
+				365477FE2830802200E4DE22 /* UIStoryboard+Chain.swift */,
+				365478202830A1E700E4DE22 /* UIImage+Chain.swift */,
+				365478852830A4D800E4DE22 /* UITableViewCell+Chain.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -320,7 +371,6 @@
 			isa = PBXGroup;
 			children = (
 				3612E15326475C4100476696 /* TFYAsynce.swift */,
-				3612E15426475C4100476696 /* TFYLog.swift */,
 				3694B0D62652A1D900296A92 /* TFYRuntime.swift */,
 				367264CE26536E6C00049CEF /* TFYTimer.swift */,
 				36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */,
@@ -338,6 +388,26 @@
 				36F1B82B278808360005E8B6 /* HasText+Chain.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		365478022830913800E4DE22 /* WKWeb */ = {
+			isa = PBXGroup;
+			children = (
+				3654780C283091B100E4DE22 /* WKDecoderKeyedContainer.swift */,
+				3654780B283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift */,
+				3654780E283091B100E4DE22 /* WKDecoderValueContainer.swift */,
+				36547806283091B000E4DE22 /* WKDelegate.swift */,
+				36547808283091B000E4DE22 /* WKEncoderKeyedContainer.swift */,
+				36547803283091B000E4DE22 /* WKEncoderUnkeyedContainer.swift */,
+				36547807283091B000E4DE22 /* WKEncoderValueContainer.swift */,
+				36547805283091B000E4DE22 /* WKScriptHandlerParamsDecoder.swift */,
+				3654780D283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift */,
+				36547809283091B100E4DE22 /* WKWebController.swift */,
+				3654780A283091B100E4DE22 /* WKWebHandler.swift */,
+				36547804283091B000E4DE22 /* WKWebManager.swift */,
+				3654781E2830937E00E4DE22 /* WKOperatorLayout.swift */,
+			);
+			path = WKWeb;
 			sourceTree = "<group>";
 		};
 		368367AC264953E50024939A /* Gesture */ = {
@@ -377,6 +447,9 @@
 			dependencies = (
 			);
 			name = TFYSwiftCategoryUtil;
+			packageProductDependencies = (
+				3654781C283092AE00E4DE22 /* Algorithms */,
+			);
 			productName = TFYSwiftCategoryUtil;
 			productReference = 3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */;
 			productType = "com.apple.product-type.application";
@@ -449,6 +522,9 @@
 				Base,
 			);
 			mainGroup = 3612E0F126475AEB00476696;
+			packageReferences = (
+				3654781B283092AE00E4DE22 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = 3612E0FB26475AEB00476696 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -500,48 +576,68 @@
 				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
 				36DAFEE42787FF9D00D05EE1 /* UISegmentedControl+Chain.swift in Sources */,
 				36DAFEED2787FF9D00D05EE1 /* UIResponder+Chain.swift in Sources */,
+				36547810283091B100E4DE22 /* WKWebManager.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
 				36DAFEF22787FF9D00D05EE1 /* UISlider+Chain.swift in Sources */,
+				365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */,
+				365478882830A51C00E4DE22 /* UIViewController+Chain.swift in Sources */,
 				367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */,
+				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
+				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
 				36DAFEEE2787FF9D00D05EE1 /* UITextView+Chain.swift in Sources */,
 				36F1B82D278808360005E8B6 /* HasFont.swift in Sources */,
 				36DAFEE32787FF9D00D05EE1 /* UICollectionView+Chain.swift in Sources */,
+				36547815283091B100E4DE22 /* WKWebController.swift in Sources */,
 				36DAFEEF2787FF9D00D05EE1 /* UIView+Chain.swift in Sources */,
+				36547812283091B100E4DE22 /* WKDelegate.swift in Sources */,
 				36DAFEDD2787FF9D00D05EE1 /* UINavigationBar+Chain.swift in Sources */,
 				368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC12787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift in Sources */,
+				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
 				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
+				36547819283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift in Sources */,
 				36DAFEDB2787FF9D00D05EE1 /* UINavigationItem+Chain.swift in Sources */,
 				36F1B82C278808360005E8B6 /* HasFont+Chain.swift in Sources */,
+				3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */,
 				36DAFEE92787FF9D00D05EE1 /* UIScrollView+Chain.swift in Sources */,
+				36547813283091B100E4DE22 /* WKEncoderValueContainer.swift in Sources */,
 				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
+				36547811283091B100E4DE22 /* WKScriptHandlerParamsDecoder.swift in Sources */,
+				3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */,
+				36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */,
+				36547817283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift in Sources */,
 				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */,
+				36547816283091B100E4DE22 /* WKWebHandler.swift in Sources */,
 				36DAFEE22787FF9D00D05EE1 /* UIStepper+Chain.swift in Sources */,
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
-				3612E16526475C4100476696 /* TFYLog.swift in Sources */,
+				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
 				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,
 				36DAFEE62787FF9D00D05EE1 /* UIDatePicker+Chain.swift in Sources */,
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
 				368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */,
 				36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */,
+				365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */,
 				36DAFEE52787FF9D00D05EE1 /* UIGestureRecognizer+Chain.swift in Sources */,
 				36DAFEC22787FEAA00D05EE1 /* NSMutableAttributedString+Chain.swift in Sources */,
 				36F1B831278808360005E8B6 /* HasText+Chain.swift in Sources */,
+				3654780F283091B100E4DE22 /* WKEncoderUnkeyedContainer.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
 				36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */,
 				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
+				365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */,
+				36547814283091B100E4DE22 /* WKEncoderKeyedContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -881,6 +977,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3654781B283092AE00E4DE22 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3654781C283092AE00E4DE22 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3654781B283092AE00E4DE22 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3612E0F226475AEB00476696 /* Project object */;
 }

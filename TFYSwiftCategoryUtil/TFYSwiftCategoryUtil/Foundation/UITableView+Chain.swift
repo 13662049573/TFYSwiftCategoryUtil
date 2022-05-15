@@ -124,26 +124,70 @@ public extension TFY where Base: UITableView {
     }
     
     @discardableResult
-    func register(_ nib: UINib?, forCellReuseIdentifier identifier: String) -> TFY {
-        base.register(nib, forCellReuseIdentifier: identifier)
+    func registerNibCell(_ nib: UITableViewCell.Type) -> TFY {
+        base.register(nibCell: nib)
         return self
     }
     
     @discardableResult
-    func register(_ cellClass: Swift.AnyClass?, forCellReuseIdentifier identifier: String) -> TFY {
-        base.register(cellClass, forCellReuseIdentifier: identifier)
+    func registerCell(_ cellClass: UITableViewCell.Type) -> TFY {
+        base.register(cell: cellClass)
         return self
     }
     
     @discardableResult
-    func register(_ nib: UINib?, forHeaderFooterViewReuseIdentifier identifier: String) -> TFY {
-        base.register(nib, forHeaderFooterViewReuseIdentifier: identifier)
+    func registerNibHeaderOrFooter(_ nib: UITableViewHeaderFooterView.Type) -> TFY {
+        base.register(nibHeaderOrFooter: nib)
         return self
     }
     
     @discardableResult
-    func register(_ aClass: Swift.AnyClass?, forHeaderFooterViewReuseIdentifier identifier: String) -> TFY {
-        base.register(aClass, forHeaderFooterViewReuseIdentifier: identifier)
+    func registerHeaderOrFooter(_ aClass: UITableViewHeaderFooterView.Type) -> TFY {
+        base.register(headerOrFooter: aClass)
         return self
+    }
+    
+}
+
+extension UITableView {
+
+    public func register<C>(nibHeaderOrFooter reused:C) where C : RawRepresentable, C.RawValue == String {
+        register(reused.nib(), forHeaderFooterViewReuseIdentifier: reused.rawValue)
+    }
+    public func register<C>(headerOrFooter clz:C.Type) where C : UITableViewHeaderFooterView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(clz as AnyClass, forHeaderFooterViewReuseIdentifier: identifier)
+    }
+    public func register<C>(nibHeaderOrFooter clz:C.Type) where C : UITableViewHeaderFooterView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(identifier.nib(), forHeaderFooterViewReuseIdentifier: identifier)
+    }
+    
+    public func register<C>(nibCell reused:C) where C : RawRepresentable, C.RawValue == String {
+        register(reused.nib(), forCellReuseIdentifier: reused.rawValue)
+    }
+    public func register<C>(cell clz:C.Type) where C : UITableViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(clz as AnyClass, forCellReuseIdentifier: identifier)
+    }
+    public func register<C>(nibCell clz:C.Type) where C : UITableViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        register(identifier.nib(), forCellReuseIdentifier: identifier)
+    }
+    
+    public func dequeueReusable<C>(cell reused: C, for indexPath: IndexPath) -> UITableViewCell where C : RawRepresentable, C.RawValue == String {
+        return dequeueReusableCell(withIdentifier: reused.rawValue, for: indexPath)
+    }
+    public func dequeueReusable<C>(cell clz: C.Type, for indexPath: IndexPath) -> C where C : UITableViewCell {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        return dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! C
+    }
+    
+    public func dequeueReusable<C>(headerOrFooter reused: C) -> UITableViewHeaderFooterView? where C : RawRepresentable, C.RawValue == String {
+        return dequeueReusableHeaderFooterView(withIdentifier: reused.rawValue)
+    }
+    public func dequeueReusable<C>(headerOrFooter clz: C.Type) -> C? where C : UITableViewHeaderFooterView {
+        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
+        return dequeueReusableHeaderFooterView(withIdentifier: identifier) as? C
     }
 }

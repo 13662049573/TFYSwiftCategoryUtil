@@ -20,10 +20,5 @@ public extension TFY where Base: UIPickerView {
         base.delegate = delegate
         return self
     }
-    
-    @discardableResult
-    func showsSelectionIndicator(_ showsSelectionIndicator: Bool) -> TFY {
-        base.showsSelectionIndicator = showsSelectionIndicator
-        return self
-    }
+
 }
