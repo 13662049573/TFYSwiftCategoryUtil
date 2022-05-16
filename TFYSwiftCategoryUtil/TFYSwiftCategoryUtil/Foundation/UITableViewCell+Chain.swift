@@ -23,23 +23,22 @@ public extension UITableViewCell {
         return getTableView()?.indexPath(for: self)
     }
     
-    func cellFromXibWithTableView(tableView:UITableView) -> UITableViewCell {
+    func cellFromXibWithTableView(tableView:UITableView) -> Self {
         let className:String = NSStringFromClass(self.classForCoder)
         return self.cellFromXibTableView(tableView: tableView, xibName: className, identifer: className)
     }
 
-    func cellFromXibWithTableView(tableView:UITableView,identifer:String) -> UITableViewCell {
+    func cellFromXibWithTableView(tableView:UITableView,identifer:String) -> Self {
         let className:String = NSStringFromClass(self.classForCoder)
         return self.cellFromXibTableView(tableView: tableView, xibName: className, identifer: identifer)
     }
 
-    func cellFromCodeWithTableView(tableView:UITableView) -> UITableViewCell {
+    func cellFromCodeWithTableView(tableView:UITableView) -> Self {
         let className:String = NSStringFromClass(self.classForCoder)
         return self.cellFromCodeWithTableView(tableView: tableView, identifier: className)
     }
 
-    func cellFromXibTableView(tableView:UITableView,xibName:String,identifer:String) -> UITableViewCell {
-
+    func cellFromXibTableView(tableView:UITableView,xibName:String,identifer:String) -> Self {
         var cell = tableView.dequeueReusableCell(withIdentifier: identifer)
         if cell == nil {
             let xibPath:String = Bundle.main.path(forResource: xibName, ofType: "nib") ?? ""
@@ -48,16 +47,16 @@ public extension UITableViewCell {
             }
             cell = Bundle.main.loadNibNamed(xibName, owner: nil, options: nil)?.last as? UITableViewCell
         }
-        return cell!
+        return self
     }
 
-   func cellFromCodeWithTableView(tableView:UITableView,identifier:String) -> UITableViewCell {
+   func cellFromCodeWithTableView(tableView:UITableView,identifier:String) -> Self {
         let className:String = NSStringFromClass(self.classForCoder)
         var cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
             let anyClass = NSClassFromString(className) as! UITableViewCell.Type
             cell = anyClass.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: identifier)
         }
-       return cell!
+       return self
     }
 }
