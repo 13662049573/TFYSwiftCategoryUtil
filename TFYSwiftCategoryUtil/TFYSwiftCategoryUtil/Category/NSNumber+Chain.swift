@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension NSNumber {
+public extension NSNumber {
     func displayCount() -> String {
         if doubleValue <= 0 {
             return "0"

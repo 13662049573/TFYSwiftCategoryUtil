@@ -33,7 +33,6 @@
 		36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780C283091B100E4DE22 /* WKDecoderKeyedContainer.swift */; };
 		36547819283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780D283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift */; };
 		3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654780E283091B100E4DE22 /* WKDecoderValueContainer.swift */; };
-		3654781D283092AE00E4DE22 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3654781C283092AE00E4DE22 /* Algorithms */; };
 		3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3654781E2830937E00E4DE22 /* WKOperatorLayout.swift */; };
 		365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365478202830A1E700E4DE22 /* UIImage+Chain.swift */; };
 		365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365478852830A4D800E4DE22 /* UITableViewCell+Chain.swift */; };
@@ -193,7 +192,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3654781D283092AE00E4DE22 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,7 +446,6 @@
 			);
 			name = TFYSwiftCategoryUtil;
 			packageProductDependencies = (
-				3654781C283092AE00E4DE22 /* Algorithms */,
 			);
 			productName = TFYSwiftCategoryUtil;
 			productReference = 3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */;
@@ -988,14 +985,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3654781C283092AE00E4DE22 /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3654781B283092AE00E4DE22 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3612E0F226475AEB00476696 /* Project object */;
 }

@@ -22,7 +22,7 @@ public extension TFY where Base: UILabel {
     }
 }
 
-extension UILabel {
+public extension UILabel {
     /// 改变字段间距
     func changeFontWithTextFont(font:UIFont) {
         self.changeFontWithTextFont(font: font, text: self.text ?? "")

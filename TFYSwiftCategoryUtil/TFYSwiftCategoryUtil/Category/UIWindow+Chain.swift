@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIWindow {
+public extension UIWindow {
     static var keyWindow: UIWindow? {
         if #available(iOS 13, *) {
             return UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -41,7 +41,7 @@ extension UIWindow {
     }
 }
 
-extension UIScreen {
+public extension UIScreen {
     static var width: CGFloat {
         return UIScreen.main.bounds.size.width
     }
@@ -51,7 +51,7 @@ extension UIScreen {
     }
 }
 
-extension UIDevice {
+public extension UIDevice {
     static var isIphoneX: Bool {
         if UIDevice.current.userInterfaceIdiom != .phone {
             return true

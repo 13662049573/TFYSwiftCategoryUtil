@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-extension UIStoryboard {
+public extension UIStoryboard {
     
-    public func instantiateViewController<C>(with clz:C.Type) -> C where C : UIViewController {
+    func instantiateViewController<C>(with clz:C.Type) -> C where C : UIViewController {
         let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
         return instantiateViewController(withIdentifier: identifier) as! C
     }

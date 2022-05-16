@@ -17,7 +17,7 @@ public enum UIViewControllerFindParentControllerOption {
     case last // 找到的最后一个
 }
 
-extension UIViewController {
+public extension UIViewController {
     
     /// 获取当前controller指定class的parentViewController
     ///
@@ -25,7 +25,7 @@ extension UIViewController {
     /// option: 查找选项
     ///
     /// - Returns: 当前controller指定class的parentViewController
-    public func findParentController(forClass clazz: AnyClass,
+    func findParentController(forClass clazz: AnyClass,
                               option: UIViewControllerFindParentControllerOption = .first) -> UIViewController? {
         var result: UIViewController? = nil
         
@@ -51,7 +51,7 @@ extension UIViewController {
     /// 或UINavigationController中显示的controller
     ///
     /// - Returns: 当前App最顶层的controller
-    public class func topestController(inWindow window: UIWindow? = nil) -> UIViewController? {
+    class func topestController(inWindow window: UIWindow? = nil) -> UIViewController? {
         return topestController(withRootViewController: window?.rootViewController)
     }
     

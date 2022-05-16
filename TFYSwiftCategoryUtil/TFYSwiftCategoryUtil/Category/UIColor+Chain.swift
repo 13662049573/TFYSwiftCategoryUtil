@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIColor {
+public extension UIColor {
     convenience init(hexColor: String) {
         var red: UInt64 = 0, green: UInt64 = 0, blue: UInt64 = 0
         let hex = hexColor as NSString
@@ -104,7 +104,7 @@ extension UIColor {
         return image
     }
     
-    public func darkerColor(threshold:CGFloat = 0.3) -> UIColor {
+    func darkerColor(threshold:CGFloat = 0.3) -> UIColor {
         var r:CGFloat = 0
         var g:CGFloat = 0
         var b:CGFloat = 0
@@ -117,7 +117,7 @@ extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
     
-    public func lighterColor(threshold:CGFloat = 0.3) -> UIColor {
+    func lighterColor(threshold:CGFloat = 0.3) -> UIColor {
         var r:CGFloat = 0
         var g:CGFloat = 0
         var b:CGFloat = 0
