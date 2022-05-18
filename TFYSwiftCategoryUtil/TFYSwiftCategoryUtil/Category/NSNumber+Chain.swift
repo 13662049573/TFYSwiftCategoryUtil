@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension NSNumber {
+public extension TFY where Base: NSNumber {
     
     enum TFYSwiftOperators:Int {
         case TFYSwiftAdd = 0
@@ -18,16 +18,16 @@ public extension NSNumber {
     
     /// 转化为字符串
     func displayCount() -> String {
-        if doubleValue <= 0 {
+        if base.doubleValue <= 0 {
             return "0"
         }
-        if doubleValue < 1000 {
-            return description
+        if base.doubleValue < 1000 {
+            return base.description
         }
-        if doubleValue >= 999_999 {
+        if base.doubleValue >= 999_999 {
             return "999.9K+"
         }
-        let result = doubleValue / 1000.0
+        let result = base.doubleValue / 1000.0
         let num1 = NSNumber(value: result)
         let numberFormatter = NumberFormatter()
         numberFormatter.maximumFractionDigits = 1
@@ -36,7 +36,7 @@ public extension NSNumber {
         return numberFormatter.string(from: num1)! + "K"
     }
     
-    func getResult(oneNumber:NSNumber,type:TFYSwiftOperators,twoNumber:NSNumber) -> Self {
+    func getResult(oneNumber:NSNumber,type:TFYSwiftOperators,twoNumber:NSNumber) -> Base {
         var resultNum:NSDecimalNumber = NSDecimalNumber()
         let one:NSDecimalNumber = NSDecimalNumber(decimal: oneNumber.decimalValue)
         let two:NSDecimalNumber = NSDecimalNumber(decimal: twoNumber.decimalValue)
@@ -52,7 +52,7 @@ public extension NSNumber {
         case .TFYSwiftDiv:
             resultNum = one.dividing(by: two, withBehavior: roundingBehavior)
         }
-        return Self(nonretainedObject: resultNum)
+        return Base(nonretainedObject: resultNum)
     }
     
     ///  无格式,四舍五入
@@ -108,7 +108,7 @@ public extension NSNumber {
     func changeStyle(style:NumberFormatter.Style) -> String {
         let formatter:NumberFormatter = NumberFormatter()
         formatter.numberStyle = style
-        return formatter.string(from: self) ?? ""
+        return formatter.string(from: base) ?? ""
     }
 }
 

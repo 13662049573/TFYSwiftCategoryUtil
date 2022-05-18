@@ -20,18 +20,29 @@ public struct TFY<Base> {
     }
 }
 
-public protocol TFYCompatible {
-    
-    associatedtype CompatibleType
-    
-    var tfy: CompatibleType { get }
-}
+public protocol TFYCompatible {}
 
 public extension TFYCompatible {
     
-    var tfy: TFY<Self> {
-        return TFY(self)
+    static var tfy: TFY<Self>.Type {
+        get{ TFY<Self>.self }
+        set {}
     }
+    
+    var tfy: TFY<Self> {
+        get { TFY(self) }
+        set {}
+    }
+}
+
+/// Define Property protocol
+internal protocol TFYSwiftPropertyCompatible {
+    /// Extended type
+    associatedtype T
+    ///Alias for callback function
+    typealias SwiftCallBack = ((T?) -> ())
+    ///Define the calculated properties of the closure type
+    var swiftCallBack: SwiftCallBack?  { get set }
 }
 
 extension NSObject: TFYCompatible {}

@@ -27,6 +27,17 @@ public extension TFY where Base: UIResponder {
         base.resignFirstResponder()
         return self
     }
+    
+    var currentViewController: UIViewController? {
+        var responder = base.next
+        while responder != nil {
+            if responder!.isKind(of: UIViewController.self) {
+                return (responder as! UIViewController)
+            }
+            responder = responder?.next
+        }
+        return nil
+    }
 }
 
 public final class FirstResponderListener {

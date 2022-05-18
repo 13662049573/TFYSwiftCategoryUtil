@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 public func TopestController(inWindow window: UIWindow? = nil) -> UIViewController? {
-    return UIViewController.topestController(inWindow: window)
+    return TFY<UIViewController>.topestController(inWindow: window)
 }
 
 public enum UIViewControllerFindParentControllerOption {
@@ -17,7 +17,7 @@ public enum UIViewControllerFindParentControllerOption {
     case last // 找到的最后一个
 }
 
-public extension UIViewController {
+public extension TFY where Base: UIViewController {
     
     /// 获取当前controller指定class的parentViewController
     ///
@@ -29,7 +29,7 @@ public extension UIViewController {
                               option: UIViewControllerFindParentControllerOption = .first) -> UIViewController? {
         var result: UIViewController? = nil
         
-        var currentController = parent
+        var currentController = base.parent
         while let whileController = currentController {
             if whileController.isKind(of: clazz) {
                 result = whileController
@@ -51,11 +51,11 @@ public extension UIViewController {
     /// 或UINavigationController中显示的controller
     ///
     /// - Returns: 当前App最顶层的controller
-    class func topestController(inWindow window: UIWindow? = nil) -> UIViewController? {
+    static func topestController(inWindow window: UIWindow? = nil) -> UIViewController? {
         return topestController(withRootViewController: window?.rootViewController)
     }
     
-    private class func topestController(withRootViewController rootViewController: UIViewController? = nil) -> UIViewController? {
+    private static func topestController(withRootViewController rootViewController: UIViewController? = nil) -> UIViewController? {
         guard let controller = rootViewController ?? UIWindow.keyWindow!.rootViewController else {
             return nil
         }

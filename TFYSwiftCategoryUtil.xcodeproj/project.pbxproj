@@ -46,6 +46,11 @@
 		368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */; };
 		368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */; };
 		3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3694B0D62652A1D900296A92 /* TFYRuntime.swift */; };
+		36D1103E2834BD7D0068E67E /* Array+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1103D2834BD7D0068E67E /* Array+Chain.swift */; };
+		36D110402834C0010068E67E /* CLLocation+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1103F2834C0010068E67E /* CLLocation+Chain.swift */; };
+		36D110422834C0420068E67E /* Data+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110412834C0420068E67E /* Data+Chain.swift */; };
+		36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110432834C3ED0068E67E /* TFYRegexHelper.swift */; };
+		36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110452834CDCD0068E67E /* Date+Chain.swift */; };
 		36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */; };
 		36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */; };
 		36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */; };
@@ -80,6 +85,19 @@
 		36F1B82F278808360005E8B6 /* HasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B829278808360005E8B6 /* HasText.swift */; };
 		36F1B830278808360005E8B6 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B82A278808360005E8B6 /* Chain.swift */; };
 		36F1B831278808360005E8B6 /* HasText+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B82B278808360005E8B6 /* HasText+Chain.swift */; };
+		36F282FE2834D61600460789 /* Dictionary+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F282FD2834D61600460789 /* Dictionary+Chain.swift */; };
+		36F283002834D6F700460789 /* DispatchQueue+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F282FF2834D6F700460789 /* DispatchQueue+Chain.swift */; };
+		36F283022834D87600460789 /* FileManager+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283012834D87600460789 /* FileManager+Chain.swift */; };
+		36F283042834D93600460789 /* NSAttributedString+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283032834D93600460789 /* NSAttributedString+Chain.swift */; };
+		36F283062834D99C00460789 /* UIDevice+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283052834D99C00460789 /* UIDevice+Chain.swift */; };
+		36F283082834DB1500460789 /* NSObject+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283072834DB1500460789 /* NSObject+Chain.swift */; };
+		36F2830A2834DB9F00460789 /* NSRange+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283092834DB9F00460789 /* NSRange+Chain.swift */; };
+		36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2830B2834DC2D00460789 /* NumberFormatter+Chain.swift */; };
+		36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2830D2834DC7B00460789 /* Timer+Chain.swift */; };
+		36F283102834DFE600460789 /* CAGradientLayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */; };
+		36F283122834E02A00460789 /* CATextLayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283112834E02A00460789 /* CATextLayer+Chain.swift */; };
+		36F2835A2834E27E00460789 /* UIView+SNP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283592834E27E00460789 /* UIView+SNP.swift */; };
+		36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2835D2834E45700460789 /* UIApplication+Chain.swift */; };
 		36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */; };
 		36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */; };
 /* End PBXBuildFile section */
@@ -148,6 +166,11 @@
 		368367B526495F340024939A /* UISwipeGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwipeGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 		368367B726495FED0024939A /* UITapGestureRecognizer+ITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+ITools.swift"; sourceTree = "<group>"; };
 		3694B0D62652A1D900296A92 /* TFYRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRuntime.swift; sourceTree = "<group>"; };
+		36D1103D2834BD7D0068E67E /* Array+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chain.swift"; sourceTree = "<group>"; };
+		36D1103F2834C0010068E67E /* CLLocation+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Chain.swift"; sourceTree = "<group>"; };
+		36D110412834C0420068E67E /* Data+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Chain.swift"; sourceTree = "<group>"; };
+		36D110432834C3ED0068E67E /* TFYRegexHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRegexHelper.swift; sourceTree = "<group>"; };
+		36D110452834CDCD0068E67E /* Date+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEB32787FC6000D05EE1 /* HasFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasFont.swift; sourceTree = "<group>"; };
 		36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Chain.swift"; sourceTree = "<group>"; };
@@ -183,6 +206,19 @@
 		36F1B829278808360005E8B6 /* HasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasText.swift; sourceTree = "<group>"; };
 		36F1B82A278808360005E8B6 /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 		36F1B82B278808360005E8B6 /* HasText+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HasText+Chain.swift"; sourceTree = "<group>"; };
+		36F282FD2834D61600460789 /* Dictionary+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Chain.swift"; sourceTree = "<group>"; };
+		36F282FF2834D6F700460789 /* DispatchQueue+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Chain.swift"; sourceTree = "<group>"; };
+		36F283012834D87600460789 /* FileManager+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Chain.swift"; sourceTree = "<group>"; };
+		36F283032834D93600460789 /* NSAttributedString+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Chain.swift"; sourceTree = "<group>"; };
+		36F283052834D99C00460789 /* UIDevice+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Chain.swift"; sourceTree = "<group>"; };
+		36F283072834DB1500460789 /* NSObject+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Chain.swift"; sourceTree = "<group>"; };
+		36F283092834DB9F00460789 /* NSRange+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+Chain.swift"; sourceTree = "<group>"; };
+		36F2830B2834DC2D00460789 /* NumberFormatter+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Chain.swift"; sourceTree = "<group>"; };
+		36F2830D2834DC7B00460789 /* Timer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timer+Chain.swift"; sourceTree = "<group>"; };
+		36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Chain.swift"; sourceTree = "<group>"; };
+		36F283112834E02A00460789 /* CATextLayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer+Chain.swift"; sourceTree = "<group>"; };
+		36F283592834E27E00460789 /* UIView+SNP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SNP.swift"; sourceTree = "<group>"; };
+		36F2835D2834E45700460789 /* UIApplication+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Chain.swift"; sourceTree = "<group>"; };
 		36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYUtils.swift; sourceTree = "<group>"; };
 		36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -327,6 +363,22 @@
 				365477BC283077B900E4DE22 /* UIWindow+Chain.swift */,
 				365477BE283077FC00E4DE22 /* NSNumber+Chain.swift */,
 				365478872830A51C00E4DE22 /* UIViewController+Chain.swift */,
+				36D1103D2834BD7D0068E67E /* Array+Chain.swift */,
+				36D1103F2834C0010068E67E /* CLLocation+Chain.swift */,
+				36D110412834C0420068E67E /* Data+Chain.swift */,
+				36D110452834CDCD0068E67E /* Date+Chain.swift */,
+				36F282FD2834D61600460789 /* Dictionary+Chain.swift */,
+				36F282FF2834D6F700460789 /* DispatchQueue+Chain.swift */,
+				36F283012834D87600460789 /* FileManager+Chain.swift */,
+				36F283032834D93600460789 /* NSAttributedString+Chain.swift */,
+				36F283052834D99C00460789 /* UIDevice+Chain.swift */,
+				36F283072834DB1500460789 /* NSObject+Chain.swift */,
+				36F283092834DB9F00460789 /* NSRange+Chain.swift */,
+				36F2830B2834DC2D00460789 /* NumberFormatter+Chain.swift */,
+				36F2830D2834DC7B00460789 /* Timer+Chain.swift */,
+				36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */,
+				36F283112834E02A00460789 /* CATextLayer+Chain.swift */,
+				36F2835D2834E45700460789 /* UIApplication+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -334,6 +386,7 @@
 		3612E14B26475C4100476696 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				36F283592834E27E00460789 /* UIView+SNP.swift */,
 				36DAFEC62787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift */,
 				36DAFED02787FF9D00D05EE1 /* UIBarItem+Chain.swift */,
 				36DAFEC42787FF9D00D05EE1 /* UIButton+Chain.swift */,
@@ -372,6 +425,7 @@
 				3694B0D62652A1D900296A92 /* TFYRuntime.swift */,
 				367264CE26536E6C00049CEF /* TFYTimer.swift */,
 				36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */,
+				36D110432834C3ED0068E67E /* TFYRegexHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -572,9 +626,15 @@
 				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
 				36DAFEE42787FF9D00D05EE1 /* UISegmentedControl+Chain.swift in Sources */,
 				36DAFEED2787FF9D00D05EE1 /* UIResponder+Chain.swift in Sources */,
+				36F2830A2834DB9F00460789 /* NSRange+Chain.swift in Sources */,
 				36547810283091B100E4DE22 /* WKWebManager.swift in Sources */,
+				36F283042834D93600460789 /* NSAttributedString+Chain.swift in Sources */,
+				36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */,
+				36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
+				36F2835A2834E27E00460789 /* UIView+SNP.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
+				36D110422834C0420068E67E /* Data+Chain.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
 				36DAFEF22787FF9D00D05EE1 /* UISlider+Chain.swift in Sources */,
 				365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */,
@@ -583,16 +643,20 @@
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
+				36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */,
+				36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */,
 				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
 				36DAFEEE2787FF9D00D05EE1 /* UITextView+Chain.swift in Sources */,
+				36D110402834C0010068E67E /* CLLocation+Chain.swift in Sources */,
 				36F1B82D278808360005E8B6 /* HasFont.swift in Sources */,
 				36DAFEE32787FF9D00D05EE1 /* UICollectionView+Chain.swift in Sources */,
 				36547815283091B100E4DE22 /* WKWebController.swift in Sources */,
 				36DAFEEF2787FF9D00D05EE1 /* UIView+Chain.swift in Sources */,
 				36547812283091B100E4DE22 /* WKDelegate.swift in Sources */,
 				36DAFEDD2787FF9D00D05EE1 /* UINavigationBar+Chain.swift in Sources */,
+				36F282FE2834D61600460789 /* Dictionary+Chain.swift in Sources */,
 				368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC12787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
@@ -607,12 +671,16 @@
 				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
 				36547811283091B100E4DE22 /* WKScriptHandlerParamsDecoder.swift in Sources */,
 				3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */,
+				36F283102834DFE600460789 /* CAGradientLayer+Chain.swift in Sources */,
 				36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */,
 				36547817283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift in Sources */,
 				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */,
+				36F283122834E02A00460789 /* CATextLayer+Chain.swift in Sources */,
 				36547816283091B100E4DE22 /* WKWebHandler.swift in Sources */,
+				36F283002834D6F700460789 /* DispatchQueue+Chain.swift in Sources */,
 				36DAFEE22787FF9D00D05EE1 /* UIStepper+Chain.swift in Sources */,
+				36F283082834DB1500460789 /* NSObject+Chain.swift in Sources */,
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
@@ -627,11 +695,15 @@
 				36DAFEC22787FEAA00D05EE1 /* NSMutableAttributedString+Chain.swift in Sources */,
 				36F1B831278808360005E8B6 /* HasText+Chain.swift in Sources */,
 				3654780F283091B100E4DE22 /* WKEncoderUnkeyedContainer.swift in Sources */,
+				36F283022834D87600460789 /* FileManager+Chain.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
+				36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */,
 				36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */,
 				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
+				36F283062834D99C00460789 /* UIDevice+Chain.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
+				36D1103E2834BD7D0068E67E /* Array+Chain.swift in Sources */,
 				365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */,
 				36547814283091B100E4DE22 /* WKEncoderKeyedContainer.swift in Sources */,
 			);
