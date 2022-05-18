@@ -367,32 +367,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     }
 }
 
-// MARK: - 二、沙盒路径的获取
-/*
- - 1、Home(应用程序包)目录
- - 整个应用程序各文档所在的目录,包含了所有的资源文件和可执行文件
- - 2、Documents
- - 保存应用运行时生成的需要持久化的数据，iTunes同步设备时会备份该目录
- - 需要保存由"应用程序本身"产生的文件或者数据，例如: 游戏进度，涂鸦软件的绘图
- - 目录中的文件会被自动保存在 iCloud
- - 注意: 不要保存从网络上下载的文件，否则会无法上架!
- - 3、Library
- - 3.1、Library/Cache
- - 保存应用运行时生成的需要持久化的数据，iTunes同步设备时不备份该目录。一般存放体积大、不需要备份的非重要数据
- - 保存临时文件,"后续需要使用"，例如: 缓存的图片，离线数据（地图数据）
- - 系统不会清理 cache 目录中的文件
- - 就要求程序开发时, "必须提供 cache 目录的清理解决方案"
- - 3.2、Library/Preference
- - 保存应用的所有偏好设置，IOS的Settings应用会在该目录中查找应用的设置信息。iTunes
- - 用户偏好，使用 NSUserDefault 直接读写！
- - 如果想要数据及时写入硬盘，还需要调用一个同步方法
- - 4、tmp
- - 保存临时文件，"后续不需要使用"
- - tmp 目录中的文件，系统会自动被清空
- - 重新启动手机, tmp 目录会被清空
- - 系统磁盘空间不足时，系统也会自动清理
- - 保存应用运行时所需要的临时数据，使用完毕后再将相应的文件从该目录删除。应用没有运行，系统也可能会清除该目录下的文件，iTunes不会同步备份该目录
- */
 public extension TFY where Base: ExpressibleByStringLiteral {
     // MARK: 2.1、获取Home的完整路径名
     /// 获取Home的完整路径名
@@ -407,12 +381,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     /// 获取Documnets的完整路径名
     /// - Returns: Documnets的完整路径名
     static func DocumnetsDirectory() -> String {
-        //获取程序的documentPaths目录
-        //方法1
-        // let documentPaths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        // let documnetPath = documentPaths[0]
-        
-        //方法2
         let ducumentPath = NSHomeDirectory() + "/Documents"
         return ducumentPath
     }
@@ -426,12 +394,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     /// 获取Library的完整路径名
     /// - Returns: Library的完整路径名
     static func LibraryDirectory() -> String {
-        //获取程序的documentPaths目录
-        //Library目录－方法1
-        // let libraryPaths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        // let libraryPath = libraryPaths[0]
-        //
-        // Library目录－方法2
         let libraryPath = NSHomeDirectory() + "/Library"
         return libraryPath
     }
@@ -466,41 +428,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     }
 }
 
-// MARK: - 三、iOS CharacterSet（字符集）
-/**
- CharacterSet是在Foundation框架下的一个结构体，用于搜索操作的一组Unicode字符值。官方的API地址：https://developer.apple.com/documentation/foundation/characterset
- 概述
- 字符集表示一组符合unicode的字符。基础类型使用字符集将字符组合在一起进行搜索操作，以便在搜索期间可以找到任何特定的字符集。
- 这种类型提供了“写时复制”的行为，并且还连接到Objective-C NSCharacterSet类。
- 总之就是将unicode字符，按组分类，便于搜索查找，验证字符串。通常我们在一些场景下会用到一个字符串是否包含某种特定字符，比如判断密码是否只包含数字，检查url是否有不规范字符，删除多余空格等操作
- 
- 属性                                                              描述
- CharacterSet.alphanumerics
- 
- controlCharacters:                  控制符
- whitespaces:                           空格
- whitespacesAndNewlines:      空格和换行
- decimalDigits:                          0-9的数字，也不包含小数点
- letters:                                      所有英文字母，包含大小写 65-90 97-122
- lowercaseLetters:                     小写英文字母 97-122
- uppercaseLetters:                    大写英文字母 65-90
- nonBaseCharacters:                非基础字符 M*
- alphanumerics:                         字母和数字的组合，包含大小写, 不包含小数点
- decomposables:                       可分解
- illegalCharacters:                     不合规字符，没有在Unicode 3.2 标准中定义的字符
- punctuationCharacters:            标点符号，连接线，引号什么的 P*
- capitalizedLetters:                    字母，首字母大写，Lt类别
- symbols:                                   符号，包含S* 所有内容，运算符，货币符号什么的
- newlines:                                  返回一个包含换行符的字符集，U+000A ~ U+000D, U+0085, U+2028, and U+2029
- urlUserAllowed:
- urlPasswordAllowed:
- urlHostAllowed:
- urlPathAllowed:
- urlQueryAllowed:
- urlFragmentAllowed:
- bitmapRepresentation:
- inverted:                                    相反的字符集。例如CharacterSet.whitespaces.inverted 就是没有空格
- */
 public extension TFY where Base: ExpressibleByStringLiteral {
     
     // MARK: 3.1、去除字符串前后的 空格
@@ -768,105 +695,7 @@ extension TFY where Base: ExpressibleByStringLiteral {
         let attrs = [NSAttributedString.Key.font: font]
         return (base as! String).size(withAttributes: attrs as [NSAttributedString.Key: Any]).height
     }
-    
-    // MARK: 5.7、字符串通过 label 根据高度&字体 —> Size
-    /// 字符串通过 label 根据高度&字体 ——> Size
-    /// - Parameters:
-    ///   - height: 字符串最大的高度
-    ///   - font: 字体大小
-    /// - Returns: 返回Size
-    public func sizeAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont) -> CGSize {
-        if self.isBlank {return CGSize(width: 0, height: 0)}
-        let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        return label.sizeThatFits(size: rect.size)
-    }
-    
-    // MARK: 5.8、字符串通过 label 根据高度&字体 —> Width
-    /// 字符串通过 label 根据高度&字体 ——> Width
-    /// - Parameters:
-    ///   - height: 字符串最大高度
-    ///   - font: 字体大小
-    /// - Returns: 返回宽度大小
-    public func widthAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont) -> CGFloat {
-        if self.isBlank {return 0}
-        let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        return label.sizeThatFits(size: rect.size).width
-    }
-    
-    // MARK: 5.9、字符串通过 label 根据宽度&字体 —> height
-    /// 字符串通过 label 根据宽度&字体 ——> height
-    /// - Parameters:
-    ///   - width: 字符串最大宽度
-    ///   - font: 字体大小
-    /// - Returns: 返回高度大小
-    public func heightAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont) -> CGFloat {
-        if self.isBlank {return 0}
-        let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        return label.sizeThatFits(size: rect.size).height
-    }
-    
-    // MARK: 5.10、字符串根据宽度 & 字体 & 行间距 —> Size
-    /// 字符串根据宽度 & 字体 & 行间距 ——> Size
-    /// - Parameters:
-    ///   - width: 字符串最大的宽度
-    ///   - heiht: 字符串最大的高度
-    ///   - font: 字体的大小
-    ///   - lineSpacing: 行间距
-    /// - Returns: 返回对应的size
-    public func sizeAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont, lineSpacing: CGFloat) -> CGSize {
-        if self.isBlank {return CGSize(width: 0, height: 0)}
-        let rect = CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        let attrStr = NSMutableAttributedString(string: (base as! String))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        attrStr.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, (base as! String).count))
-        label.attributedText(attrStr)
-        return label.sizeThatFits(size: rect.size)
-    }
-    
-    // MARK: 5.11、字符串根据宽度 & 字体 & 行间距 —> width
-    /// 字符串根据宽度 & 字体 & 行间距 ——> width
-    /// - Parameters:
-    ///   - width: 字符串最大的宽度
-    ///   - heiht: 字符串最大的高度
-    ///   - font: 字体的大小
-    ///   - lineSpacing: 行间距
-    /// - Returns: 返回对应的 width
-    public func widthAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont, lineSpacing: CGFloat) -> CGFloat {
-        if self.isBlank {return 0}
-        let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        let attrStr = NSMutableAttributedString(string: (base as! String))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        attrStr.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, (base as! String).count))
-        label.attributedText(attrStr)
-        return label.sizeThatFits(size: rect.size).width
-    }
-    
-    // MARK: 5.12、字符串根据宽度 & 字体 & 行间距 —> height
-    /// 字符串根据宽度 & 字体 & 行间距 ——> height
-    /// - Parameters:
-    ///   - width: 字符串最大的宽度
-    ///   - heiht: 字符串最大的高度
-    ///   - font: 字体的大小
-    ///   - lineSpacing: 行间距
-    /// - Returns: 返回对应的 height
-    public func heightAccording(width: CGFloat, height: CGFloat = CGFloat(MAXFLOAT), font: UIFont, lineSpacing: CGFloat) -> CGFloat {
-        if self.isBlank {return 0}
-        let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        let label = UILabel(frame: rect).tfy.font(font).text((base as! String)).numberOfLines(0)
-        let attrStr = NSMutableAttributedString(string: (base as! String))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        attrStr.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, (base as! String).count))
-        label.attributedText(attrStr)
-        return label.sizeThatFits(size: rect.size).height
-    }
+
 }
 
 // MARK: - 六、字符串有关数字方面的扩展
@@ -968,25 +797,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     }
 }
 
-// MARK: - 七、苹果针对浮点类型计算精度问题提供出来的计算类
-/// NSDecimalNumberHandler 苹果针对浮点类型计算精度问题提供出来的计算类
-/**
- 初始化方法
- roundingMode 舍入方式
- scale 小数点后舍入值的位数
- raiseOnExactness 精度错误处理
- raiseOnOverflow 溢出错误处理
- raiseOnUnderflow 下溢错误处理
- raiseOnDivideByZero 除以0的错误处理
- */
-/**
- public enum RoundingMode : UInt {
- case plain = 0 是四舍五入
- case down = 1 是向下取整
- case up = 2 是向上取整
- case bankers = 3 是在四舍五入的基础上，加上末尾数为5时，变成偶数的规则
- }
- */
 extension TFY where Base: ExpressibleByStringLiteral {
     // MARK: 7.1、＋
     /// ＋
@@ -1598,13 +1408,6 @@ extension TFY where Base: ExpressibleByStringLiteral {
     }
 }
 
-// MARK: - 十二、进制之间的转换
-/*
- Binary：      二进制
- Octal：       八进制
- Decimal：     十进制
- Hexadecimal： 十六进制
- */
 public extension TFY where Base: ExpressibleByStringLiteral {
     
     // MARK: 12.1、二进制 -> 八进制
@@ -1818,21 +1621,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     }
 }
 
-// MARK: - 十四、MD5 加密 和 Base64 编解码
-/**
- 单向散列函数，又被称为消息摘要函数（message digest function），哈希函数
- 输出的散列值，也被称为消息摘要（message digest）、指纹（fingerprint）
- 
- 常见的几种单向散列函数
- MD4、MD5
- 产生128bit的散列值，MD就是Message Digest的缩写，目前已经不安全
- Mac终端上默认可以使用md5命令
- SHA-1
- 产生160bit的散列值，目前已经不安全
- SHA-2
- SHA-256、SHA-384、SHA-512，散列值长度分别是256bit、384bit、512bit
- SHA-3 全新标准
- */
 public extension TFY where Base: ExpressibleByStringLiteral {
     
     /// MD5 加密类型
@@ -1996,11 +1784,6 @@ public extension TFY where Base: ExpressibleByStringLiteral {
 }
 
 // MARK: - 十六、SHA1, SHA224, SHA256, SHA384, SHA512
-/**
- - 安全哈希算法（Secure Hash Algorithm）主要适用于数字签名标准（Digital Signature Standard DSS）里面定义的数字签名算法（Digital Signature Algorithm DSA）。对于长度小于2^64位的消息，SHA1会产生一个160位的消息摘要。当接收到消息的时候，这个消息摘要可以用来验证数据的完整性。在传输的过程中，数据很可能会发生变化，那么这时候就会产生不同的消息摘要。当让除了SHA1还有SHA256以及SHA512等。
- - SHA1有如下特性：不可以从消息摘要中复原信息；两个不同的消息不会产生同样的消息摘要
- - SHA1 SHA256 SHA512 这4种本质都是摘要函数，不通在于长度 SHA1是160位，SHA256是256位，SHA512是512位
- */
 // MARK: 加密类型
 public enum DDYSHAType {
     case SHA1, SHA224, SHA256, SHA384, SHA512
@@ -2101,17 +1884,6 @@ public extension TFY where Base == String {
 }
 
 // MARK: - 十八、字符值引用 (numeric character reference, NCR)与普通字符串的转换
-/**
- 1，什么是字符值引用
- （1）字符值引用 (numeric character reference, NCR) 是在标记语言SGML以及派生的如HTML与XML中常见的一种转义序列结构，用来表示Unicode的通用字符集 (UCS)中的单个字符. NCR可以表示在一个特定文档中不能直接编码的字符，而该标记语言阅读器软件把每个NCR当作一个字符来处理。
- （2）我们可以将其理解为HTML、XML 等 SGML 类语言的转义序列（escape sequence）。而不是一种编码或转码。
- 
- 2，字符值引用的格式
- 以「&#x」开头的后接十六进制数字。或者以「&#」开头的后接十进制数字。
- &#x4e2d;&#x56fd;  //中国（16进制格式）
- &#20013;&#22269;  //中国（10进制格式）
- （不管哪种形式写在html页面中都会正常显示出“中国”）
- */
 public extension TFY where Base == String {
     
     // MARK: 18.1、将普通字符串转为字符值引用
