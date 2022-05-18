@@ -105,6 +105,10 @@ public extension String {
         return ceil(rect.height)>maxHeight ? maxHeight : ceil(rect.height)
     }
    
+    func stringByTrim() -> String {
+        let set:CharacterSet = CharacterSet.whitespacesAndNewlines
+        return self.trimmingCharacters(in: set)
+    }
 }
 
 public extension String {

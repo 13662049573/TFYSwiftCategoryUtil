@@ -189,22 +189,14 @@ public extension UIView {
         setNeedsLayout()
         layoutIfNeeded()
     }
-
+    
     /// 添加圆角
-    ///
-    /// - Parameters:
-    ///   - direction: 圆角方向
-    ///   - vaule: 圆角值
-    func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) {
-        let masPath = UIBezierPath(roundedRect: bounds,
-                                   byRoundingCorners: direction,
-                                   cornerRadii: CGSize(width: vaule, height: vaule))
-        let masLayer = CAShapeLayer()
-        masLayer.path = masPath.cgPath
-        masLayer.frame = bounds
-
-        layer.mask = masLayer
-        layer.contentsScale = UIScreen.main.scale
+    func cornerCut(radius:CGFloat,corner:UIRectCorner){
+        let maskPath = UIBezierPath.init(roundedRect: bounds, byRoundingCorners: corner, cornerRadii: CGSize.init(width: radius, height: radius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = maskPath.cgPath
+        layer.mask = maskLayer
     }
 
     @IBInspectable var cornerRadius: CGFloat {
@@ -418,7 +410,7 @@ public extension TFY where Base: UIView {
     
     @discardableResult
     func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) -> TFY {
-        base.addRadius(direction: direction, vaule: vaule)
+        base.cornerCut(radius: vaule, corner: direction)
         return self
     }
     
