@@ -247,6 +247,29 @@ public extension UIView {
         get { return layer.shadowOpacity }
     }
     
+    /// 添加阴影
+    func shadow(ofColor color: UIColor = UIColor(red: 0.07, green: 0.47, blue: 0.57, alpha: 1.0), radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.2) {
+        layer.shadowColor = color.cgColor
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
+        layer.masksToBounds = false
+    }
+    /// 添加阴影图层
+    func shadowLayer(ofColor color: UIColor = UIColor(red: 0.07, green: 0.47, blue: 0.57, alpha: 1.0), radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.5,cornerRadius:CGFloat,bounds:CGRect) {
+        
+        let layer = CALayer()
+        layer.frame = bounds
+        layer.shadowColor = color.cgColor
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
+        layer.cornerRadius = cornerRadius
+        layer.masksToBounds = false
+        layer.backgroundColor = UIColor.white.cgColor
+        self.layer.insertSublayer(layer, at: 0)
+        self.layer.addSublayer(layer)
+    }
 }
 
 

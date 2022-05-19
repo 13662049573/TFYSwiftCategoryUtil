@@ -48,11 +48,6 @@ public extension TFY where Base == String {
         let rect = NSString(string: base).boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         return ceil(rect.height)>maxHeight ? maxHeight : ceil(rect.height)
     }
-   
-    func stringByTrim() -> String {
-        let set:CharacterSet = CharacterSet.whitespacesAndNewlines
-        return base.trimmingCharacters(in: set)
-    }
 }
 
 public extension String {
@@ -75,6 +70,24 @@ public extension String {
         let vc = typeClass.init()
         return vc
     }
+    
+    /// 初始化 base64
+    init?(base64: String) {
+        guard let decodedData = Data(base64Encoded: base64) else { return nil }
+        guard let str = String(data: decodedData, encoding: .utf8) else { return nil }
+        self.init(str)
+    }
+    
+    func stringByTrim() -> String {
+        let set:CharacterSet = CharacterSet.whitespacesAndNewlines
+        return self.trimmingCharacters(in: set)
+    }
+    
+    /// 初始化 base64
+    func toModel<T>(_ type: T.Type) -> T? where T: Decodable {
+        return self.data(using: .utf8)?.tfy.toModel(type)
+    }
+
 }
 
 public extension String {

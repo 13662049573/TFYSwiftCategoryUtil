@@ -98,6 +98,8 @@
 		36F283122834E02A00460789 /* CATextLayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283112834E02A00460789 /* CATextLayer+Chain.swift */; };
 		36F2835A2834E27E00460789 /* UIView+SNP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283592834E27E00460789 /* UIView+SNP.swift */; };
 		36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2835D2834E45700460789 /* UIApplication+Chain.swift */; };
+		36F283622835D98600460789 /* Codable+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283612835D98600460789 /* Codable+Chain.swift */; };
+		36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283652835E83800460789 /* TFYSwiftJsonKit.swift */; };
 		36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */; };
 		36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */; };
 /* End PBXBuildFile section */
@@ -219,6 +221,8 @@
 		36F283112834E02A00460789 /* CATextLayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer+Chain.swift"; sourceTree = "<group>"; };
 		36F283592834E27E00460789 /* UIView+SNP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SNP.swift"; sourceTree = "<group>"; };
 		36F2835D2834E45700460789 /* UIApplication+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Chain.swift"; sourceTree = "<group>"; };
+		36F283612835D98600460789 /* Codable+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Chain.swift"; sourceTree = "<group>"; };
+		36F283652835E83800460789 /* TFYSwiftJsonKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYSwiftJsonKit.swift; sourceTree = "<group>"; };
 		36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYUtils.swift; sourceTree = "<group>"; };
 		36F2CDDA282CF85D003CF2E7 /* UIColor+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -379,6 +383,7 @@
 				36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */,
 				36F283112834E02A00460789 /* CATextLayer+Chain.swift */,
 				36F2835D2834E45700460789 /* UIApplication+Chain.swift */,
+				36F283612835D98600460789 /* Codable+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				36F283652835E83800460789 /* TFYSwiftJsonKit.swift */,
 				3612E15326475C4100476696 /* TFYAsynce.swift */,
 				3694B0D62652A1D900296A92 /* TFYRuntime.swift */,
 				367264CE26536E6C00049CEF /* TFYTimer.swift */,
@@ -646,6 +652,7 @@
 				36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */,
 				36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */,
 				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
+				36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
 				36DAFEEE2787FF9D00D05EE1 /* UITextView+Chain.swift in Sources */,
@@ -661,6 +668,7 @@
 				36DAFEC12787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
+				36F283622835D98600460789 /* Codable+Chain.swift in Sources */,
 				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
 				36547819283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift in Sources */,
 				36DAFEDB2787FF9D00D05EE1 /* UINavigationItem+Chain.swift in Sources */,

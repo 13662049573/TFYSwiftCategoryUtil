@@ -530,3 +530,26 @@ public extension TFY where Base == Date {
         return daysCount(year: Date.tfy.currentDate.tfy.year, month: Date.tfy.currentDate.tfy.month)
     }
 }
+
+extension Date {
+    /// 增加几周
+    mutating func addWeek(n: Int = 1){
+        let cal = NSCalendar.current
+        self = cal.date(byAdding: .day, value: n * 7, to: self)!
+    }
+    /// 增加几个月
+    mutating func addMonth(n: Int = 1){
+        let cal = NSCalendar.current
+        self = cal.date(byAdding: .month, value: n, to: self)!
+    }
+    /// 增加几年
+    mutating func addYear(n: Int = 1){
+        let cal = NSCalendar.current
+        self =  cal.date(byAdding: .year, value: n, to: self)!
+    }
+    /// 增加几天
+    mutating func addDay(n: Int = 1){
+        let cal = NSCalendar.current
+        self =  cal.date(byAdding: .day, value: n, to: self)!
+    }
+}

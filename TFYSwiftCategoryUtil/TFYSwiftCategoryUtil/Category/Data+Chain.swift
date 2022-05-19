@@ -24,9 +24,34 @@ public extension TFY where Base == Data {
         return Data(base64Encoded: base)
     }
     
-    // MARK: 1.3、转成bytes
-    /// 转成bytes
-    var bytes: [UInt8] {
+    /// 转 string
+    func toString(encoding: String.Encoding) -> String? {
+        return String(data: base, encoding: encoding)
+    }
+    
+    func toBytes()->[UInt8]{
         return [UInt8](base)
+    }
+    
+    func toDict()->Dictionary<String, Any>? {
+        do{
+            return try JSONSerialization.jsonObject(with: base, options: .allowFragments) as? [String: Any]
+        }catch{
+            TFYLog(error.localizedDescription)
+            return nil
+        }
+    }
+    /// 从给定的JSON数据返回一个基础对象。
+    func toObject(options: JSONSerialization.ReadingOptions = []) throws -> Any {
+        return try JSONSerialization.jsonObject(with: base, options: options)
+    }
+    /// 指定Model类型
+    func toModel<T>(_ type:T.Type) -> T? where T:Decodable {
+        do {
+            return try JSONDecoder().decode(type, from: base)
+        } catch  {
+            TFYLog("data to model error")
+            return nil
+        }
     }
 }
