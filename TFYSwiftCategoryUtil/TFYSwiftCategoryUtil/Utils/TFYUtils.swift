@@ -36,6 +36,13 @@ public func getJSON(name:String) -> NSDictionary {
     }
 }
 
+/// 强制关闭暗黑色
+public func closedLight() {
+    if #available(iOS 13, *) {
+       UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.overrideUserInterfaceStyle = .light
+    }
+}
+
 /// 自定义打印
 /// - Parameter msg: 打印的内容
 /// - Parameter file: 文件路径

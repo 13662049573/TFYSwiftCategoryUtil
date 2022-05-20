@@ -37,6 +37,22 @@ public extension TFY where Base: UIColor {
         UIGraphicsEndImageContext()
         return image
     }
+    
+    /// 颜色 --> 暗黑色设置
+    static func diabloDarkColor(light:UIColor,dark:UIColor) -> UIColor {
+        if #available(iOS 13, *) {
+            let color = UIColor.init { trainCollection -> UIColor in
+                if trainCollection.userInterfaceStyle == .dark {
+                    return dark
+                } else {
+                    return light
+                }
+            }
+            return color
+        } else {
+            return light
+        }
+    }
 }
 
 public extension UIColor {
