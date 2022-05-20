@@ -38,4 +38,10 @@ public extension TFY where Base: UISwitch {
         base.isOn = isOn
         return self
     }
+    
+    @discardableResult
+    func tintColor(_ color:UIColor) -> TFY {
+        base.tintColor = color
+        return self
+    }
 }
