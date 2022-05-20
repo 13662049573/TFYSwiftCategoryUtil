@@ -39,15 +39,31 @@ public extension UIWindow {
     static var safeAreaInsets: UIEdgeInsets {
         return UIWindow.keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
     }
+    
+    static var bottomHeight: CGFloat {
+        let bottomH:CGFloat = UIDevice.isIphoneX ? 83 : 49
+        return bottomH
+    }
+    
+    static var navBarHeight: CGFloat {
+        let navH:CGFloat = UIDevice.isIphoneX ? 88 : 64
+        return navH
+    }
 }
 
 public extension UIScreen {
     static var width: CGFloat {
-        return UIScreen.main.bounds.size.width
+        let size:CGSize = UIScreen.main.bounds.size
+        return size.height < size.width ? size.height : size.width
     }
 
     static var height: CGFloat {
-        return UIScreen.main.bounds.size.height
+        let size:CGSize = UIScreen.main.bounds.size
+        return size.height > size.width ? size.height : size.width
+    }
+    
+    static var kscale:CGFloat {
+        return UIScreen.main.scale
     }
 }
 

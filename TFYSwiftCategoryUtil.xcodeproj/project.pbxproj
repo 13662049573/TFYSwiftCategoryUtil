@@ -96,7 +96,6 @@
 		36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2830D2834DC7B00460789 /* Timer+Chain.swift */; };
 		36F283102834DFE600460789 /* CAGradientLayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */; };
 		36F283122834E02A00460789 /* CATextLayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283112834E02A00460789 /* CATextLayer+Chain.swift */; };
-		36F2835A2834E27E00460789 /* UIView+SNP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283592834E27E00460789 /* UIView+SNP.swift */; };
 		36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F2835D2834E45700460789 /* UIApplication+Chain.swift */; };
 		36F283622835D98600460789 /* Codable+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283612835D98600460789 /* Codable+Chain.swift */; };
 		36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F283652835E83800460789 /* TFYSwiftJsonKit.swift */; };
@@ -219,7 +218,6 @@
 		36F2830D2834DC7B00460789 /* Timer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timer+Chain.swift"; sourceTree = "<group>"; };
 		36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Chain.swift"; sourceTree = "<group>"; };
 		36F283112834E02A00460789 /* CATextLayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer+Chain.swift"; sourceTree = "<group>"; };
-		36F283592834E27E00460789 /* UIView+SNP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SNP.swift"; sourceTree = "<group>"; };
 		36F2835D2834E45700460789 /* UIApplication+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Chain.swift"; sourceTree = "<group>"; };
 		36F283612835D98600460789 /* Codable+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Chain.swift"; sourceTree = "<group>"; };
 		36F283652835E83800460789 /* TFYSwiftJsonKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYSwiftJsonKit.swift; sourceTree = "<group>"; };
@@ -391,7 +389,6 @@
 		3612E14B26475C4100476696 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				36F283592834E27E00460789 /* UIView+SNP.swift */,
 				36DAFEC62787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift */,
 				36DAFED02787FF9D00D05EE1 /* UIBarItem+Chain.swift */,
 				36DAFEC42787FF9D00D05EE1 /* UIButton+Chain.swift */,
@@ -638,7 +635,6 @@
 				36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */,
 				36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
-				36F2835A2834E27E00460789 /* UIView+SNP.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
 				36D110422834C0420068E67E /* Data+Chain.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
