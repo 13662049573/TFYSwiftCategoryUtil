@@ -38,7 +38,6 @@ public extension TFY where Base: UIViewController {
                     break
                 }
             }
-            
             currentController = whileController.parent
         }
         

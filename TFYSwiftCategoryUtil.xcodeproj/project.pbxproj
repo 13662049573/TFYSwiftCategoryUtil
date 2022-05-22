@@ -80,6 +80,11 @@
 		36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFED82787FF9D00D05EE1 /* UILabel+Chain.swift */; };
 		36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFED92787FF9D00D05EE1 /* UIPickerView+Chain.swift */; };
 		36DAFEF22787FF9D00D05EE1 /* UISlider+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEDA2787FF9D00D05EE1 /* UISlider+Chain.swift */; };
+		36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0CA042839ED040063C0F1 /* UIBezierPath+Chain.swift */; };
+		36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0CA062839ED7C0063C0F1 /* UIFont+Chain.swift */; };
+		36E0CA092839F3810063C0F1 /* UIAlertController+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0CA082839F3810063C0F1 /* UIAlertController+Chain.swift */; };
+		36E0CA0B2839F6B80063C0F1 /* UIStackView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0CA0A2839F6B80063C0F1 /* UIStackView+Chain.swift */; };
+		36E0CA0D2839F6F90063C0F1 /* UITabBarController+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0CA0C2839F6F90063C0F1 /* UITabBarController+Chain.swift */; };
 		36F1B82C278808360005E8B6 /* HasFont+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B826278808360005E8B6 /* HasFont+Chain.swift */; };
 		36F1B82D278808360005E8B6 /* HasFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B827278808360005E8B6 /* HasFont.swift */; };
 		36F1B82F278808360005E8B6 /* HasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1B829278808360005E8B6 /* HasText.swift */; };
@@ -202,6 +207,11 @@
 		36DAFED82787FF9D00D05EE1 /* UILabel+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Chain.swift"; sourceTree = "<group>"; };
 		36DAFED92787FF9D00D05EE1 /* UIPickerView+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEDA2787FF9D00D05EE1 /* UISlider+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISlider+Chain.swift"; sourceTree = "<group>"; };
+		36E0CA042839ED040063C0F1 /* UIBezierPath+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Chain.swift"; sourceTree = "<group>"; };
+		36E0CA062839ED7C0063C0F1 /* UIFont+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Chain.swift"; sourceTree = "<group>"; };
+		36E0CA082839F3810063C0F1 /* UIAlertController+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Chain.swift"; sourceTree = "<group>"; };
+		36E0CA0A2839F6B80063C0F1 /* UIStackView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Chain.swift"; sourceTree = "<group>"; };
+		36E0CA0C2839F6F90063C0F1 /* UITabBarController+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Chain.swift"; sourceTree = "<group>"; };
 		36F1B826278808360005E8B6 /* HasFont+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HasFont+Chain.swift"; sourceTree = "<group>"; };
 		36F1B827278808360005E8B6 /* HasFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasFont.swift; sourceTree = "<group>"; };
 		36F1B829278808360005E8B6 /* HasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasText.swift; sourceTree = "<group>"; };
@@ -382,6 +392,9 @@
 				36F283112834E02A00460789 /* CATextLayer+Chain.swift */,
 				36F2835D2834E45700460789 /* UIApplication+Chain.swift */,
 				36F283612835D98600460789 /* Codable+Chain.swift */,
+				36E0CA042839ED040063C0F1 /* UIBezierPath+Chain.swift */,
+				36E0CA062839ED7C0063C0F1 /* UIFont+Chain.swift */,
+				36E0CA082839F3810063C0F1 /* UIAlertController+Chain.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -416,6 +429,8 @@
 				365477FE2830802200E4DE22 /* UIStoryboard+Chain.swift */,
 				365478202830A1E700E4DE22 /* UIImage+Chain.swift */,
 				365478852830A4D800E4DE22 /* UITableViewCell+Chain.swift */,
+				36E0CA0A2839F6B80063C0F1 /* UIStackView+Chain.swift */,
+				36E0CA0C2839F6F90063C0F1 /* UITabBarController+Chain.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -637,17 +652,22 @@
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
 				36D110422834C0420068E67E /* Data+Chain.swift in Sources */,
+				36E0CA092839F3810063C0F1 /* UIAlertController+Chain.swift in Sources */,
+				36E0CA0B2839F6B80063C0F1 /* UIStackView+Chain.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
+				36E0CA0D2839F6F90063C0F1 /* UITabBarController+Chain.swift in Sources */,
 				36DAFEF22787FF9D00D05EE1 /* UISlider+Chain.swift in Sources */,
 				365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */,
 				365478882830A51C00E4DE22 /* UIViewController+Chain.swift in Sources */,
 				367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */,
+				36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */,
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
 				36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */,
 				36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */,
 				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
+				36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */,
 				36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,

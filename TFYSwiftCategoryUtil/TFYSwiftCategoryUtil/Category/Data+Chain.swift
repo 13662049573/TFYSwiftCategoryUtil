@@ -54,4 +54,21 @@ public extension TFY where Base == Data {
             return nil
         }
     }
+    
+    func utf8String() -> String {
+        if base.count > 0 {
+            return String(data: base, encoding: .utf8) ?? ""
+        }
+        return ""
+    }
+    
+    func jsonValueDecoded() -> Any? {
+        do {
+            let value = try JSONSerialization.jsonObject(with: base, options: .allowFragments)
+            return value
+        } catch let error {
+            print("jsonValueDecoded error:%@", error)
+        }
+        return nil
+    }
 }

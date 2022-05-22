@@ -83,6 +83,8 @@ class ViewController: UIViewController {
             .post(name: name1)
             .post(Notification(name: name2))
             .post(name: name0)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

@@ -56,5 +56,23 @@ public extension TFY where Base: UITextView {
         base.returnKeyType = returnKeyType
         return self
     }
+    
+    @discardableResult
+    func typingAttributes(attributes b:[NSAttributedString.Key : Any]) -> TFY {
+        base.typingAttributes = b
+        return self
+    }
+    
+    @discardableResult
+    func textContainerInset(containerInset c: UIEdgeInsets) -> TFY {
+        base.textContainerInset = c
+        return self
+    }
+    
+    @discardableResult
+    func dataDetectorTypes(detectorTypes d: UIDataDetectorTypes) -> TFY {
+        base.dataDetectorTypes = d
+        return self
+    }
 }
 

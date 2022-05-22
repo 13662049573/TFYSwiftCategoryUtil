@@ -147,6 +147,46 @@ public extension TFY where Base: UITableView {
         return self
     }
     
+    @discardableResult
+    func estimatedAll(_ height:CGFloat = CGFloat.leastNormalMagnitude) -> TFY {
+        if #available(iOS 11.0, *) {
+            base.contentInsetAdjustmentBehavior = .never
+            base.estimatedRowHeight = height
+            base.estimatedSectionHeaderHeight = height
+            base.estimatedSectionFooterHeight = height
+        }else{
+            let height = height >= 2 ? height : 2
+            base.estimatedRowHeight = height
+            base.estimatedSectionHeaderHeight = height
+            base.estimatedSectionFooterHeight = height
+        }
+        base.rowHeight = UITableView.automaticDimension
+        base.sectionHeaderHeight = UITableView.automaticDimension
+        base.sectionFooterHeight = UITableView.automaticDimension
+        return self
+    }
+    
+    @available(iOS 10.0, *)
+    @discardableResult
+    func prefetchDataSource(dataSource d: UITableViewDataSourcePrefetching?) -> TFY {
+        base.prefetchDataSource = d
+        return self
+    }
+    
+    @available(iOS 11.0, *)
+    @discardableResult
+    func dropDelegate(delegate d: UITableViewDropDelegate?) -> TFY {
+        base.dropDelegate = d
+        return self
+    }
+
+    @available(iOS 11.0, *)
+    @discardableResult
+    func separatorInsetReference(insetReference i: UITableView.SeparatorInsetReference) -> TFY {
+        base.separatorInsetReference = i
+        return self
+    }
+    
 }
 
 extension UITableView {
@@ -189,5 +229,54 @@ extension UITableView {
     public func dequeueReusable<C>(headerOrFooter clz: C.Type) -> C? where C : UITableViewHeaderFooterView {
         let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
         return dequeueReusableHeaderFooterView(withIdentifier: identifier) as? C
+    }
+    
+    public func update(with block: (_ tableView: UITableView) -> ()) {
+        self.beginUpdates()
+        block(self)
+        self.endUpdates()
+    }
+    
+    public func scrollTo(row: NSInteger, in section: NSInteger, at ScrollPosition: UITableView.ScrollPosition, animated: Bool){
+        let indexPath = IndexPath(row: row, section: section)
+        self.scrollToRow(at: indexPath, at: ScrollPosition, animated: animated)
+    }
+    
+    public func insert(row: NSInteger, in section: NSInteger, with rowAnimation: UITableView.RowAnimation) {
+        let indexPath = IndexPath(row: row, section: section)
+        self.insertRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func reload(row: NSInteger, in section: NSInteger, with rowAnimation: UITableView.RowAnimation) {
+        let indexPath = IndexPath(row: row, section: section)
+        self.reloadRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func delete(row: NSInteger, in section: NSInteger, with rowAnimation: UITableView.RowAnimation) {
+        let indexPath = IndexPath(row: row, section: section)
+        self.deleteRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func insert(at indexPath: IndexPath, with rowAnimation: UITableView.RowAnimation) {
+        self.insertRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func reload(at indexPath: IndexPath, with rowAnimation: UITableView.RowAnimation) {
+        self.reloadRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func delete(at indexPath: IndexPath, with rowAnimation: UITableView.RowAnimation) {
+        self.deleteRows(at: [indexPath], with: rowAnimation)
+    }
+    
+    public func reload(section: NSInteger, with rowAnimation: UITableView.RowAnimation) {
+        self.reloadSections([section], with: rowAnimation)
+    }
+    
+    public func clearSelectedRows(animated: Bool) {
+        guard let indexs = self.indexPathsForSelectedRows else { return }
+        for path in indexs {
+            self.deselectRow(at: path, animated: animated)
+        }
     }
 }
