@@ -39,11 +39,56 @@ public extension TFY where Base: UIApplication {
 // MARK: - App Version Related
 
 public extension TFY where Base: UIApplication {
+    /**
+     'Documents' folder in app`s sandbox
+     */
+    var documentsURL: URL? {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+    }
+    var documentsPath: String? {
+        return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+    }
     
-    // cs.appVersion: current App Version
-    var appVersion: String {
-        let infoDict = Bundle.main.infoDictionary! as Dictionary<String, AnyObject>
-        return infoDict["CFBundleShortVersionString"] as! String
+    /**
+     'Caches' folder in this app`s sandbox
+     */
+    var cachesURL: URL? {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last
+    }
+    var cachesPath: String? {
+        return NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
+    }
+    
+    /**
+     'Library' folder in this app`s sandbox
+     */
+    var libraryURL: URL? {
+        return FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last
+    }
+    var libraryPath: String? {
+        return NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first
+    }
+    
+    /**
+     Application`s Bundle Name
+     */
+    var appBundleName: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+    }
+    
+    /// Application`s Bundle ID e.g 'com.yamex.app'
+    var appBundleID: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String
+    }
+    
+    /// Application`s Bundle Version e.b '1.0.0'
+    var appVersion: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    }
+    
+    /// Application`s Bundle Version e.b '12'
+    var appBuildVersion: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
     
 }
@@ -60,6 +105,6 @@ public extension TFY where Base: UIApplication {
         UIGraphicsEndImageContext()
         return snapShot
     }
-    
+
 }
 

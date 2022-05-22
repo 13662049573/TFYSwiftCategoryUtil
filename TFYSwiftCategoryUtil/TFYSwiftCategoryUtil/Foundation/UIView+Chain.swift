@@ -270,6 +270,16 @@ public extension UIView {
         self.layer.insertSublayer(layer, at: 0)
         self.layer.addSublayer(layer)
     }
+    
+    func navigationController() -> UIViewController? {
+        if let view = self.superview {
+            let nextResponder = view.next
+            if (nextResponder?.isKind(of: UIViewController.self))! {
+                return nextResponder as? UIViewController
+            }
+        }
+        return nil
+    }
 }
 
 
@@ -437,4 +447,139 @@ public extension TFY where Base: UIView {
         return self
     }
     
+    /// 变形属性(平移\缩放\旋转)
+    @discardableResult
+    func transform(_ a: CGAffineTransform) -> TFY {
+        base.transform = a
+        return self
+    }
+    /// 自动调整子视图尺寸，默认YES则会根据autoresizingMask属性自动调整子视图尺寸
+    @discardableResult
+    func autoresizesSubviews(_ subviews: Bool) -> TFY {
+        base.autoresizesSubviews = subviews
+        return self
+    }
+    /// 自动调整子视图与父视图的位置，默认UIViewAutoresizingNone
+    @discardableResult
+    func autoresizingMask(_ mask: UIView.AutoresizingMask) -> TFY {
+        base.autoresizingMask = mask
+        return self
+    }
+    
+    /// 毛玻璃效果 view.blurEffect(UIColor.red.withAlphaComponent(0.5))
+    @discardableResult
+    func blurEffect(_ color:UIColor = UIColor.clear,  style:UIBlurEffect.Style = .light, block:((UIVisualEffectView) -> Void)? = nil) -> TFY {
+        base.layoutIfNeeded()
+        base.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: style)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.backgroundColor = color
+        blurEffectView.frame = base.bounds
+        base.addSubview(blurEffectView)
+        base.sendSubviewToBack(blurEffectView)
+        block?(blurEffectView)
+        return self
+    }
+    
+    @discardableResult
+    func insertSubview(_ subview:UIView, at index:Int = 0) -> TFY {
+        base.insertSubview(subview, at: index)
+        return self
+    }
+    
+    @discardableResult
+    func insertSubview(_ subview:UIView, below view:UIView) -> TFY {
+        base.insertSubview(subview, belowSubview: view)
+        return self
+    }
+    
+    @discardableResult
+    func insertSubview(_ subview:UIView, above view:UIView) -> TFY {
+        base.insertSubview(subview, aboveSubview: view)
+        return self
+    }
+    
+    @discardableResult
+    func exchangeSubview(_ subview1:Int, _ subview2:Int) -> TFY {
+        base.exchangeSubview(at: subview1, withSubviewAt: subview2)
+        return self
+    }
+    
+    @discardableResult
+    func bringSubviewToFront(subviewToFront view:UIView) -> TFY {
+        base.bringSubviewToFront(view)
+        return self
+    }
+    
+    @discardableResult
+    func sendSubviewToBack(subviewToBack view:UIView) -> TFY {
+        base.sendSubviewToBack(view)
+        return self
+    }
+    
+    @discardableResult
+    func insertSubview(toSuperview superview:UIView, below view:UIView) -> TFY {
+        superview.insertSubview(base, belowSubview: view)
+        return self
+    }
+    @discardableResult
+    func insertSubview(toSuperview superview:UIView, above view:UIView) -> TFY {
+        superview.insertSubview(base, aboveSubview: view)
+        return self
+    }
+    
+    @discardableResult
+    func exchangeSubview(_ view:UIView) -> TFY {
+        guard let idx1 = base.superview?.subviews.firstIndex(of: base),
+            let idx2 = base.superview?.subviews.firstIndex(of: view) else {
+            return self
+        }
+        base.superview?.exchangeSubview(at: idx1, withSubviewAt: idx2)
+        return self
+    }
+    
+    @discardableResult
+    func bringSubviewToFront() -> TFY {
+        base.superview?.bringSubviewToFront(base)
+        return self
+    }
+    
+    @discardableResult
+    func sendSubviewToBack() -> TFY {
+        base.superview?.sendSubviewToBack(base)
+        return self
+    }
+    
+    @discardableResult
+    func addArrangedSubview(toSuperstack stack:UIStackView) -> TFY {
+        stack.addArrangedSubview(base)
+        return self
+    }
+    @discardableResult
+    func insertArrangedSubview(toSuperstack stack:UIStackView, at index:Int) -> TFY {
+        stack.insertArrangedSubview(base, at: index)
+        return self
+    }
+    
+    @discardableResult
+    func removeFromSuperview() -> TFY {
+        base.removeFromSuperview()
+        return self
+    }
+    
+    @discardableResult
+    func remove(subview view:UIView) -> TFY {
+        base.subviews
+            .filter{ $0 == view }
+            .forEach{ $0.removeFromSuperview() }
+        return self
+    }
+    
+    @discardableResult
+    func remove(subviews views:[UIView]) -> TFY {
+        base.subviews
+            .filter{ views.contains($0)}
+            .forEach{ $0.removeFromSuperview() }
+        return self
+    }
 }
