@@ -15,7 +15,7 @@ class ViewController: UIViewController {
             .center(view.center)
             .backgroundColor(UIColor.red)
             .systemFont(ofSize: 14)
-            .title("Hello World", for: .normal)
+            .title("进入下一个界面", for: .normal)
             .titleColor(UIColor.blue, for: .normal, .highlighted)
             .cornerRadius(15)
             .addTarget(self, action: #selector(buttonAction), for: .touchUpInside).build
@@ -93,7 +93,10 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonAction() {
-        debugPrint("Hello World")
+        let webVc:WKWebController = WKWebController()
+        webVc.url = URL(string: "https://www.baidu.com")
+        self.present(webVc, animated: true, completion: nil)
+        
     }
     
     @objc private func notificationAction0() {

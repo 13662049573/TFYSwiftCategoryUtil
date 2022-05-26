@@ -9,15 +9,6 @@ import UIKit
 import WebKit
 
 open class WKWebController: UIViewController {
-    
-    
-    open override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-        
-        // Dispose of any resources that can be recreated.
-    }
-    
     open var backNeedRefresh:Bool = false
     open var handlers:[WKWebHandler] = []
     
