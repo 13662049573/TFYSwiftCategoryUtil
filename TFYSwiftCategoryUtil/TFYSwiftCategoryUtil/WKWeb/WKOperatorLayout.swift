@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 #if swift(>=5.1)
-
 public protocol LayoutConstraintElements {
     var list:[NSLayoutConstraint] { get }
 }
