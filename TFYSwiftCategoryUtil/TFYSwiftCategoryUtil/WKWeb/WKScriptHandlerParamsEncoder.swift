@@ -37,15 +37,15 @@ public class WKScriptHandlerParamsEncoder : Decoder {
     }
     
     
-    /// The path of coding keys taken to get to this point in encoding.
+    ///在编码中到达这个点的编码键的路径。
     public let codingPath:[CodingKey]
-    /// Any contextual information set by the user for encoding.
+    ///用户为编码设置的上下文信息。
     public var userInfo: [CodingUserInfoKey : Any] { return [:] }
 
-    /// Returns the data stored in this decoder as represented in a container appropriate for holding values with no keys.
+    ///返回存储在该解码器中的数据，表示为适合保存无键值的容器。
     ///
-    /// - returns: An unkeyed container view into this decoder.
-    /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not an unkeyed container.
+    ///返回:一个非键容器视图到这个解码器。
+    /// -抛出:' DecodingError. '如果遇到的存储值不是非键容器，则使用typeMismatch '。
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         type = .array
         return UnkeyedContainer(self, path: codingPath)

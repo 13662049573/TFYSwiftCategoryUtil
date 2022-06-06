@@ -51,7 +51,7 @@ open class WKWebController: UIViewController {
         view.addSubview(progressView) {
             $0 += progressView.anchor.leading  == $0.anchor.leading
             $0 += progressView.anchor.trailing == $0.anchor.trailing
-            $0 += progressView.anchor.top      == topLayoutGuide.bottom
+            $0 += progressView.anchor.top      == $0.anchor.top
             $0 += progressView.anchor.height   == 2
         }
         
@@ -157,7 +157,7 @@ open class WKWebController: UIViewController {
             self?.onProgressChanged(webView.estimatedProgress)
         }
         
-        view += webView.anchor.top         == topLayoutGuide.bottom
+        view += webView.anchor.top         == view.anchor.top
         view += webView.anchor.leading     == view.anchor.leading
         view += webView.anchor.trailing    == view.anchor.trailing
         view += webView.anchor.bottom      == view.anchor.bottom

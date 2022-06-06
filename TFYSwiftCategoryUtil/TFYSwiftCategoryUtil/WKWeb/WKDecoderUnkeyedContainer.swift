@@ -12,7 +12,7 @@ extension WKScriptHandlerParamsDecoder {
     struct UnkeyedContainer : UnkeyedDecodingContainer {
         
         let list:NSArray
-        /// The path of coding keys taken to get to this point in encoding.
+        ///在编码中到达这个点的编码键的路径。
         public let codingPath:[CodingKey]
         
         init(_ value:NSArray, key:CodingKey? = nil, path:[CodingKey] = []) throws {
@@ -35,17 +35,17 @@ extension WKScriptHandlerParamsDecoder {
         }
         
         // MARK: - UnkeyedDecodingContainer
-        
-        /// The number of elements contained within this container.
+
+        ///容器中包含的元素的数量。
         ///
-        /// If the number of elements is unknown, the value is `nil`.
+        ///如果元素的数量未知，则值为' nil '。
         public var count: Int? { return list.count }
         
-        /// A Boolean value indicating whether there are no more elements left to be decoded in the container.
+        ///一个布尔值，指示容器中是否没有其他需要解码的元素。
         public var isAtEnd: Bool { return index >= list.count }
         
-        /// The current decoding index of the container (i.e. the index of the next element to be decoded.)
-        /// Incremented after every successful decode call.
+        ///容器的当前解码索引(即下一个要解码的元素的索引)。
+        ///每次成功解码后递增。
         public var currentIndex: Int { return index }
         
         mutating func decode<Number>(_ type: Number.Type) throws -> NSNumber {
@@ -54,12 +54,12 @@ extension WKScriptHandlerParamsDecoder {
             return try container.decode(type)
         }
         
-        /// Decodes a null value.
+        ///解码空值。
         ///
-        /// If the value is not null, does not increment currentIndex.
+        ///如果不为null，则不增加currentIndex的值。
         ///
-        /// - returns: Whether the encountered value was null.
-        /// - throws: `DecodingError.valueNotFound` if there are no more values to decode.
+        /// -返回:遇到的值是否为空。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果没有更多的值要解码。
         public mutating func decodeNil() throws -> Bool {
             let (_, body) = try next()
             switch body {
@@ -70,12 +70,12 @@ extension WKScriptHandlerParamsDecoder {
             return false
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Bool.Type) throws -> Bool {
             let (key, body) = try next()
             
@@ -83,132 +83,132 @@ extension WKScriptHandlerParamsDecoder {
             return try container.decode(type)
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Int.Type) throws -> Int {
             return try decode(type).intValue
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Int8.Type) throws -> Int8 {
             return try decode(type).int8Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Int16.Type) throws -> Int16 {
             return try decode(type).int16Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Int32.Type) throws -> Int32 {
             return try decode(type).int32Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Int64.Type) throws -> Int64 {
             return try decode(type).int64Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: UInt.Type) throws -> UInt {
             return try decode(type).uintValue
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: UInt8.Type) throws -> UInt8 {
             return try decode(type).uint8Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: UInt16.Type) throws -> UInt16 {
             return try decode(type).uint16Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: UInt32.Type) throws -> UInt32 {
             return try decode(type).uint32Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: UInt64.Type) throws -> UInt64 {
             return try decode(type).uint64Value
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Float.Type) throws -> Float {
             return try decode(type).floatValue
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: Double.Type) throws -> Double {
             return try decode(type).doubleValue
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode(_ type: String.Type) throws -> String {
             let (key, body) = try next()
             
@@ -216,23 +216,23 @@ extension WKScriptHandlerParamsDecoder {
             return try container.decode(type)
         }
         
-        /// Decodes a value of the given type.
+        ///解码给定类型的值。
         ///
-        /// - parameter type: The type of value to decode.
-        /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value is not convertible to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -参数类型:值的类型解码。
+        /// -返回:请求类型的值，如果给定的键存在，并且可转换为请求类型。
+        /// -抛出:' DecodingError. ''，如果遇到的编码值不能转换为请求的类型。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
             let (key, body) = try next()
             let decoder = try WKScriptHandlerParamsDecoder(body, path: codingPath + [key])
             return try T(from: decoder)
         }
         
-        /// Decodes a nested container keyed by the given type.
+        ///解码指定类型的嵌套容器。
         ///
-        /// - parameter type: The key type to use for the container.
-        /// - returns: A keyed decoding container view into `self`.
-        /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not a keyed container.
+        /// - parameter type:用于容器的键类型。
+        /// -返回:一个键控解码的容器视图到' self '。
+        /// -抛出:' DecodingError. '如果遇到的存储值不是一个带键的容器，则使用typeMismatch '。
         public mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
             let (key, body) = try next()
             switch body {
@@ -245,10 +245,10 @@ extension WKScriptHandlerParamsDecoder {
             throw DecodingError.typeMismatch(type, context)
         }
         
-        /// Decodes an unkeyed nested container.
+        ///解码非键嵌套容器。
         ///
-        /// - returns: An unkeyed decoding container view into `self`.
-        /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not an unkeyed container.
+        /// -返回:一个非键解码的容器视图到' self '。
+        /// -抛出:' DecodingError. '如果遇到的存储值不是非键容器，则使用typeMismatch '。
         public mutating func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
             let (key, body) = try next()
             switch body {
@@ -260,10 +260,10 @@ extension WKScriptHandlerParamsDecoder {
 
         }
         
-        /// Decodes a nested container and returns a `Decoder` instance for decoding `super` from that container.
+        ///解码嵌套容器并返回一个' Decoder '实例，用于解码该容器中的' super '。
         ///
-        /// - returns: A new `Decoder` to pass to `super.init(from:)`.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null, or of there are no more values to decode.
+        /// -返回:一个新的' Decoder '传递给' super.init(from:) '。
+        /// -抛出:' DecodingError. 'valueNotFound '，如果遇到的编码值为空，或没有更多的值要解码。
         public mutating func superDecoder() throws -> Decoder {
             let (key, body) = try next()
             return try WKScriptHandlerParamsDecoder(body, path: codingPath + [key])

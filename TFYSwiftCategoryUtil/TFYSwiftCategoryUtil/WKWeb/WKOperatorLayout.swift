@@ -22,7 +22,7 @@ extension Array : LayoutConstraintElements where Element : NSLayoutConstraint {
 }
 
 @resultBuilder public struct LayoutBuilder {
-    /// Passes mutiable layout constraints written as a children layout constraints (e..g, `{ a.anchor.top == b.anchor.top ... }`) through
+    ///传递可变的布局约束写为子布局约束(例如..G， ' {a.anchor.top == b.anchor.top…}”)通过
     public static func buildBlock(_ constraints: LayoutConstraintElements?...) -> [NSLayoutConstraint] {
         return constraints
             .compactMap { $0?.list }
@@ -31,20 +31,20 @@ extension Array : LayoutConstraintElements where Element : NSLayoutConstraint {
 }
 
 extension LayoutBuilder {
-    /// Provides support for "if" statements in multi-statement closures, producing an `Optional` view
-    /// that is visible only when the `if` condition evaluates `true`.
+    ///在多语句闭包中支持“if”语句，生成一个“Optional”视图
+    ///只有当if条件为true时才可见。
     public static func buildIf(_ content: [NSLayoutConstraint]?) -> [NSLayoutConstraint]? {
         return content
     }
     
-    /// Provides support for "if" statements in multi-statement closures, producing
-    /// [NSLayoutConstraint] for the "then" branch.
+    ///在多语句闭包中支持"if"语句，生成
+    /// [NSLayoutConstraint]用于"then"分支。
     public static func buildEither(first: [NSLayoutConstraint]) -> [NSLayoutConstraint] {
         return first
     }
     
-    /// Provides support for "if-else" statements in multi-statement closures, producing
-    /// [NSLayoutConstraint] for the "else" branch.
+    ///在多语句闭包中支持"if-else"语句，生成
+    /// [NSLayoutConstraint]用于"else"分支。
     public static func buildEither(second: [NSLayoutConstraint]) -> [NSLayoutConstraint] {
         return second
     }

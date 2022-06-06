@@ -11,7 +11,7 @@ public struct WKScriptHandlerParamsDecoder : Decoder {
     
     let body:Any
     
-    /// The path of coding keys taken to get to this point in encoding.
+    ///在编码中到达这个点的编码键的路径。
     public let codingPath:[CodingKey]
     
     init(_ value:Any, key:CodingKey? = nil, path:[CodingKey] = []) throws {
@@ -21,13 +21,13 @@ public struct WKScriptHandlerParamsDecoder : Decoder {
         body = value
     }
     
-    /// Any contextual information set by the user for encoding.
+    ///用户为编码设置的上下文信息。
     public var userInfo: [CodingUserInfoKey : Any] { return [:] }
     
-    /// Returns the data stored in this decoder as represented in a container appropriate for holding values with no keys.
+    ///返回存储在该解码器中的数据，表示为适合保存无键值的容器。
     ///
-    /// - returns: An unkeyed container view into this decoder.
-    /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not an unkeyed container.
+    ///返回:一个非键容器视图到这个解码器。
+    /// -抛出:' DecodingError. '如果遇到的存储值不是非键容器，则使用typeMismatch '。
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         switch body {
         case let list as NSArray: return try UnkeyedContainer(list, path: codingPath)
@@ -38,19 +38,19 @@ public struct WKScriptHandlerParamsDecoder : Decoder {
         
     }
     
-    /// Returns the data stored in this decoder as represented in a container appropriate for holding a single primitive value.
+    ///返回存储在该解码器中的数据，表示为适合保存单个原语值的容器。
     ///
-    /// - returns: A single value container view into this decoder.
-    /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not a single value container.
+    ///返回:一个单值容器视图到这个解码器。
+    /// -抛出:' DecodingError. '如果遇到的存储值不是单个值容器，则使用typeMismatch '。
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
         return ValueContainer(body, path: codingPath)
     }
     
-    /// Returns the data stored in this decoder as represented in a container keyed by the given key type.
+    ///返回存储在该解码器中的数据，该数据在给定键类型的容器中表示。
     ///
-    /// - parameter type: The key type to use for the container.
-    /// - returns: A keyed decoding container view into this decoder.
-    /// - throws: `DecodingError.typeMismatch` if the encountered stored value is not a keyed container.
+    /// - parameter type:用于容器的键类型。
+    ///返回:一个键控解码容器视图到这个解码器。
+    /// -抛出:' DecodingError. '如果遇到的存储值不是一个带键的容器，则使用typeMismatch '。
     public func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
         switch body {
         case let obj as NSDictionary:

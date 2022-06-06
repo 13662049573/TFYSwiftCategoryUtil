@@ -11,7 +11,7 @@ extension WKScriptHandlerParamsDecoder {
     struct ValueContainer : SingleValueDecodingContainer {
         
         let body:Any
-        /// The path of coding keys taken to get to this point in encoding.
+        ///在编码中到达这个点的编码键的路径。
         public let codingPath:[CodingKey]
         
         init(_ value:Any, key:CodingKey? = nil, path:[CodingKey] = []) {
@@ -22,11 +22,11 @@ extension WKScriptHandlerParamsDecoder {
             codingPath = list
             body = value
         }
-        // MARK: - SingleValueDecodingContainer
-        
-        /// Decodes a null value.
+        // MARK:—SingleValueDecodingContainer
+
+        ///解码空值。
         ///
-        /// - returns: Whether the encountered value was null.
+        /// -返回:遇到的值是否为空。
         public func decodeNil() -> Bool {
             switch body {
             case _ as NSNull:   return true
@@ -54,12 +54,12 @@ extension WKScriptHandlerParamsDecoder {
             throw DecodingError.typeMismatch(type, context)
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Bool.Type) throws -> Bool {
             switch body {
             case let value as Bool: return value
@@ -75,132 +75,132 @@ extension WKScriptHandlerParamsDecoder {
             throw DecodingError.typeMismatch(type, context)
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Int.Type) throws -> Int {
             return try decode(NSNumber.self).intValue
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Int8.Type) throws -> Int8 {
             return try decode(NSNumber.self).int8Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Int16.Type) throws -> Int16 {
             return try decode(NSNumber.self).int16Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Int32.Type) throws -> Int32 {
             return try decode(NSNumber.self).int32Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Int64.Type) throws -> Int64 {
             return try decode(NSNumber.self).int64Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: UInt.Type) throws -> UInt {
             return try decode(NSNumber.self).uintValue
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: UInt8.Type) throws -> UInt8 {
             return try decode(NSNumber.self).uint8Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: UInt16.Type) throws -> UInt16 {
             return try decode(NSNumber.self).uint16Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: UInt32.Type) throws -> UInt32 {
             return try decode(NSNumber.self).uint32Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: UInt64.Type) throws -> UInt64 {
             return try decode(NSNumber.self).uint64Value
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Float.Type) throws -> Float {
             return try decode(NSNumber.self).floatValue
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: Double.Type) throws -> Double {
             return try decode(NSNumber.self).doubleValue
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode(_ type: String.Type) throws -> String {
             switch body {
             case let value as String:   return value
@@ -219,12 +219,12 @@ extension WKScriptHandlerParamsDecoder {
             throw DecodingError.typeMismatch(type, context)
         }
         
-        /// Decodes a single value of the given type.
+        ///解码给定类型的单个值。
         ///
-        /// - parameter type: The type to decode as.
-        /// - returns: A value of the requested type.
-        /// - throws: `DecodingError.typeMismatch` if the encountered encoded value cannot be converted to the requested type.
-        /// - throws: `DecodingError.valueNotFound` if the encountered encoded value is null.
+        /// -参数类型:类型解码为。
+        /// -返回:请求类型的值。
+        /// -抛出:' DecodingError. '如果遇到的编码值不能转换为请求的类型，则使用typeMismatch '。
+        /// -抛出:' DecodingError. '如果遇到的编码值为空，则valueNotFound '。
         public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
             let decoder = try WKScriptHandlerParamsDecoder(body, path: codingPath)
             return try T(from: decoder)

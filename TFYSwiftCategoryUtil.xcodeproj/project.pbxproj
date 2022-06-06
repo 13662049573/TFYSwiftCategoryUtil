@@ -51,6 +51,7 @@
 		36D110422834C0420068E67E /* Data+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110412834C0420068E67E /* Data+Chain.swift */; };
 		36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110432834C3ED0068E67E /* TFYRegexHelper.swift */; };
 		36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110452834CDCD0068E67E /* Date+Chain.swift */; };
+		36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */; };
 		36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */; };
 		36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */; };
 		36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */; };
@@ -177,6 +178,7 @@
 		36D110412834C0420068E67E /* Data+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Chain.swift"; sourceTree = "<group>"; };
 		36D110432834C3ED0068E67E /* TFYRegexHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRegexHelper.swift; sourceTree = "<group>"; };
 		36D110452834CDCD0068E67E /* Date+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Chain.swift"; sourceTree = "<group>"; };
+		36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftPopupView.swift; sourceTree = "<group>"; };
 		36DAFEB32787FC6000D05EE1 /* HasFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasFont.swift; sourceTree = "<group>"; };
 		36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Chain.swift"; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				367264CE26536E6C00049CEF /* TFYTimer.swift */,
 				36F2CDD8282CF7EC003CF2E7 /* TFYUtils.swift */,
 				36D110432834C3ED0068E67E /* TFYRegexHelper.swift */,
+				36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				36F282FE2834D61600460789 /* Dictionary+Chain.swift in Sources */,
 				368367B626495F340024939A /* UISwipeGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC12787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift in Sources */,
+				36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
 				36F283622835D98600460789 /* Codable+Chain.swift in Sources */,
