@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ImageIO
 
 public extension TFY where Base: UIImageView {
     
@@ -20,5 +21,25 @@ public extension TFY where Base: UIImageView {
         base.isHighlighted = isHighlighted
         return self
     }
+    
+    func loadGif(name: String) {
+        DispatchQueue.global().async {
+            let image = UIImage.gif(name: name)
+            DispatchQueue.main.async {
+                base.image = image
+            }
+        }
+    }
+
+    @available(iOS 9.0, *)
+    func loadGif(asset: String) {
+        DispatchQueue.global().async {
+            let image = UIImage.gif(asset: asset)
+            DispatchQueue.main.async {
+                base.image = image
+            }
+        }
+    }
+
 }
 

@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         view.addSubview(button)
         
 //        let attrText = NSMutableAttributedString(string: "Hello World").tfy
@@ -93,10 +93,13 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonAction() {
-        let webVc:WKWebController = WKWebController()
-        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
-        self.present(webVc, animated: true, completion: nil)
-        
+        button.activityIndicatorEnabled = true
+//        let webVc:WKWebController = WKWebController()
+//        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
+//        self.present(webVc, animated: true, completion: nil)
+        TFYAsynce.asyncDelay(2) { [weak self] in
+            self!.button.activityIndicatorEnabled = false
+        }
     }
     
     @objc private func notificationAction0() {
