@@ -56,7 +56,7 @@ Pod::Spec.new do |spec|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/*.{swift}"
     ss.dependency "TFYSwiftCategoryUtil/Base"
     ss.dependency "TFYSwiftCategoryUtil/Utils"
-    ss.dependency "TFYSwiftCategoryUtil/Category"
+    ss.dependency "TFYSwiftCategoryUtil/UIKit"
   end
 
   spec.subspec 'Gesture' do |ss|
