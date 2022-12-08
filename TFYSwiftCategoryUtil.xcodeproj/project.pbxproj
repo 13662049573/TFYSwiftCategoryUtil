@@ -137,7 +137,6 @@
 		36FA19982941D6290099BB35 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19602941D6290099BB35 /* ShimmerView.swift */; };
 		36FA19992941D6290099BB35 /* CircleMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19612941D6290099BB35 /* CircleMotion.swift */; };
 		36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19632941D6290099BB35 /* KeyboardInfo.swift */; };
-		36FA199D2941DFA30099BB35 /* UITableView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199C2941DFA30099BB35 /* UITableView+Chain.swift */; };
 		36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */; };
 /* End PBXBuildFile section */
 
@@ -297,7 +296,6 @@
 		36FA19602941D6290099BB35 /* ShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		36FA19612941D6290099BB35 /* CircleMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMotion.swift; sourceTree = "<group>"; };
 		36FA19632941D6290099BB35 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
-		36FA199C2941DFA30099BB35 /* UITableView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UITableView+Chain.swift"; path = "../UIKit/UITableView+Chain.swift"; sourceTree = "<group>"; };
 		36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -471,7 +469,6 @@
 			isa = PBXGroup;
 			children = (
 				36DAFEC62787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift */,
-				36FA199C2941DFA30099BB35 /* UITableView+Chain.swift */,
 				36DAFED02787FF9D00D05EE1 /* UIBarItem+Chain.swift */,
 				36DAFEC42787FF9D00D05EE1 /* UIButton+Chain.swift */,
 				36DAFECB2787FF9D00D05EE1 /* UICollectionView+Chain.swift */,
@@ -837,7 +834,6 @@
 				3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */,
 				36F283102834DFE600460789 /* CAGradientLayer+Chain.swift in Sources */,
 				36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */,
-				36FA199D2941DFA30099BB35 /* UITableView+Chain.swift in Sources */,
 				36547817283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift in Sources */,
 				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */,

@@ -2,7 +2,6 @@ import Foundation
 import Combine
 import CoreLocation
 
-
 protocol PublisherAuthorizationDelegate: AnyObject {
     func send(status: CLAuthorizationStatus)
 }
@@ -34,10 +33,6 @@ final class AuthorizationSubscription <S: Subscriber>: NSObject,
         self.authorizationType = authorizationType
     }
     
-    deinit {
-        printDeinitMessage()
-    }
-
     func request(_ demand: Subscribers.Demand) {
         delegate?.requestAuthorization(type: authorizationType)
     }
@@ -74,10 +69,6 @@ final class AuthorizationPublisher: NSObject,
         self.manager.delegate = self
     }
     
-    deinit {
-        printDeinitMessage()
-    }
-
     func receive<S>(subscriber: S) where S: Subscriber, AuthorizationPublisher.Failure == S.Failure, AuthorizationPublisher.Output == S.Input {
         let subscription = AuthorizationSubscription(
             subscriber: subscriber,

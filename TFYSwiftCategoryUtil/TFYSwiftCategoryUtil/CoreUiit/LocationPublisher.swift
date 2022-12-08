@@ -36,10 +36,6 @@ final class LocationSubscription <S: Subscriber>:
     func request(_ demand: Subscribers.Demand) {
         publisherDelegate?.startLocationUpdates()
     }
-    
-    deinit {
-        printDeinitMessage()
-    }
 
     func cancel() {
         subscriber = nil
@@ -65,10 +61,6 @@ final class LocationPublisher: NSObject,
         self.oneTimeUpdate = onTimeUpdate
         super.init()
         self.manager.delegate = self
-    }
-    
-    deinit {
-        printDeinitMessage()
     }
     
     // MARK: Publisher

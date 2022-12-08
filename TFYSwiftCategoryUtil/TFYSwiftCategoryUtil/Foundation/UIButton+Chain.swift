@@ -254,9 +254,7 @@ extension UIButton {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         if let image = UIImage.image(withPureColor: color, for: rect, rounded: false) {
             setBackgroundImage(image, for: state)
-        } else {
-            dprint("UIButton.setBackgroundColor(_:for:) got called but returning a nil image!")
-        }
+        } 
     }
     
     @IBInspectable var titleImageSpacing: CGFloat {

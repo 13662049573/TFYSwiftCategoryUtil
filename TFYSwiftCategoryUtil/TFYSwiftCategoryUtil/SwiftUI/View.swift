@@ -292,15 +292,6 @@ extension View {
                 info.wrappedValue = .init()
             }
     }
-
-    /// Debug print
-    /// - Parameter vars: item to print
-    /// - Returns: View
-    public func debugPrint(_ vars: Any...) -> some View {
-        for v in vars { dprint(v) }
-        return self
-    }
-
     /// Debug action
     /// - Parameter closure: action
     /// - Returns: View
