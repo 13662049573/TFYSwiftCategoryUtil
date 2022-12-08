@@ -13,10 +13,10 @@ struct RectGetter: View {
     }
 
     func createView(proxy: GeometryProxy) -> some View {
-        DispatchQueue.mainSafeAsync {
+        TFYAsynce.async {
+        } _: {
             self.rect = proxy.globalFrame
         }
-
         return Rectangle().fill(Color.clear)
     }
 }
