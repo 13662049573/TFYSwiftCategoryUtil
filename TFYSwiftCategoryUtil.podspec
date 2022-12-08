@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.1.7.0"
+  spec.version      = "2.1.7.1"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS12 Swift5 "
 
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.author       = { "田风有" => "420144542@qq.com" }
   
-  spec.platform     = :ios, "12.0"
+  spec.platform     = :ios, "13.0"
 
   spec.swift_version = '5.0'
 
@@ -25,6 +25,14 @@ Pod::Spec.new do |spec|
 
   spec.source       = { :git => "https://github.com/13662049573/TFYSwiftCategoryUtil.git", :tag => spec.version }
 
+
+  spec.subspec 'CoreUiit' do |ss|
+    ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/*.{swift}"
+  end
+
+  spec.subspec 'SwiftUI' do |ss|
+    ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/SwiftUI/*.{swift}"
+  end
 
   spec.subspec 'Base' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/*.{swift}"
@@ -38,7 +46,7 @@ Pod::Spec.new do |spec|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/*.{swift}"
   end
 
-  spec.subspec 'Category' do |ss|
+  spec.subspec 'UIKit' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Category/*.{swift}"
     ss.dependency "TFYSwiftCategoryUtil/Base"
     ss.dependency "TFYSwiftCategoryUtil/Utils"
