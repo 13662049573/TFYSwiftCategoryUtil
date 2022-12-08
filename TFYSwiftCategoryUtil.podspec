@@ -60,6 +60,7 @@ Pod::Spec.new do |spec|
     ss.dependency "TFYSwiftCategoryUtil/Base"
     ss.dependency "TFYSwiftCategoryUtil/Utils"
     ss.dependency "TFYSwiftCategoryUtil/UIKit"
+    ss.dependency "TFYSwiftCategoryUtil/CoreUiit"
   end
 
   spec.subspec 'Gesture' do |ss|
