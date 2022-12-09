@@ -87,6 +87,47 @@ public extension String {
     func toModel<T>(_ type: T.Type) -> T? where T: Decodable {
         return self.data(using: .utf8)?.tfy.toModel(type)
     }
+    
+    /// 文字高度
+    ///
+    /// - Parameters:
+    ///   - font: 字体
+    ///   - width: 最大宽度
+    /// - Returns: 高度
+    func heightForLabel(line: Int = 0, font: UIFont, width: CGFloat) -> CGFloat {
+        return autoreleasepool { () -> CGFloat in
+            let label: UILabel = UILabel()
+            label.numberOfLines = line
+            label.font = font
+            label.text = self
+            return label.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude)).height
+        }
+    }
+
+    /// 文字宽度
+    ///
+    /// - Parameters:
+    ///   - font: 字体
+    ///   - height: 最大高度
+    /// - Returns: 宽度
+    func widthForLabel(font: UIFont, height: CGFloat) -> CGFloat {
+        return autoreleasepool { () -> CGFloat in
+            let label: UILabel = UILabel()
+            label.numberOfLines = 1
+            label.font = font
+            label.text = self
+            return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
+        }
+    }
+
+    /// 文字宽度
+    /// - Parameters:
+    ///   - fontSize: 字体 size
+    ///   - height: 最大高度
+    /// - Returns: 宽度
+    func widthForLabel(fontSize: CGFloat, height: CGFloat) -> CGFloat {
+        return widthForLabel(font: .systemFont(ofSize: fontSize, weight: .regular), height: height)
+    }
 
 }
 
@@ -2117,3 +2158,4 @@ public extension TFY where Base == String {
         return attributedString.string
     }
 }
+

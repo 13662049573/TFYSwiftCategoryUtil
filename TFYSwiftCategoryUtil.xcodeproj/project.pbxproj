@@ -138,6 +138,7 @@
 		36FA19992941D6290099BB35 /* CircleMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19612941D6290099BB35 /* CircleMotion.swift */; };
 		36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19632941D6290099BB35 /* KeyboardInfo.swift */; };
 		36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */; };
+		36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -297,6 +298,7 @@
 		36FA19612941D6290099BB35 /* CircleMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMotion.swift; sourceTree = "<group>"; };
 		36FA19632941D6290099BB35 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
 		36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Chain.swift"; sourceTree = "<group>"; };
+		36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -498,6 +500,7 @@
 				36E0CA0A2839F6B80063C0F1 /* UIStackView+Chain.swift */,
 				36E0CA0C2839F6F90063C0F1 /* UITabBarController+Chain.swift */,
 				36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */,
+				36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -753,6 +756,7 @@
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
 				36FA19852941D6290099BB35 /* CLLocationCoordinate2D.swift in Sources */,
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
+				36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */,
 				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
