@@ -268,18 +268,18 @@ public extension UIViewController {
     }
 
     private struct AutoHideKeyboardTapKey {
-        static var key = "autoHideKeyboardTap"
+        static var autoHideKeyboardTapKey: UInt8 = 111
     }
 
     /// Should hide keyboard on view tap
     var automaticallyHideKeyboardWhenViewTapped: Bool {
         get {
-            return objc_getAssociatedObject(self, &AutoHideKeyboardTapKey.key) != nil
+            return objc_getAssociatedObject(self, &AutoHideKeyboardTapKey.autoHideKeyboardTapKey) != nil
         }
         set {
             let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.resignTextFieldToHideKeyboard(_:)))
             view.addGestureRecognizer(tap)
-            objc_setAssociatedObject(self, &AutoHideKeyboardTapKey.key, tap, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AutoHideKeyboardTapKey.autoHideKeyboardTapKey, tap, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 
         }
     }
@@ -294,7 +294,7 @@ public extension UIViewController {
     /// - Parameter base: `UIViewController` to search
     /// - Returns: Current `UIViewController`
     @available(iOS 13.0, *)
-    class func getCurrentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    class func getCurrentViewController(base: UIViewController? = KeyWindows()?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return getCurrentViewController(base: nav.visibleViewController)
         }
@@ -305,6 +305,15 @@ public extension UIViewController {
             return getCurrentViewController(base: presented)
         }
         return base
+    }
+    
+   class func KeyWindows() -> UIWindow? {
+        var keyWindow:UIWindow?
+        keyWindow = UIApplication.shared.connectedScenes
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows.first
+        return keyWindow
     }
 
     /// Add a bottom tool bar to view controller
@@ -354,10 +363,10 @@ public extension UIViewController {
     /// Hide navigation bar background when visible
     var hidesNavigationBarBackgroundWhenVisible: Bool {
         get {
-            return (objc_getAssociatedObject(self, &HidesNavigationBarBackgroundKey.whenVisible) as? Bool) ?? false
+            return (objc_getAssociatedObject(self,(HidesNavigationBarBackgroundKey.whenVisible)) as? Bool) ?? false
         }
         set {
-            objc_setAssociatedObject(self, &HidesNavigationBarBackgroundKey.whenVisible, true, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+            objc_setAssociatedObject(self,(HidesNavigationBarBackgroundKey.whenVisible), true, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
 

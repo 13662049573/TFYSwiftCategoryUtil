@@ -498,6 +498,30 @@ public extension TFY where Base == Date {
     func numberOfSeconds(from date: Date) -> Int? {
        return componentCompare(from: date, unit: [.second]).second
     }
+    
+    // MARK: 4.6、获取两个日期之间的月数
+    /// 获取两个日期之间的月数
+    /// - Parameter date: 对比的日期
+    /// - Returns: 两个日期之间的月数
+    func numberOfMonths(from date: Date) -> Int? {
+       return componentCompare(from: date, unit: [.month]).month
+    }
+    
+    // MARK: 4.6、获取两个日期之间的年数
+    /// 获取两个日期之间的年数
+    /// - Parameter date: 对比的日期
+    /// - Returns: 两个日期之间的年数
+    func numberOfYears(from date: Date) -> Int? {
+       return componentCompare(from: date, unit: [.year]).year
+    }
+    
+    // MARK: 4.6、获取两个日期之间的周数
+    /// 获取两个日期之间的年数
+    /// - Parameter date: 对比的日期
+    /// - Returns: 两个日期之间的周数
+    func numberOfWeekdays(from date: Date) -> Int? {
+        return componentCompare(from: date, unit: [.weekday]).weekday!/7
+    }
 }
 
 // MARK: - 五、某年月份的天数获取

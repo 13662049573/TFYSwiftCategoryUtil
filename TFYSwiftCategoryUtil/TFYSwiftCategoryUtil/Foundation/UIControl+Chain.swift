@@ -37,49 +37,49 @@ public extension TFY where Base: UIControl {
 
 public extension UIControl {
     fileprivate struct AssociatedKeys {
-        static var topKey: String = "com.button.topKey"
-        static var bottomKey: String = "com.button.bottomKey"
-        static var leftKey: String = "com.button.leftKey"
-        static var rightKey: String = "com.button.rightKey"
+        static var topKey:UInt8 = 103
+        static var bottomKey:UInt8 = 104
+        static var leftKey:UInt8 = 105
+        static var rightKey:UInt8 = 106
     }
 
     @IBInspectable var largeTop: NSNumber {
         get {
-            if let value = associatedObject(forKey: &AssociatedKeys.topKey) as? NSNumber { return value }
+            if let value = associatedObject(forKey:&AssociatedKeys.topKey) as? NSNumber { return value }
             return 0
         }
         set {
-            associate(retainObject: newValue, forKey: &AssociatedKeys.topKey)
+            associate(retainObject: newValue, forKey:&AssociatedKeys.topKey)
         }
     }
 
     @IBInspectable var largeBottom: NSNumber {
         get {
-            if let value = associatedObject(forKey: &AssociatedKeys.bottomKey) as? NSNumber { return value }
+            if let value = associatedObject(forKey:&AssociatedKeys.bottomKey) as? NSNumber { return value }
             return 0
         }
         set {
-            associate(retainObject: newValue, forKey: &AssociatedKeys.bottomKey)
+            associate(retainObject: newValue, forKey:&AssociatedKeys.bottomKey)
         }
     }
 
     @IBInspectable var largeLeft: NSNumber {
         get {
-            if let value = associatedObject(forKey: &AssociatedKeys.leftKey) as? NSNumber { return value }
+            if let value = associatedObject(forKey:&AssociatedKeys.leftKey) as? NSNumber { return value }
             return 0
         }
         set {
-            associate(retainObject: newValue, forKey: &AssociatedKeys.leftKey)
+            associate(retainObject: newValue, forKey:&AssociatedKeys.leftKey)
         }
     }
 
     @IBInspectable var largeRight: NSNumber {
         get {
-            if let value = associatedObject(forKey: &AssociatedKeys.rightKey) as? NSNumber { return value }
+            if let value = associatedObject(forKey:&AssociatedKeys.rightKey) as? NSNumber { return value }
             return 0
         }
         set {
-            associate(retainObject: newValue, forKey: &AssociatedKeys.rightKey)
+            associate(retainObject: newValue, forKey:&AssociatedKeys.rightKey)
         }
     }
 

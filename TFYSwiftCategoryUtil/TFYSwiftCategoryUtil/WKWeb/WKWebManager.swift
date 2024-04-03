@@ -45,7 +45,7 @@ extension WKWebView {
             request.setValue(nil, forHTTPHeaderField: "Cookie")
         }
         
-        objc_setAssociatedObject(self, &kCurrentLoadURL, request.url, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self,(kCurrentLoadURL), request.url, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
         return load(request)
     }
@@ -190,7 +190,7 @@ class WKWebManager: NSObject, WKUIDelegate, WKNavigationDelegate {
 
     // MARK: - WKNavigationDelegate
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        objc_setAssociatedObject(webView, &kCurrentLoadURL, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(webView, (kCurrentLoadURL), nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
         let block = delegate?.webView(_:didFail:withError:) ?? { _,_,_ in
             let err = error as NSError
@@ -252,7 +252,7 @@ class WKWebManager: NSObject, WKUIDelegate, WKNavigationDelegate {
                 response.url ?? "",
                 response.allHeaderFields)
         }
-        objc_setAssociatedObject(webView, &kCurrentLoadURL, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(webView, (kCurrentLoadURL), nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         var policy:WKNavigationResponsePolicy = .allow
         
         delegate?.webView?(webView, decidePolicyFor: navigationResponse) { policy = $0 }
@@ -270,7 +270,7 @@ class WKWebManager: NSObject, WKUIDelegate, WKNavigationDelegate {
                     return decisionHandler(.cancel)
                 }
             case .other:
-                let loadURL = objc_getAssociatedObject(self, &kCurrentLoadURL) as? URL
+                let loadURL = objc_getAssociatedObject(self,(kCurrentLoadURL)) as? URL
                 if  url.absoluteString != loadURL?.absoluteString,
                     self.webView(webView, loadRequest: navigationAction.request) {
                     return decisionHandler(.cancel)
@@ -290,7 +290,7 @@ class WKWebManager: NSObject, WKUIDelegate, WKNavigationDelegate {
     }
     
     func webView(_ webView:WKWebView, loadRequest request:URLRequest) -> Bool {
-        let loadURL = objc_getAssociatedObject(webView, &kCurrentLoadURL) as? URL
+        let loadURL = objc_getAssociatedObject(webView,(kCurrentLoadURL)) as? URL
         let url = request.url
         
         if loadURL?.host == url?.host {

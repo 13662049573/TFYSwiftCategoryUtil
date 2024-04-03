@@ -94,12 +94,9 @@ class ViewController: UIViewController {
 
     @objc private func buttonAction() {
         button.activityIndicatorEnabled = true
-//        let webVc:WKWebController = WKWebController()
-//        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
-//        self.present(webVc, animated: true, completion: nil)
-        TFYAsynce.asyncDelay(2) { [weak self] in
-            self!.button.activityIndicatorEnabled = false
-        }
+        let webVc:WKWebController = WKWebController()
+        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
+        self.present(webVc, animated: true, completion: nil)
     }
     
     @objc private func notificationAction0() {

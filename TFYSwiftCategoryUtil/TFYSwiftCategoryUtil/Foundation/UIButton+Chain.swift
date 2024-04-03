@@ -87,9 +87,9 @@ extension UIButton {
     }
     
     private enum AssociatedKeys {
-        static var activityIndicatorView = "activityIndicatorView"
-        static var activityIndicatorEnabled = "activityIndicatorEnabled"
-        static var activityIndicatorColor = "activityIndicatorColor"
+        static var activityIndicatorView:UInt8 = 101
+        static var activityIndicatorEnabled:UInt8 = 100
+        static var activityIndicatorColor:UInt8 = 102
     }
     
     func imageDirection(_ type:ButtonImageDirection ,_ space:CGFloat) {
@@ -134,10 +134,10 @@ extension UIButton {
     /// 在按钮的垂直和水平中心呈现的活动指示器视图。
     private(set) var activityIndicatorView: UIActivityIndicatorView? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.activityIndicatorView) as? UIActivityIndicatorView
+            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorView) as? UIActivityIndicatorView
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.activityIndicatorView, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorView, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
 
@@ -145,11 +145,11 @@ extension UIButton {
     ///当更改回' false '它将停止活动指示器的动画，淡入标签，并重新启用用户交互。
     var activityIndicatorEnabled: Bool {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.activityIndicatorEnabled) as? Bool ?? false
+            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorEnabled) as? Bool ?? false
         }
         set {
             ensureActivityIndicator()
-            objc_setAssociatedObject(self, &AssociatedKeys.activityIndicatorEnabled, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorEnabled, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             toggleActivityIndicator()
         }
     }
@@ -157,10 +157,10 @@ extension UIButton {
     /// 活动指示器的颜色，如果该属性设置为' nil '， ' titleColor(for:) '的结果将在其位置使用。
     @objc dynamic var activityIndicatorColor: UIColor? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.activityIndicatorColor) as? UIColor ?? titleColor(for: .normal)
+            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorColor) as? UIColor ?? titleColor(for: .normal)
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.activityIndicatorColor, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorColor, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             if activityIndicatorEnabled {
                 activityIndicatorView?.color = newValue
             }
@@ -323,10 +323,10 @@ extension UIButton {
         addTarget(wrapper, action: #selector(ButtonClosureWrapper.invoke), for: controlEvent)
         
         var possibleKey = "hessekit_ClosureWrapper_\(arc4random())"
-        while objc_getAssociatedObject(self, &possibleKey) != nil {
+        while objc_getAssociatedObject(self,(possibleKey)) != nil {
             possibleKey = "hessekit_ClosureWrapper_\(arc4random())"
         }
         
-        objc_setAssociatedObject(self, &possibleKey, wrapper, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(self,(possibleKey), wrapper, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
     }
 }
