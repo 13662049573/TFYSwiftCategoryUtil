@@ -14,6 +14,18 @@ private extension Int64 {
     }
 }
 
+
+public enum GradientChangeDirection {
+    /// 水平渐变
+    case GradientChangeDirectionLevel
+    ///竖直渐变
+    case GradientChangeDirectionVertical
+    /// 向下对角线渐变
+    case GradientChangeDirectionUpwardDiagonalLine
+    ///  向上对角线渐变
+    case GradientChangeDirectionDownDiagonalLine
+}
+
 public extension TFY where Base: UIColor {
     /// 随机颜色
     static var random: UIColor {
@@ -52,6 +64,41 @@ public extension TFY where Base: UIColor {
         } else {
             return light
         }
+    }
+    
+    static func colorGradientChangeWithSize(size:CGSize,direction:GradientChangeDirection,colors:[CGColor]) -> UIColor {
+        if size.width == 0 || size.height == 0 || colors.count == 0 {
+            return .clear
+        }
+        let gradientLayer:CAGradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        var startPoint:CGPoint = CGPointZero
+        if direction == .GradientChangeDirectionDownDiagonalLine {
+            startPoint = CGPointMake(0.0, 1.0)
+        }
+        gradientLayer.startPoint = startPoint
+        var endPoint:CGPoint = CGPointZero
+        switch direction {
+        case .GradientChangeDirectionLevel:
+            endPoint = CGPointMake(1.0, 0.0)
+            break
+        case .GradientChangeDirectionVertical:
+            endPoint = CGPointMake(0.0, 1.0)
+            break
+        case .GradientChangeDirectionUpwardDiagonalLine:
+            endPoint = CGPointMake(1.0, 1.0)
+            break
+        case .GradientChangeDirectionDownDiagonalLine:
+            endPoint = CGPointMake(1.0, 0.0)
+            break
+        }
+        gradientLayer.endPoint = endPoint
+        gradientLayer.colors = colors
+        UIGraphicsBeginImageContext(size)
+        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndPDFContext()
+        return UIColor(patternImage: image)
     }
 }
 
@@ -155,6 +202,8 @@ public extension UIColor {
                       alpha: alpha)
         }
     }
+    
+    
     
     /// Check whether self is a light/bright color.
     /// https://stackoverflow.com/questions/2509443/check-if-uicolor-is-dark-or-bright

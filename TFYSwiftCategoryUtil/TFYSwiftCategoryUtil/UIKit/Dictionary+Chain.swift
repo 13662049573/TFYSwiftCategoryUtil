@@ -27,6 +27,22 @@ public extension Dictionary {
     }
     
     // MARK: 1.3、JSON字符串 -> 字典
+    /// 本地JSON 转 字典
+    /// - Parameter json: JSON字符串
+    /// - Returns: 字典
+    static func pathForResource(name:String,ofType:String) -> Dictionary<String, Any>? {
+        var encoding:String.Encoding = .ascii
+        
+        let path:String = Bundle.main.path(forResource: name, ofType: ofType)!
+        
+        if let plays = try? String(contentsOfFile: path, usedEncoding: &encoding){
+            let dict = Dictionary.jsonToDictionary(json: plays)
+            
+            return dict
+        }
+        return nil
+    }
+    // MARK: 1.3、JSON字符串 -> 字典
     /// JsonString转为字典
     /// - Parameter json: JSON字符串
     /// - Returns: 字典

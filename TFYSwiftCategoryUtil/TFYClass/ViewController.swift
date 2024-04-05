@@ -13,7 +13,7 @@ class ViewController: UIViewController {
         UIButton(type: .custom).tfy
             .frame(x: 0, y: 0, width: 120, height: 30)
             .center(view.center)
-            .backgroundColor(UIColor.red)
+            .backgroundColor(UIColor.tfy.colorGradientChangeWithSize(size: CGSize(width: 120, height: 30), direction: .GradientChangeDirectionDownDiagonalLine, colors: [UIColor.blue.cgColor,UIColor.red.cgColor,UIColor.yellow.cgColor]))
             .systemFont(ofSize: 14)
             .title("进入下一个界面", for: .normal)
             .titleColor(UIColor.blue, for: .normal, .highlighted)
