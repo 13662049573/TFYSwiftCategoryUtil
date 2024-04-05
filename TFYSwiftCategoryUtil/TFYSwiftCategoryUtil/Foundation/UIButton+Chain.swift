@@ -80,10 +80,14 @@ public extension TFY where Base: UIButton {
 extension UIButton {
     
     public enum ButtonImageDirection:Int {
-        case ButtonImageDirectionTop = 0
-        case ButtonImageDirectionLeft = 1
-        case ButtonImageDirectionRight = 2
-        case ButtonImageDirectionBottom = 3
+        case ButtonDirectionCenterImageTop = 1 ///内容居中>>图上文右
+        case ButtonDirectionCenterImageLeft = 2 ///内容居中>>图左文右
+        case ButtonDirectionCenterImageRight = 3 ///内容居中>>图右文左
+        case ButtonDirectionCenterImageBottom = 4 ///内容居中>>图下文上
+        case ButtonDirectionLeftImageLeft = 5     ///内容居左>>图左文右
+        case ButtonDirectionLeftImageRight = 6    ///内容居左>>图右文左
+        case ButtonDirectionRightImageLeft = 7    ///内容居右>>图左文右
+        case ButtonDirectionRightImageRight = 8   ///内容居右>>图右文左
     }
     
     private enum AssociatedKeys {
@@ -92,7 +96,7 @@ extension UIButton {
         static var activityIndicatorColor:UInt8 = 102
     }
     
-    func imageDirection(_ type:ButtonImageDirection ,_ space:CGFloat) {
+    public func imageDirection(_ type:ButtonImageDirection ,_ space:CGFloat) {
         let imageWidth:CGFloat = currentImage?.size.width ?? 0.0
         let imageHeight:CGFloat = currentImage?.size.height ?? 0.0
         titleLabel?.sizeToFit()
@@ -104,7 +108,7 @@ extension UIButton {
         let spaceValue:CGFloat = space/2
 
         switch type {
-        case .ButtonImageDirectionTop:
+        case .ButtonDirectionCenterImageTop:
             x = textHeight / 2 + spaceValue;
             y = textWidth / 2;
             imageEdgeInsets = UIEdgeInsets(top: -x, left: y, bottom: x, right: -y)
@@ -112,7 +116,15 @@ extension UIButton {
             y = imageWidth / 2;
             titleEdgeInsets = UIEdgeInsets(top: x, left: -y, bottom: -x, right: y)
             break
-        case.ButtonImageDirectionBottom:
+        case.ButtonDirectionCenterImageLeft:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: -spaceValue, bottom: 0, right: spaceValue)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: -spaceValue)
+            break
+        case.ButtonDirectionCenterImageRight:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue + textWidth, bottom: 0, right: -(spaceValue + textWidth))
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: -(spaceValue + imageWidth), bottom: 0, right: (spaceValue + imageWidth))
+            break
+        case.ButtonDirectionCenterImageBottom:
             x = textHeight / 2 + spaceValue;
             y = textWidth / 2;
             imageEdgeInsets = UIEdgeInsets(top: x, left: y, bottom: -x, right: -y)
@@ -120,13 +132,25 @@ extension UIButton {
             y = imageWidth / 2;
             titleEdgeInsets = UIEdgeInsets(top: -x, left: -y, bottom: x, right: y)
             break
-        case.ButtonImageDirectionLeft:
-            imageEdgeInsets = UIEdgeInsets(top: 0, left: -spaceValue, bottom: 0, right: spaceValue)
-            titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: -spaceValue)
+        case .ButtonDirectionLeftImageLeft:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: 0)
+            contentHorizontalAlignment = .left;
             break
-        case.ButtonImageDirectionRight:
-            imageEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue + textWidth, bottom: 0, right: -(spaceValue + textWidth))
-            titleEdgeInsets = UIEdgeInsets(top: 0, left: -(spaceValue + imageWidth), bottom: 0, right: (spaceValue + imageWidth))
+        case .ButtonDirectionLeftImageRight:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: textWidth + spaceValue, bottom: 0, right: 0)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: -imageWidth, bottom: 0, right: 0)
+            contentHorizontalAlignment = .left
+            break
+        case .ButtonDirectionRightImageLeft:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: spaceValue)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            contentHorizontalAlignment = .right;
+            break
+        case .ButtonDirectionRightImageRight:
+            imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -textWidth)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: imageWidth + spaceValue)
+            contentHorizontalAlignment = .right;
             break
         }
     }
