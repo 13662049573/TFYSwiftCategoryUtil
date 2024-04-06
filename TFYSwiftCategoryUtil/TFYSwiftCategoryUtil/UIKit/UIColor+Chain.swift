@@ -14,18 +14,6 @@ private extension Int64 {
     }
 }
 
-
-public enum GradientChangeDirection {
-    /// 水平渐变
-    case GradientChangeDirectionLevel
-    ///竖直渐变
-    case GradientChangeDirectionVertical
-    /// 向下对角线渐变
-    case GradientChangeDirectionUpwardDiagonalLine
-    ///  向上对角线渐变
-    case GradientChangeDirectionDownDiagonalLine
-}
-
 public extension TFY where Base: UIColor {
     /// 随机颜色
     static var random: UIColor {
@@ -65,45 +53,19 @@ public extension TFY where Base: UIColor {
             return light
         }
     }
-    
-    static func colorGradientChangeWithSize(size:CGSize,direction:GradientChangeDirection,colors:[CGColor]) -> UIColor {
-        if size.width == 0 || size.height == 0 || colors.count == 0 {
-            return .clear
-        }
-        let gradientLayer:CAGradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        var startPoint:CGPoint = CGPointZero
-        if direction == .GradientChangeDirectionDownDiagonalLine {
-            startPoint = CGPointMake(0.0, 1.0)
-        }
-        gradientLayer.startPoint = startPoint
-        var endPoint:CGPoint = CGPointZero
-        switch direction {
-        case .GradientChangeDirectionLevel:
-            endPoint = CGPointMake(1.0, 0.0)
-            break
-        case .GradientChangeDirectionVertical:
-            endPoint = CGPointMake(0.0, 1.0)
-            break
-        case .GradientChangeDirectionUpwardDiagonalLine:
-            endPoint = CGPointMake(1.0, 1.0)
-            break
-        case .GradientChangeDirectionDownDiagonalLine:
-            endPoint = CGPointMake(1.0, 0.0)
-            break
-        }
-        gradientLayer.endPoint = endPoint
-        gradientLayer.colors = colors
-        UIGraphicsBeginImageContext(size)
-        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
-        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndPDFContext()
-        return UIColor(patternImage: image)
+}
+
+extension UIColor {
+    public enum GradientChangeDirection:Int {
+        case GradientChangeDirectionLevel = 1/// 水平渐变
+        case GradientChangeDirectionVertical = 2///竖直渐变
+        case GradientChangeDirectionUpwardDiagonalLine = 3/// 向下对角线渐变
+        case GradientChangeDirectionDownDiagonalLine = 4///  向上对角线渐变
     }
 }
 
 public extension UIColor {
-    
+
     private convenience init?(hex3: Int64, alpha: Float) {
           self.init(red:   CGFloat( ((hex3 & 0xF00) >> 8).duplicate4bits() ) / 255.0,
                       green: CGFloat( ((hex3 & 0x0F0) >> 4).duplicate4bits() ) / 255.0,
@@ -272,5 +234,40 @@ public extension UIColor {
         } else {
             return self
         }
+    }
+    
+   static func colorGradientChangeWithSize(size:CGSize,direction:GradientChangeDirection,colors:[CGColor]) -> UIColor {
+        if size.width == 0 || size.height == 0 || colors.count == 0 {
+            return .clear
+        }
+        let gradientLayer:CAGradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        var startPoint:CGPoint = CGPointZero
+        if direction == .GradientChangeDirectionDownDiagonalLine {
+            startPoint = CGPointMake(0.0, 1.0)
+        }
+        gradientLayer.startPoint = startPoint
+        var endPoint:CGPoint = CGPointZero
+        switch direction {
+        case .GradientChangeDirectionLevel:
+            endPoint = CGPointMake(1.0, 0.0)
+            break
+        case .GradientChangeDirectionVertical:
+            endPoint = CGPointMake(0.0, 1.0)
+            break
+        case .GradientChangeDirectionUpwardDiagonalLine:
+            endPoint = CGPointMake(1.0, 1.0)
+            break
+        case .GradientChangeDirectionDownDiagonalLine:
+            endPoint = CGPointMake(1.0, 0.0)
+            break
+        }
+        gradientLayer.endPoint = endPoint
+        gradientLayer.colors = colors
+        UIGraphicsBeginImageContext(size)
+        gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndPDFContext()
+        return UIColor(patternImage: image)
     }
 }

@@ -74,7 +74,6 @@ public extension TFY where Base: UIButton {
         base.imageDirection(direction, space)
         return self
     }
-    
 }
 
 extension UIButton {
@@ -95,6 +94,9 @@ extension UIButton {
         static var activityIndicatorEnabled:UInt8 = 100
         static var activityIndicatorColor:UInt8 = 102
     }
+}
+
+extension UIButton {
     
     public func imageDirection(_ type:ButtonImageDirection ,_ space:CGFloat) {
         let imageWidth:CGFloat = currentImage?.size.width ?? 0.0
