@@ -93,10 +93,26 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonAction() {
-        button.activityIndicatorEnabled = true
-        let webVc:WKWebController = WKWebController()
-        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
-        self.present(webVc, animated: true, completion: nil)
+//        button.activityIndicatorEnabled = true
+//        let webVc:WKWebController = WKWebController()
+//        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
+//        self.present(webVc, animated: true, completion: nil)
+        
+        let aler:UIAlertController = UIAlertController(title: "Tips", message: "After you are added to the blacklist, you will no longer receive messages from the peer party. Are you sure to block them?", preferredStyle: .alert)
+            .tfy
+            .action("Cancel", custom: { action in
+                action.tfy.titleColor(.red)
+            }, handler: { action in
+                
+            })
+            .action("OK", custom: { action in
+                action.tfy.titleColor(.yellow)
+            }, handler: { action in
+                
+            })
+            .show(self)
+            .build
+        
     }
     
     @objc private func notificationAction0() {

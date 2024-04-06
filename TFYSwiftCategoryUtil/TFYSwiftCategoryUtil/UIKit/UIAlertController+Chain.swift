@@ -89,10 +89,10 @@ public extension TFY where Base: UIAlertController {
     }
     
     @discardableResult
-    func action(_ title:String = "",
+    func action(_ title:String,
                 style:UIAlertAction.Style = .default,
-                custom:((UIAlertAction) -> Void)? = nil,
-                handler:((UIAlertAction) -> Void)? = nil) -> TFY {
+                custom:((_ action:UIAlertAction) -> Void)? = nil,
+                handler:((_ action:UIAlertAction) -> Void)?) -> TFY {
         let action = UIAlertAction(title: title, style: style, handler: handler)
         custom?(action)
         base.addAction(action)
@@ -107,7 +107,7 @@ public extension TFY where Base: UIAlertAction {
         return self
     }
     @discardableResult
-    func title(_ color:UIColor) -> TFY {
+    func titleColor(_ color:UIColor) -> TFY {
         base.setValue(color, forKey: "titleTextColor")
         return self
     }
