@@ -70,6 +70,12 @@ public extension TFY where Base: UIButton {
     }
     
     @discardableResult
+    func adjustsFontSizeToFitWidth(_ fontbool:Bool) -> TFY {
+        base.titleLabel?.adjustsFontSizeToFitWidth = fontbool
+        return self
+    }
+    
+    @discardableResult
     func imageDirection(_ direction:UIButton.ButtonImageDirection,_ space:CGFloat) -> TFY {
         base.imageDirection(direction, space)
         return self
