@@ -104,7 +104,7 @@ extension UIButton {
 
 extension UIButton {
     
-    public func imageDirection(_ type:ButtonImageDirection ,_ space:CGFloat) {
+    public func imageDirection(_ type:UIButton.ButtonImageDirection ,_ space:CGFloat) {
         let imageWidth:CGFloat = currentImage?.size.width ?? 0.0
         let imageHeight:CGFloat = currentImage?.size.height ?? 0.0
         titleLabel?.sizeToFit()
