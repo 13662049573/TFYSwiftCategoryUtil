@@ -74,6 +74,12 @@ public extension TFY where Base: UIButton {
         base.imageDirection(direction, space)
         return self
     }
+    
+    @discardableResult
+    func backgroundStateColor(_ color: UIColor, for state: UIControl.State...) -> TFY {
+        state.forEach { base.setBackgroundColor(color, for: $0) }
+        return self
+    }
 }
 
 extension UIButton {

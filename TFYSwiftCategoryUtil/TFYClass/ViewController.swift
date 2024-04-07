@@ -16,9 +16,9 @@ class ViewController: UIViewController {
             .backgroundColor(UIColor.colorGradientChangeWithSize(size: CGSize(width: 120, height: 30), direction: .GradientChangeDirectionLevel, colors: [UIColor.blue.cgColor,UIColor.red.cgColor,UIColor.yellow.cgColor]))
             .systemFont(ofSize: 14)
             .title("进入下一个界面", for: .normal)
-            .titleColor(UIColor.blue, for: .normal, .highlighted)
+            .titleColor(UIColor.white, for: .normal, .highlighted)
             .cornerRadius(15)
-            .addTarget(self, action: #selector(buttonAction), for: .touchUpInside).build
+            .addTarget(self, action: #selector(buttonAction(btn:)), for: .touchUpInside).build
     }()
     
     private lazy var lablel: UILabel = {
@@ -92,7 +92,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @objc private func buttonAction() {
+    @objc private func buttonAction(btn:UIButton) {
+        btn.isSelected = !btn.isSelected
 //        button.activityIndicatorEnabled = true
 //        let webVc:WKWebController = WKWebController()
 //        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")

@@ -236,7 +236,7 @@ public extension UIColor {
         }
     }
     
-   static func colorGradientChangeWithSize(size:CGSize,direction:GradientChangeDirection,colors:[CGColor]) -> UIColor {
+    static func colorGradientChangeWithSize(size:CGSize,direction:UIColor.GradientChangeDirection,colors:[CGColor]) -> UIColor {
         if size.width == 0 || size.height == 0 || colors.count == 0 {
             return .clear
         }
