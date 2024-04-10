@@ -650,4 +650,10 @@ public extension TFY where Base: UIView {
             .forEach{ $0.removeFromSuperview() }
         return self
     }
+    
+    @discardableResult
+    func contents(contents:Any?) -> TFY {
+        base.layer.contents = contents
+        return self
+    }
 }
