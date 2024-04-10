@@ -100,13 +100,11 @@ extension UIButton {
         case ButtonDirectionRightImageLeft = 7    ///内容居右>>图左文右
         case ButtonDirectionRightImageRight = 8   ///内容居右>>图右文左
     }
-    
-    private enum AssociatedKeys {
-        static var activityIndicatorView:UInt8 = 101
-        static var activityIndicatorEnabled:UInt8 = 100
-        static var activityIndicatorColor:UInt8 = 102
-    }
 }
+
+fileprivate var activityIndicatorViewKey: Void?
+fileprivate var activityIndicatorEnabledKey: Void?
+fileprivate var activityIndicatorColorKey: Void?
 
 extension UIButton {
     
@@ -172,10 +170,10 @@ extension UIButton {
     /// 在按钮的垂直和水平中心呈现的活动指示器视图。
     private(set) var activityIndicatorView: UIActivityIndicatorView? {
         get {
-            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorView) as? UIActivityIndicatorView
+            return objc_getAssociatedObject(self,&activityIndicatorViewKey) as? UIActivityIndicatorView
         }
         set {
-            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorView, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&activityIndicatorViewKey, newValue,.OBJC_ASSOCIATION_RETAIN)
         }
     }
 
@@ -183,11 +181,11 @@ extension UIButton {
     ///当更改回' false '它将停止活动指示器的动画，淡入标签，并重新启用用户交互。
     var activityIndicatorEnabled: Bool {
         get {
-            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorEnabled) as? Bool ?? false
+            return objc_getAssociatedObject(self,&activityIndicatorEnabledKey) as? Bool ?? false
         }
         set {
             ensureActivityIndicator()
-            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorEnabled, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&activityIndicatorEnabledKey, newValue,.OBJC_ASSOCIATION_RETAIN)
             toggleActivityIndicator()
         }
     }
@@ -195,10 +193,10 @@ extension UIButton {
     /// 活动指示器的颜色，如果该属性设置为' nil '， ' titleColor(for:) '的结果将在其位置使用。
     @objc dynamic var activityIndicatorColor: UIColor? {
         get {
-            return objc_getAssociatedObject(self,&AssociatedKeys.activityIndicatorColor) as? UIColor ?? titleColor(for: .normal)
+            return objc_getAssociatedObject(self,&activityIndicatorColorKey) as? UIColor ?? titleColor(for: .normal)
         }
         set {
-            objc_setAssociatedObject(self,&AssociatedKeys.activityIndicatorColor, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self,&activityIndicatorColorKey, newValue,.OBJC_ASSOCIATION_RETAIN)
             if activityIndicatorEnabled {
                 activityIndicatorView?.color = newValue
             }
