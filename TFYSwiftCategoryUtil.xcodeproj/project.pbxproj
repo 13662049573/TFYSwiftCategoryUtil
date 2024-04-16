@@ -16,6 +16,7 @@
 		3612E13F26475B6700476696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3612E13626475B6700476696 /* Main.storyboard */; };
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
+		362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
 		365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BC283077B900E4DE22 /* UIWindow+Chain.swift */; };
@@ -175,6 +176,7 @@
 		3612E14126475BA400476696 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
+		362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYNetstatManager.swift; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
 		365477BC283077B900E4DE22 /* UIWindow+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Chain.swift"; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */,
 				36F283652835E83800460789 /* TFYSwiftJsonKit.swift */,
 				3612E15326475C4100476696 /* TFYAsynce.swift */,
 				3694B0D62652A1D900296A92 /* TFYRuntime.swift */,
@@ -755,6 +758,7 @@
 				36FA19982941D6290099BB35 /* ShimmerView.swift in Sources */,
 				36DAFEDE2787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift in Sources */,
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
+				362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */,
 				36FA19852941D6290099BB35 /* CLLocationCoordinate2D.swift in Sources */,
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
 				36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */,
