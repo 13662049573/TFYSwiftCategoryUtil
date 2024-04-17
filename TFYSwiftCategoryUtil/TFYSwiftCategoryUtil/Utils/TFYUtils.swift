@@ -289,4 +289,27 @@ public struct TFYUtils {
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         }
     }
+    
+    public static func checkForAppUpdate(appID: String, completion: @escaping (_ isUpdated:Bool,_ newVersion:String?) -> Void) {
+        let url = URL(string: "https://itunes.apple.com/lookup?id=\(appID)")!
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(false, "无法连接到App Store")
+                return
+            }
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let results = json["results"] as? [Any],
+                   let firstResult = results.first as? [String: Any],
+                   let version = firstResult["version"] as? String {
+                    let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                    completion(currentVersion == version, version)
+                } else {
+                    completion(false, "无法获取版本信息")
+                }
+            } catch {
+                completion(false, "解析错误: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
 }
