@@ -855,4 +855,18 @@ public extension UIImage {
         let width = inset * 2 + 1
         return borderImage(size: CGSize(width: width, height: width), backgroundColor: backgroundColor, borderColor: borderColor, borderWidth: borderWidth, cornerRadius: cornerRadius)?.resizableImage(withCapInsets: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset), resizingMode: .stretch)
     }
+    /// 高斯模糊
+    static func gaussianBlur(image: UIImage, sigma: Float) -> UIImage? {
+        guard let beginImage = CIImage(image: image) else { return nil }
+        let blurFilter = CIFilter(name: "CIGaussianBlur")!
+        blurFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        blurFilter.setValue(sigma, forKey: "inputRadius")
+     
+        let resultImage = blurFilter.outputImage
+        let context = CIContext(options: nil)
+        if let cgImage = context.createCGImage(resultImage!, from: resultImage!.extent) {
+            return UIImage(cgImage: cgImage)
+        }
+        return nil
+    }
 }
