@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }()
     
     lazy var tableView: UITableView = {
-        let tab = UITableView(frame: CGRect(x: 0, y: 0, width: TFYSwiftWidth, height: TFYSwiftHeight), style: .plain)
+        let tab = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: UIScreen.height), style: .plain)
         tab.tfy
             .registerHeaderOrFooter(UITableViewHeaderFooterView.self)
         return tab

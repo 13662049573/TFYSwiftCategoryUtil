@@ -94,7 +94,7 @@ struct BottomSheet<Content: View>: View {
         Color.black
             .fillParent()
             .opacity(backgroundOpacity)
-            .animation(animation)
+            .animation(animation, value: offset)
             .onTapGesture { isPresented.toggle() }
     }
     
@@ -115,7 +115,7 @@ struct BottomSheet<Content: View>: View {
                 .onChanged(onChangedDragValueGesture)
                 .onEnded(onEndedDragValueGesture)
             )
-            .animation(animation)
+            .animation(animation, value: offset.height)
             .transition(.move(edge: .bottom))
     }
 

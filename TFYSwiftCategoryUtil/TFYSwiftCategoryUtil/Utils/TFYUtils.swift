@@ -10,9 +10,6 @@ import UIKit
 import StoreKit
 import SystemConfiguration.CaptiveNetwork
 
-public let TFYSwiftWidth = UIScreen.main.bounds.width
-public let TFYSwiftHeight = UIScreen.main.bounds.height
-
 /// 文档目录
 public let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as NSString
 
@@ -33,13 +30,6 @@ public func getJSON(name:String) -> NSDictionary {
     } catch _ as Error? {
         print("读取本地数据出现错误!")
         return NSDictionary()
-    }
-}
-
-/// 强制关闭暗黑色
-public func closedLight() {
-    if #available(iOS 13, *) {
-       UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.overrideUserInterfaceStyle = .light
     }
 }
 

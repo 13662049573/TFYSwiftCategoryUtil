@@ -48,7 +48,7 @@ struct CircleMotionView: View {
                         .position(
                         x: randomCoordinate(max: geometry.size.width),
                         y: randomCoordinate(max: geometry.size.height))
-                        .animation(animation)
+                        .animation(animation, value: 1)
                         .onAppear(perform: {
                             isAnimating.toggle()
                     })

@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 private var kCurrentLoadURL = "current.load.url"
 
