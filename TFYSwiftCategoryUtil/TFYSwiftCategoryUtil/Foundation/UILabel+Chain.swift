@@ -26,17 +26,6 @@ public extension TFY where Base: UILabel {
         let sizes:CGSize = base.sizeThatFits(size)
         return sizes
     }
-    
-    var glyphIndexForString: Int? {
-        guard let text = base.text else { return nil }
-        let length = text.count
-        let stringRange = NSRange(location: 0, length: length)
-        let textStorage = NSTextStorage(attributedString: base.attributedText!)
-        let layoutManager = NSLayoutManager()
-        textStorage.addLayoutManager(layoutManager)
-        let glyphRange = layoutManager.glyphRange(forCharacterRange: stringRange, actualCharacterRange: nil)
-        return glyphRange.location
-    }
 }
 
 public extension TFY where Base: UILabel {
@@ -321,5 +310,18 @@ public extension TFY where Base: UILabel {
         }
         base.attributedText = attributedString
     }
+}
+
+public extension UILabel {
     
+    var glyphIndexForString: Int? {
+        guard let text = self.text else { return nil }
+        let length = text.count
+        let stringRange = NSRange(location: 0, length: length)
+        let textStorage = NSTextStorage(attributedString: self.attributedText!)
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        let glyphRange = layoutManager.glyphRange(forCharacterRange: stringRange, actualCharacterRange: nil)
+        return glyphRange.location
+    }
 }
