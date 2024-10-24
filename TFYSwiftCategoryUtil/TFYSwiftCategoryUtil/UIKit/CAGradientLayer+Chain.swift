@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // MARK: - 一、基本的扩展
-public enum JKViewGradientDirection {
+public enum GradientDirection {
     /// 水平从左到右
     case horizontal
     ///  垂直从上到下
@@ -44,7 +44,7 @@ public extension TFY where Base: CAGradientLayer {
     ///   - direction: 渐变方向
     ///   - gradientColors: 渐变的颜色数组（颜色的数组）
     ///   - gradientLocations: 设置渐变颜色的终止位置，这些值必须是递增的，数组的长度和 colors 的长度最好一致
-    func gradientLayer(_ direction: JKViewGradientDirection = .horizontal, _ gradientColors: [Any], _ gradientLocations: [NSNumber]? = nil) -> CAGradientLayer {
+    func gradientLayer(_ direction: GradientDirection = .horizontal, _ gradientColors: [Any], _ gradientLocations: [NSNumber]? = nil) -> CAGradientLayer {
        
         // 设置渐变的颜色数组
         self.base.colors = gradientColors

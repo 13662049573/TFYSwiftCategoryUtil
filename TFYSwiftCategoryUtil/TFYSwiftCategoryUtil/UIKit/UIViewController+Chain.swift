@@ -34,7 +34,6 @@ public extension TFY where Base: UIViewController {
         while let whileController = currentController {
             if whileController.isKind(of: clazz) {
                 result = whileController
-                
                 if option == .first {
                     break
                 }
@@ -285,7 +284,7 @@ public extension UIViewController {
     }
     
     /// Resign keyboard
-    @IBAction func resignTextFieldToHideKeyboard(_ sender: AnyObject) {
+    @objc func resignTextFieldToHideKeyboard(_ sender: AnyObject) {
         view.endEditing(false)
     }
 

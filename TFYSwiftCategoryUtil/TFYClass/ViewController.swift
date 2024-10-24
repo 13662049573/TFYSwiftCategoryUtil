@@ -23,10 +23,13 @@ class ViewController: UIViewController {
     
     private lazy var lablel: UILabel = {
         let labe = UILabel().tfy
-            .text("shish")
-            .textColor(.blue)
+            .frame(x: 20, y: 200, width: UIScreen.width-40, height: 50)
+            .text("说的可不敢看谁都不敢开始崩溃时刻崩溃是白费口舌吧看《说的几个时刻》，《说的进口关税个》")
+            .textColor(.gray)
             .font(.systemFont(ofSize: 14, weight: .bold))
             .borderColor(.orange)
+            .numberOfLines(0)
+            .isUserInteractionEnabled(true)
             .build
         return labe
     }()
@@ -38,68 +41,20 @@ class ViewController: UIViewController {
         return tab
     }()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(button)
         
-//        let attrText = NSMutableAttributedString(string: "Hello World").tfy
-//            .systemFont(ofSize: 18)
-//            .foregroundColor(UIColor.yellow, range: NSMakeRange(0, 5))
-//            .backgroundColor(UIColor.blue)
-//            .baselineOffset(5, range: NSMakeRange(6, 5))
-//            .kern(0.5)
-//            .strikethroughStyle(1)
-//            .underlineStyle(1)
-//            .writingDirection([3]).build
-//        button.setAttributedTitle(attrText, for: .normal)
-        
-        UserDefaults.standard.tfy
-            .set(123, forKey: "integer")
-            .set("string", forKey: "string")
-            .set(false, forKey: "boolean")
-            .synchronize()
-        
-        debugPrint(UserDefaults.standard.integer(forKey: "integer"))
-        debugPrint(UserDefaults.standard.string(forKey: "string") ?? "")
-        debugPrint(UserDefaults.standard.bool(forKey: "boolean"))
-        
-        DateFormatter().tfy
-            .dateFormat("")
-            .dateStyle(.full)
-            .timeZone(.current)
-        
-        let name0 = Notification.Name("notification0")
-        let name1 = Notification.Name("notification1")
-        let name2 = Notification.Name("notification2")
-        
-        NotificationCenter.default.tfy
-            .addObserver(self, selector: #selector(notificationAction0), name: name0)
-            .addObserver(self, selector: #selector(notificationAction2), name: name2)
-            .addObserver(self, selector: #selector(notificationAction1), name: name1)
-        
-        NotificationCenter.default.tfy
-            .post(name: name1)
-            .post(Notification(name: name2))
-            .post(name: name0)
-        
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        view.addSubview(lablel)
+       
+        lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
+    
     }
 
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
-//        button.activityIndicatorEnabled = true
-//        let webVc:WKWebController = WKWebController()
-//        webVc.url = URL(string: "https://github.com/13662049573/TFYSwiftCategoryUtil")
-//        self.present(webVc, animated: true, completion: nil)
-        
-        let aler:UIAlertController = UIAlertController(title: "Tips", message: "After you are added to the blacklist, you will no longer receive messages from the peer party. Are you sure to block them?", preferredStyle: .alert)
+        UIAlertController(title: "Tips", message: "After you are added to the blacklist, you will no longer receive messages from the peer party. Are you sure to block them?", preferredStyle: .alert)
             .tfy
             .action("Cancel", custom: { action in
                 action.tfy.titleColor(.red)
@@ -112,20 +67,7 @@ class ViewController: UIViewController {
                 
             })
             .show(self)
-            .build
-        
     }
     
-    @objc private func notificationAction0() {
-        debugPrint("notificationAction0")
-    }
-    
-    @objc private func notificationAction1() {
-        debugPrint("notificationAction1")
-    }
-    
-    @objc private func notificationAction2() {
-        debugPrint("notificationAction2")
-    }
 }
 
