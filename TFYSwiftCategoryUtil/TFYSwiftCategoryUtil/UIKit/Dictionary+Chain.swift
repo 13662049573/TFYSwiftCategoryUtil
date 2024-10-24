@@ -58,7 +58,7 @@ public extension Dictionary {
     
     // MARK: 1.4、字典 -> JSON字符串
     /// 字典转换为JSONString
-    func toJSON() -> String? {
+    static func toJSON() -> String? {
         if let jsonData = try? JSONSerialization.data(withJSONObject: self, options: JSONSerialization.WritingOptions()) {
             let jsonStr = String(data: jsonData, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
             return String(jsonStr ?? "")

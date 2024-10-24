@@ -19,11 +19,7 @@ public extension UIWindow {
     }
 
     static var statusBarFrame: CGRect {
-        if #available(iOS 13.0, *) {
-            return keyWindow?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
-        } else {
-            return UIApplication.shared.statusBarFrame
-        }
+        return keyWindow?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero
     }
 
     static var statusBarHeight: CGFloat {
@@ -31,7 +27,7 @@ public extension UIWindow {
     }
 
     static var safeAreaInsets: UIEdgeInsets {
-        return UIWindow.keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
+        return keyWindow?.safeAreaInsets ?? UIEdgeInsets.zero
     }
 }
 

@@ -58,7 +58,6 @@ public extension UIFont {
         guard let name = cgFont.postScriptName as String? else { return nil }
         let font = self.init(name: name, size: size)
         return font
-        
     }
     
     /// create the CTFont object

@@ -75,14 +75,23 @@ public extension TFY where Base: UILabel {
     
     /// 改变字段颜色
     func changeColorWithTextColor(textColor:UIColor,texts:[String]) {
-        texts.forEach { markContent in
-            let textAttrString:NSMutableAttributedString = base.attributedText?.mutableCopy() as! NSMutableAttributedString
-            var range:NSRange = NSString(string: base.text ?? "").range(of: markContent, options: NSString.CompareOptions.diacriticInsensitive)
-            while range.length != NSNotFound {
-                textAttrString.addAttribute(NSAttributedString.Key.foregroundColor, value: textColor, range: range)
-                range = NSString(string: base.text ?? "").range(of: markContent, options: NSString.CompareOptions.diacriticInsensitive, range: NSMakeRange(range.location + range.length, NSString(string: base.text ?? "").length - (range.location + range.length)))
+        let attributedString = NSMutableAttributedString(string: base.text ?? "")
+        texts.forEach { textStr in
+            let range = ((base.text ?? "") as NSString).range(of: textStr)
+            attributedString.addAttribute(.foregroundColor, value: textColor, range: range)
+        }
+        base.attributedText = attributedString
+    }
+    
+    /// 改变不同字段颜色
+    func changeColorWithTextColors(textColors:[UIColor],texts:[String]) {
+        if textColors.count == texts.count {
+            let attributedString = NSMutableAttributedString(string: base.text ?? "")
+            for (index,color) in textColors.enumerated() {
+                let range = ((base.text ?? "") as NSString).range(of: texts[index])
+                attributedString.addAttribute(.foregroundColor, value: color, range: range)
             }
-            base.attributedText = textAttrString
+            base.attributedText = attributedString
         }
     }
     
