@@ -50,19 +50,27 @@ class ViewController: UIViewController {
        
         lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
     
+        lablel.addTapAction(["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"]) { string, range, int in
+            TFYLog("点击了\(string)标签 - {\(range.location) , \(range.length)} - \(int)")
+        }
     }
+
+   
 
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
-        UIAlertController(title: "Tips", message: "After you are added to the blacklist, you will no longer receive messages from the peer party. Are you sure to block them?", preferredStyle: .alert)
+        let title = "用户协议和隐私政策"
+        let string = "\t用户协议和隐私政策请您务必审值阅读、充分理解 “用户协议” 和 ”隐私政策” 各项条款，包括但不限于：为了向您提供即时通讯、内容分享等服务，我们需要收集您的设备信息、操作日志等个人信息。\n\t您可阅读《用户协议》和《隐私政策》了解详细信息。如果您同意，请点击 “同意” 开始接受我们的服务;"
+        
+        UIAlertController(title: title, message: string, preferredStyle: .alert)
             .tfy
-            .action("Cancel", custom: { action in
-                action.tfy.titleColor(.red)
+            .action("取消", custom: { action in
+                action.tfy.titleColor(.blue)
             }, handler: { action in
                 
             })
-            .action("OK", custom: { action in
-                action.tfy.titleColor(.yellow)
+            .action("同意", custom: { action in
+                action.tfy.titleColor(.red)
             }, handler: { action in
                 
             })
