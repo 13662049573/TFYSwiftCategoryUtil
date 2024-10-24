@@ -29,6 +29,8 @@ class ViewController: UIViewController {
             .font(.systemFont(ofSize: 14, weight: .bold))
             .borderColor(.orange)
             .numberOfLines(0)
+            .tag(1)
+            .addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAction(gesture:))))
             .build
         return labe
     }()
@@ -48,9 +50,12 @@ class ViewController: UIViewController {
         
         view.addSubview(lablel)
        
-      //  lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
+        lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
+    
+    }
+    
+    @objc func tapAction(gesture: UITapGestureRecognizer) {
         
-        lablel.tfy.changeColorWithTextColors(textColors: [.red,.blue,.orange,.green], texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
     }
 
     @objc private func buttonAction(btn:UIButton) {
