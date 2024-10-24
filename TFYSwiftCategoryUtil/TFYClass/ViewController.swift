@@ -23,13 +23,13 @@ class ViewController: UIViewController {
     
     private lazy var lablel: UILabel = {
         let labe = UILabel().tfy
-            .frame(x: 20, y: 100, width: UIScreen.width-40, height: 50)
+            .frame(x: 20, y: 200, width: UIScreen.width-40, height: 50)
             .text("说的可不敢看谁都不敢开始崩溃时刻崩溃是白费口舌吧看《说的几个时刻》，《说的进口关税个》")
             .textColor(.gray)
             .font(.systemFont(ofSize: 14, weight: .bold))
             .borderColor(.orange)
             .numberOfLines(0)
-            .tag(1)
+            .isUserInteractionEnabled(true)
             .addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAction(gesture:))))
             .build
         return labe
@@ -42,7 +42,6 @@ class ViewController: UIViewController {
         return tab
     }()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,13 +49,58 @@ class ViewController: UIViewController {
         
         view.addSubview(lablel)
        
+        view.addSubview(trcLabel)
+        
         lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
+        
+        trcLabel.TRClickableLabelActionCallback = {
+            
+        }
+        
     
     }
     
     @objc func tapAction(gesture: UITapGestureRecognizer) {
+        if let label = gesture.view as? UILabel {
+            
+            print("点击的文本: \(label.text)")
+        }
+        
+//        var dataArr:[NSRange] = []
+//        ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"].forEach { textStr in
+//            let range = ((lablel.text ?? "") as NSString).range(of: textStr )
+//            dataArr.append(range)
+//        }
+//        
+//        
+//        
+//        dataArr.forEach { range in
+//            let layoutManger = NSLayoutManager()
+//            let textContainer = NSTextContainer(size: lablel.bounds.size)
+//            textContainer.lineFragmentPadding = 0
+//            let textBoindingBox = layoutManger.usedRect(for: textContainer)
+//            
+//            layoutManger.textStorage = NSTextStorage(attributedString: lablel.attributedText!)
+//            layoutManger.addTextContainer(textContainer)
+//            
+//            let locationOfTouchInLabel = gesture.location(in: lablel)
+//            let textBoundingBoxOrigin = CGPoint(x: textBoindingBox.origin.x+lablel.bounds.origin.x, y: textBoindingBox.origin.y+lablel.bounds.origin.y)
+//            
+//            let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textBoundingBoxOrigin.x, y: locationOfTouchInLabel.y - textBoundingBoxOrigin.y)
+//            
+//            let indexOfCharacter = layoutManger.characterIndex(for: locationOfTouchInTextContainer, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+//            
+//            if NSLocationInRange(indexOfCharacter, range) {
+//                print("点击了文本")
+//            } else {
+//                print("点击了不可文本")
+//            }
+//            
+//        }
+        
         
     }
+    
 
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
