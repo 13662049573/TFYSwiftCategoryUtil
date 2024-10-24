@@ -41,31 +41,65 @@ public extension TFY where Base: UIButton {
     
     @discardableResult
     func titleEdgeInsets(_ edgeInsets: UIEdgeInsets) -> TFY {
-        base.titleEdgeInsets = edgeInsets
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: edgeInsets.top, leading: edgeInsets.left, bottom: edgeInsets.bottom, trailing: edgeInsets.right)
+            configuration.titlePadding = edgeInsets.left
+            base.configuration = configuration
+        } else {
+            base.titleEdgeInsets = edgeInsets
+        }
         return self
     }
     
     @discardableResult
     func titleEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> TFY {
-        base.titleEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: top, leading: left, bottom:bottom, trailing:right)
+            configuration.titlePadding = left
+            base.configuration = configuration
+        } else {
+            base.titleEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+        }
         return self
     }
     
     @discardableResult
     func imageEdgeInsets(_ edgeInsets: UIEdgeInsets) -> TFY {
-        base.imageEdgeInsets = edgeInsets
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: edgeInsets.top, leading: edgeInsets.left, bottom: edgeInsets.bottom, trailing: edgeInsets.right)
+            configuration.imagePadding = edgeInsets.left
+            base.configuration = configuration
+        } else {
+            base.imageEdgeInsets = edgeInsets
+        }
         return self
     }
     
     @discardableResult
     func imageEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> TFY {
-        base.imageEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: top, leading: left, bottom:bottom, trailing:right)
+            configuration.imagePadding = left
+            base.configuration = configuration
+        } else {
+            base.imageEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+        }
         return self
     }
     
     @discardableResult
     func contentHorizontalAlignment(_ alignment:UIControl.ContentHorizontalAlignment) -> TFY {
         base.contentHorizontalAlignment = alignment
+        return self
+    }
+    
+    @discardableResult
+    func translatesAutoresizingMaskIntoConstraints(_ transl:Bool) -> TFY {
+        base.translatesAutoresizingMaskIntoConstraints = transl
         return self
     }
     
@@ -292,28 +326,7 @@ extension UIButton {
             setBackgroundImage(image, for: state)
         } 
     }
-    
-    @IBInspectable var titleImageSpacing: CGFloat {
-        get { return -1 }
-        set {
-            self.centerTextAndImage(spacing: newValue, forceRightToLeft: false)
-        }
-    }
-    
-    /// Adjust `contentEdgeInsets`, `imageEdgeInsets` and `titleEdgeInsets` with appropriate value so as to make a specified spacing between the button's title and image.
-    /// - Reference: https://stackoverflow.com/questions/4564621/aligning-text-and-image-on-uibutton-with-imageedgeinsets-and-titleedgeinsets
-    ///
-    /// - Parameters:
-    ///   - spacing: The desired spacing to make.
-    ///   - forceRightToLeft: Whether the content of the button is in `forceRightToLeft` semantic.
-    func centerTextAndImage(spacing: CGFloat, forceRightToLeft: Bool) {
-        let insetAmount = spacing / 2
-        let factor: CGFloat = forceRightToLeft ? -1 : 1
-        
-        self.imageEdgeInsets = UIEdgeInsets(top: 0, left: -insetAmount*factor, bottom: 0, right: insetAmount*factor)
-        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: insetAmount*factor, bottom: 0, right: -insetAmount*factor)
-        self.contentEdgeInsets = UIEdgeInsets(top: 0, left: insetAmount, bottom: 0, right: insetAmount)
-    }
+
     
     var isTitleImagePositionReversed: Bool {
         get {

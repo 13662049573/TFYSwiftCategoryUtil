@@ -35,7 +35,7 @@ struct ShimmerView: View {
                 .padding(-self.calcSize(geo))
                 .rotationEffect(self.angle)
                 .offset(x: self.calcOffset(geo), y: 0)
-                .animation(self.animation)
+                .animation(animation, value: self.calcOffset(geo))
         }.onAppear(perform: { show.toggle() })
     }
     
