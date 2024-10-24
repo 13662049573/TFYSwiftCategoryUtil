@@ -48,13 +48,9 @@ class ViewController: UIViewController {
         
         view.addSubview(lablel)
        
-       
-        
         lablel.tfy.changeColorWithTextColor(textColor: .orange, texts: ["《说的几个时刻》","《说的进口关税个》","崩溃","看谁"])
-        
-      
-    }
     
+    }
 
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
