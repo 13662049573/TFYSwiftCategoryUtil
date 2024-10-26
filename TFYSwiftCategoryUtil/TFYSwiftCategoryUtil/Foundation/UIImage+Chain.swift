@@ -36,7 +36,7 @@ public extension UIImage {
         return outputImage ?? self
     }
     
-    class func imageWithColor(color: UIColor) -> UIImage? {
+    func imageWithColor(color: UIColor) -> UIImage? {
         let rect = CGRect.init(x: 0, y: 0, width: 2, height: 2)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         color.setFill()
@@ -869,4 +869,104 @@ public extension UIImage {
         }
         return nil
     }
+    
+    ///获取 pod bundle 图片资源
+    convenience init?(named name: String, podClass: AnyClass, bundleName: String? = nil) {
+        let bName = bundleName ?? "\(podClass)"
+        if let image = UIImage(named: "\(bName).bundle/\(name)"), let cgImage = image.cgImage{
+            self.init(cgImage: cgImage)
+        } else {
+            let filePath = Bundle(for: podClass).resourcePath! + "/\(bName).bundle"
+            guard let bundle = Bundle(path: filePath) else { return nil}
+            self.init(named: name, in: bundle, compatibleWith: nil)
+        }
+    }
+
+    ///获取 pod bundle 图片资源
+    convenience init?(named name: String, podName: String, bundleName: String? = nil) {
+        let bName = bundleName ?? podName
+        if let image = UIImage(named: "\(bName).bundle/\(name)"), let cgImage = image.cgImage{
+            self.init(cgImage: cgImage)
+        } else {
+            let filePath = Bundle.main.resourcePath! + "/Frameworks/\(podName).framework/\(bName).bundle"
+            guard let bundle = Bundle(path: filePath) else { return nil}
+            self.init(named: name, in: bundle, compatibleWith: nil)
+        }
+    }
+    
+    /// 生成二维码图片
+    static func generateQRCode(_ string: String, width: CGFloat, height: CGFloat) -> UIImage? {
+                
+        guard let data: Data = string.data(using: .isoLatin1, allowLossyConversion: false),
+            let filter = CIFilter(name: "CIQRCodeGenerator") else {
+                return nil
+        }
+        filter.setValue(data, forKey: "inputMessage")
+        filter.setValue("H", forKey: "inputCorrectionLevel")
+        
+        guard let qrcodeImage = filter.outputImage else {
+            return nil
+        }
+        
+        // 消除模糊
+        let scaleX: CGFloat = width/qrcodeImage.extent.size.width
+        // extent 返回图片的frame
+        let scaleY: CGFloat = height/qrcodeImage.extent.size.height
+        
+        let transformedImage = qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        return UIImage(ciImage: transformedImage)
+    }
+
+    /// 生成二维码图片
+    static func generateQRCodeImage(_ string: String, size: CGSize, logo: UIImage?) -> UIImage? {
+        guard let data: Data = string.data(using: .isoLatin1, allowLossyConversion: false),
+            let filter = CIFilter(name: "CIQRCodeGenerator") else {
+                return nil
+        }
+
+        filter.setValue(data, forKey: "inputMessage")
+        filter.setValue("H", forKey: "inputCorrectionLevel")
+        guard let qrcodeImage = filter.outputImage else {
+            return nil
+        }
+        // 消除模糊
+        let scaleX: CGFloat = size.width/qrcodeImage.extent.size.width
+        // extent 返回图片的frame
+        let scaleY: CGFloat = size.height/qrcodeImage.extent.size.height
+        let transformedImage = qrcodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        
+        // 返回二维码图片
+        var qrImage = UIImage(ciImage: transformedImage)
+        if let colorFilter = CIFilter(name: "CIFalseColor") {
+            // 创建颜色滤镜
+            colorFilter.setDefaults()
+            colorFilter.setValue(transformedImage, forKey: "inputImage")
+            colorFilter.setValue(CIColor(red: 0, green: 0, blue: 0), forKey: "inputColor0")
+            colorFilter.setValue(CIColor(red: 1, green: 1, blue: 1), forKey: "inputColor1")
+            
+            if let outputImage = colorFilter.outputImage {
+                qrImage = UIImage(ciImage: outputImage)
+            }
+        }
+                
+        let imageRect = size.width > size.height ?
+            CGRect(x: (size.width - size.height) / 2, y: 0, width: size.height, height: size.height) :
+            CGRect(x: 0, y: (size.height - size.width) / 2, width: size.width, height: size.width)
+            UIGraphicsBeginImageContextWithOptions(imageRect.size, false, UIScreen.main.scale)
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        qrImage.draw(in: imageRect)
+        if let logo = logo {
+            let logoSize = size.width > size.height ?
+                CGSize(width: size.height * 0.25, height: size.height * 0.25) :
+                CGSize(width: size.width * 0.25, height: size.width * 0.25)
+            logo.draw(in: CGRect(x: (imageRect.size.width - logoSize.width)/2,
+                                 y: (imageRect.size.height - logoSize.height)/2,
+                                 width: logoSize.width,
+                                 height: logoSize.height))
+        }
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
 }

@@ -280,3 +280,105 @@ public extension TFY where Base: NSAttributedString {
     }
 }
 
+public extension TFY where Base: NSMutableParagraphStyle{
+    
+    func lineSpacingChain(_ value: CGFloat) -> Self {
+        base.lineSpacing = value
+        return self
+    }
+    
+    func paragraphSpacingChain(_ value: CGFloat) -> Self {
+        base.paragraphSpacing = value
+        return self
+    }
+    
+    func alignmentChain(_ value: NSTextAlignment) -> Self {
+        base.alignment = value
+        return self
+    }
+    
+    func firstLineHeadIndentChain(_ value: CGFloat) -> Self {
+        base.firstLineHeadIndent = value
+        return self
+    }
+    
+    func headIndentChain(_ value: CGFloat) -> Self {
+        base.headIndent = value
+        return self
+    }
+    
+    func tailIndentChain(_ value: CGFloat) -> Self {
+        base.tailIndent = value
+        return self
+    }
+    
+    func lineBreakModeChain(_ value: NSLineBreakMode) -> Self {
+        base.lineBreakMode = value
+        return self
+    }
+    
+    func minimumLineHeightChain(_ value: CGFloat) -> Self {
+        base.minimumLineHeight = value
+        return self
+    }
+    
+    func maximumLineHeightChain(_ value: CGFloat) -> Self {
+        base.maximumLineHeight = value
+        return self
+    }
+    
+    func baseWritingDirectionChain(_ value: NSWritingDirection) -> Self {
+        base.baseWritingDirection = value
+        return self
+    }
+    
+    func lineHeightMultipleChain(_ value: CGFloat) -> Self {
+        base.lineHeightMultiple = value
+        return self
+    }
+    
+    func paragraphSpacingBeforeChain(_ value: CGFloat) -> Self {
+        base.paragraphSpacingBefore = value
+        return self
+    }
+    
+    func hyphenationFactorChain(_ value: Float) -> Self {
+        base.hyphenationFactor = value
+        return self
+    }
+    
+    func tabStopsChain(_ value: [NSTextTab]) -> Self {
+        base.tabStops = value
+        return self
+    }
+    
+    func defaultTabIntervalChain(_ value: CGFloat) -> Self {
+        base.defaultTabInterval = value
+        return self
+    }
+    
+    func allowsDefaultTighteningForTruncationChain(_ value: Bool) -> Self {
+        base.allowsDefaultTighteningForTruncation = value
+        return self
+    }
+    
+    func lineBreakStrategyChain(_ value: NSParagraphStyle.LineBreakStrategy) -> Self {
+        base.lineBreakStrategy = value
+        return self
+    }
+        
+    func addTabStopChain(_ value: NSTextTab) -> Self {
+        base.addTabStop(value)
+        return self
+    }
+    
+    func removeTabStopChain(_ value: NSTextTab) -> Self {
+        base.removeTabStop(value)
+        return self
+    }
+    
+    func setParagraphStyleChain(_ value: NSParagraphStyle) -> Self {
+        base.setParagraphStyle(value)
+        return self
+    }
+}

@@ -140,6 +140,7 @@
 		36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19632941D6290099BB35 /* KeyboardInfo.swift */; };
 		36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */; };
 		36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */; };
+		3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,6 +302,7 @@
 		36FA19632941D6290099BB35 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
 		36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Chain.swift"; sourceTree = "<group>"; };
 		36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Chain.swift"; sourceTree = "<group>"; };
+		3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -503,6 +505,7 @@
 				36E0CA0C2839F6F90063C0F1 /* UITabBarController+Chain.swift */,
 				36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */,
 				36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */,
+				3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 				36FA19982941D6290099BB35 /* ShimmerView.swift in Sources */,
 				36DAFEDE2787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift in Sources */,
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
+				3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */,
 				362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */,
 				36FA19852941D6290099BB35 /* CLLocationCoordinate2D.swift in Sources */,
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
