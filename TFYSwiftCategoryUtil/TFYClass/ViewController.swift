@@ -60,21 +60,23 @@ class ViewController: UIViewController {
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
         let title = "用户协议和隐私政策"
+
+        let linkDic = ["《用户协议》": "http://api.irainone.com/app/iop/register.html",
+                       "《隐私政策》": "http://api.irainone.com/app/iop/register.html",]
         let string = "\t用户协议和隐私政策请您务必审值阅读、充分理解 “用户协议” 和 ”隐私政策” 各项条款，包括但不限于：为了向您提供即时通讯、内容分享等服务，我们需要收集您的设备信息、操作日志等个人信息。\n\t您可阅读《用户协议》和《隐私政策》了解详细信息。如果您同意，请点击 “同意” 开始接受我们的服务;"
         
-        UIAlertController(title: title, message: string, preferredStyle: .alert)
-            .tfy
-            .action("取消", custom: { action in
-                action.tfy.titleColor(.blue)
-            }, handler: { action in
-                
-            })
-            .action("同意", custom: { action in
-                action.tfy.titleColor(.red)
-            }, handler: { action in
-                
-            })
-            .show(self)
+        let attributedText = NSAttributedString.create(string, textTaps: Array(linkDic.keys))
+        
+        let alertVC = UIAlertController(title: title, message: nil, preferredStyle:  .alert)
+            .addActionTitles(["取消", "同意"]) { vc, action in
+                TFYLog(action.title ?? "")
+            }
+        
+        alertVC.setValue(attributedText, forKey: kAlertMessage)
+        alertVC.messageLabel?.addTapAction(linkDic.keys.sorted()) { string, range, int in
+            TFYLog("点击了\(string)标签 - {\(range.location) , \(range.length)} - \(int)")
+        }
+        alertVC.present()
     }
     
 }

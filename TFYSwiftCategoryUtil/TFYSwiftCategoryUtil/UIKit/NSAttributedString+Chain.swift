@@ -382,3 +382,233 @@ public extension TFY where Base: NSMutableParagraphStyle{
         return self
     }
 }
+
+@objc public extension NSAttributedString{
+    ///获取所有的 [Range: NSAttributedString] 集合
+    var rangeSubAttStringDic: [String: NSAttributedString] {
+        var dic = [String: NSAttributedString]()
+        enumerateAttributes(in: NSMakeRange(0, self.length), options: .longestEffectiveRangeNotRequired) { (attrs, range, _) in
+            let sub = self.attributedSubstring(from: range)
+            dic[NSStringFromRange(range)] = sub
+        }
+        return dic
+    }
+        
+    /// 富文本段落设置
+    static func paraDict(_ font: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = .black, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping) -> [NSAttributedString.Key: Any] {
+        let paraStyle = NSMutableParagraphStyle()
+            .tfy
+            .lineBreakModeChain(lineBreakMode)
+            .lineSpacingChain(lineSpacing)
+            .alignmentChain(alignment)
+            .build
+
+        let dic: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: textColor,
+            .backgroundColor:UIColor.clear,
+            .paragraphStyle: paraStyle,
+        ]
+        return dic
+    }
+    
+    /// 创建富文本
+    static func create(_ text: String, textTaps: [String], font: UIFont = UIFont.systemFont(ofSize: 15), tapFont: UIFont = UIFont.systemFont(ofSize: 15), color: UIColor = .black, tapColor: UIColor = .blue, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping, rangeOptions mask: NSString.CompareOptions = []) -> NSAttributedString {
+        let paraDic = paraDict(font, textColor: color, alignment: alignment, lineSpacing: lineSpacing, lineBreakMode: lineBreakMode)
+        
+        let linkDic: [NSAttributedString.Key: Any] = [
+            .font: tapFont,
+            .foregroundColor: tapColor,
+            .backgroundColor: UIColor.clear,
+        ]
+
+        let attString = NSMutableAttributedString(string: text, attributes: paraDic)
+        for e in textTaps {
+            let nsRange = (attString.string as NSString).range(of: e, options: mask)
+            attString.addAttributes(linkDic, range: nsRange)
+        }
+        return attString
+    }
+    
+    /// 创建超链接富文本
+    static func createLink(_ text: String, dic: [String: String], font: UIFont) -> NSMutableAttributedString {
+        let attDic: [NSAttributedString.Key: Any] = [
+            .font: font as Any
+        ]
+        let mattString = NSMutableAttributedString(string: text, attributes: attDic)
+        dic.forEach { e in
+            let linkAttDic: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .foregroundColor: UIColor.blue,
+                .link: e.value,
+                .underlineStyle: NSUnderlineStyle.single.rawValue,
+            ]
+            
+            let attStr = NSAttributedString(string: e.key, attributes: linkAttDic)
+            let range = (mattString.string as NSString).range(of: e.key)
+            mattString.replaceCharacters(in: range, with: attStr)
+        }
+        return mattString
+    }
+    
+    /// nsRange范围子字符串差异华显示
+    static func attString(_ text: String, nsRange: NSRange, font: UIFont = UIFont.systemFont(ofSize: 15), tapColor: UIColor = .black) -> NSAttributedString {
+        assert((nsRange.location + nsRange.length) <= text.count)
+
+        let attDic: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: tapColor,
+        ]
+
+        let attrString = NSMutableAttributedString(string: text)
+        attrString.addAttributes(attDic, range: nsRange)
+        return attrString
+    }
+    
+    ///  富文本只有同字体大小才能计算高度
+    func size(with width: CGFloat) -> CGSize {
+        var size = self.boundingRect(with: CGSize(width: width, height: CGFloat(MAXFLOAT)),
+                                     options: [.usesLineFragmentOrigin, .usesFontLeading],
+                                     context: nil).size
+        size.width = ceil(size.width)
+        size.height = ceil(size.height)
+        return size
+    }
+    
+}
+
+
+public extension NSAttributedString{
+    convenience init(data: Data, documentType: DocumentType, encoding: String.Encoding = .utf8) throws {
+        try self.init(data: data,
+                      options: [.documentType: documentType,
+                                .characterEncoding: encoding.rawValue],
+                      documentAttributes: nil)
+    }
+    convenience init(html data: Data) throws {
+        try self.init(data: data, documentType: .html)
+    }
+    convenience init(txt data: Data) throws {
+        try self.init(data: data, documentType: .plain)
+    }
+    convenience init(rtf data: Data) throws {
+        try self.init(data: data, documentType: .rtf)
+    }
+    convenience init(rtfd data: Data) throws {
+        try self.init(data: data, documentType: .rtfd)
+    }
+    
+    func attributes(at index: Int) -> (NSRange, [NSAttributedString.Key: Any]) {
+        var nsRange = NSMakeRange(0, 0)
+        let dic = attributes(at: index, effectiveRange: &nsRange)
+        return (nsRange, dic)
+    }
+}
+
+// MARK: - Operators
+
+public extension NSAttributedString {
+    /// Add a NSAttributedString to another NSAttributedString and return a new NSAttributedString instance.
+    static func + (lhs: NSAttributedString, rhs: NSAttributedString) -> NSAttributedString {
+        let string = NSMutableAttributedString(attributedString: lhs)
+        string.append(rhs)
+        return NSAttributedString(attributedString: string)
+    }
+    
+    /// Add a NSAttributedString to another NSAttributedString.
+    static func += (lhs: inout NSAttributedString, rhs: NSAttributedString) {
+        let string = NSMutableAttributedString(attributedString: lhs)
+        string.append(rhs)
+        lhs = string
+    }
+
+    /// Add a NSAttributedString to another NSAttributedString and return a new NSAttributedString instance.
+    static func + (lhs: NSAttributedString, rhs: String) -> NSAttributedString {
+        return lhs + NSAttributedString(string: rhs)
+    }
+    
+    /// Add a NSAttributedString to another NSAttributedString.
+    static func += (lhs: inout NSAttributedString, rhs: String) {
+        lhs += NSAttributedString(string: rhs)
+    }
+}
+
+public extension NSMutableAttributedString{
+    ///获取或者替换某一段NSAttributedString
+    subscript(index: NSInteger) -> NSAttributedString?{
+        get {
+            let keys = rangeSubAttStringDic.keys.sorted()
+            if index < 0 || index >= keys.count {
+                return nil
+            }
+            let key = keys[index]
+            return rangeSubAttStringDic[key]
+        }
+        set {
+            guard let newValue = newValue else { return }
+            let keys = rangeSubAttStringDic.keys.sorted()
+            if index < 0 || index >= keys.count {
+                return
+            }
+            let key = keys[index]
+            replaceCharacters(in: NSRangeFromString(key), with: newValue)
+        }
+    }
+    
+    /// 字符串添加前缀
+    func appendPrefix(_ prefix: String = "*", color: UIColor = UIColor.red, font: UIFont) -> Self{
+        guard let range = self.string.range(of: prefix) else {
+            let attr = NSAttributedString(string: prefix,
+                                          attributes: [NSAttributedString.Key.foregroundColor: color,
+                                                       NSAttributedString.Key.font: font
+                                          ])
+            self.insert(attr, at: 0)
+            return self
+        }
+
+        let nsRange = NSRange(range, in: self.string)
+        addAttributes([NSAttributedString.Key.foregroundColor: color,
+                       NSAttributedString.Key.font: font
+        ], range: nsRange)
+        return self
+    }
+    
+    /// 字符串添加后缀
+    func appendSuffix(_ suffix: String = "*", color: UIColor = UIColor.red, font:UIFont) -> Self{
+        guard let range = self.string.range(of: suffix, options: .backwards) else {
+            let attr = NSAttributedString(string: suffix,
+                                          attributes: [NSAttributedString.Key.foregroundColor: color,
+                                                       NSAttributedString.Key.font: font
+                                          ])
+            self.append(attr)
+            return self
+        }
+        
+        let nsRange = NSRange(range, in: self.string)
+        addAttributes([NSAttributedString.Key.foregroundColor: color,
+                       NSAttributedString.Key.font: font
+        ], range: nsRange)
+        return self
+    }
+}
+
+
+public extension String {
+    
+    /// -> NSMutableAttributedString
+    var matt: NSMutableAttributedString{
+        return NSMutableAttributedString(string: self)
+    }
+    
+}
+
+
+@objc public extension NSAttributedString {
+    
+    /// -> NSMutableAttributedString
+    var matt: NSMutableAttributedString{
+        return NSMutableAttributedString(attributedString: self)
+    }
+    
+}
+

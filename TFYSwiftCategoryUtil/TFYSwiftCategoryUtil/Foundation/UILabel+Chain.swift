@@ -334,7 +334,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     }
 }
 
-
 private var isTapAction : Bool?
 private var attributeStrings : [TFYSwiftAttributeModel]?
 private var tapBlock : ((_ str : String ,_ range : NSRange ,_ index : Int) -> Void)?

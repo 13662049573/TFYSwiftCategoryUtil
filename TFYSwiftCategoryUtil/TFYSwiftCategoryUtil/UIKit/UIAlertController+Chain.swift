@@ -73,7 +73,7 @@ public extension UIAlertController {
                 alertVC.actions.forEach {
                     if action.title != "取消" {
                         let number = NSNumber(booleanLiteral: ($0 == action))
-                        $0.setValue(number, forKey: "checked")
+                        $0.setValue(number, forKey: kAlertActionChecked)
                     }
                 }
                 alertVC.dismiss(animated: true, completion: nil)
@@ -138,7 +138,7 @@ public extension UIAlertController {
     
     ///添加多个 UIAlertAction
     @discardableResult
-    func addActionTitles(_ titles: [String]? = ["取消", "确定"], handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
+    func addActionTitles(_ titles: [String]? = ["取消","确定"], handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
         titles?.forEach({ (string) in
             let style: UIAlertAction.Style = string == "取消" ? .cancel : .default
             self.addAction(UIAlertAction(title: string, style: style, handler: { (action) in
@@ -288,23 +288,23 @@ public extension TFY where Base: UIAlertController {
     }
     @discardableResult
     func title(_ font:UIFont) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: "attributedTitle") as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
+        let attributed:NSAttributedString = base.value(forKey: kAlertTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: "attributedTitle")
+        base.setValue(attributedM, forKey: kAlertTitle)
         return self
     }
     @discardableResult
     func title(_ color:UIColor) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: "attributedTitle") as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
+        let attributed:NSAttributedString = base.value(forKey: kAlertTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: "attributedTitle")
+        base.setValue(attributedM, forKey: kAlertTitle)
         return self
     }
     @discardableResult
     func title(_ attributed:NSAttributedString) -> TFY {
-        base.setValue(attributed, forKey: "attributedTitle")
+        base.setValue(attributed, forKey: kAlertTitle)
         return self
     }
     @discardableResult
@@ -314,23 +314,23 @@ public extension TFY where Base: UIAlertController {
     }
     @discardableResult
     func message(_ font:UIFont) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: "attributedMessage") as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
+        let attributed:NSAttributedString = base.value(forKey: kAlertMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: "attributedMessage")
+        base.setValue(attributedM, forKey: kAlertMessage)
         return self
     }
     @discardableResult
     func message(_ color:UIColor) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: "attributedMessage") as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
+        let attributed:NSAttributedString = base.value(forKey: kAlertMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: "attributedMessage")
+        base.setValue(attributedM, forKey: kAlertMessage)
         return self
     }
     @discardableResult
     func message(_ attributed:NSAttributedString) -> TFY {
-        base.setValue(attributed, forKey: "attributedMessage")
+        base.setValue(attributed, forKey: kAlertMessage)
         return self
     }
     
@@ -354,7 +354,7 @@ public extension TFY where Base: UIAlertAction {
     }
     @discardableResult
     func titleColor(_ color:UIColor) -> TFY {
-        base.setValue(color, forKey: "titleTextColor")
+        base.setValue(color, forKey: kAlertActionColor)
         return self
     }
     @discardableResult

@@ -657,3 +657,397 @@ public extension TFY where Base: UIView {
         return self
     }
 }
+
+extension UIView {
+    
+    var keyWindow: UIWindow? {
+        var keyWindow:UIWindow?
+        keyWindow = UIApplication.shared.connectedScenes
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows.first
+        return keyWindow
+    }
+
+    ///手势 - 轻点 UITapGestureRecognizer
+    @discardableResult
+    func addGestureTap(_ target: Any?, action: Selector?) -> UITapGestureRecognizer {
+        let obj = UITapGestureRecognizer(target: target, action: action)
+        obj.numberOfTapsRequired = 1  //轻点次数
+        obj.numberOfTouchesRequired = 1  //手指个数
+
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+        return obj
+    }
+    
+    ///手势 - 轻点 UITapGestureRecognizer
+    @discardableResult
+    func addGestureTap(_ action: @escaping ((UITapGestureRecognizer) ->Void)) -> UITapGestureRecognizer {
+        let obj = UITapGestureRecognizer(target: nil, action: nil)
+        obj.numberOfTapsRequired = 1  //轻点次数
+        obj.numberOfTouchesRequired = 1  //手指个数
+
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+
+        obj.addAction(action)
+        return obj
+    }
+    
+    ///手势 - 长按 UILongPressGestureRecognizer
+    @discardableResult
+    func addGestureLongPress(_ target: Any?, action: Selector?, for minimumPressDuration: TimeInterval = 0.5) -> UILongPressGestureRecognizer {
+        let obj = UILongPressGestureRecognizer(target: target, action: action)
+        obj.minimumPressDuration = minimumPressDuration
+      
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+        return obj
+    }
+    
+    ///手势 - 长按 UILongPressGestureRecognizer
+    @discardableResult
+    func addGestureLongPress(_ action: @escaping ((UILongPressGestureRecognizer) ->Void), for minimumPressDuration: TimeInterval = 0.5) -> UILongPressGestureRecognizer {
+        let obj = UILongPressGestureRecognizer(target: nil, action: nil)
+        obj.minimumPressDuration = minimumPressDuration
+      
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+      
+        obj.addAction { (recognizer) in
+            action(recognizer as! UILongPressGestureRecognizer)
+        }
+        return obj
+    }
+      
+    ///手势 - 拖拽 UIPanGestureRecognizer
+    @discardableResult
+    func addGesturePan(_ action: @escaping ((UIPanGestureRecognizer) ->Void)) -> UIPanGestureRecognizer {
+        let obj = UIPanGestureRecognizer(target: nil, action: nil)
+          //最大最小的手势触摸次数
+        obj.minimumNumberOfTouches = 1
+        obj.maximumNumberOfTouches = 3
+          
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+          
+        obj.addAction { (recognizer) in
+            if let gesture = recognizer as? UIPanGestureRecognizer {
+                let translate: CGPoint = gesture.translation(in: gesture.view?.superview)
+                gesture.view!.center = CGPoint(x: gesture.view!.center.x + translate.x, y: gesture.view!.center.y + translate.y)
+                gesture.setTranslation( .zero, in: gesture.view!.superview)
+                             
+                action(gesture)
+            }
+        }
+        return obj
+    }
+      
+    ///手势 - 屏幕边缘 UIScreenEdgePanGestureRecognizer
+    @discardableResult
+    func addGestureEdgPan(_ target: Any?, action: Selector?, for edgs: UIRectEdge) -> UIScreenEdgePanGestureRecognizer {
+        let obj = UIScreenEdgePanGestureRecognizer(target: target, action: action)
+        obj.edges = edgs
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+        return obj
+    }
+    
+    ///手势 - 屏幕边缘 UIScreenEdgePanGestureRecognizer
+    @discardableResult
+    func addGestureEdgPan(_ action: @escaping ((UIScreenEdgePanGestureRecognizer) ->Void), for edgs: UIRectEdge) -> UIScreenEdgePanGestureRecognizer {
+        let obj = UIScreenEdgePanGestureRecognizer(target: nil, action: nil)
+        obj.edges = edgs
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+       
+        obj.addAction { (recognizer) in
+            action(recognizer as! UIScreenEdgePanGestureRecognizer)
+        }
+        return obj
+    }
+      
+    ///手势 - 清扫 UISwipeGestureRecognizer
+    @discardableResult
+    func addGestureSwip(_ target: Any?, action: Selector?, for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        let obj = UISwipeGestureRecognizer(target: target, action: action)
+        obj.direction = direction
+      
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+        return obj
+    }
+    
+    ///手势 - 清扫 UISwipeGestureRecognizer
+    @discardableResult
+    func addGestureSwip(_ action: @escaping ((UISwipeGestureRecognizer) ->Void), for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        let obj = UISwipeGestureRecognizer(target: nil, action: nil)
+        obj.direction = direction
+      
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+      
+        obj.addAction { (recognizer) in
+            action(recognizer as! UISwipeGestureRecognizer)
+        }
+        return obj
+    }
+      
+    ///手势 - 捏合 UIPinchGestureRecognizer
+    @discardableResult
+    func addGesturePinch(_ action: @escaping ((UIPinchGestureRecognizer) ->Void)) -> UIPinchGestureRecognizer {
+        let obj = UIPinchGestureRecognizer(target: nil, action: nil)
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+      
+        obj.addAction { (recognizer) in
+            if let gesture = recognizer as? UIPinchGestureRecognizer {
+                let location = recognizer.location(in: gesture.view!.superview)
+                gesture.view!.center = location
+                gesture.view!.transform = gesture.view!.transform.scaledBy(x: gesture.scale, y: gesture.scale)
+                gesture.scale = 1.0
+                action(gesture)
+            }
+        }
+        return obj
+    }
+    
+    ///手势 - 旋转 UIRotationGestureRecognizer
+    @discardableResult
+    func addGestureRotation(_ action: @escaping ((UIRotationGestureRecognizer) ->Void)) -> UIRotationGestureRecognizer {
+        let obj = UIRotationGestureRecognizer(target: nil, action: nil)
+        isUserInteractionEnabled = true
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(obj)
+      
+        obj.addAction { (recognizer) in
+            if let gesture = recognizer as? UIRotationGestureRecognizer {
+                gesture.view!.transform = gesture.view!.transform.rotated(by: gesture.rotation)
+                gesture.rotation = 0.0
+                          
+                action(gesture)
+            }
+        }
+        return obj
+    }
+
+    ///呈现到 UIApplication.shared.keyWindow 上
+    func show(_ animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        guard let keyWindow = keyWindow else { return }
+        if keyWindow.subviews.contains(self) {
+            self.dismiss()
+        }
+        
+        if self.frame.equalTo(.zero) {
+            self.frame = UIScreen.main.bounds
+        }
+        
+        keyWindow.endEditing(true)
+        keyWindow.addSubview(self)
+
+        let duration = animated ? 0.15 : 0
+        UIView.animate(withDuration: duration, animations: {
+            self.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+            
+        }, completion: completion)
+    }
+    ///从 UIApplication.shared.keyWindow 上移除
+    func dismiss(_ animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        let duration = animated ? 0.15 : 0
+        UIView.animate(withDuration: duration, animations: {
+            self.backgroundColor = UIColor.black.withAlphaComponent(0)
+
+        }) { (isFinished) in
+            completion?(isFinished)
+            self.removeFromSuperview()
+        }
+    }
+    
+    /// 获取特定类型父视图
+    func findSupView(_ type: UIView.Type) -> UIView? {
+        var supView = superview
+        while supView != nil {
+            if supView!.isKind(of: type) {
+                return supView
+            }
+            supView = supView?.superview
+        }
+        return nil
+    }
+        
+    /// 获取特定类型子视图
+    func findSubView(_ type: UIView.Type) -> UIView? {
+        for e in self.subviews.enumerated() {
+            if e.element.isKind(of: type) {
+                return e.element
+            }
+        }
+        return nil
+    }
+
+    func findViewController() -> UIViewController? {
+        if let nextResponder = self.next as? UIViewController {
+            return nextResponder
+        } else if let nextResponder = self.next as? UIView {
+            return nextResponder.findViewController()
+        } else {
+            return nil
+        }
+    }
+    
+    ///往复动画
+    func animationCycle(_ transformBlock: @escaping ((CGAffineTransform) -> Void), animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        let duration = animated ? 0.3 : 0
+        UIView.animate(withDuration: duration, animations: {
+            if self.transform.isIdentity == true {
+                transformBlock(self.transform)
+            } else {
+                self.transform = CGAffineTransform.identity
+            }
+        }, completion: completion)
+    }
+    
+    ///移动动画
+    func move(_ x: CGFloat, y: CGFloat, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        let duration = animated ? 0.3 : 0
+        UIView.animate(withDuration: duration, animations: {
+            if self.transform.isIdentity == true {
+                self.transform = self.transform.translatedBy(x: x, y: y)
+            } else {
+                self.transform = CGAffineTransform.identity
+            }
+        }, completion: completion)
+    }
+    
+    ///旋转动画
+    func rotate(_ angle: CGFloat, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        let duration = animated ? 0.3 : 0
+        UIView.animate(withDuration: duration, animations: {
+            if self.transform.isIdentity == true {
+                self.transform = self.transform.rotated(by: angle)
+            } else {
+                self.transform = CGAffineTransform.identity
+            }
+
+        }, completion: completion)
+    }
+    ///转为图像
+    func convertToImage() -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+        let ctx = UIGraphicsGetCurrentContext()
+        self.layer.render(in: ctx!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        return image!
+    }
+    
+    func snapshotImage() -> UIImage?{
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0)
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        
+        guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
+        // 截图:实际是把layer上面的东西绘制到上下文中
+        layer.render(in: ctx)
+//        self.drawHierarchy(in: self.frame, afterScreenUpdates: true)
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        // 保存相册
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        return image
+    }
+    
+    func snapshotImageAfterScreenUpdates(_ afterUpdates: Bool) -> UIImage?{
+        if !self.responds(to: #selector(drawHierarchy(in:afterScreenUpdates:))) {
+            return self.snapshotImage()
+        }
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0)
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: afterUpdates)
+        let snap = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return snap
+    }
+        
+    /// 插入模糊背景
+    @discardableResult
+    func insertVisualEffectView(style: UIBlurEffect.Style = .light) -> UIVisualEffectView {
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: style))
+        blurView.frame = self.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        insertSubview(blurView, at: 0)
+        return blurView
+    }
+}
+
+
+public extension UIView{
+    
+    /// 获取特定类型父视图
+    final func supView<T: UIView>(_ type: T.Type) -> T? {
+        var supView = superview
+        while supView?.isKind(of: type.self) == false {
+            supView = supView?.superview
+        }
+        return supView.self as? T
+    }
+        
+    /// 获取特定类型子视图
+    final func subView<T: UIView>(_ type: T.Type) -> T? {
+        for e in self.subviews.enumerated() {
+            if e.element.isKind(of: type) {
+                return (e.element.self as! T)
+            }
+        }
+        return nil
+    }
+}
+
+public extension Array where Element : UIView {
+    ///手势 - 轻点 UITapGestureRecognizer
+    @discardableResult
+    func addGestureTap(_ action: @escaping ((UIGestureRecognizer) ->Void)) -> [UITapGestureRecognizer] {
+        
+        var list = [UITapGestureRecognizer]()
+        forEach {
+            let obj = $0.addGestureTap(action)
+            list.append(obj)
+        }
+        return list
+    }
+}
+
+
+
+@objc public extension UIView{
+
+    /// 原生 inset 布局
+    func equalToSuperview(_ inset: UIEdgeInsets) {
+        guard let superview = superview else { return }
+        translatesAutoresizingMaskIntoConstraints = false
+        topAnchor.constraint(equalTo: superview.topAnchor, constant: inset.top).isActive = true
+        rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -inset.right).isActive = true
+        leftAnchor.constraint(equalTo: superview.leftAnchor, constant: inset.left).isActive = true
+        bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -inset.bottom).isActive = true
+    }
+    
+    func heightEqualTo(_ constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+    
+    func widthEqualTo(_ constant: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+
+}
