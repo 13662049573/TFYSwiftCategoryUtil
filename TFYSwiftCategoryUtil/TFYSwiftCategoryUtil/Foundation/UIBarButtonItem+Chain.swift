@@ -43,13 +43,13 @@ public extension TFY where Base: UIBarButtonItem {
     }
     
     /// UIBarButtonItem 回调
-    func addAction(_ closure: @escaping ((UIBarButtonItem) -> Void)) {
+    func additemAction(_ closure: @escaping ((UIBarButtonItem) -> Void)) {
         objc_setAssociatedObject(self,(AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         target = self
-        action = #selector(p_invoke)
+        action = #selector(p_iteminvoke)
     }
 
-    private func p_invoke() {
+    private func p_iteminvoke() {
         if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UIBarButtonItem) -> Void) {
             closure(self)
         }
@@ -66,14 +66,14 @@ public extension TFY where Base: UIBarButtonItem {
     
     convenience init(obj: String, style: UIBarButtonItem.Style = .plain, tag: Int = 0, action: @escaping ((UIBarButtonItem) -> Void)) {
         self.init(obj: obj, style: style, tag: tag, target: nil, action: nil)
-        self.addAction(action)
+        self.additemAction(action)
     }
     
     convenience init(systemItem: UIBarButtonItem.SystemItem, tag: Int = 0, action: @escaping ((UIBarButtonItem) -> Void)) {
         self.init(barButtonSystemItem: systemItem, target: nil, action: nil)
         self.tag = tag
         self.systemType = systemItem
-        self.addAction(action)
+        self.additemAction(action)
     }
     
     func addTargetForAction(_ target: AnyObject, action: Selector) {
