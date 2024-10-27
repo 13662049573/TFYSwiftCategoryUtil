@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.1.8.8"
+  spec.version      = "2.1.8.9"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS14 Swift5 "
 
@@ -61,6 +61,7 @@ Pod::Spec.new do |spec|
     ss.dependency "TFYSwiftCategoryUtil/Utils"
     ss.dependency "TFYSwiftCategoryUtil/UIKit"
     ss.dependency "TFYSwiftCategoryUtil/CoreUiit"
+    ss.dependency "TFYSwiftCategoryUtil/Gesture"
   end
 
   spec.subspec 'Gesture' do |ss|

@@ -692,7 +692,6 @@ extension UIView {
         isUserInteractionEnabled = true
         isMultipleTouchEnabled = true
         addGestureRecognizer(obj)
-
         obj.addAction(action)
         return obj
     }
