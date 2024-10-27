@@ -519,7 +519,7 @@ public extension UIViewController {
     /// 导航栏返回按钮图片定制
     func createBackItem(_ image: UIImage) {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.additemAction({ (item) in
+        navigationItem.leftBarButtonItem?.addAction({ (item) in
             self.navigationController?.popViewController(animated: true)
         })
     }
