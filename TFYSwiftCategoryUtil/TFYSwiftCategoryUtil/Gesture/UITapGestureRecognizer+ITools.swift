@@ -141,10 +141,10 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// 闭包回调
     func addAction(_ closure: @escaping (UIGestureRecognizer) -> Void) {
         objc_setAssociatedObject(self, (AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        addTarget(self, action: #selector(p_invoke))
+        addTarget(self, action: #selector(p_invokeTap))
     }
     
-    private func p_invoke() {
+    private func p_invokeTap() {
         if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UIGestureRecognizer) -> Void) {
             closure(self)
         }
@@ -154,22 +154,7 @@ public extension TFY where Base == UITapGestureRecognizer {
 
 
 @objc public extension UITapGestureRecognizer {
-    private struct AssociateKeys {
-        static var closure    = "UITapGestureRecognizer" + "closure"
-    }
-    
-    /// 闭包回调
-    override func addAction(_ closure: @escaping (UITapGestureRecognizer) -> Void) {
-        objc_setAssociatedObject(self,(AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        addTarget(self, action: #selector(p_invokeTap))
-    }
-    
-    private func p_invokeTap() {
-        if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UITapGestureRecognizer) -> Void) {
-            closure(self)
-        }
-    }
-    
+   
     /// UILabel 富文本点击(仅支持 lineBreakMode = .byWordWrapping)
     func didTapLabelAttributedText(_ linkDic: [String: String], action: @escaping (String, String?) -> Void) {
         assert(((self.view as? UILabel) != nil), "Only supports UILabel")
