@@ -17,6 +17,7 @@
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
 		362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */; };
+		3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
 		365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BC283077B900E4DE22 /* UIWindow+Chain.swift */; };
@@ -178,6 +179,7 @@
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
 		362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYNetstatManager.swift; sourceTree = "<group>"; };
+		3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+obj.swift"; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
 		365477BC283077B900E4DE22 /* UIWindow+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Chain.swift"; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				36E0CA042839ED040063C0F1 /* UIBezierPath+Chain.swift */,
 				36E0CA062839ED7C0063C0F1 /* UIFont+Chain.swift */,
 				36E0CA082839F3810063C0F1 /* UIAlertController+Chain.swift */,
+				3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
+				3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */,
 				36F283622835D98600460789 /* Codable+Chain.swift in Sources */,
 				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
 				36FA19862941D6290099BB35 /* AuthorizationPublisher.swift in Sources */,

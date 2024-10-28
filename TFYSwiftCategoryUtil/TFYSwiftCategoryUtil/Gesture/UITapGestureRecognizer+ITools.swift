@@ -138,6 +138,7 @@ public extension TFY where Base == UITapGestureRecognizer {
             objc_setAssociatedObject(self,(AssociateKeys.funcName), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
     /// 闭包回调
     func addAction(_ closure: @escaping (UIGestureRecognizer) -> Void) {
         objc_setAssociatedObject(self, (AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
@@ -152,20 +153,20 @@ public extension TFY where Base == UITapGestureRecognizer {
     
 }
 
-
 @objc public extension UITapGestureRecognizer {
+    
     private struct AssociateKeys {
         static var closure    = "UITapGestureRecognizer" + "closure"
     }
     
     /// 闭包回调
     override func addAction(_ closure: @escaping (UITapGestureRecognizer) -> Void) {
-        objc_setAssociatedObject(self,(AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        objc_setAssociatedObject(self, (AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         addTarget(self, action: #selector(p_invokeTap))
     }
     
     private func p_invokeTap() {
-        if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UITapGestureRecognizer) -> Void) {
+        if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UIGestureRecognizer) -> Void) {
             closure(self)
         }
     }

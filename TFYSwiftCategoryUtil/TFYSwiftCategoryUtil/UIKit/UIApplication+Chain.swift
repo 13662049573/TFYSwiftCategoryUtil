@@ -259,7 +259,7 @@ public extension UIApplication {
             //如果支持, 替换icon
             UIApplication.shared.setAlternateIconName(name) { (error) in
                 //点击弹框的确认按钮后的回调
-                if let error = error {
+                if error != nil {
                     print("更换icon发生错误")
                 }
             }
