@@ -214,6 +214,7 @@ public extension TFY where Base == UITapGestureRecognizer {
             }
         }
     }
+    
     /// UILabel 富文本点击
     @available(*, deprecated, message: "replace by didTapLabelAttributedText(_ linkDic: , action:)")
     func didTapAttributedTextIn(_ tapTexts: [String], action: @escaping (String, Int) -> Void) {
