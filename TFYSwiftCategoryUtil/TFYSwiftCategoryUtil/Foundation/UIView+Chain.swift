@@ -658,7 +658,7 @@ public extension TFY where Base: UIView {
     }
 }
 
-extension UIView {
+public extension UIView {
     
     var keyWindow: UIWindow? {
         var keyWindow:UIWindow?

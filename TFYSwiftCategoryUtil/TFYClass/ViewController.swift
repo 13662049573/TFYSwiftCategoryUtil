@@ -73,9 +73,11 @@ class ViewController: UIViewController {
             }
         
         alertVC.setValue(attributedText, forKey: kAlertMessage)
-        alertVC.messageLabel?.addTapAction(linkDic.keys.sorted()) { string, range, int in
-            TFYLog("点击了\(string)标签 - {\(range.location) , \(range.length)} - \(int)")
-        }
+        alertVC.messageLabel?.addGestureTap({ reco in
+            reco.didTapLabelAttributedText(linkDic) { text, url in
+                TFYLog("\(text), \(url ?? "_")")
+            }
+        })
         alertVC.present()
     }
     
