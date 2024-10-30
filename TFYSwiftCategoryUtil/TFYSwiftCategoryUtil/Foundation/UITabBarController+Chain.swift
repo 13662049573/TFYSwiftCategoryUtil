@@ -444,6 +444,4 @@ public extension UITabBar {
             return self.tfy.getBadge(.font, for: .highlighted)
         }
     }
-    
-    
 }
