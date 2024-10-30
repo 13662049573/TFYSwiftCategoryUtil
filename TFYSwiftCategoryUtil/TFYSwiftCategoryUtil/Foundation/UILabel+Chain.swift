@@ -481,13 +481,15 @@ public extension UILabel {
                     index = index - 1
                 }
                 let link_count = attributeStrings?.count
-                for j in 0 ..< link_count! {
-                    let model = attributeStrings![j]
-                    let link_range = model.range
-                    // 检查是否在位置范围
-                    if NSLocationInRange(index, link_range!) {
-                        result(model.str!,model.range!,j)
-                        return true
+                if let count = link_count {
+                    for j in 0 ..< count {
+                        let model = attributeStrings![j]
+                        let link_range = model.range
+                        // 检查是否在位置范围
+                        if NSLocationInRange(index, link_range!) {
+                            result(model.str!,model.range!,j)
+                            return true
+                        }
                     }
                 }
             }

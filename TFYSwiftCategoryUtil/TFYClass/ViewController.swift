@@ -59,6 +59,7 @@ class ViewController: UIViewController {
 
     @objc private func buttonAction(btn:UIButton) {
         btn.isSelected = !btn.isSelected
+        
         let title = "用户协议和隐私政策"
 
         let linkDic = ["《用户协议》": "http://api.irainone.com/app/iop/register.html",
@@ -71,7 +72,6 @@ class ViewController: UIViewController {
             .addActionTitles(["取消", "同意"]) { vc, action in
                 TFYLog(action.title ?? "")
             }
-        
         alertVC.setValue(attributedText, forKey: kAlertMessage)
         alertVC.messageLabel?.addGestureTap({ reco in
             reco.didTapLabelAttributedText(linkDic) { text, url in
