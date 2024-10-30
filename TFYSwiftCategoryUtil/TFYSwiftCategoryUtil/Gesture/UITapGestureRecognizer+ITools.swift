@@ -174,6 +174,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// UILabel 富文本点击(仅支持 lineBreakMode = .byWordWrapping)
     func didTapLabelAttributedText(_ linkDic: [String: String], action: @escaping (String, String?) -> Void) {
         assert(((self.view as? UILabel) != nil), "Only supports UILabel")
+        
         guard let label = self.view as? UILabel,
               let attributedText = label.attributedText
               else { return }
