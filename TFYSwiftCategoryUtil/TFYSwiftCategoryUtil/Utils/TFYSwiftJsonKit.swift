@@ -8,136 +8,146 @@
 
 import Foundation
 import UIKit
+import Dispatch
 
-public class TFYSwiftJsonKit {
-    
-    /// Json对象(数组/字典)转Model
-    static func jsonToModel<T:Codable>(withJSONObject obj:Any?,modelType:T.Type)->T?{
-        /*
-         jsonObject->data->model
-         */
-        guard let obj = obj else {
+extension JSONEncoder {
+    func encode<T: Encodable>(_ value: T, using customEncodeMethod: @escaping (T, Encoder) throws -> Void) throws -> Data {
+        let anyEncodable = AnyEncodable(value, customEncodeMethod)
+        return try self.encode(anyEncodable)
+    }
+}
+
+struct AnyEncodable<T: Encodable>: Encodable {
+    private let _encode: (T, Encoder) throws -> Void
+    private let value: T
+
+    init(_ value: T, _ customEncodeMethod: @escaping (T, Encoder) throws -> Void) {
+        self.value = value
+        self._encode = customEncodeMethod
+    }
+
+    func encode(to encoder: Encoder) throws {
+        try _encode(value, encoder)
+    }
+}
+
+public class TFYSwiftJsonKit: NSObject {
+
+    public static func getJsonStrFromDictionary(_ dictionary: [String : Any]) -> String? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
+            if var jsonString = String(data: jsonData, encoding: .utf8) {
+                // 替换转义字符
+                jsonString = jsonString.replacingOccurrences(of: "\\/", with: "/")
+//                XCDLog(jsonString)
+                return jsonString
+            }
             return nil
-        }
-        do{
-            let jsonData = try JSONSerialization.data(withJSONObject: obj as Any, options:[])
-            let model = try JSONDecoder().decode(modelType, from: jsonData)
-            return model
-        }catch{
-            print(error)
+        } catch {
+            TFYLog(error.localizedDescription)
             return nil
         }
     }
     
-    /// Json对象(数组/字典)转String
-    static func jsonToString(withJSONObject obj:Any?)->String?{
-        /*
-         jsonObject->data->string
-         */
-        guard let obj = obj else {
-            return nil
-        }
-        do{
-            let jsonData = try JSONSerialization.data(withJSONObject: obj as Any, options:[])
-            let string = String.init(data: jsonData, encoding: String.Encoding.utf8)
-            return string
-        }catch{
-            print(error)
-            return nil
-        }
-    }
-    
-    /// Model转String
-    static func modelToString<T:Codable>(obj:T)->String?{
-        /*
-         model->data->string
-         */
-        do{
-            let data = try JSONEncoder().encode(obj)
-            let string = String.init(data: data, encoding: String.Encoding.utf8)
-            return string
-        }catch{
-            print(error)
-            return nil
-        }
-    }
-    
-    /// Model转Json对象(数组/字典)
-    static func modelToJsonObject<T:Codable>(obj:T)->Any?{
-        /*
-         model->data->jsonObject
-         */
-        do{
-            let data = try JSONEncoder().encode(obj)
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            return json
-        }catch{
-            print(error)
-            return nil
-        }
-    }
-    
-    /// Model转Data
-    static func modelToData<T:Codable>(obj:T)->Data?{
-        /*
-         model->data
-         */
-        do{
-            let data = try JSONEncoder().encode(obj)
+    public static func getJsonDataFromDictionary(_ dictionary: [String : Any]) -> Data? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
             return data
-        }catch{
-            print(error)
+        } catch {
+            TFYLog(error)
             return nil
         }
     }
     
-    /// Data转Model
-    static func dataToModel<T:Codable>(data:Data,modelType:T.Type)->T?{
-        /*
-         data->model
-         */
-        do{
-            let model = try JSONDecoder().decode(modelType, from: data)
+    /// 字典转字符串
+    public static func dicValueString(_ dic:[String : Any]) -> String? {
+        if let dicData = TFYSwiftJsonKit.getJsonDataFromDictionary(dic) {
+            return String(data:dicData, encoding: String.Encoding.utf8)
+        }
+        return nil
+    }
+    
+    /// 数组转字符串
+    public static func arrValueString(_ array: Array<Dictionary<String, Any>>) -> String? {
+        if let arrData = TFYSwiftJsonKit.getJsonDataFromArray(array) {
+            return String(data:arrData, encoding: String.Encoding.utf8)
+        }
+        return nil
+    }
+    
+    /// MARK: 字符串转字典
+    public static func stringValueDic(_ str: String) -> [String : Any]?{
+        let data = str.data(using: String.Encoding.utf8)
+        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
+            return dict
+        }
+        return nil
+    }
+    
+    /// MARK: 字符串转数组
+    public static func stringValueArr(_ str: String) -> [Any]?{
+        let data = str.data(using: String.Encoding.utf8)
+        if let array = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [Any] {
+            return array
+        }
+        return nil
+    }
+    
+    public static func getJsonDataFromArray(_ array: Array<Dictionary<String, Any>>) -> Data? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
+            return data
+        } catch {
+            TFYLog(error)
+            return nil
+        }
+    }
+    
+    public static func decodeJsonDataToModel<T: Decodable>(_ data: Data, type: T.Type) -> T? {
+        let decoder = JSONDecoder()
+        do {
+            let model = try decoder.decode(T.self, from: data)
             return model
-        }catch{
-            print(error)
+        } catch {
+            TFYLog(error)
             return nil
         }
     }
     
-    /// String转Model
-    static func stringToModel<T:Codable>(string:String,modelType:T.Type)->T?{
-        /*
-         string->data->model
-         */
-        do{
-            let data = string.data(using: String.Encoding.utf8)!
-            let model = try JSONDecoder().decode(modelType, from: data)
-            return model
-        }catch{
-            print(error)
-            return nil
-        }
+    /// 模型转JSON字符串
+    public static func toJson<T>(_ model: T) -> String? where T : Encodable {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = []
+        guard let data = try? encoder.encode(model) else { return nil }
+        return String(data: data, encoding: .utf8)
     }
     
-    /// 数组转字典
-    static func getInnerObject(inside object: Any?, by designatedPath: String? = nil) -> Any? {
-        var result: Any? = object
-        var abort = false
-        if let paths = designatedPath?.components(separatedBy: "."), paths.count > 0 {
-            var next = object as? [String: Any]
-            paths.forEach({ (seg) in
-                if seg.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == "" || abort {
-                    return
-                }
-                if let _next = next?[seg] {
-                    result = _next
-                    next = _next as? [String: Any]
-                } else {
-                    abort = true
-                }
-            })
-        }
-        return abort ? nil : result
+    public static func modelsToJson<T>(_ models: [T], outputFormat: JSONEncoder.OutputFormatting = .prettyPrinted) -> String? where T : Encodable {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = outputFormat
+        guard let data = try? encoder.encode(models) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    /// JSON字符串转字典
+    public static func dictionaryFrom(jsonString: String) -> Dictionary<String, Any>? {
+        guard let jsonData = jsonString.data(using: .utf8) else { return nil }
+        guard let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers), let result = dict as? Dictionary<String, Any> else { return nil }
+        return result
+    }
+
+    /// JSON字符串转数组
+    public static func arrayFrom(jsonString: String) -> [Dictionary<String, Any>]? {
+        guard let jsonData = jsonString.data(using: .utf8) else { return nil }
+        guard let array = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers), let result = array as? [Dictionary<String, Any>] else { return nil }
+        return result
+    }
+    
+    /// JSON字符串/字典 转模型
+    public static func toModel<T>(_ type: T.Type, value: Any) -> T? where T : Decodable {
+        guard let data = try? JSONSerialization.data(withJSONObject: value) else { return nil }
+        let decoder = JSONDecoder()
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity", negativeInfinity: "-Infinity", nan: "NaN")
+        return try? decoder.decode(type, from: data)
     }
 }
