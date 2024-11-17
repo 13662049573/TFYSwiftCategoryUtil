@@ -14,7 +14,7 @@ struct RectGetter: View {
 
     func createView(proxy: GeometryProxy) -> some View {
         TFYAsynce.async {
-        } _: {
+        } mainBlock: {
             self.rect = proxy.globalFrame
         }
         return Rectangle().fill(Color.clear)

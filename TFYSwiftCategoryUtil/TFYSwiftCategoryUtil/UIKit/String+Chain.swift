@@ -1431,13 +1431,13 @@ extension TFY where Base: ExpressibleByStringLiteral {
         if isSplit {
             for i in 0..<keyword.count {
                 let singleString = keyword.tfy.sub(start: i, length: 1)
-                let ranges = TFYRegexHelper.matchRange(totalString, pattern: singleString)
+                let ranges = TFYRegexHelper.matchRanges(totalString, pattern: singleString)
                 for range in ranges {
                     attributedString.addAttributes([.foregroundColor: keywordCololor], range: range)
                 }
             }
         } else {
-            let ranges = TFYRegexHelper.matchRange(totalString, pattern: keyword)
+            let ranges = TFYRegexHelper.matchRanges(totalString, pattern: keyword)
             for range in ranges {
                 attributedString.addAttributes([.foregroundColor: keywordCololor], range: range)
             }

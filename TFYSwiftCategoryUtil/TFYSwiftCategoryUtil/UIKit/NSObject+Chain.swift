@@ -124,12 +124,12 @@ public extension NSObject {
     static func hookInstanceMethod(of origSel: Selector, with replSel: Selector) -> Bool {
         let clz: AnyClass = classForCoder()
         guard let oriMethod = class_getInstanceMethod(clz, origSel) as Method? else {
-            TFYLog("原 实例方法：Swizzling Method(\(origSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
+            TFYUtils.log("原 实例方法：Swizzling Method(\(origSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
             return false
         }
         
         guard let repMethod = class_getInstanceMethod(clz, replSel) as Method? else {
-            TFYLog("新 实例方法：Swizzling Method(\(replSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
+            TFYUtils.log("新 实例方法：Swizzling Method(\(replSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
             return false
         }
         
@@ -149,12 +149,12 @@ public extension NSObject {
         let clz: AnyClass = classForCoder()
         
         guard let oriMethod = class_getClassMethod(clz, origSel) as Method? else {
-            TFYLog("原 类方法：Swizzling Method(\(origSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
+            TFYUtils.log("原 类方法：Swizzling Method(\(origSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
             return false
         }
         
         guard let repMethod = class_getClassMethod(clz, replSel) as Method? else {
-            TFYLog("新 类方法 replSel：Swizzling Method(\(replSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
+            TFYUtils.log("新 类方法 replSel：Swizzling Method(\(replSel)) not found while swizzling class \(NSStringFromClass(classForCoder())).")
             return false
         }
         
@@ -176,7 +176,7 @@ public extension NSObject {
         guard let oriMethod = (isClassMethod ? class_getClassMethod(clz, origSel) : class_getClassMethod(clz, origSel)) as Method?,
               let repMethod = (isClassMethod ? class_getClassMethod(clz, replSel) : class_getClassMethod(clz, replSel)) as Method?
         else {
-            TFYLog("Swizzling Method(s) not found while swizzling class \(NSStringFromClass(classForCoder())).")
+            TFYUtils.log("Swizzling Method(s) not found while swizzling class \(NSStringFromClass(classForCoder())).")
             return false
         }
         
@@ -220,23 +220,23 @@ public extension NSObject {
     }
     
     private func hook_setValue(_ value: Any?, forUndefinedKey key: String) {
-        TFYLog("setValue: forUndefinedKey:, 未知键Key: \(key)")
+        TFYUtils.log("setValue: forUndefinedKey:, 未知键Key: \(key)")
     }
     
     private func hook_value(forUndefinedKey key: String) -> Any? {
-        TFYLog("valueForUndefinedKey:, 未知键: \(key)")
+        TFYUtils.log("valueForUndefinedKey:, 未知键: \(key)")
         return nil
     }
     
     private func hook_setNilValueForKey(_ key: String) {
-        TFYLog("Invoke setNilValueForKey:, 不能给非指针对象(如NSInteger)赋值 nil")
+        TFYUtils.log("Invoke setNilValueForKey:, 不能给非指针对象(如NSInteger)赋值 nil")
         // 给一个非指针对象(如NSInteger)赋值 nil, 直接忽略
         return
     }
     
     private func hook_setValuesForKeys(_ keyedValues: [String : Any]) {
         for (key, value) in keyedValues {
-            TFYLog(key, value)
+            TFYUtils.log(key, value)
             if value is Int || value is CGFloat || value is Double {
                 self.setValue("\(value)", forKey: key)
             } else {

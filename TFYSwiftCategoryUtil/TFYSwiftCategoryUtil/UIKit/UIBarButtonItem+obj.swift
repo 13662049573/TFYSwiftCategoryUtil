@@ -10,32 +10,32 @@ import UIKit
 
 @objc public extension UIBarButtonItem {
     
-    private struct AssociateKeys {
-        static var systemType = "UIBarButtonItem" + "systemType"
-        static var closure = "UIBarButtonItem" + "closure"
+    private struct AssociatedItemKeys {
+        static var systemType: UnsafeRawPointer = UnsafeRawPointer(bitPattern: "UIBarButtonItem+systemType".hashValue)!
+        static var closure: UnsafeRawPointer = UnsafeRawPointer(bitPattern: "UIBarButtonItem+closure".hashValue)!
     }
     
     var systemType: UIBarButtonItem.SystemItem {
         get {
-            if let obj = objc_getAssociatedObject(self, (AssociateKeys.systemType)) as? UIBarButtonItem.SystemItem {
+            if let obj = objc_getAssociatedObject(self, AssociatedItemKeys.systemType) as? UIBarButtonItem.SystemItem {
                 return obj
             }
             return .done
         }
         set {
-            objc_setAssociatedObject(self,(AssociateKeys.systemType), newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self,AssociatedItemKeys.systemType, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     /// UIBarButtonItem 回调
     func addAction(_ closure: @escaping ((UIBarButtonItem) -> Void)) {
-        objc_setAssociatedObject(self,(AssociateKeys.closure), closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        objc_setAssociatedObject(self,AssociatedItemKeys.closure, closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         target = self
         action = #selector(p_invoke)
     }
 
     private func p_invoke() {
-        if let closure = objc_getAssociatedObject(self,(AssociateKeys.closure)) as? ((UIBarButtonItem) -> Void) {
+        if let closure = objc_getAssociatedObject(self,AssociatedItemKeys.closure) as? ((UIBarButtonItem) -> Void) {
             closure(self)
         }
     }

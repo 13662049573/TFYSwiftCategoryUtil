@@ -181,14 +181,14 @@ public extension TFY where Base == Dictionary<String, Any> {
     @discardableResult
     func dictionaryToJson() -> String? {
         if (!JSONSerialization.isValidJSONObject(base)) {
-            TFYLog("无法解析出JSONString")
+            TFYUtils.log("无法解析出JSONString")
             return nil
         }
         if let data = try? JSONSerialization.data(withJSONObject: base) {
             let JSONString = NSString(data:data,encoding: String.Encoding.utf8.rawValue)
             return JSONString! as String
         } else {
-            TFYLog("无法解析出JSONString")
+            TFYUtils.log("无法解析出JSONString")
             return nil
         }
     }

@@ -8,146 +8,386 @@
 
 import Foundation
 import UIKit
-import Dispatch
 
-extension JSONEncoder {
-    func encode<T: Encodable>(_ value: T, using customEncodeMethod: @escaping (T, Encoder) throws -> Void) throws -> Data {
-        let anyEncodable = AnyEncodable(value, customEncodeMethod)
-        return try self.encode(anyEncodable)
+/// JSON解析错误类型
+public enum TFYJsonError: Error {
+    /// 无效数据
+    case invalidData
+    /// 编码失败
+    case encodingFailed(Error)
+    /// 解码失败
+    case decodingFailed(Error)
+    /// 无效类型
+    case invalidType
+    /// 自定义错误
+    case customError(String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .invalidData:
+            return "无效的数据"
+        case .encodingFailed(let error):
+            return "编码失败: \(error.localizedDescription)"
+        case .decodingFailed(let error):
+            return "解码失败: \(error.localizedDescription)"
+        case .invalidType:
+            return "类型无效"
+        case .customError(let message):
+            return message
+        }
     }
 }
 
-struct AnyEncodable<T: Encodable>: Encodable {
-    private let _encode: (T, Encoder) throws -> Void
-    private let value: T
-
-    init(_ value: T, _ customEncodeMethod: @escaping (T, Encoder) throws -> Void) {
-        self.value = value
-        self._encode = customEncodeMethod
+/// JSON编解码配置
+public struct TFYJsonConfig {
+    /// 日期编码策略
+    public var dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601
+    /// 日期解码策略
+    public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .iso8601
+    /// 键编码策略
+    public var keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys
+    /// 键解码策略
+    public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys
+    /// 数据格式化选项
+    public var outputFormatting: JSONEncoder.OutputFormatting = []
+    /// 浮点数编码策略
+    public var nonConformingFloatEncodingStrategy: JSONEncoder.NonConformingFloatEncodingStrategy = .throw
+    /// 浮点数解码策略
+    public var nonConformingFloatDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy = .throw
+    
+    public init() {}
+    
+    /// 创建JSON编码器
+    func makeEncoder() -> JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = dateEncodingStrategy
+        encoder.keyEncodingStrategy = keyEncodingStrategy
+        encoder.outputFormatting = outputFormatting
+        encoder.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+        return encoder
     }
-
-    func encode(to encoder: Encoder) throws {
-        try _encode(value, encoder)
+    
+    /// 创建JSON解码器
+    func makeDecoder() -> JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = dateDecodingStrategy
+        decoder.keyDecodingStrategy = keyDecodingStrategy
+        decoder.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+        return decoder
     }
 }
 
+/// JSON工具类
 public class TFYSwiftJsonKit: NSObject {
-
-    public static func getJsonStrFromDictionary(_ dictionary: [String : Any]) -> String? {
+    
+    /// 默认配置
+    public static var defaultConfig = TFYJsonConfig()
+    
+    // MARK: - 编码方法 (对象 -> JSON)
+    
+    /// 将对象编码为JSON数据
+    /// - Parameters:
+    ///   - value: 要编码的对象
+    ///   - config: JSON配置
+    /// - Returns: 编码结果
+    public static func encode<T: Encodable>(_ value: T, 
+                                          config: TFYJsonConfig = defaultConfig) -> Result<Data, TFYJsonError> {
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
-            if var jsonString = String(data: jsonData, encoding: .utf8) {
-                // 替换转义字符
-                jsonString = jsonString.replacingOccurrences(of: "\\/", with: "/")
-//                XCDLog(jsonString)
-                return jsonString
-            }
-            return nil
+            let encoder = config.makeEncoder()
+            let data = try encoder.encode(value)
+            return .success(data)
         } catch {
-            TFYLog(error.localizedDescription)
-            return nil
+            return .failure(.encodingFailed(error))
         }
     }
     
-    public static func getJsonDataFromDictionary(_ dictionary: [String : Any]) -> Data? {
+    /// 将对象编码为JSON字符串
+    /// - Parameters:
+    ///   - value: 要编码的对象
+    ///   - config: JSON配置
+    /// - Returns: 编码结果
+    public static func encodeToString<T: Encodable>(_ value: T, 
+                                                   config: TFYJsonConfig = defaultConfig) -> Result<String, TFYJsonError> {
+        switch encode(value, config: config) {
+        case .success(let data):
+            if let string = String(data: data, encoding: .utf8) {
+                return .success(string)
+            }
+            return .failure(.invalidData)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    // MARK: - 解码方法 (JSON -> 对象)
+    
+    /// 将JSON数据解码为对象
+    /// - Parameters:
+    ///   - type: 目标类型
+    ///   - data: JSON数据
+    ///   - config: JSON配置
+    /// - Returns: 解码结果
+    public static func decode<T: Decodable>(_ type: T.Type, 
+                                          from data: Data, 
+                                          config: TFYJsonConfig = defaultConfig) -> Result<T, TFYJsonError> {
+        do {
+            let decoder = config.makeDecoder()
+            let value = try decoder.decode(type, from: data)
+            return .success(value)
+        } catch {
+            return .failure(.decodingFailed(error))
+        }
+    }
+    
+    /// 将JSON字符串解码为对象
+    /// - Parameters:
+    ///   - type: 目标类型
+    ///   - string: JSON字符串
+    ///   - config: JSON配置
+    /// - Returns: 解码结果
+    public static func decode<T: Decodable>(_ type: T.Type, 
+                                          from string: String, 
+                                          config: TFYJsonConfig = defaultConfig) -> Result<T, TFYJsonError> {
+        guard let data = string.data(using: .utf8) else {
+            return .failure(.invalidData)
+        }
+        return decode(type, from: data, config: config)
+    }
+    
+    // MARK: - 字典/数组转换
+    
+    /// 将字典转换为JSON数据
+    /// - Parameter dictionary: 字典
+    /// - Returns: 转换结果
+    public static func dataFrom(dictionary: [String: Any]) -> Result<Data, TFYJsonError> {
         do {
             let data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
-            return data
+            return .success(data)
         } catch {
-            TFYLog(error)
-            return nil
+            return .failure(.encodingFailed(error))
         }
     }
     
-    /// 字典转字符串
-    public static func dicValueString(_ dic:[String : Any]) -> String? {
-        if let dicData = TFYSwiftJsonKit.getJsonDataFromDictionary(dic) {
-            return String(data:dicData, encoding: String.Encoding.utf8)
-        }
-        return nil
-    }
-    
-    /// 数组转字符串
-    public static func arrValueString(_ array: Array<Dictionary<String, Any>>) -> String? {
-        if let arrData = TFYSwiftJsonKit.getJsonDataFromArray(array) {
-            return String(data:arrData, encoding: String.Encoding.utf8)
-        }
-        return nil
-    }
-    
-    /// MARK: 字符串转字典
-    public static func stringValueDic(_ str: String) -> [String : Any]?{
-        let data = str.data(using: String.Encoding.utf8)
-        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
-            return dict
-        }
-        return nil
-    }
-    
-    /// MARK: 字符串转数组
-    public static func stringValueArr(_ str: String) -> [Any]?{
-        let data = str.data(using: String.Encoding.utf8)
-        if let array = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [Any] {
-            return array
-        }
-        return nil
-    }
-    
-    public static func getJsonDataFromArray(_ array: Array<Dictionary<String, Any>>) -> Data? {
+    /// 将数组转换为JSON数据
+    /// - Parameter array: 数组
+    /// - Returns: 转换结果
+    public static func dataFrom(array: [Any]) -> Result<Data, TFYJsonError> {
         do {
             let data = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
-            return data
+            return .success(data)
         } catch {
-            TFYLog(error)
-            return nil
+            return .failure(.encodingFailed(error))
         }
     }
     
-    public static func decodeJsonDataToModel<T: Decodable>(_ data: Data, type: T.Type) -> T? {
-        let decoder = JSONDecoder()
+    /// 将JSON数据转换为字典
+    /// - Parameter data: JSON数据
+    /// - Returns: 转换结果
+    public static func dictionary(from data: Data) -> Result<[String: Any], TFYJsonError> {
         do {
-            let model = try decoder.decode(T.self, from: data)
-            return model
+            if let dict = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+                return .success(dict)
+            }
+            return .failure(.invalidType)
         } catch {
-            TFYLog(error)
-            return nil
+            return .failure(.decodingFailed(error))
         }
     }
     
-    /// 模型转JSON字符串
-    public static func toJson<T>(_ model: T) -> String? where T : Encodable {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = []
-        guard let data = try? encoder.encode(model) else { return nil }
-        return String(data: data, encoding: .utf8)
+    /// 将JSON数据转换为数组
+    /// - Parameter data: JSON数据
+    /// - Returns: 转换结果
+    public static func array(from data: Data) -> Result<[Any], TFYJsonError> {
+        do {
+            if let array = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [Any] {
+                return .success(array)
+            }
+            return .failure(.invalidType)
+        } catch {
+            return .failure(.decodingFailed(error))
+        }
     }
     
-    public static func modelsToJson<T>(_ models: [T], outputFormat: JSONEncoder.OutputFormatting = .prettyPrinted) -> String? where T : Encodable {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = outputFormat
-        guard let data = try? encoder.encode(models) else { return nil }
-        return String(data: data, encoding: .utf8)
+    // MARK: - 模型转换
+    
+    /// 字典转模型
+    /// - Parameters:
+    ///   - type: 模型类型
+    ///   - dict: 字典
+    ///   - config: JSON配置
+    /// - Returns: 转换结果
+    public static func model<T: Decodable>(_ type: T.Type, 
+                                         from dict: [String: Any], 
+                                         config: TFYJsonConfig = defaultConfig) -> Result<T, TFYJsonError> {
+        switch dataFrom(dictionary: dict) {
+        case .success(let data):
+            return decode(type, from: data, config: config)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
-    /// JSON字符串转字典
-    public static func dictionaryFrom(jsonString: String) -> Dictionary<String, Any>? {
-        guard let jsonData = jsonString.data(using: .utf8) else { return nil }
-        guard let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers), let result = dict as? Dictionary<String, Any> else { return nil }
+    /// 数组转模型数组
+    /// - Parameters:
+    ///   - type: 模型类型
+    ///   - array: 数组
+    ///   - config: JSON配置
+    /// - Returns: 转换结果
+    public static func models<T: Decodable>(_ type: T.Type, 
+                                          from array: [[String: Any]], 
+                                          config: TFYJsonConfig = defaultConfig) -> Result<[T], TFYJsonError> {
+        switch dataFrom(array: array) {
+        case .success(let data):
+            return decode([T].self, from: data, config: config)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    /// 模型转字典
+    /// - Parameters:
+    ///   - model: 模型对象
+    ///   - config: JSON配置
+    /// - Returns: 转换结果
+    public static func dictionary<T: Encodable>(from model: T, 
+                                              config: TFYJsonConfig = defaultConfig) -> Result<[String: Any], TFYJsonError> {
+        switch encode(model, config: config) {
+        case .success(let data):
+            return dictionary(from: data)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    /// 模型数组转字典数组
+    /// - Parameters:
+    ///   - models: 模型数组
+    ///   - config: JSON配置
+    /// - Returns: 转换结果
+    public static func dictionaries<T: Encodable>(from models: [T], 
+                                                config: TFYJsonConfig = defaultConfig) -> Result<[[String: Any]], TFYJsonError> {
+        switch encode(models, config: config) {
+        case .success(let data):
+            do {
+                if let array = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]] {
+                    return .success(array)
+                }
+                return .failure(.invalidType)
+            } catch {
+                return .failure(.decodingFailed(error))
+            }
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    // MARK: - 工具方法
+    
+    /// 格式化JSON字符串
+    /// - Parameter jsonString: JSON字符串
+    /// - Returns: 格式化结果
+    public static func prettyPrint(_ jsonString: String) -> Result<String, TFYJsonError> {
+        guard let data = jsonString.data(using: .utf8) else {
+            return .failure(.invalidData)
+        }
+        
+        do {
+            let object = try JSONSerialization.jsonObject(with: data, options: [])
+            let prettyData = try JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+            if let prettyString = String(data: prettyData, encoding: .utf8) {
+                return .success(prettyString)
+            }
+            return .failure(.invalidData)
+        } catch {
+            return .failure(.decodingFailed(error))
+        }
+    }
+    
+    /// 验证JSON字符串是否有效
+    /// - Parameter jsonString: JSON字符串
+    /// - Returns: 验证结果
+    public static func validate(_ jsonString: String) -> Bool {
+        guard let data = jsonString.data(using: .utf8) else {
+            return false
+        }
+        
+        do {
+            _ = try JSONSerialization.jsonObject(with: data, options: [])
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    /// 合并多个JSON对象
+    /// - Parameter objects: JSON对象数组
+    /// - Returns: 合并结果
+    public static func merge(_ objects: [[String: Any]]) -> [String: Any] {
+        var result: [String: Any] = [:]
+        objects.forEach { dict in
+            dict.forEach { key, value in
+                result[key] = value
+            }
+        }
         return result
     }
+    
+    /// 快速创建配置
+    /// - Parameters:
+    ///   - dateFormat: 日期格式
+    ///   - keyStrategy: 键编码策略
+    ///   - outputFormatting: 输出格式化选项
+    /// - Returns: JSON配置
+    public static func config(
+        dateFormat: String? = nil,
+        keyStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys,
+        outputFormatting: JSONEncoder.OutputFormatting = []
+    ) -> TFYJsonConfig {
+        var config = TFYJsonConfig()
+        
+        if let dateFormat = dateFormat {
+            let formatter = DateFormatter()
+            formatter.dateFormat = dateFormat
+            config.dateEncodingStrategy = .formatted(formatter)
+            config.dateDecodingStrategy = .formatted(formatter)
+        }
+        
+        config.keyEncodingStrategy = keyStrategy
+        config.outputFormatting = outputFormatting
+        return config
+    }
+}
 
-    /// JSON字符串转数组
-    public static func arrayFrom(jsonString: String) -> [Dictionary<String, Any>]? {
-        guard let jsonData = jsonString.data(using: .utf8) else { return nil }
-        guard let array = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers), let result = array as? [Dictionary<String, Any>] else { return nil }
-        return result
+// MARK: - Codable扩展
+public extension Encodable {
+    /// 转换为字典
+    func toDictionary(config: TFYJsonConfig = .init()) -> Result<[String: Any], TFYJsonError> {
+        return TFYSwiftJsonKit.dictionary(from: self, config: config)
     }
     
-    /// JSON字符串/字典 转模型
-    public static func toModel<T>(_ type: T.Type, value: Any) -> T? where T : Decodable {
-        guard let data = try? JSONSerialization.data(withJSONObject: value) else { return nil }
-        let decoder = JSONDecoder()
-        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        return try? decoder.decode(type, from: data)
+    /// 转换为JSON字符串
+    func toJsonString(config: TFYJsonConfig = .init()) -> Result<String, TFYJsonError> {
+        return TFYSwiftJsonKit.encodeToString(self, config: config)
+    }
+}
+
+// MARK: - 数组扩展
+public extension Array where Element: Encodable {
+    /// 模型数组转字典数组
+    func toDictionaries(config: TFYJsonConfig = .init()) -> Result<[[String: Any]], TFYJsonError> {
+        return TFYSwiftJsonKit.dictionaries(from: self, config: config)
+    }
+}
+
+// MARK: - Decodable扩展
+public extension Decodable {
+    /// 从字典创建模型
+    static func from(dict: [String: Any], config: TFYJsonConfig = .init()) -> Result<Self, TFYJsonError> {
+        return TFYSwiftJsonKit.model(Self.self, from: dict, config: config)
+    }
+    
+    /// 从字典数组创建模型数组
+    static func from(array: [[String: Any]], config: TFYJsonConfig = .init()) -> Result<[Self], TFYJsonError> {
+        return TFYSwiftJsonKit.models(Self.self, from: array, config: config)
     }
 }

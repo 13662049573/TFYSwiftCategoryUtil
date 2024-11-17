@@ -8,63 +8,62 @@
 import Foundation
 import UIKit
 
-extension Data: TFYCompatible {}
 
-public extension TFY where Base == Data {
+public extension Data {
     
     // MARK: 1.1、base64编码成 Data
     /// 编码
     var encodeToData: Data? {
-        return base.base64EncodedData()
+        return self.base64EncodedData()
     }
     
     // MARK: 1.2、base64解码成 Data
     /// 解码成 Data
     var decodeToDada: Data? {
-        return Data(base64Encoded: base)
+        return Data(base64Encoded: self)
     }
     
     /// 转 string
     func toString(encoding: String.Encoding) -> String? {
-        return String(data: base, encoding: encoding)
+        return String(data: self, encoding: encoding)
     }
     
     func toBytes()->[UInt8]{
-        return [UInt8](base)
+        return [UInt8](self)
     }
     
     func toDict()->Dictionary<String, Any>? {
         do{
-            return try JSONSerialization.jsonObject(with: base, options: .allowFragments) as? [String: Any]
+            return try JSONSerialization.jsonObject(with: self, options: .allowFragments) as? [String: Any]
         }catch{
-            TFYLog(error.localizedDescription)
+            TFYUtils.log(error.localizedDescription)
             return nil
         }
     }
     /// 从给定的JSON数据返回一个基础对象。
     func toObject(options: JSONSerialization.ReadingOptions = []) throws -> Any {
-        return try JSONSerialization.jsonObject(with: base, options: options)
+        return try JSONSerialization.jsonObject(with: self, options: options)
     }
     /// 指定Model类型
     func toModel<T>(_ type:T.Type) -> T? where T:Decodable {
         do {
-            return try JSONDecoder().decode(type, from: base)
+            return try JSONDecoder().decode(type, from: self)
         } catch  {
-            TFYLog("data to model error")
+            TFYUtils.log("data to model error")
             return nil
         }
     }
     
     func utf8String() -> String {
-        if base.count > 0 {
-            return String(data: base, encoding: .utf8) ?? ""
+        if self.count > 0 {
+            return String(data: self, encoding: .utf8) ?? ""
         }
         return ""
     }
     
     func jsonValueDecoded() -> Any? {
         do {
-            let value = try JSONSerialization.jsonObject(with: base, options: .allowFragments)
+            let value = try JSONSerialization.jsonObject(with: self, options: .allowFragments)
             return value
         } catch let error {
             print("jsonValueDecoded error:%@", error)

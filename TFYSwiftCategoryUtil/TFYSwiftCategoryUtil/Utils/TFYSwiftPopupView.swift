@@ -591,38 +591,31 @@ open class TFYSwiftRightwardAnimator: TFYSwiftBaseAnimator {
     }
 }
 
+/// 向上弹出动画
 open class TFYSwiftUpwardAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-
+        
         let fromClosure = { [weak self, weak popupView] in
             guard let self = self, let popupView = popupView else { return }
             backgroundView.alpha = 0
             switch self.layout {
             case .frame(var frame):
-                frame.origin.y = popupView.frame.size.height
+                frame.origin.y = popupView.bounds.size.height
                 contentView.frame = frame
             case .center(_), .leading(_), .trailing(_):
-                var contentViewHeight = contentView.heightConstraint(firstItem: contentView)?.constant
-                if contentViewHeight == nil {
-                    contentViewHeight = contentView.intrinsicContentSize.height
-                }
-                popupView.centerYConstraint(firstItem: contentView)?.constant = (popupView.bounds.size.height/2 + contentViewHeight!/2)
+                popupView.centerYConstraint(firstItem: contentView)?.constant = (popupView.bounds.size.height/2 + contentView.bounds.size.height/2)
                 popupView.layoutIfNeeded()
             case .top(_):
                 popupView.topConstraint(firstItem: contentView)?.constant = popupView.bounds.size.height
                 popupView.layoutIfNeeded()
             case .bottom(_):
-                var contentViewHeight = contentView.heightConstraint(firstItem: contentView)?.constant
-                if contentViewHeight == nil {
-                    contentViewHeight = contentView.intrinsicContentSize.height
-                }
-                popupView.bottomConstraint(firstItem: contentView)?.constant = contentViewHeight!
+                popupView.bottomConstraint(firstItem: contentView)?.constant = popupView.bounds.size.height
                 popupView.layoutIfNeeded()
             }
         }
         fromClosure()
-
+        
         displayAnimationBlock = { [weak self, weak popupView] in
             guard let self = self, let popupView = popupView else { return }
             backgroundView.alpha = 1
@@ -646,10 +639,11 @@ open class TFYSwiftUpwardAnimator: TFYSwiftBaseAnimator {
     }
 }
 
+/// 向下弹出动画
 open class TFYSwiftDownwardAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-
+        
         let fromClosure = { [weak self, weak popupView] in
             guard let self = self, let popupView = popupView else { return }
             backgroundView.alpha = 0
@@ -658,26 +652,18 @@ open class TFYSwiftDownwardAnimator: TFYSwiftBaseAnimator {
                 frame.origin.y = -frame.size.height
                 contentView.frame = frame
             case .center(_), .leading(_), .trailing(_):
-                var contentViewHeight = contentView.heightConstraint(firstItem: contentView)?.constant
-                if contentViewHeight == nil {
-                    contentViewHeight = contentView.intrinsicContentSize.height
-                }
-                popupView.centerYConstraint(firstItem: contentView)?.constant = -(popupView.bounds.size.height/2 + contentViewHeight!/2)
+                popupView.centerYConstraint(firstItem: contentView)?.constant = -(popupView.bounds.size.height/2 + contentView.bounds.size.height/2)
                 popupView.layoutIfNeeded()
             case .top(_):
-                var contentViewHeight = contentView.heightConstraint(firstItem: contentView)?.constant
-                if contentViewHeight == nil {
-                    contentViewHeight = contentView.intrinsicContentSize.height
-                }
-                popupView.topConstraint(firstItem: contentView)?.constant = -contentViewHeight!
+                popupView.topConstraint(firstItem: contentView)?.constant = -contentView.bounds.size.height
                 popupView.layoutIfNeeded()
             case .bottom(_):
-                popupView.bottomConstraint(firstItem: contentView)?.constant = -popupView.bounds.size.height
+                popupView.bottomConstraint(firstItem: contentView)?.constant = -contentView.bounds.size.height
                 popupView.layoutIfNeeded()
             }
         }
         fromClosure()
-
+        
         displayAnimationBlock = { [weak self, weak popupView] in
             guard let self = self, let popupView = popupView else { return }
             backgroundView.alpha = 1
@@ -697,6 +683,28 @@ open class TFYSwiftDownwardAnimator: TFYSwiftBaseAnimator {
         }
         dismissAnimationBlock = {
             fromClosure()
+        }
+    }
+}
+
+/// 3D翻转动画
+open class TFYSwift3DFlipAnimator: TFYSwiftBaseAnimator {
+    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        
+        contentView.alpha = 0
+        backgroundView.alpha = 0
+        contentView.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
+        
+        displayAnimationBlock = {
+            contentView.alpha = 1
+            contentView.layer.transform = CATransform3DIdentity
+            backgroundView.alpha = 1
+        }
+        dismissAnimationBlock = {
+            contentView.alpha = 0
+            contentView.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
+            backgroundView.alpha = 0
         }
     }
 }

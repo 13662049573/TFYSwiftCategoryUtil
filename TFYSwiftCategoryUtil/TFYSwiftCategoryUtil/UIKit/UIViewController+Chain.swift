@@ -266,19 +266,19 @@ public extension UIViewController {
         return (isViewLoaded && view.window != nil)
     }
 
-    private struct AutoHideKeyboardTapKey {
-        static var autoHideKeyboardTapKey: UInt8 = 111
+    private struct AssociatedViewKeys {
+        static var autoHideKeyboardTapKey: UnsafeRawPointer = UnsafeRawPointer(bitPattern: "autoHideKeyboardTapKey".hashValue)!
     }
 
     /// Should hide keyboard on view tap
     var automaticallyHideKeyboardWhenViewTapped: Bool {
         get {
-            return objc_getAssociatedObject(self, &AutoHideKeyboardTapKey.autoHideKeyboardTapKey) != nil
+            return objc_getAssociatedObject(self, AssociatedViewKeys.autoHideKeyboardTapKey) != nil
         }
         set {
             let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.resignTextFieldToHideKeyboard(_:)))
             view.addGestureRecognizer(tap)
-            objc_setAssociatedObject(self, &AutoHideKeyboardTapKey.autoHideKeyboardTapKey, tap, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AssociatedViewKeys.autoHideKeyboardTapKey, tap, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 
         }
     }
@@ -356,16 +356,16 @@ public extension UIViewController {
     }
 
     private struct HidesNavigationBarBackgroundKey {
-        static var whenVisible = "hidesNavigationBarBackgroundWhenVisible"
+        static var whenVisible: UnsafeRawPointer = UnsafeRawPointer(bitPattern: "hidesNavigationBarBackgroundWhenVisible".hashValue)!
     }
 
     /// Hide navigation bar background when visible
     var hidesNavigationBarBackgroundWhenVisible: Bool {
         get {
-            return (objc_getAssociatedObject(self,(HidesNavigationBarBackgroundKey.whenVisible)) as? Bool) ?? false
+            return (objc_getAssociatedObject(self,HidesNavigationBarBackgroundKey.whenVisible) as? Bool) ?? false
         }
         set {
-            objc_setAssociatedObject(self,(HidesNavigationBarBackgroundKey.whenVisible), true, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+            objc_setAssociatedObject(self,HidesNavigationBarBackgroundKey.whenVisible, true, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
 

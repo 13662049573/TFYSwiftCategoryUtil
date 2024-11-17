@@ -681,7 +681,7 @@ public extension TFY where Base: FileManager {
             let img = UIImage(cgImage: cgImg)
             return img
         } else {
-            TFYLog("获取缩略图失败")
+            TFYUtils.log("获取缩略图失败")
             return nil
         }
     }
