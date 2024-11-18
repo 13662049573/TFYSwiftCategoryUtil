@@ -31,7 +31,7 @@ Pod::Spec.new do |spec|
 
     ss.subspec 'SSR' do |sss|
       sss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/VPNSSR/SSR/*.{swift}"
-      sss.dependency "VPNSSR/VPN"
+      sss.dependency "TFYSwiftCategoryUtil/VPNSSR/VPN"
     end
 
     ss.subspec 'VPN' do |sss|
