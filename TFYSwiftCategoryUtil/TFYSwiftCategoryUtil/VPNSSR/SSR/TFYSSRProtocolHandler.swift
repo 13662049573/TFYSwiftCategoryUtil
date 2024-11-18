@@ -14,7 +14,7 @@ public class TFYSSRProtocolHandler {
     // MARK: - 属性
     
     /// SSR配置信息
-    private let config: TFYSSRConfiguration
+    public let config: TFYSSRConfiguration
     
     /// 加密处理器
     private let crypto: TFYSSRCrypto

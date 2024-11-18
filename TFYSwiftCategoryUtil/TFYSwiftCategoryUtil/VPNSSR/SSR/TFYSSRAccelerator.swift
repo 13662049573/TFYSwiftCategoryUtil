@@ -25,22 +25,15 @@ public class TFYSSRAccelerator {
     /// 流量监控定时器
     private var trafficTimer: Timer?
     
-    /// 当前SSR状态
-    public private(set) var status: SSRStatus = .stopped {
-        didSet {
-            statusChanged?(status)
-        }
-    }
-    
+    private var isRunning = false
+
+    public weak var delegate: SSRAcceleratorDelegate?
     // MARK: - 公开属性
     
     /// 获取服务器地址
     public var serverAddress: String? {
         return configuration?.serverAddress
     }
-    
-    /// 状态变化回调
-    public var statusChanged: ((SSRStatus) -> Void)?
     
     /// 流量统计回调 (接收字节数, 发送字节数)
     public var trafficUpdated: ((Int64, Int64) -> Void)?
@@ -54,57 +47,40 @@ public class TFYSSRAccelerator {
     
     /// 配置SSR
     /// - Parameter config: SSR配置信息
-    public func configure(with config: TFYSSRConfiguration) {
+    public func configure(with config: TFYSSRConfiguration, completion: @escaping (Result<Void, SSRError>) -> Void) {
         self.configuration = config
         self.localServer = TFYSSRLocalServer(config: config)
-        VPNLogger.log("SSR配置已更新")
+         completion(.success(()))
     }
     
     /// 启动SSR服务
-    public func start() {
-        guard let server = localServer else {
-            VPNLogger.log("SSR未配置，请先进行配置", level: .error)
-            status = .error
+    public func start(completion: @escaping (Result<Void, SSRError>) -> Void) {
+        guard let localServer = localServer, !isRunning else {
+            completion(.failure(.alreadyRunning))
             return
         }
-        
-        // 更新状态为启动中
-        status = .starting
-        
-        // 启动本地服务器
-        server.start { [weak self] result in
-            guard let self = self else { return }
-            
+       // 启动本地服务器
+        localServer.start { [weak self] result in
             switch result {
             case .success:
-                self.status = .running
-                self.startTrafficMonitor()
-                VPNLogger.log("SSR启动成功")
-                
+                self?.isRunning = true
+                self?.delegate?.ssrStatusDidChange(.connected)
+                self?.startTrafficMonitor()
+                completion(.success(()))
             case .failure(let error):
-                self.status = .error
-                VPNLogger.log("SSR启动失败: \(error.localizedDescription)", level: .error)
+                self?.delegate?.ssrDidFail(with: error as! SSRError)
+                completion(.failure(error as! SSRError))
             }
         }
     }
     
-    /// 停止SSR服务
+    /// 停止SSR加速
     public func stop() {
-        guard let server = localServer else {
-            VPNLogger.log("SSR未配置", level: .warning)
-            return
-        }
-        
-        // 更新状态为停止中
-        status = .stopping
-        
-        // 停止本地服务器
-        server.stop { [weak self] in
-            guard let self = self else { return }
-            
-            self.status = .stopped
+        guard isRunning else { return }
+        localServer?.stop {
+            self.isRunning = false
+            self.delegate?.ssrStatusDidChange(.disconnected)
             self.stopTrafficMonitor()
-            VPNLogger.log("SSR已停止")
         }
     }
     
@@ -117,12 +93,10 @@ public class TFYSSRAccelerator {
         
         // 创建新的定时器，每秒更新一次流量统计
         trafficTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self,
-                  self.status == .running else {
+            guard let self = self,!isRunning else {
                 self?.stopTrafficMonitor()
                 return
             }
-            
             // 获取并更新流量统计
             let stats = self.getNetworkInterfaceStats()
             self.trafficUpdated?(stats.received, stats.sent)
@@ -145,24 +119,53 @@ public class TFYSSRAccelerator {
         // 可以通过系统API获取网络接口的流量数据
         return (0, 0)
     }
-}
-
-/// SSR服务状态枚举
-public enum SSRStatus {
-    case stopped    // 已停止
-    case starting   // 启动中
-    case running    // 运行中
-    case stopping   // 停止中
-    case error      // 错误状态
-    
-    /// 状态描述
-    var description: String {
-        switch self {
-        case .stopped:  return "已停止"
-        case .starting: return "启动中"
-        case .running:  return "运行中"
-        case .stopping: return "停止中"
-        case .error:    return "错误"
+     /// 重新加载配置
+    public func reloadConfiguration(completion: @escaping (Result<Void, SSRError>) -> Void) {
+        stop()
+        
+        guard let config = configuration else {
+            completion(.failure(.configurationError))
+            return
+        }
+        
+        configure(with: config) { [weak self] result in
+            switch result {
+            case .success:
+                self?.start(completion: completion)
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
-} 
+    
+    /// 获取当前状态
+    public var status: SSRStatus {
+        return isRunning ? .connected : .disconnected
+    }
+}
+
+// MARK: - SSRAcceleratorDelegate
+public protocol SSRAcceleratorDelegate: AnyObject {
+    func ssrStatusDidChange(_ status: SSRStatus)
+    func ssrDidUpdateTraffic(received: Int64, sent: Int64)
+    func ssrDidFail(with error: SSRError)
+}
+
+// MARK: - SSRStatus
+public enum SSRStatus {
+    case connecting
+    case connected
+    case disconnecting
+    case disconnected
+    case error(SSRError)
+    
+    public var description: String {
+        switch self {
+        case .connecting:     return "正在连接"
+        case .connected:      return "已连接"
+        case .disconnecting:  return "正在断开"
+        case .disconnected:   return "已断开"
+        case .error(let e):   return "错误: \(e.localizedDescription)"
+        }
+    }
+}

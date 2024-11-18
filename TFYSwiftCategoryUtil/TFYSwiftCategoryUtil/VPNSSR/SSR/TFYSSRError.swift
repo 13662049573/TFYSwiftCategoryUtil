@@ -17,12 +17,16 @@ public enum SSRError: Error {
     case invalidAddressType
     case invalidPort
     case invalidParameter(String)
-    case connectionFailed
     case unsupportedCommand
     case unsupportedMethod
     case unsupportedObfs
     case operationFailed(String)
     case timeout
+    case configurationError
+    case connectionFailed(String)
+    case alreadyRunning
+    case notRunning
+    case internalError(String)
     
     public var localizedDescription: String {
         switch self {
@@ -36,8 +40,6 @@ public enum SSRError: Error {
             return "无效的端口号"
         case .invalidParameter(let msg):
             return "无效的参数: \(msg)"
-        case .connectionFailed:
-            return "连接失败"
         case .unsupportedCommand:
             return "不支持的命令"
         case .unsupportedMethod:
@@ -48,6 +50,16 @@ public enum SSRError: Error {
             return "操作失败: \(msg)"
         case .timeout:
             return "操作超时"
+        case .configurationError:
+            return "配置错误"
+        case .connectionFailed(let reason):
+            return "连接失败: \(reason)"
+        case .alreadyRunning:
+            return "服务已在运行"
+        case .notRunning:
+            return "服务未运行"
+        case .internalError(let message):
+            return "内部错误: \(message)"
         }
     }
 }

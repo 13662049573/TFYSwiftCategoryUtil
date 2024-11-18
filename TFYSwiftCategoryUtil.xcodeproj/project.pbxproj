@@ -40,6 +40,7 @@
 		3636D1772CEB7317002AA074 /* TFYVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */; };
 		3636D1792CEB78C7002AA074 /* VPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1782CEB78C7002AA074 /* VPNViewController.swift */; };
 		3636D17B2CEB7CD2002AA074 /* SSRVPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */; };
+		3636D17F2CEB8337002AA074 /* SSRVPNDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */; };
 		3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
@@ -223,6 +224,7 @@
 		3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNStatistics.swift; sourceTree = "<group>"; };
 		3636D1782CEB78C7002AA074 /* VPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewController.swift; sourceTree = "<group>"; };
 		3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNViewController.swift; sourceTree = "<group>"; };
+		3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNDemoViewController.swift; sourceTree = "<group>"; };
 		3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+obj.swift"; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				3612E14126475BA400476696 /* ViewController.swift */,
 				3636D1782CEB78C7002AA074 /* VPNViewController.swift */,
 				3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */,
+				3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */,
 			);
 			path = TFYClass;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
 				36FA19972941D6290099BB35 /* Color.swift in Sources */,
 				36FA19952941D6290099BB35 /* Text.swift in Sources */,
+				3636D17F2CEB8337002AA074 /* SSRVPNDemoViewController.swift in Sources */,
 				368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */,
 				36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */,
 				365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */,

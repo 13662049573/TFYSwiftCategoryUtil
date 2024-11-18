@@ -15,7 +15,7 @@ class TFYSSRLocalServer {
     // MARK: - 属性
     
     /// SSR配置信息
-    private let config: TFYSSRConfiguration
+    public let config: TFYSSRConfiguration
     
     /// 网络监听器
     private var listener: NWListener?
@@ -229,7 +229,7 @@ class TFYSSRLocalServer {
                 // 2. 发送数据到服务器
                 serverConnection.send(content: data, completion: .contentProcessed { error in
                     if let error = error {
-                        VPNLogger.log("发送数据到服务器失败: \(error.localizedDescription)", level: .error)
+                        VPNLogger.log("发送数据到服务器��败: \(error.localizedDescription)", level: .error)
                         return
                     }
                     
