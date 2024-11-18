@@ -458,6 +458,7 @@
 		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
+				3636D1732CEB6C4D002AA074 /* VPNSSR */,
 				36FA19452941D6290099BB35 /* CoreUiit */,
 				36FA199B2941DE440099BB35 /* SwiftUI */,
 				365478022830913800E4DE22 /* WKWeb */,
@@ -552,8 +553,6 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				3636D10D2CE8E84F002AA074 /* SSR */,
-				3636D0F52CE8E229002AA074 /* VPN */,
 				362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */,
 				36F283652835E83800460789 /* TFYSwiftJsonKit.swift */,
 				3612E15326475C4100476696 /* TFYAsynce.swift */,
@@ -609,6 +608,15 @@
 				3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */,
 			);
 			path = SSR;
+			sourceTree = "<group>";
+		};
+		3636D1732CEB6C4D002AA074 /* VPNSSR */ = {
+			isa = PBXGroup;
+			children = (
+				3636D10D2CE8E84F002AA074 /* SSR */,
+				3636D0F52CE8E229002AA074 /* VPN */,
+			);
+			path = VPNSSR;
 			sourceTree = "<group>";
 		};
 		365478022830913800E4DE22 /* WKWeb */ = {
