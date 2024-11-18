@@ -78,5 +78,15 @@
     <true/>
     <key>com.apple.security.network.server</key>
     <true/>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.yourapp.vpn.monitoring</string>
+    </array>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>network-authentication</string>
+        <string>processing</string>
+    </array>
+    
 </dict>
 </plist>

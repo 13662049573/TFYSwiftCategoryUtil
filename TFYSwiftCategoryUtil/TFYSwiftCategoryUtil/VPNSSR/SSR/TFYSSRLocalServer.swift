@@ -29,6 +29,12 @@ class TFYSSRLocalServer {
     /// 协议处理器
     private let protocolHandler: TFYSSRProtocolHandler
     
+    /// 流量统计
+    private var trafficStats = TFYVPNTrafficStats()
+    
+    /// 流量统计锁
+    private let statsLock = NSLock()
+    
     // MARK: - 连接包装器
     private class ConnectionWrapper: Hashable {
         let connection: NWConnection
@@ -115,6 +121,28 @@ class TFYSSRLocalServer {
         
         VPNLogger.log("本地服务器已停止")
         completion()
+    }
+    
+    /// 获取流量统计
+    public func getTrafficStats() -> TFYVPNTrafficStats {
+        statsLock.lock()
+        defer { statsLock.unlock() }
+        return trafficStats
+    }
+    
+    /// 更新流量统计
+    private func updateTrafficStats(received: Int64, sent: Int64) {
+        statsLock.lock()
+        defer { statsLock.unlock() }
+        trafficStats = TFYVPNTrafficStats(received: trafficStats.received + received,
+                                        sent: trafficStats.sent + sent)
+    }
+    
+    /// 重置流量统计
+    public func resetTrafficStats() {
+        statsLock.lock()
+        defer { statsLock.unlock() }
+        trafficStats = TFYVPNTrafficStats()
     }
     
     // MARK: - 私有方法
@@ -253,6 +281,13 @@ class TFYSSRLocalServer {
             }
             
             if let data = content {
+                // 更新流量统计
+                if encrypt {
+                    self.updateTrafficStats(received: 0, sent: Int64(data.count))
+                } else {
+                    self.updateTrafficStats(received: Int64(data.count), sent: 0)
+                }
+                
                 // 处理数据（加密或解密）
                 self.protocolHandler.handleClientData(data) { result in
                     switch result {

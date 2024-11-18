@@ -45,7 +45,7 @@ public class TFYVPNAccelerator {
     }
     
     /// VPN管理器
-    private var manager: NETunnelProviderManager?
+    public var manager: NETunnelProviderManager?
     
     /// 配置信息
     public internal(set) var configuration: VPNConfiguration?
@@ -63,7 +63,10 @@ public class TFYVPNAccelerator {
     private var trafficStatsTimer: Timer?
     
     /// 流量统计管理器
-    private let trafficManager = TFYVPNTrafficManager.shared
+    public let trafficManager = TFYVPNTrafficManager.shared
+    
+    /// 后台监控管理器
+    private let backgroundMonitor = TFYVPNBackgroundMonitor.shared
     
     // MARK: - Initialization
     
@@ -167,6 +170,18 @@ public class TFYVPNAccelerator {
     public func resetTrafficStats() {
         trafficManager.reset()
         VPNLogger.log("流量统计已重置")
+    }
+    
+    /// 获取VPN使用统计
+    public func getVPNStatistics() -> VPNStatistics {
+        guard let containerURL = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourapp"),
+              let data = try? Data(contentsOf: containerURL.appendingPathComponent("vpn_monitoring.json")),
+              let sessions = try? JSONDecoder().decode([String: VPNSessionData].self, from: data) else {
+            return VPNStatistics()
+        }
+        
+        return VPNStatistics(sessions: Array(sessions.values))
     }
     
     // MARK: - Private Methods
@@ -356,10 +371,8 @@ public class TFYVPNAccelerator {
                 sent: diff.sent
             )
         }
-        
         // 记录日志
-        let formatted = updatedStats.formattedStats
-        VPNLogger.log("VPN流量统计 - 下载: \(formatted.received), 上传: \(formatted.sent)")
+        VPNLogger.log("VPN流量统计 - 下载: \(updatedStats.formattedReceived), 上传: \(updatedStats.formattedSent)")
     }
     
     /// 获取网络接口流量统计
