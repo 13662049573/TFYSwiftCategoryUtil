@@ -153,27 +153,31 @@ public class TFYSSRProtocolHandler {
                                    serverConnection: NWConnection,
                                    targetInfo: (host: String, port: Int),
                                    completion: @escaping (Error?) -> Void) {
-        // 1. 构建SSR请求头
-        let requestHeader = buildSSRRequestHeader(targetInfo: targetInfo)
-        
-        // 2. 加密并混淆请求头
-        let encryptedHeader = crypto.encrypt(requestHeader)
-        let obfuscatedHeader = obfuscator.obfuscate(encryptedHeader)
-        
-        // 3. 发送到服务器
-        serverConnection.send(content: obfuscatedHeader, completion: .contentProcessed { [weak self] error in
-            if let error = error {
-                completion(error)
-                return
-            }
+        do {
+            // 1. 构建SSR请求头
+            let requestHeader = buildSSRRequestHeader(targetInfo: targetInfo)
             
-            // 4. 开始双向数据转发
-            self?.startBidirectionalForwarding(
-                clientConnection: clientConnection,
-                serverConnection: serverConnection,
-                completion: completion
-            )
-        })
+            // 2. 加密并混淆请求头
+            let encryptedHeader = try crypto.encrypt(requestHeader)
+            let obfuscatedHeader = try obfuscator.obfuscate(encryptedHeader)
+            
+            // 3. 发送到服务器
+            serverConnection.send(content: obfuscatedHeader, completion: .contentProcessed { [weak self] error in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                
+                // 4. 开始双向数据转发
+                self?.startBidirectionalForwarding(
+                    clientConnection: clientConnection,
+                    serverConnection: serverConnection,
+                    completion: completion
+                )
+            })
+        } catch {
+            completion(error)
+        }
     }
     
     /// 构建SSR请求头
@@ -233,30 +237,34 @@ public class TFYSSRProtocolHandler {
                 return
             }
             
-            // 处理数据（加密或解密）
-            let processedData: Data
-            if encrypt {
-                // 加密并混淆
-                let encryptedData = self.crypto.encrypt(data)
-                processedData = self.obfuscator.obfuscate(encryptedData)
-            } else {
-                // 解混淆并解密
-                let deobfuscatedData = self.obfuscator.deobfuscate(data)
-                processedData = self.crypto.decrypt(deobfuscatedData)
-            }
-            
-            // 发送处理后的数据
-            destination.send(content: processedData, completion: .contentProcessed { [weak self] error in
-                if let error = error {
-                    VPNLogger.log("数据发送错误: \(error.localizedDescription)", level: .error)
-                    return
+            do {
+                // 处理数据（加密或解密）
+                let processedData: Data
+                if encrypt {
+                    // 加密并混淆
+                    let encryptedData = try self.crypto.encrypt(data)
+                    processedData = try self.obfuscator.obfuscate(encryptedData)
+                } else {
+                    // 解混淆并解密
+                    let deobfuscatedData = try self.obfuscator.deobfuscate(data)
+                    processedData = try self.crypto.decrypt(deobfuscatedData)
                 }
                 
-                // 继续接收数据
-                if !isComplete {
-                    self?.forwardData(from: source, to: destination, encrypt: encrypt)
-                }
-            })
+                // 发送处理后的数据
+                destination.send(content: processedData, completion: .contentProcessed { [weak self] error in
+                    if let error = error {
+                        VPNLogger.log("数据发送错误: \(error.localizedDescription)", level: .error)
+                        return
+                    }
+                    
+                    // 继续接收数据
+                    if !isComplete {
+                        self?.forwardData(from: source, to: destination, encrypt: encrypt)
+                    }
+                })
+            } catch {
+                VPNLogger.log("数据处理错误: \(error.localizedDescription)", level: .error)
+            }
         }
     }
     

@@ -169,7 +169,7 @@ public extension Dictionary {
     }
     
     func toModel<T>(_ type: T.Type) -> T? where T: Decodable {
-        return self.toData()?.tfy.toModel(T.self)
+        return self.toData()?.toModel(T.self)
     }
 }
 

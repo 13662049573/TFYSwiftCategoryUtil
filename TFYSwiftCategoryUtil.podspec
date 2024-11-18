@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.1.9.1"
+  spec.version      = "2.1.9.3"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS14 Swift5 "
 
@@ -43,6 +43,16 @@ Pod::Spec.new do |spec|
 
   spec.subspec 'Utils' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/*.{swift}"
+
+    ss.subspec 'SSR' do |sss|
+      sss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/SSR/*.{swift}"
+      sss.dependency "Utils/VPN"
+    end
+
+    ss.subspec 'VPN' do |sss|
+      sss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/VPN/*.{swift}"
+    end
+
   end
 
   spec.subspec 'WKWeb' do |ss|

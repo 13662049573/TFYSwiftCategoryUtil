@@ -14,7 +14,6 @@ extension String: TFYCompatible {}
 public extension TFY where Base == String {
     /// - Returns:  md5 加密
     var md5 : String {
-        
         let str = base.cString(using: String.Encoding.utf8)
         let strLen = CUnsignedInt(base.lengthOfBytes(using: String.Encoding.utf8))
         let digestLen = Int(CC_MD5_DIGEST_LENGTH)
@@ -85,7 +84,7 @@ public extension String {
     
     /// 初始化 base64
     func toModel<T>(_ type: T.Type) -> T? where T: Decodable {
-        return self.data(using: .utf8)?.tfy.toModel(type)
+        return self.data(using: .utf8)?.toModel(type)
     }
     
     /// 文字高度
@@ -255,7 +254,7 @@ public extension String {
     
     /// return Dictionary/Array which is decoded from receiver
     func jsonValueDecoded() -> Any? {
-        return self.dataValue()?.tfy.jsonValueDecoded()
+        return self.dataValue()?.jsonValueDecoded()
     }
     
     /// return string from local .txt file
@@ -1200,9 +1199,19 @@ extension TFY where Base: ExpressibleByStringLiteral {
     // MARK: 9.4、判断是否是Float,此处Float是包含Int的，即Int是特殊的Float
     /// 判断是否是Float，此处Float是包含Int的，即Int是特殊的Float
     public var isPureFloat: Bool {
-        let scan: Scanner = Scanner(string: (base as! String))
-        var n: Float = 0.0
-        return scan.scanFloat(&n) && scan.isAtEnd
+        if #available(iOS 13.0, *) {
+            let scan = Scanner(string: base as! String)
+            // scanFloat 被替换为 scanDouble
+            guard let _ = scan.scanDouble() else {
+                return false
+            }
+            return scan.isAtEnd
+        } else {
+            // 兼容 iOS 13.0 以下版本
+            let scan = Scanner(string: base as! String)
+            var n: Float = 0.0
+            return scan.scanFloat(&n) && scan.isAtEnd
+        }
     }
     
     // MARK: 9.5、判断是否全是字母，长度为0返回false

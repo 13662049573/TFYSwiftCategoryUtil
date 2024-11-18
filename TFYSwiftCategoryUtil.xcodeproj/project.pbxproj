@@ -32,43 +32,8 @@
 		3636D1142CE8E84F002AA074 /* TFYSSRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10A2CE8E84F002AA074 /* TFYSSRError.swift */; };
 		3636D1152CE8E84F002AA074 /* TFYSSRConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1082CE8E84F002AA074 /* TFYSSRConnectionPool.swift */; };
 		3636D1192CE8E999002AA074 /* TFYSSRProtocolHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */; };
-		3636D11D2CE96EB3002AA074 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D11C2CE96EB3002AA074 /* ExampleViewController.swift */; };
 		3636D11F2CE9714B002AA074 /* TFYVPNError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D11E2CE9714B002AA074 /* TFYVPNError.swift */; };
 		3636D1212CE97209002AA074 /* TFYSSRObfuscator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */; };
-		3636D1252CEA0B2E002AA074 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1242CEA0B2E002AA074 /* MainViewController.swift */; };
-		3636D1272CEA0BE9002AA074 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1262CEA0BE9002AA074 /* SettingsViewController.swift */; };
-		3636D1292CEA0C3D002AA074 /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1282CEA0C3D002AA074 /* ServerListViewController.swift */; };
-		3636D12B2CEA0C84002AA074 /* ServerEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D12A2CEA0C84002AA074 /* ServerEditViewController.swift */; };
-		3636D12D2CEA0CCB002AA074 /* ServerAdvancedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D12C2CEA0CCB002AA074 /* ServerAdvancedSettingsViewController.swift */; };
-		3636D12F2CEA0D0D002AA074 /* RoutingRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D12E2CEA0D0D002AA074 /* RoutingRulesViewController.swift */; };
-		3636D1312CEA0D4E002AA074 /* RuleEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1302CEA0D4E002AA074 /* RuleEditorViewController.swift */; };
-		3636D1342CEA0DCE002AA074 /* RuleEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1332CEA0DCE002AA074 /* RuleEditorViewModel.swift */; };
-		3636D1362CEA0E88002AA074 /* TrafficManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1352CEA0E88002AA074 /* TrafficManager.swift */; };
-		3636D1382CEA0EAD002AA074 /* TrafficStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1372CEA0EAD002AA074 /* TrafficStorage.swift */; };
-		3636D13A2CEA0EEE002AA074 /* TrafficChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1392CEA0EEE002AA074 /* TrafficChartViewController.swift */; };
-		3636D13C2CEA0F41002AA074 /* TrafficChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D13B2CEA0F41002AA074 /* TrafficChartViewModel.swift */; };
-		3636D13E2CEA0F7C002AA074 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D13D2CEA0F7C002AA074 /* LogManager.swift */; };
-		3636D1402CEA0FC6002AA074 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D13F2CEA0FC6002AA074 /* DebugViewController.swift */; };
-		3636D1422CEA1022002AA074 /* NetworkDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1412CEA1022002AA074 /* NetworkDebugViewController.swift */; };
-		3636D1452CEA1076002AA074 /* PerformanceChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1442CEA1076002AA074 /* PerformanceChartView.swift */; };
-		3636D1472CEA10AF002AA074 /* NetworkDebugger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1462CEA10AF002AA074 /* NetworkDebugger.swift */; };
-		3636D1492CEA10EF002AA074 /* NetworkRequestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1482CEA10EF002AA074 /* NetworkRequestDetailViewController.swift */; };
-		3636D14B2CEA1122002AA074 /* NetworkFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D14A2CEA1122002AA074 /* NetworkFilterViewController.swift */; };
-		3636D14D2CEA1163002AA074 /* PerformanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D14C2CEA1163002AA074 /* PerformanceManager.swift */; };
-		3636D14F2CEA1198002AA074 /* CrashReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D14E2CEA1198002AA074 /* CrashReportManager.swift */; };
-		3636D1512CEA11DD002AA074 /* CrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1502CEA11DD002AA074 /* CrashReportViewController.swift */; };
-		3636D1542CEA1233002AA074 /* CrashDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1532CEA1233002AA074 /* CrashDetailViewController.swift */; };
-		3636D1562CEA126F002AA074 /* PerformanceProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1552CEA126F002AA074 /* PerformanceProfileDetailViewController.swift */; };
-		3636D1582CEA12A4002AA074 /* PerformanceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1572CEA12A4002AA074 /* PerformanceAnalyzer.swift */; };
-		3636D15A2CEA12E3002AA074 /* PerformanceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1592CEA12E3002AA074 /* PerformanceStorage.swift */; };
-		3636D15C2CEA1324002AA074 /* PerformanceDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D15B2CEA1324002AA074 /* PerformanceDashboardViewController.swift */; };
-		3636D1602CEA13E4002AA074 /* PerformanceReportGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D15F2CEA13E4002AA074 /* PerformanceReportGenerator.swift */; };
-		3636D1622CEA1410002AA074 /* PerformanceExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1612CEA1410002AA074 /* PerformanceExportManager.swift */; };
-		3636D1642CEA1447002AA074 /* PerformanceBenchmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1632CEA1447002AA074 /* PerformanceBenchmarkManager.swift */; };
-		3636D1662CEA1485002AA074 /* BenchmarkResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1652CEA1485002AA074 /* BenchmarkResultViewController.swift */; };
-		3636D1682CEA1506002AA074 /* MetricsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1672CEA1506002AA074 /* MetricsTableView.swift */; };
-		3636D16A2CEA1570002AA074 /* PerformanceAnalysisDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1692CEA1570002AA074 /* PerformanceAnalysisDetailViewController.swift */; };
-		3636D16C2CEA1598002AA074 /* IssuesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16B2CEA1598002AA074 /* IssuesListView.swift */; };
 		3636D16E2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */; };
 		3636D1702CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */; };
 		3636D1722CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */; };
@@ -247,43 +212,8 @@
 		3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRLocalServer.swift; sourceTree = "<group>"; };
 		3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRPerformanceMonitor.swift; sourceTree = "<group>"; };
 		3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRProtocolHandler.swift; sourceTree = "<group>"; };
-		3636D11C2CE96EB3002AA074 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		3636D11E2CE9714B002AA074 /* TFYVPNError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNError.swift; sourceTree = "<group>"; };
 		3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRObfuscator.swift; sourceTree = "<group>"; };
-		3636D1242CEA0B2E002AA074 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		3636D1262CEA0BE9002AA074 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		3636D1282CEA0C3D002AA074 /* ServerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
-		3636D12A2CEA0C84002AA074 /* ServerEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditViewController.swift; sourceTree = "<group>"; };
-		3636D12C2CEA0CCB002AA074 /* ServerAdvancedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAdvancedSettingsViewController.swift; sourceTree = "<group>"; };
-		3636D12E2CEA0D0D002AA074 /* RoutingRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingRulesViewController.swift; sourceTree = "<group>"; };
-		3636D1302CEA0D4E002AA074 /* RuleEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleEditorViewController.swift; sourceTree = "<group>"; };
-		3636D1332CEA0DCE002AA074 /* RuleEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleEditorViewModel.swift; sourceTree = "<group>"; };
-		3636D1352CEA0E88002AA074 /* TrafficManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficManager.swift; sourceTree = "<group>"; };
-		3636D1372CEA0EAD002AA074 /* TrafficStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficStorage.swift; sourceTree = "<group>"; };
-		3636D1392CEA0EEE002AA074 /* TrafficChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficChartViewController.swift; sourceTree = "<group>"; };
-		3636D13B2CEA0F41002AA074 /* TrafficChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficChartViewModel.swift; sourceTree = "<group>"; };
-		3636D13D2CEA0F7C002AA074 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
-		3636D13F2CEA0FC6002AA074 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
-		3636D1412CEA1022002AA074 /* NetworkDebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugViewController.swift; sourceTree = "<group>"; };
-		3636D1442CEA1076002AA074 /* PerformanceChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceChartView.swift; sourceTree = "<group>"; };
-		3636D1462CEA10AF002AA074 /* NetworkDebugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDebugger.swift; sourceTree = "<group>"; };
-		3636D1482CEA10EF002AA074 /* NetworkRequestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestDetailViewController.swift; sourceTree = "<group>"; };
-		3636D14A2CEA1122002AA074 /* NetworkFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFilterViewController.swift; sourceTree = "<group>"; };
-		3636D14C2CEA1163002AA074 /* PerformanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceManager.swift; sourceTree = "<group>"; };
-		3636D14E2CEA1198002AA074 /* CrashReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportManager.swift; sourceTree = "<group>"; };
-		3636D1502CEA11DD002AA074 /* CrashReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportViewController.swift; sourceTree = "<group>"; };
-		3636D1532CEA1233002AA074 /* CrashDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashDetailViewController.swift; sourceTree = "<group>"; };
-		3636D1552CEA126F002AA074 /* PerformanceProfileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceProfileDetailViewController.swift; sourceTree = "<group>"; };
-		3636D1572CEA12A4002AA074 /* PerformanceAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceAnalyzer.swift; sourceTree = "<group>"; };
-		3636D1592CEA12E3002AA074 /* PerformanceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceStorage.swift; sourceTree = "<group>"; };
-		3636D15B2CEA1324002AA074 /* PerformanceDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDashboardViewController.swift; sourceTree = "<group>"; };
-		3636D15F2CEA13E4002AA074 /* PerformanceReportGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceReportGenerator.swift; sourceTree = "<group>"; };
-		3636D1612CEA1410002AA074 /* PerformanceExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceExportManager.swift; sourceTree = "<group>"; };
-		3636D1632CEA1447002AA074 /* PerformanceBenchmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceBenchmarkManager.swift; sourceTree = "<group>"; };
-		3636D1652CEA1485002AA074 /* BenchmarkResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkResultViewController.swift; sourceTree = "<group>"; };
-		3636D1672CEA1506002AA074 /* MetricsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsTableView.swift; sourceTree = "<group>"; };
-		3636D1692CEA1570002AA074 /* PerformanceAnalysisDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceAnalysisDetailViewController.swift; sourceTree = "<group>"; };
-		3636D16B2CEA1598002AA074 /* IssuesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuesListView.swift; sourceTree = "<group>"; };
 		3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRCipherConfigManager.swift; sourceTree = "<group>"; };
 		3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRPerformanceAnalyzer.swift; sourceTree = "<group>"; };
 		3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRMemoryOptimizer.swift; sourceTree = "<group>"; };
@@ -520,9 +450,6 @@
 		3612E13926475B6700476696 /* TFYClass */ = {
 			isa = PBXGroup;
 			children = (
-				3636D1522CEA11EF002AA074 /* Vc */,
-				3636D1432CEA1064002AA074 /* View */,
-				3636D1322CEA0DC3002AA074 /* Model */,
 				3612E14126475BA400476696 /* ViewController.swift */,
 			);
 			path = TFYClass;
@@ -667,77 +594,21 @@
 		3636D10D2CE8E84F002AA074 /* SSR */ = {
 			isa = PBXGroup;
 			children = (
-				3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */,
-				3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */,
 				3636D1052CE8E84F002AA074 /* TFYSOCKS5Handler.swift */,
 				3636D1062CE8E84F002AA074 /* TFYSSRAccelerator.swift */,
+				3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */,
 				3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */,
 				3636D1082CE8E84F002AA074 /* TFYSSRConnectionPool.swift */,
 				3636D1092CE8E84F002AA074 /* TFYSSRCrypto.swift */,
 				3636D10A2CE8E84F002AA074 /* TFYSSRError.swift */,
 				3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */,
-				3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */,
-				3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */,
-				3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */,
 				3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */,
+				3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */,
+				3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */,
+				3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */,
+				3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */,
 			);
 			path = SSR;
-			sourceTree = "<group>";
-		};
-		3636D1322CEA0DC3002AA074 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3636D1332CEA0DCE002AA074 /* RuleEditorViewModel.swift */,
-				3636D1352CEA0E88002AA074 /* TrafficManager.swift */,
-				3636D1372CEA0EAD002AA074 /* TrafficStorage.swift */,
-				3636D13B2CEA0F41002AA074 /* TrafficChartViewModel.swift */,
-				3636D13D2CEA0F7C002AA074 /* LogManager.swift */,
-				3636D1462CEA10AF002AA074 /* NetworkDebugger.swift */,
-				3636D14C2CEA1163002AA074 /* PerformanceManager.swift */,
-				3636D14E2CEA1198002AA074 /* CrashReportManager.swift */,
-				3636D1572CEA12A4002AA074 /* PerformanceAnalyzer.swift */,
-				3636D1592CEA12E3002AA074 /* PerformanceStorage.swift */,
-				3636D15F2CEA13E4002AA074 /* PerformanceReportGenerator.swift */,
-				3636D1612CEA1410002AA074 /* PerformanceExportManager.swift */,
-				3636D1632CEA1447002AA074 /* PerformanceBenchmarkManager.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		3636D1432CEA1064002AA074 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				3636D1442CEA1076002AA074 /* PerformanceChartView.swift */,
-				3636D1672CEA1506002AA074 /* MetricsTableView.swift */,
-				3636D16B2CEA1598002AA074 /* IssuesListView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		3636D1522CEA11EF002AA074 /* Vc */ = {
-			isa = PBXGroup;
-			children = (
-				3636D11C2CE96EB3002AA074 /* ExampleViewController.swift */,
-				3636D1242CEA0B2E002AA074 /* MainViewController.swift */,
-				3636D1262CEA0BE9002AA074 /* SettingsViewController.swift */,
-				3636D1282CEA0C3D002AA074 /* ServerListViewController.swift */,
-				3636D12A2CEA0C84002AA074 /* ServerEditViewController.swift */,
-				3636D12C2CEA0CCB002AA074 /* ServerAdvancedSettingsViewController.swift */,
-				3636D12E2CEA0D0D002AA074 /* RoutingRulesViewController.swift */,
-				3636D1302CEA0D4E002AA074 /* RuleEditorViewController.swift */,
-				3636D1392CEA0EEE002AA074 /* TrafficChartViewController.swift */,
-				3636D13F2CEA0FC6002AA074 /* DebugViewController.swift */,
-				3636D1412CEA1022002AA074 /* NetworkDebugViewController.swift */,
-				3636D1482CEA10EF002AA074 /* NetworkRequestDetailViewController.swift */,
-				3636D14A2CEA1122002AA074 /* NetworkFilterViewController.swift */,
-				3636D1502CEA11DD002AA074 /* CrashReportViewController.swift */,
-				3636D1532CEA1233002AA074 /* CrashDetailViewController.swift */,
-				3636D1552CEA126F002AA074 /* PerformanceProfileDetailViewController.swift */,
-				3636D15B2CEA1324002AA074 /* PerformanceDashboardViewController.swift */,
-				3636D1652CEA1485002AA074 /* BenchmarkResultViewController.swift */,
-				3636D1692CEA1570002AA074 /* PerformanceAnalysisDetailViewController.swift */,
-			);
-			path = Vc;
 			sourceTree = "<group>";
 		};
 		365478022830913800E4DE22 /* WKWeb */ = {
@@ -960,7 +831,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3636D1472CEA10AF002AA074 /* NetworkDebugger.swift in Sources */,
 				36FA19982941D6290099BB35 /* ShimmerView.swift in Sources */,
 				36DAFEDE2787FF9D00D05EE1 /* UIBarButtonItem+Chain.swift in Sources */,
 				3612E16426475C4100476696 /* TFYAsynce.swift in Sources */,
@@ -968,39 +838,28 @@
 				362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */,
 				36FA19852941D6290099BB35 /* CLLocationCoordinate2D.swift in Sources */,
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
-				3636D13C2CEA0F41002AA074 /* TrafficChartViewModel.swift in Sources */,
-				3636D1382CEA0EAD002AA074 /* TrafficStorage.swift in Sources */,
-				3636D16C2CEA1598002AA074 /* IssuesListView.swift in Sources */,
-				3636D1362CEA0E88002AA074 /* TrafficManager.swift in Sources */,
 				36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */,
 				3636D0F72CE8E229002AA074 /* TFYVPNMonitor.swift in Sources */,
-				3636D1662CEA1485002AA074 /* BenchmarkResultViewController.swift in Sources */,
 				3636D0F82CE8E229002AA074 /* TFYVPNAccelerator.swift in Sources */,
 				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
-				3636D1342CEA0DCE002AA074 /* RuleEditorViewModel.swift in Sources */,
 				36DAFEE42787FF9D00D05EE1 /* UISegmentedControl+Chain.swift in Sources */,
 				36FA198B2941D6290099BB35 /* Binding.swift in Sources */,
-				3636D14D2CEA1163002AA074 /* PerformanceManager.swift in Sources */,
 				36FA19672941D6290099BB35 /* CGRect.swift in Sources */,
 				36DAFEED2787FF9D00D05EE1 /* UIResponder+Chain.swift in Sources */,
 				36F2830A2834DB9F00460789 /* NSRange+Chain.swift in Sources */,
 				36547810283091B100E4DE22 /* WKWebManager.swift in Sources */,
-				3636D1542CEA1233002AA074 /* CrashDetailViewController.swift in Sources */,
 				36FA19642941D6290099BB35 /* UserDefault.swift in Sources */,
 				36FA19992941D6290099BB35 /* CircleMotion.swift in Sources */,
 				36F283042834D93600460789 /* NSAttributedString+Chain.swift in Sources */,
 				36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */,
 				36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
-				3636D1562CEA126F002AA074 /* PerformanceProfileDetailViewController.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
-				3636D1422CEA1022002AA074 /* NetworkDebugViewController.swift in Sources */,
 				36D110422834C0420068E67E /* Data+Chain.swift in Sources */,
 				36E0CA092839F3810063C0F1 /* UIAlertController+Chain.swift in Sources */,
 				36E0CA0B2839F6B80063C0F1 /* UIStackView+Chain.swift in Sources */,
-				3636D1682CEA1506002AA074 /* MetricsTableView.swift in Sources */,
 				36FA198C2941D6290099BB35 /* ScrollViewOffSetReader.swift in Sources */,
 				3612E13B26475B6700476696 /* SceneDelegate.swift in Sources */,
 				36FA19682941D6290099BB35 /* Publisher.swift in Sources */,
@@ -1014,7 +873,6 @@
 				36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */,
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
 				36FA19872941D6290099BB35 /* CLLocationManager.swift in Sources */,
-				3636D1252CEA0B2E002AA074 /* MainViewController.swift in Sources */,
 				3636D11F2CE9714B002AA074 /* TFYVPNError.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
@@ -1032,19 +890,12 @@
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
 				36DAFEEE2787FF9D00D05EE1 /* UITextView+Chain.swift in Sources */,
 				36FA19652941D6290099BB35 /* Operators.swift in Sources */,
-				3636D12B2CEA0C84002AA074 /* ServerEditViewController.swift in Sources */,
-				3636D1622CEA1410002AA074 /* PerformanceExportManager.swift in Sources */,
-				3636D1582CEA12A4002AA074 /* PerformanceAnalyzer.swift in Sources */,
-				3636D16A2CEA1570002AA074 /* PerformanceAnalysisDetailViewController.swift in Sources */,
-				3636D14B2CEA1122002AA074 /* NetworkFilterViewController.swift in Sources */,
 				36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */,
 				36FA19932941D6290099BB35 /* GeometryProxy.swift in Sources */,
-				3636D1512CEA11DD002AA074 /* CrashReportViewController.swift in Sources */,
 				3636D1212CE97209002AA074 /* TFYSSRObfuscator.swift in Sources */,
 				36D110402834C0010068E67E /* CLLocation+Chain.swift in Sources */,
 				36F1B82D278808360005E8B6 /* HasFont.swift in Sources */,
 				36DAFEE32787FF9D00D05EE1 /* UICollectionView+Chain.swift in Sources */,
-				3636D12F2CEA0D0D002AA074 /* RoutingRulesViewController.swift in Sources */,
 				36FA198D2941D6290099BB35 /* NavigationBarModifier.swift in Sources */,
 				36FA19922941D6290099BB35 /* Array+View.swift in Sources */,
 				36547815283091B100E4DE22 /* WKWebController.swift in Sources */,
@@ -1058,9 +909,7 @@
 				36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
-				3636D12D2CEA0CCB002AA074 /* ServerAdvancedSettingsViewController.swift in Sources */,
 				3636D0FC2CE8E31F002AA074 /* TFYVPNConfiguration.swift in Sources */,
-				3636D1602CEA13E4002AA074 /* PerformanceReportGenerator.swift in Sources */,
 				3636D0FD2CE8E31F002AA074 /* TFYVPNTypes.swift in Sources */,
 				3636D0FE2CE8E31F002AA074 /* TFYVPNUtils.swift in Sources */,
 				3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */,
@@ -1074,7 +923,6 @@
 				3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */,
 				36DAFEE92787FF9D00D05EE1 /* UIScrollView+Chain.swift in Sources */,
 				36547813283091B100E4DE22 /* WKEncoderValueContainer.swift in Sources */,
-				3636D11D2CE96EB3002AA074 /* ExampleViewController.swift in Sources */,
 				36FA19942941D6290099BB35 /* RectGetter.swift in Sources */,
 				36FA198E2941D6290099BB35 /* Image.swift in Sources */,
 				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
@@ -1082,8 +930,6 @@
 				3654781A283091B100E4DE22 /* WKDecoderValueContainer.swift in Sources */,
 				36F283102834DFE600460789 /* CAGradientLayer+Chain.swift in Sources */,
 				36547818283091B100E4DE22 /* WKDecoderKeyedContainer.swift in Sources */,
-				3636D1272CEA0BE9002AA074 /* SettingsViewController.swift in Sources */,
-				3636D15C2CEA1324002AA074 /* PerformanceDashboardViewController.swift in Sources */,
 				36547817283091B100E4DE22 /* WKDecoderUnkeyedContainer.swift in Sources */,
 				368367B026495D170024939A /* UIPanGestureRecognizer+ITools.swift in Sources */,
 				36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */,
@@ -1094,19 +940,15 @@
 				36DAFEE22787FF9D00D05EE1 /* UIStepper+Chain.swift in Sources */,
 				36F283082834DB1500460789 /* NSObject+Chain.swift in Sources */,
 				36FA198A2941D6290099BB35 /* RoundedCorner.swift in Sources */,
-				3636D1452CEA1076002AA074 /* PerformanceChartView.swift in Sources */,
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
 				3636D10E2CE8E84F002AA074 /* TFYSSRCrypto.swift in Sources */,
 				3636D10F2CE8E84F002AA074 /* TFYSSRLocalServer.swift in Sources */,
-				3636D1292CEA0C3D002AA074 /* ServerListViewController.swift in Sources */,
 				3636D1102CE8E84F002AA074 /* TFYSOCKS5Handler.swift in Sources */,
 				3636D1112CE8E84F002AA074 /* TFYSSRAccelerator.swift in Sources */,
-				3636D15A2CEA12E3002AA074 /* PerformanceStorage.swift in Sources */,
 				3636D1122CE8E84F002AA074 /* TFYSSRConfiguration.swift in Sources */,
 				3636D1132CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift in Sources */,
-				3636D1642CEA1447002AA074 /* PerformanceBenchmarkManager.swift in Sources */,
 				3636D1142CE8E84F002AA074 /* TFYSSRError.swift in Sources */,
 				3636D1152CE8E84F002AA074 /* TFYSSRConnectionPool.swift in Sources */,
 				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,
@@ -1114,7 +956,6 @@
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
 				36FA19972941D6290099BB35 /* Color.swift in Sources */,
-				3636D14F2CEA1198002AA074 /* CrashReportManager.swift in Sources */,
 				36FA19952941D6290099BB35 /* Text.swift in Sources */,
 				368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */,
 				36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */,
@@ -1122,11 +963,9 @@
 				36DAFEE52787FF9D00D05EE1 /* UIGestureRecognizer+Chain.swift in Sources */,
 				36DAFEC22787FEAA00D05EE1 /* NSMutableAttributedString+Chain.swift in Sources */,
 				36FA19892941D6290099BB35 /* View.swift in Sources */,
-				3636D1492CEA10EF002AA074 /* NetworkRequestDetailViewController.swift in Sources */,
 				3654780F283091B100E4DE22 /* WKEncoderUnkeyedContainer.swift in Sources */,
 				36FA19882941D6290099BB35 /* LocationPublisher.swift in Sources */,
 				36F283022834D87600460789 /* FileManager+Chain.swift in Sources */,
-				3636D13E2CEA0F7C002AA074 /* LogManager.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
 				36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */,
 				3636D1722CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift in Sources */,
@@ -1135,12 +974,9 @@
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
 				36F283062834D99C00460789 /* UIDevice+Chain.swift in Sources */,
 				36FA19842941D6290099BB35 /* CLLocation.swift in Sources */,
-				3636D13A2CEA0EEE002AA074 /* TrafficChartViewController.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
-				3636D1402CEA0FC6002AA074 /* DebugViewController.swift in Sources */,
 				3636D1002CE8E497002AA074 /* TFYVPNTrafficStats.swift in Sources */,
 				36D1103E2834BD7D0068E67E /* Array+Chain.swift in Sources */,
-				3636D1312CEA0D4E002AA074 /* RuleEditorViewController.swift in Sources */,
 				365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */,
 				36547814283091B100E4DE22 /* WKEncoderKeyedContainer.swift in Sources */,
 			);

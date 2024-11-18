@@ -47,51 +47,51 @@ public class TFYSSRObfuscator {
     
     // MARK: - 公共方法
     
-    /// 对数据进行混淆
+    /// 对数据进行混��
     /// - Parameter data: 原始数据
     /// - Returns: 混淆后的数据
-    func obfuscate(_ data: Data) -> Data {
+    /// - Throws: 混淆过程中的错误
+    func obfuscate(_ data: Data) throws -> Data {
         switch config.obfs {
         case .plain:
             return data
         case .http_simple:
-            return obfuscateHTTPSimple(data)
+            return try httpSimpleObfuscate(data)
         case .http_post:
-            return obfuscateHTTPPost(data)
+            return try httpPostObfuscate(data)
         case .tls1_2_ticket_auth:
-            return obfuscateTLS12(data)
+            return try tlsTicketAuthObfuscate(data)
         }
     }
     
     /// 对混淆数据进行解混淆
     /// - Parameter data: 混淆数据
     /// - Returns: 解混淆后的原始数据
-    func deobfuscate(_ data: Data) -> Data {
+    /// - Throws: 解混淆过程中的错误
+    func deobfuscate(_ data: Data) throws -> Data {
         switch config.obfs {
         case .plain:
             return data
         case .http_simple:
-            return deobfuscateHTTPSimple(data)
+            return try httpSimpleDeobfuscate(data)
         case .http_post:
-            return deobfuscateHTTPPost(data)
+            return try httpPostDeobfuscate(data)
         case .tls1_2_ticket_auth:
-            return deobfuscateTLS12(data)
+            return try tlsTicketAuthDeobfuscate(data)
         }
     }
     
     // MARK: - 私有方法
     
     /// HTTP Simple混淆
-    private func obfuscateHTTPSimple(_ data: Data) -> Data {
+    private func httpSimpleObfuscate(_ data: Data) throws -> Data {
         var result = Data()
         
-        // 构建HTTP GET请求
-        let host = config.obfsParam ?? config.serverAddress
-        let path = generateRandomPath()
-        let headers = """
-        GET /\(path) HTTP/1.1\r
-        Host: \(host)\r
-        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\r
+        // 添加 HTTP 请求头
+        let httpHeader = """
+        GET / HTTP/1.1\r
+        Host: \(config.serverAddress)\r
+        User-Agent: Mozilla/5.0\r
         Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r
         Accept-Language: en-US,en;q=0.8\r
         Accept-Encoding: gzip, deflate\r
@@ -99,159 +99,61 @@ public class TFYSSRObfuscator {
         \r\n
         """
         
-        // 添加请求头
-        result.append(headers.data(using: .utf8)!)
-        
-        // 对数据进行Base64编码并添加到URL参数中
-        let encodedData = data.base64EncodedString()
-        result.append(encodedData.data(using: .utf8)!)
-        
+        result.append(httpHeader.data(using: .utf8)!)
+        result.append(data)
         return result
     }
     
     /// HTTP Simple解混淆
-    private func deobfuscateHTTPSimple(_ data: Data) -> Data {
-        guard let str = String(data: data, encoding: .utf8) else {
-            return data
+    private func httpSimpleDeobfuscate(_ data: Data) throws -> Data {
+        // 查找HTTP头部结束位置
+        guard let range = data.range(of: "\r\n\r\n".data(using: .utf8)!) else {
+            throw SSRError.invalidProtocol
         }
         
-        // 查找Base64编码的数据部分
-        if let range = str.range(of: "\r\n\r\n") {
-            // 获取Base64编码的部分
-            let encodedPart = str[range.upperBound...]
-            // 解码Base64数据
-            if let decodedData = Data(base64Encoded: String(encodedPart)) {
-                return decodedData
-            }
-        }
-        
-        return data
+        // 返回HTTP头部之后的数据
+        return data.subdata(in: range.upperBound..<data.count)
     }
     
     /// HTTP POST混淆
-    private func obfuscateHTTPPost(_ data: Data) -> Data {
+    private func httpPostObfuscate(_ data: Data) throws -> Data {
         var result = Data()
         
-        // 构建HTTP POST请求
-        let host = config.obfsParam ?? config.serverAddress
-        let path = generateRandomPath()
-        let contentLength = data.count
-        let headers = """
-        POST /\(path) HTTP/1.1\r
-        Host: \(host)\r
-        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\r
+        // 添加 HTTP POST 请求头
+        let httpHeader = """
+        POST / HTTP/1.1\r
+        Host: \(config.serverAddress)\r
+        User-Agent: Mozilla/5.0\r
         Content-Type: application/x-www-form-urlencoded\r
-        Content-Length: \(contentLength)\r
+        Content-Length: \(data.count)\r
         Connection: keep-alive\r
         \r\n
         """
         
-        // 添加请求头和数据
-        result.append(headers.data(using: .utf8)!)
+        result.append(httpHeader.data(using: .utf8)!)
         result.append(data)
-        
         return result
     }
     
     /// HTTP POST解混淆
-    private func deobfuscateHTTPPost(_ data: Data) -> Data {
-        guard let str = String(data: data, encoding: .utf8) else {
-            return data
+    private func httpPostDeobfuscate(_ data: Data) throws -> Data {
+        // 类似 httpSimpleDeobfuscate
+        guard let range = data.range(of: "\r\n\r\n".data(using: .utf8)!) else {
+            throw SSRError.invalidProtocol
         }
-        
-        // 查找请求体部分
-        if let range = str.range(of: "\r\n\r\n") {
-            // 计算数据中的实际偏移量
-            let headerLength = str.distance(from: str.startIndex, to: range.upperBound)
-            // 提取请求体部分
-            return data.subdata(in: headerLength..<data.count)
-        }
-        
-        return data
+        return data.subdata(in: range.upperBound..<data.count)
     }
     
     /// TLS 1.2 Ticket Auth混淆
-    private func obfuscateTLS12(_ data: Data) -> Data {
-        var result = Data()
-        
-        if sendCounter == 0 {
-            // 首次发送，构建TLS ClientHello
-            result.append(buildTLSClientHello())
-            sendCounter += 1
-        }
-        
-        // 构建TLS Application Data
-        result.append(buildTLSApplicationData(data))
-        sendCounter += 1
-        
-        return result
+    private func tlsTicketAuthObfuscate(_ data: Data) throws -> Data {
+        // TLS 1.2 ticket auth 混淆实现
+        // 这里需要实现完整的 TLS 1.2 握手过程
+        throw SSRError.unsupportedObfs
     }
     
     /// TLS 1.2 Ticket Auth解混淆
-    private func deobfuscateTLS12(_ data: Data) -> Data {
-        guard data.count >= 5 else { return data }
-        
-        if receiveCounter == 0 {
-            // 首次接收，跳过TLS ServerHello
-            receiveCounter += 1
-            return Data()
-        }
-        
-        // 解析TLS记录层
-        let contentType = data[0]
-        let length = UInt16(data[3]) << 8 | UInt16(data[4])
-        
-        guard contentType == 0x17, // Application Data
-              data.count >= Int(length) + 5 else {
-            return data
-        }
-        
-        // 提取应用数据
-        let applicationData = data.subdata(in: 5..<(Int(length) + 5))
-        receiveCounter += 1
-        
-        return applicationData
-    }
-    
-    /// 生成随机路径
-    private func generateRandomPath() -> String {
-        let length = Int.random(in: 8...16)
-        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map { _ in characters.randomElement()! })
-    }
-    
-    /// 构建TLS ClientHello
-    private func buildTLSClientHello() -> Data {
-        var hello = Data()
-        
-        // Record Layer
-        hello.append(0x16) // Content Type: Handshake
-        hello.append(0x03) // Version: TLS 1.0
-        hello.append(0x03)
-        
-        // 后续添加长度和具体的ClientHello内容
-        // 这里简化处理，实际应该构建完整的TLS握手包
-        
-        return hello
-    }
-    
-    /// 构建TLS Application Data
-    private func buildTLSApplicationData(_ data: Data) -> Data {
-        var result = Data()
-        
-        // Record Layer
-        result.append(0x17) // Content Type: Application Data
-        result.append(0x03) // Version: TLS 1.2
-        result.append(0x03)
-        
-        // Length
-        let length = UInt16(data.count)
-        result.append(UInt8(length >> 8))
-        result.append(UInt8(length & 0xFF))
-        
-        // Data
-        result.append(data)
-        
-        return result
+    private func tlsTicketAuthDeobfuscate(_ data: Data) throws -> Data {
+        // TLS 1.2 ticket auth 解混淆实现
+        throw SSRError.unsupportedObfs
     }
 }

@@ -11,69 +11,46 @@ import Security  // 添加这行
 import UIKit
 
 /// SSR错误类型
-public enum SSRError: LocalizedError {
-    /// 配置无效
-    case invalidConfiguration
-    /// 协议无效
+public enum SSRError: Error {
     case invalidProtocol
-    /// 不支持的命令
-    case unsupportedCommand
-    /// 地址类型无效
-    case invalidAddressType
-    /// 地址无效
     case invalidAddress
-    /// 端口无效
+    case invalidAddressType
     case invalidPort
-    /// 加密失败
-    case encryptionFailed
-    /// 解密失败
-    case decryptionFailed
-    /// 连接失败
-    case connectionFailed(String)
-    /// 连接超时
-    case connectionTimeout
-    /// 连接数过多
-    case tooManyConnections
-    /// 网络不可用
-    case networkUnavailable
-    /// 服务器错误
-    case serverError(String)
-    /// 未知错误
-    case unknown
+    case invalidParameter(String)
+    case connectionFailed
+    case unsupportedCommand
+    case unsupportedMethod
+    case unsupportedObfs
+    case operationFailed(String)
+    case timeout
     
-    public var errorDescription: String? {
+    public var localizedDescription: String {
         switch self {
-        case .invalidConfiguration:
-            return "SSR配置无效"
         case .invalidProtocol:
-            return "协议无效"
+            return "无效的协议"
+        case .invalidAddress:
+            return "无效的地址"
+        case .invalidAddressType:
+            return "无效的地址类型"
+        case .invalidPort:
+            return "无效的端口号"
+        case .invalidParameter(let msg):
+            return "无效的参数: \(msg)"
+        case .connectionFailed:
+            return "连接失败"
         case .unsupportedCommand:
             return "不支持的命令"
-        case .invalidAddressType:
-            return "地址类型无效"
-        case .invalidAddress:
-            return "地址无效"
-        case .invalidPort:
-            return "端口无效"
-        case .encryptionFailed:
-            return "加密失败"
-        case .decryptionFailed:
-            return "解密失败"
-        case .connectionFailed(let reason):
-            return "连接失败: \(reason)"
-        case .connectionTimeout:
-            return "连接超时"
-        case .tooManyConnections:
-            return "连接数过多"
-        case .networkUnavailable:
-            return "网络不可用"
-        case .serverError(let message):
-            return "服务器错误: \(message)"
-        case .unknown:
-            return "未知错误"
+        case .unsupportedMethod:
+            return "不支持的加密方法"
+        case .unsupportedObfs:
+            return "不支持的混淆方式"
+        case .operationFailed(let msg):
+            return "操作失败: \(msg)"
+        case .timeout:
+            return "操作超时"
         }
     }
-} 
+}
 
 // 扩展Data以添加加密相关的便利方法
 extension Data {
