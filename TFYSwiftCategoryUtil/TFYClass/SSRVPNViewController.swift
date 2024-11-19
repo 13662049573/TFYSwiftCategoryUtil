@@ -133,7 +133,7 @@ class SSRVPNViewController: UIViewController {
         TFYSSRCipherConfigManager.shared.updateConfig(cipherConfig)
         
         // 配置内存优化器
-        let memoryConfig = TFYSSRMemoryOptimizer.MemoryConfig(
+        let memoryConfig = MemoryConfig(
             warningThreshold: 0.8,
             criticalThreshold: 0.9,
             maxCacheSize: 100 * 1024 * 1024,
@@ -142,7 +142,8 @@ class SSRVPNViewController: UIViewController {
             reclaimInterval: 60,
             enableCompression: true
         )
-        memoryOptimizer.updateConfig(memoryConfig)
+        TFYSSRMemoryOptimizer.shared.updateConfig(memoryConfig)
+        
         // 启动性能监控
         startPerformanceMonitoring()
     }

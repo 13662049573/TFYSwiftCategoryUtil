@@ -99,6 +99,15 @@ public struct VPNSessionData: Codable {
     /// 发送字节数
     public let bytesSent: Int64
     
+    /// CPU使用率
+    public let cpuUsage: Double
+    
+    /// 内存使用量
+    public let memoryUsage: Int64
+    
+    /// 平均延迟
+    public let averageLatency: TimeInterval
+    
     /// 会话时长
     public var duration: TimeInterval {
         endTime.timeIntervalSince(startTime)
@@ -111,7 +120,10 @@ public struct VPNSessionData: Codable {
                serverAddress: String,
                connectionType: String,
                bytesReceived: Int64,
-               bytesSent: Int64) {
+               bytesSent: Int64,
+               cpuUsage: Double = 0,
+               memoryUsage: Int64 = 0,
+               averageLatency: TimeInterval = 0) {
         self.id = id
         self.startTime = startTime
         self.endTime = endTime
@@ -119,6 +131,9 @@ public struct VPNSessionData: Codable {
         self.connectionType = connectionType
         self.bytesReceived = bytesReceived
         self.bytesSent = bytesSent
+        self.cpuUsage = cpuUsage
+        self.memoryUsage = memoryUsage
+        self.averageLatency = averageLatency
     }
 }
 
@@ -180,6 +195,25 @@ public class VPNSessionManager {
     public func clearHistory() {
         historySessions.removeAll()
         saveSessions()
+    }
+    
+    /// 更新当前会话性能指标
+    public func updateCurrentSession(cpuUsage: Double, memoryUsage: Int64, averageLatency: TimeInterval) {
+        guard var session = currentSession else { return }
+        
+        // 更新会话数据，保持其他属性不变
+        currentSession = VPNSessionData(
+            id: session.id,
+            startTime: session.startTime,
+            endTime: session.endTime,
+            serverAddress: session.serverAddress,
+            connectionType: session.connectionType,
+            bytesReceived: session.bytesReceived,
+            bytesSent: session.bytesSent,
+            cpuUsage: cpuUsage,
+            memoryUsage: memoryUsage,
+            averageLatency: averageLatency
+        )
     }
     
     // MARK: - Private Methods

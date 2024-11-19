@@ -52,7 +52,7 @@ class SSRVPNDemoViewController: UIViewController {
     private let trafficManager = TFYVPNTrafficManager.shared
     private let sessionManager = VPNSessionManager.shared
     private let monitor = TFYVPNMonitor.shared
-    
+    private var updateTimer: Timer?/// 停止本地服务器
     // SSR 相关组件
     private var ssrAccelerator: TFYSSRAccelerator?
     private var ssrProtocolHandler: TFYSSRProtocolHandler?
@@ -270,9 +270,7 @@ class SSRVPNDemoViewController: UIViewController {
         let metrics = performanceAnalyzer.getMetrics(for: method)
         
         // 更新UI显示性能指标
-        DispatchQueue.main.async { [weak self] in
-            self?.updatePerformanceUI(with: metrics)
-        }
+       
         
         // 检查是否需要优化
         if metrics.cpuUsage > 80 || metrics.memoryUsage > 500_000_000 {
@@ -383,6 +381,9 @@ class SSRVPNDemoViewController: UIViewController {
             stopUpdates()
             connectButton.backgroundColor = .systemBlue
             trafficLabel.text = "未连接"
+        case .reasserting:
+            //"正在重新连接"
+            break
         }
     }
     
@@ -420,6 +421,16 @@ class SSRVPNDemoViewController: UIViewController {
                 message = "认证错误: \(reason)"
             case .protocolError(let reason):
                 message = "协议错误: \(reason)"
+            case .encryptionError(let reason):
+                message = "加密错误:\(reason)"
+            case .obfuscationError(let reason):
+                message = "加密错误:\(reason)"
+            case .timeoutError:
+                message = ""
+            case .maxReconnectAttemptsReached:
+                message = ""
+            case .unknownError(let reason):
+                message = "加密错误:\(reason)"
             }
             
             self?.showAlert(title: "VPN错误", message: message)
@@ -451,6 +462,18 @@ class SSRVPNDemoViewController: UIViewController {
                 message = "SSR服务未运行"
             case .internalError(let reason):
                 message = "SSR内部错误: \(reason)"
+            case .invalidAddress:
+                message = ""
+            case .invalidAddressType:
+                message = ""
+            case .invalidPort:
+                message = ""
+            case .invalidParameter(let reason):
+                message = "无效的地址类型: \(reason)"
+            case .unsupportedCommand:
+                message = ""
+            case .operationFailed(let reason):
+                message = "操作失败: \(reason)"
             }
             
             self?.showAlert(title: "SSR错误", message: message)

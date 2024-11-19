@@ -41,6 +41,7 @@
 		3636D1792CEB78C7002AA074 /* VPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1782CEB78C7002AA074 /* VPNViewController.swift */; };
 		3636D17B2CEB7CD2002AA074 /* SSRVPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */; };
 		3636D17F2CEB8337002AA074 /* SSRVPNDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */; };
+		3636D1872CECDF52002AA074 /* TFYSSRTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */; };
 		3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
@@ -225,6 +226,7 @@
 		3636D1782CEB78C7002AA074 /* VPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewController.swift; sourceTree = "<group>"; };
 		3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNViewController.swift; sourceTree = "<group>"; };
 		3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNDemoViewController.swift; sourceTree = "<group>"; };
+		3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRTypes.swift; sourceTree = "<group>"; };
 		3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+obj.swift"; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 				3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */,
 				3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */,
 				3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */,
+				3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */,
 			);
 			path = SSR;
 			sourceTree = "<group>";
@@ -874,6 +877,7 @@
 				36FA19992941D6290099BB35 /* CircleMotion.swift in Sources */,
 				36F283042834D93600460789 /* NSAttributedString+Chain.swift in Sources */,
 				36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */,
+				3636D1872CECDF52002AA074 /* TFYSSRTypes.swift in Sources */,
 				36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,

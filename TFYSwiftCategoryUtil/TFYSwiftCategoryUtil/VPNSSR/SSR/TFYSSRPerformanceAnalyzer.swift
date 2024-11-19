@@ -112,6 +112,57 @@ public final class TFYSSRPerformanceAnalyzer {
         }
     }
     
+    /// 停止性能监控
+    public func stopMonitoring() {
+        // 停止所有监控活动
+        methodMetrics.removeAll()
+        VPNLogger.log("性能分析器已停止监控")
+    }
+    
+    /// 记录流量数据
+    /// - Parameters:
+    ///   - received: 接收的字节数
+    ///   - sent: 发送的字节数
+    public func recordTraffic(received: Int64, sent: Int64) {
+        let currentTime = Date()
+        
+        // 更新流量统计
+        totalBytesReceived += received
+        totalBytesSent += sent
+        
+        // 计算速率
+        if let lastRecordTime = lastTrafficRecordTime {
+            let timeInterval = currentTime.timeIntervalSince(lastRecordTime)
+            if timeInterval > 0 {
+                currentReceiveSpeed = Double(received) / timeInterval
+                currentSendSpeed = Double(sent) / timeInterval
+            }
+        }
+        
+        // 更新记录时间
+        lastTrafficRecordTime = currentTime
+        
+        // 通知观察者
+        notifyObservers()
+    }
+    
+    // 添加所需的属性
+    private var totalBytesReceived: Int64 = 0
+    private var totalBytesSent: Int64 = 0
+    private var currentReceiveSpeed: Double = 0
+    private var currentSendSpeed: Double = 0
+    private var lastTrafficRecordTime: Date?
+    
+    // 通知观察者的私有方法
+    private func notifyObservers() {
+        let metrics: [String: Any] = [
+            "totalBytesReceived": totalBytesReceived,
+            "totalBytesSent": totalBytesSent,
+            "currentReceiveSpeed": currentReceiveSpeed,
+            "currentSendSpeed": currentSendSpeed
+        ]
+    }
+    
     // MARK: - Private Methods
     
     private func updateMetrics(for method: SSREncryptMethod,
