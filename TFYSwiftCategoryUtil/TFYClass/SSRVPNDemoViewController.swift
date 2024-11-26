@@ -62,6 +62,24 @@ class SSRVPNDemoViewController: UIViewController {
     private let performanceAnalyzer = TFYSSRPerformanceAnalyzer.shared
     
     // MARK: - Lifecycle
+    // 配置VPN
+    let vpnConfig = VPNConfiguration(
+        vpnName: "",
+        serverAddress: "115.236.101.106",
+        port: 18989, method: SSREncryptMethod.chacha20_ietf,
+        password: "kedang@123",
+        ssrProtocol: SSRProtocol.origin,
+        obfs: SSRObfs.plain)
+    
+    // 1. 配置SSR
+    let ssrConfig = TFYSSRConfiguration(
+        serverAddress: "115.236.101.106",
+        serverPort: 18989,
+        password: "kedang@123",
+        method: .chacha20_ietf,
+        protocol: .origin,
+        obfs: .plain
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,22 +103,7 @@ class SSRVPNDemoViewController: UIViewController {
     }
     
     private func setupVPN() {
-        // 配置VPN
-        let vpnConfig = VPNConfiguration(
-            vpnName: "My VPN",
-            serverAddress: "your.vpn.server",
-            port: 443, method: SSREncryptMethod.aes_256_cfb,
-            password: "your_password",
-            ssrProtocol: SSRProtocol.origin,
-            obfs: SSRObfs.http_post,
-            dnsSettings: DNSSettings(
-                servers: ["8.8.8.8", "8.8.4.4"],
-                searchDomains: ["example.com"],
-                useSplitDNS: true),
-            autoReconnect: true,
-            autoReconnectDelay: 3.0,
-            connectionTimeout: 15.0)
-        
+       
         // 配置VPN
         vpnAccelerator.configure(with: vpnConfig) { [weak self] result in
             switch result {
@@ -124,20 +127,7 @@ class SSRVPNDemoViewController: UIViewController {
     }
     
     private func setupSSR() {
-        // 1. 配置SSR
-        let ssrConfig = TFYSSRConfiguration(
-            serverAddress: "your.ssr.server",
-            serverPort: 8388,
-            localPort: 1080,
-            password: "your_password",
-            method: .aes_256_cfb,
-            protocol: .auth_chain_a,
-            protocolParam: "protocolParam",
-            obfs: .tls1_2_ticket_auth,
-            obfsParam: "obfs.domain.com",
-            remarks: "My SSR Server"
-        )
-        
+    
         // 2. 初始化SSR协议处理器
         ssrProtocolHandler = TFYSSRProtocolHandler(config: ssrConfig)
         
@@ -203,28 +193,6 @@ class SSRVPNDemoViewController: UIViewController {
     private func startVPNTunnel() {
         guard let localPort = localServer?.config.localPort else { return }
         
-        // 创建VPN配置
-        let vpnConfig = VPNConfiguration(
-            vpnName: "SSR VPN",
-            serverAddress: "127.0.0.1", // 使用本地SSR服务
-            port: localPort,            // 使用SSR本地端口
-            method: ssrProtocolHandler?.config.method ?? .aes_256_cfb,
-            password: ssrProtocolHandler?.config.password ?? "",
-            ssrProtocol: .auth_chain_a,
-            obfs: .plain,
-            dnsSettings: DNSSettings(
-                servers: ["8.8.8.8", "8.8.4.4"],
-                searchDomains: ["example.com"],
-                useSplitDNS: true
-            ),
-            mtu: 1500,
-            enableCompression: true,
-            maxReconnectAttempts: 3,
-            autoReconnect: true,
-            autoReconnectDelay: 3.0,
-            connectionTimeout: 15.0
-        )
-        
         // 配置VPN
         vpnAccelerator.configure(with: vpnConfig) { [weak self] result in
             switch result {
@@ -270,8 +238,6 @@ class SSRVPNDemoViewController: UIViewController {
         let metrics = performanceAnalyzer.getMetrics(for: method)
         
         // 更新UI显示性能指标
-       
-        
         // 检查是否需要优化
         if metrics.cpuUsage > 80 || metrics.memoryUsage > 500_000_000 {
             memoryOptimizer.optimize()

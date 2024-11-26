@@ -46,13 +46,12 @@ class SSRVPNViewController: UIViewController {
     private var updateTimer: Timer?
     // 创建SSR配置
     let ssrConfig =  TFYSSRConfiguration(
-        serverAddress: "your.ssr.server",
-        serverPort: 8388,
-        password: "your_password",
-        method: .aes_256_cfb,
-        protocol: .auth_chain_a,
-        obfs: .tls1_2_ticket_auth,
-        obfsParam: "your.domain.com")
+        serverAddress: "115.236.101.106",
+        serverPort: 18989,
+        password: "kedang@123",
+        method: .chacha20_ietf,
+        protocol: .origin,
+        obfs: .plain)
     // MARK: - Initialization
     
     init() {

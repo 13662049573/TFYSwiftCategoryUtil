@@ -85,11 +85,11 @@ class VPNViewController: UIViewController {
         // 配置VPN
         let config = VPNConfiguration(
             vpnName: "My VPN",
-            serverAddress: "your.vpn.server",
-            port: 443, method: SSREncryptMethod.aes_256_cfb,
-            password: "your_password",
+            serverAddress: "115.236.101.106",
+            port: 18989, method: SSREncryptMethod.aes_256_cfb,
+            password: "kedang@123",
             ssrProtocol: SSRProtocol.origin,
-            obfs: SSRObfs.http_post,
+            obfs: SSRObfs.plain,
             dnsSettings: DNSSettings(
                 servers: ["8.8.8.8", "8.8.4.4"],
                 searchDomains: ["example.com"],
