@@ -76,54 +76,42 @@ public struct VPNStatistics {
     }
 }
 
-/// VPN 会话数据
-public struct VPNSessionData: Codable {
-    /// 会话ID
-    public let id: String
+
+/// VPN 会话数据模型
+@objc(TFYVPNSessionData)
+public class VPNSessionData: NSObject, NSSecureCoding {
+    public static var supportsSecureCoding: Bool = true
     
-    /// 开始时间
-    public let startTime: Date
-    
-    /// 结束时间
-    public let endTime: Date
-    
-    /// 服务器地址
-    public let serverAddress: String
-    
-    /// 连接类型
-    public let connectionType: String
-    
-    /// 接收字节数
-    public let bytesReceived: Int64
-    
-    /// 发送字节数
-    public let bytesSent: Int64
-    
-    /// CPU使用率
-    public let cpuUsage: Double
-    
-    /// 内存使用量
-    public let memoryUsage: Int64
-    
-    /// 平均延迟
-    public let averageLatency: TimeInterval
+    @objc let id: String
+    @objc let startTime: Date
+    @objc let endTime: Date
+    @objc let serverAddress: String
+    @objc let connectionType: String
+    @objc let bytesReceived: Int64
+    @objc let bytesSent: Int64
+    @objc let cpuUsage: Double
+    @objc let memoryUsage: Int64
+    @objc let averageLatency: TimeInterval
     
     /// 会话时长
     public var duration: TimeInterval {
         endTime.timeIntervalSince(startTime)
     }
     
-    /// 初始化
-    public init(id: String = UUID().uuidString,
-               startTime: Date,
-               endTime: Date,
-               serverAddress: String,
-               connectionType: String,
-               bytesReceived: Int64,
-               bytesSent: Int64,
-               cpuUsage: Double = 0,
-               memoryUsage: Int64 = 0,
-               averageLatency: TimeInterval = 0) {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case startTime
+        case endTime
+        case serverAddress
+        case connectionType
+        case bytesReceived
+        case bytesSent
+        case cpuUsage
+        case memoryUsage
+        case averageLatency
+    }
+    
+    init(id: String, startTime: Date, endTime: Date, serverAddress: String, connectionType: String, bytesReceived: Int64, bytesSent: Int64, cpuUsage: Double, memoryUsage: Int64, averageLatency: TimeInterval) {
         self.id = id
         self.startTime = startTime
         self.endTime = endTime
@@ -134,6 +122,109 @@ public struct VPNSessionData: Codable {
         self.cpuUsage = cpuUsage
         self.memoryUsage = memoryUsage
         self.averageLatency = averageLatency
+        super.init()
+    }
+    
+    // NSSecureCoding
+    public func encode(with coder: NSCoder) {
+        coder.encode(id, forKey: "id")
+        coder.encode(startTime, forKey: "startTime")
+        coder.encode(endTime, forKey: "endTime")
+        coder.encode(serverAddress, forKey: "serverAddress")
+        coder.encode(connectionType, forKey: "connectionType")
+        coder.encode(bytesReceived, forKey: "bytesReceived")
+        coder.encode(bytesSent, forKey: "bytesSent")
+        coder.encode(cpuUsage, forKey: "cpuUsage")
+        coder.encode(memoryUsage, forKey: "memoryUsage")
+        coder.encode(averageLatency, forKey: "averageLatency")
+    }
+    
+    public required init?(coder: NSCoder) {
+        guard let id = coder.decodeObject(of: NSString.self, forKey: "id") as String?,
+              let startTime = coder.decodeObject(of: NSDate.self, forKey: "startTime") as Date?,
+              let endTime = coder.decodeObject(of: NSDate.self, forKey: "endTime") as Date?,
+              let serverAddress = coder.decodeObject(of: NSString.self, forKey: "serverAddress") as String?,
+              let connectionType = coder.decodeObject(of: NSString.self, forKey: "connectionType") as String? else {
+            return nil
+        }
+        
+        self.id = id
+        self.startTime = startTime
+        self.endTime = endTime
+        self.serverAddress = serverAddress
+        self.connectionType = connectionType
+        self.bytesReceived = coder.decodeInt64(forKey: "bytesReceived")
+        self.bytesSent = coder.decodeInt64(forKey: "bytesSent")
+        self.cpuUsage = coder.decodeDouble(forKey: "cpuUsage")
+        self.memoryUsage = coder.decodeInt64(forKey: "memoryUsage")
+        self.averageLatency = coder.decodeDouble(forKey: "averageLatency")
+        super.init()
+    }
+    
+    // Codable
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        startTime = try container.decode(Date.self, forKey: .startTime)
+        endTime = try container.decode(Date.self, forKey: .endTime)
+        serverAddress = try container.decode(String.self, forKey: .serverAddress)
+        connectionType = try container.decode(String.self, forKey: .connectionType)
+        bytesReceived = try container.decode(Int64.self, forKey: .bytesReceived)
+        bytesSent = try container.decode(Int64.self, forKey: .bytesSent)
+        cpuUsage = try container.decode(Double.self, forKey: .cpuUsage)
+        memoryUsage = try container.decode(Int64.self, forKey: .memoryUsage)
+        averageLatency = try container.decode(TimeInterval.self, forKey: .averageLatency)
+        super.init()
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(startTime, forKey: .startTime)
+        try container.encode(endTime, forKey: .endTime)
+        try container.encode(serverAddress, forKey: .serverAddress)
+        try container.encode(connectionType, forKey: .connectionType)
+        try container.encode(bytesReceived, forKey: .bytesReceived)
+        try container.encode(bytesSent, forKey: .bytesSent)
+        try container.encode(cpuUsage, forKey: .cpuUsage)
+        try container.encode(memoryUsage, forKey: .memoryUsage)
+        try container.encode(averageLatency, forKey: .averageLatency)
+    }
+}
+
+/// VPN会话存储容器
+@objc(TFYVPNSessionStorage)
+public class VPNSessionStorage: NSObject, NSSecureCoding {
+    public static var supportsSecureCoding: Bool = true
+    
+    private var sessions: [String: VPNSessionData]
+    
+    public init(sessions: [String: VPNSessionData]) {
+        self.sessions = sessions
+        super.init()
+    }
+    
+    public func encode(with coder: NSCoder) {
+        // 将字典转换为两个数组分别编码
+        let keys = Array(sessions.keys)
+        let values = Array(sessions.values)
+        coder.encode(keys, forKey: "keys")
+        coder.encode(values, forKey: "values")
+    }
+    
+    public required init?(coder: NSCoder) {
+        guard let keys = coder.decodeObject(of: [NSString.self], forKey: "keys") as? [String],
+              let values = coder.decodeObject(of: [VPNSessionData.self], forKey: "values") as? [VPNSessionData],
+              keys.count == values.count else {
+            return nil
+        }
+        
+        self.sessions = Dictionary(uniqueKeysWithValues: zip(keys, values))
+        super.init()
+    }
+    
+    public func getSessions() -> [String: VPNSessionData] {
+        return sessions
     }
 }
 
@@ -154,13 +245,18 @@ public class VPNSessionManager {
     
     /// 开始新会话
     public func startSession(serverAddress: String, connectionType: String) {
-        currentSession = VPNSessionData(
+        guard var session = currentSession else { return }
+        session = VPNSessionData(
+            id: session.id,
             startTime: Date(),
             endTime: Date(),
             serverAddress: serverAddress,
             connectionType: connectionType,
             bytesReceived: 0,
-            bytesSent: 0
+            bytesSent: 0,
+            cpuUsage: session.cpuUsage,
+            memoryUsage: session.memoryUsage,
+            averageLatency: session.averageLatency
         )
     }
     
@@ -176,7 +272,10 @@ public class VPNSessionManager {
             serverAddress: session.serverAddress,
             connectionType: session.connectionType,
             bytesReceived: bytesReceived,
-            bytesSent: bytesSent
+            bytesSent: bytesSent,
+            cpuUsage: session.cpuUsage,
+            memoryUsage: session.memoryUsage,
+            averageLatency: session.averageLatency
         )
         
         // 保存会话
@@ -199,7 +298,7 @@ public class VPNSessionManager {
     
     /// 更新当前会话性能指标
     public func updateCurrentSession(cpuUsage: Double, memoryUsage: Int64, averageLatency: TimeInterval) {
-        guard var session = currentSession else { return }
+        guard let session = currentSession else { return }
         
         // 更新会话数据，保持其他属性不变
         currentSession = VPNSessionData(
@@ -220,14 +319,15 @@ public class VPNSessionManager {
     
     private func saveSessions() {
         guard let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourapp") else {
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.tfy.TFYSwiftCategoryUtil") else {
             return
         }
         
-        let sessionsURL = containerURL.appendingPathComponent("vpn_sessions.json")
+        let sessionsURL = containerURL.appendingPathComponent("vpn_sessions.data")
+        let storage = VPNSessionStorage(sessions: Dictionary(uniqueKeysWithValues: historySessions.map { ($0.id, $0) }))
         
         do {
-            let data = try JSONEncoder().encode(historySessions)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: storage, requiringSecureCoding: true)
             try data.write(to: sessionsURL)
         } catch {
             VPNLogger.log("保存会话记录失败: \(error)", level: .error)
@@ -236,15 +336,20 @@ public class VPNSessionManager {
     
     private func loadSessions() {
         guard let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourapp") else {
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.tfy.TFYSwiftCategoryUtil") else {
             return
         }
         
-        let sessionsURL = containerURL.appendingPathComponent("vpn_sessions.json")
+        let sessionsURL = containerURL.appendingPathComponent("vpn_sessions.data")
         
         do {
             let data = try Data(contentsOf: sessionsURL)
-            historySessions = try JSONDecoder().decode([VPNSessionData].self, from: data)
+            let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+            unarchiver.requiresSecureCoding = true
+            
+            if let storage = unarchiver.decodeObject(of: VPNSessionStorage.self, forKey: NSKeyedArchiveRootObjectKey) {
+                historySessions = Array(storage.getSessions().values)
+            }
         } catch {
             VPNLogger.log("加载会话记录失败: \(error)", level: .error)
         }

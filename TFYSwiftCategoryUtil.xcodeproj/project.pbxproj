@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1804738F2CF6DC960026BF20 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1804738E2CF6DC960026BF20 /* NetworkExtension.framework */; };
+		180473972CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		180473A12CF6DC9C0026BF20 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */; };
+		180473A52CF6E6950026BF20 /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180473A42CF6E6950026BF20 /* SimplePing.swift */; };
+		180473A82CF6EC6B0026BF20 /* TFYSSRLocalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */; };
+		180473A92CF6EC7C0026BF20 /* TFYSSRPerformanceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */; };
+		180473AA2CF6EC8D0026BF20 /* TFYSSRMemoryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */; };
+		180473AB2CF6ED250026BF20 /* TFYSSRConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */; };
 		3612E11526475AEC00476696 /* TFYSwiftCategoryUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */; };
 		3612E12026475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11F26475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift */; };
 		3612E13A26475B6700476696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E12E26475B6700476696 /* AppDelegate.swift */; };
@@ -168,6 +176,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		180473952CF6DC960026BF20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3612E0F226475AEB00476696 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1804738B2CF6DC960026BF20;
+			remoteInfo = TFYSwiftPacketTunnelProvider;
+		};
 		3612E11126475AEC00476696 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3612E0F226475AEB00476696 /* Project object */;
@@ -184,7 +199,28 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1804739C2CF6DC960026BF20 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				180473972CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TFYSwiftPacketTunnelProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1804738E2CF6DC960026BF20 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		1804739D2CF6DC9C0026BF20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
+		1804739F2CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftPacketTunnelProvider.entitlements; sourceTree = "<group>"; };
+		180473A32CF6DCAE0026BF20 /* TFYSwiftCategoryUtil.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftCategoryUtil.entitlements; sourceTree = "<group>"; };
+		180473A42CF6E6950026BF20 /* SimplePing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePing.swift; sourceTree = "<group>"; };
 		3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftCategoryUtil.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11026475AEC00476696 /* TFYSwiftCategoryUtilTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftCategoryUtilTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCategoryUtilTests.swift; sourceTree = "<group>"; };
@@ -354,6 +390,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		180473892CF6DC960026BF20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1804738F2CF6DC960026BF20 /* NetworkExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3612E0F726475AEB00476696 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,12 +422,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1804738D2CF6DC960026BF20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1804738E2CF6DC960026BF20 /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		180473A02CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider */ = {
+			isa = PBXGroup;
+			children = (
+				1804739D2CF6DC9C0026BF20 /* Info.plist */,
+				1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */,
+				1804739F2CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider.entitlements */,
+			);
+			path = TFYSwiftPacketTunnelProvider;
+			sourceTree = "<group>";
+		};
 		3612E0F126475AEB00476696 = {
 			isa = PBXGroup;
 			children = (
 				3612E0FC26475AEB00476696 /* TFYSwiftCategoryUtil */,
 				3612E11326475AEC00476696 /* TFYSwiftCategoryUtilTests */,
 				3612E11E26475AEC00476696 /* TFYSwiftCategoryUtilUITests */,
+				180473A02CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider */,
+				1804738D2CF6DC960026BF20 /* Frameworks */,
 				3612E0FB26475AEB00476696 /* Products */,
 				36F1B825278807B60005E8B6 /* Recovered References */,
 			);
@@ -395,6 +459,7 @@
 				3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */,
 				3612E11026475AEC00476696 /* TFYSwiftCategoryUtilTests.xctest */,
 				3612E11B26475AEC00476696 /* TFYSwiftCategoryUtilUITests.xctest */,
+				1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -402,6 +467,7 @@
 		3612E0FC26475AEB00476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
+				180473A32CF6DCAE0026BF20 /* TFYSwiftCategoryUtil.entitlements */,
 				3612E14326475C4100476696 /* TFYSwiftCategoryUtil */,
 				3612E13026475B6700476696 /* PCH */,
 				3612E12D26475B6700476696 /* TFYAppDelegate */,
@@ -592,6 +658,7 @@
 		3636D0F52CE8E229002AA074 /* VPN */ = {
 			isa = PBXGroup;
 			children = (
+				180473A42CF6E6950026BF20 /* SimplePing.swift */,
 				3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */,
 				3636D1742CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift */,
 				3636D11E2CE9714B002AA074 /* TFYVPNError.swift */,
@@ -721,6 +788,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1804738B2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 180473992CF6DC960026BF20 /* Build configuration list for PBXNativeTarget "TFYSwiftPacketTunnelProvider" */;
+			buildPhases = (
+				180473882CF6DC960026BF20 /* Sources */,
+				180473892CF6DC960026BF20 /* Frameworks */,
+				1804738A2CF6DC960026BF20 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TFYSwiftPacketTunnelProvider;
+			packageProductDependencies = (
+			);
+			productName = TFYSwiftPacketTunnelProvider;
+			productReference = 1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3612E0F926475AEB00476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3612E12426475AEC00476696 /* Build configuration list for PBXNativeTarget "TFYSwiftCategoryUtil" */;
@@ -728,10 +814,12 @@
 				3612E0F626475AEB00476696 /* Sources */,
 				3612E0F726475AEB00476696 /* Frameworks */,
 				3612E0F826475AEB00476696 /* Resources */,
+				1804739C2CF6DC960026BF20 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				180473962CF6DC960026BF20 /* PBXTargetDependency */,
 			);
 			name = TFYSwiftCategoryUtil;
 			packageProductDependencies = (
@@ -783,9 +871,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					1804738B2CF6DC960026BF20 = {
+						CreatedOnToolsVersion = 16.1;
+					};
 					3612E0F926475AEB00476696 = {
 						CreatedOnToolsVersion = 12.5;
 						LastSwiftMigration = 1250;
@@ -818,11 +909,19 @@
 				3612E0F926475AEB00476696 /* TFYSwiftCategoryUtil */,
 				3612E10F26475AEC00476696 /* TFYSwiftCategoryUtilTests */,
 				3612E11A26475AEC00476696 /* TFYSwiftCategoryUtilUITests */,
+				1804738B2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1804738A2CF6DC960026BF20 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3612E0F826475AEB00476696 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -850,6 +949,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		180473882CF6DC960026BF20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180473A12CF6DC9C0026BF20 /* PacketTunnelProvider.swift in Sources */,
+				180473AA2CF6EC8D0026BF20 /* TFYSSRMemoryOptimizer.swift in Sources */,
+				180473A82CF6EC6B0026BF20 /* TFYSSRLocalServer.swift in Sources */,
+				180473AB2CF6ED250026BF20 /* TFYSSRConfiguration.swift in Sources */,
+				180473A92CF6EC7C0026BF20 /* TFYSSRPerformanceAnalyzer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3612E0F626475AEB00476696 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1001,6 +1112,7 @@
 				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
 				36F283062834D99C00460789 /* UIDevice+Chain.swift in Sources */,
+				180473A52CF6E6950026BF20 /* SimplePing.swift in Sources */,
 				36FA19842941D6290099BB35 /* CLLocation.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
 				3636D1002CE8E497002AA074 /* TFYVPNTrafficStats.swift in Sources */,
@@ -1029,6 +1141,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		180473962CF6DC960026BF20 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1804738B2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider */;
+			targetProxy = 180473952CF6DC960026BF20 /* PBXContainerItemProxy */;
+		};
 		3612E11226475AEC00476696 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3612E0F926475AEB00476696 /* TFYSwiftCategoryUtil */;
@@ -1061,6 +1178,67 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1804739A2CF6DC960026BF20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TFYSwiftPacketTunnelProvider/TFYSwiftPacketTunnelProvider.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QH95759TSS;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TFYSwiftPacketTunnelProvider/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TFYSwiftPacketTunnelProvider;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tfy.TFYSwiftCategoryUtil.TFYSwiftPacketTunnelProvider;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1804739B2CF6DC960026BF20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TFYSwiftPacketTunnelProvider/TFYSwiftPacketTunnelProvider.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QH95759TSS;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TFYSwiftPacketTunnelProvider/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TFYSwiftPacketTunnelProvider;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tfy.TFYSwiftCategoryUtil.TFYSwiftPacketTunnelProvider;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3612E12226475AEC00476696 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1187,8 +1365,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TFYSwiftCategoryUtil/TFYSwiftCategoryUtil.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtil/TFYResources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1210,8 +1389,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TFYSwiftCategoryUtil/TFYSwiftCategoryUtil.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtil/TFYResources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1231,7 +1411,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtilTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1252,7 +1432,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtilTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1272,7 +1452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtilUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1292,7 +1472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W27SB687KJ;
+				DEVELOPMENT_TEAM = QH95759TSS;
 				INFOPLIST_FILE = TFYSwiftCategoryUtilUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1311,6 +1491,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		180473992CF6DC960026BF20 /* Build configuration list for PBXNativeTarget "TFYSwiftPacketTunnelProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1804739A2CF6DC960026BF20 /* Debug */,
+				1804739B2CF6DC960026BF20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3612E0F526475AEB00476696 /* Build configuration list for PBXProject "TFYSwiftCategoryUtil" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

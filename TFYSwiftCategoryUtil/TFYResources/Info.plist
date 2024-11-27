@@ -73,6 +73,8 @@
     <key>com.apple.developer.networking.networkextension</key>
     <array>
         <string>packet-tunnel-provider</string>
+        <string>app-proxy-provider</string>
+        <string>content-filter-provider</string>
     </array>
     <key>com.apple.security.network.client</key>
     <true/>
@@ -87,6 +89,67 @@
         <string>network-authentication</string>
         <string>processing</string>
     </array>
-    
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>NSVPNUsageDescription</key>
+    <string>需要VPN权限来建立安全连接</string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict>
+            <key>UIWindowSceneSessionRoleApplication</key>
+            <array>
+                <dict>
+                    <key>UISceneConfigurationName</key>
+                    <string>Default Configuration</string>
+                    <key>UISceneDelegateClassName</key>
+                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+                    <key>UISceneStoryboardFile</key>
+                    <string>Main</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>network-authentication</string>
+        <string>network-vpn</string>
+        <string>processing</string>
+    </array>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>com.apple.developer.networking.networkextension</key>
+    <array>
+        <string>packet-tunnel-provider</string>
+        <string>app-proxy-provider</string>
+        <string>content-filter-provider</string>
+    </array>
+    <key>com.apple.developer.networking.vpn.api</key>
+    <array>
+        <string>allow-vpn</string>
+    </array>
+    <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.coms.speedswim.commany.SpeedSwim</string>
+    </array>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.yourapp.vpn.monitoring</string>
+    </array>
+    <key>NSSecureCoding</key>
+    <dict>
+        <key>TFYVPNSessionData</key>
+        <string>VPNSessionData</string>
+        <key>TFYVPNSessionStorage</key>
+        <string>VPNSessionStorage</string>
+    </dict>
 </dict>
 </plist>

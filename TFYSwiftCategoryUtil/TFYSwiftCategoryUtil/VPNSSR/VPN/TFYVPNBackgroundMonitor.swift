@@ -5,7 +5,11 @@ import NetworkExtension
 /// VPN 后台监控管理器
 public class TFYVPNBackgroundMonitor {
     
-    static let shared = TFYVPNBackgroundMonitor()
+    // 使用静态属性和 dispatch_once 语义确保线程安全的单例初始化
+    public static let shared: TFYVPNBackgroundMonitor = {
+        let instance = TFYVPNBackgroundMonitor()
+        return instance
+    }()
     
     private let backgroundTaskIdentifier = "com.yourapp.vpn.monitoring"
     private let minimumBackgroundFetchInterval: TimeInterval = 15 * 60 // 15分钟
@@ -14,7 +18,13 @@ public class TFYVPNBackgroundMonitor {
     private var backgroundSessions: [String: VPNSessionData] = [:]
     
     private init() {
+        // 将 loadMonitoringData 移到 configure 方法中
+    }
+    
+    /// 配置并注册后台任务 - 需要在 application didFinishLaunchingWithOptions 中调用
+    public func configure() {
         registerBackgroundTask()
+        loadMonitoringData()  // 移到这里
     }
     
     /// 注册后台任务
@@ -59,23 +69,7 @@ public class TFYVPNBackgroundMonitor {
     
     /// 获取当前VPN会话
     private func getCurrentSession() -> VPNSessionData? {
-        guard let manager = TFYVPNAccelerator.shared.manager,
-              manager.connection.status == .connected else {
-            return nil
-        }
-        
-        let sessionId = UUID().uuidString
-        let currentStats = TFYVPNAccelerator.shared.trafficManager.currentStats
-        
-        return VPNSessionData(
-            id: sessionId,
-            startTime: Date(),
-            endTime: Date(),
-            serverAddress: TFYVPNAccelerator.shared.configuration?.serverAddress ?? "",
-            connectionType: TFYVPNMonitor.shared.currentNetworkType.rawValue,
-            bytesReceived: currentStats.received,
-            bytesSent: currentStats.sent
-        )
+        return TFYVPNAccelerator.shared.getCurrentSessionStatus()
     }
     
     /// 更新会话数据
@@ -88,7 +82,10 @@ public class TFYVPNBackgroundMonitor {
             serverAddress: session.serverAddress,
             connectionType: session.connectionType,
             bytesReceived: stats.received,
-            bytesSent: stats.sent
+            bytesSent: stats.sent,
+            cpuUsage: session.cpuUsage,
+            memoryUsage: session.memoryUsage,
+            averageLatency: session.averageLatency
         )
         backgroundSessions[session.id] = updatedSession
     }
@@ -96,15 +93,39 @@ public class TFYVPNBackgroundMonitor {
     /// 保存监控数据
     private func saveMonitoringData() {
         guard let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourapp") else {
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.tfy.TFYSwiftCategoryUtil") else {
             return
         }
-        let monitoringURL = containerURL.appendingPathComponent("vpn_monitoring.json")
+        let monitoringURL = containerURL.appendingPathComponent("vpn_monitoring.data")
+        
+        let storage = VPNSessionStorage(sessions: backgroundSessions)
+        
         do {
-            let data = try JSONEncoder().encode(backgroundSessions)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: storage, requiringSecureCoding: true)
             try data.write(to: monitoringURL)
         } catch {
             VPNLogger.log("保存监控数据失败: \(error)", level: .error)
+        }
+    }
+    
+    /// 加载监控数据
+    private func loadMonitoringData() {
+        guard let containerURL = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.tfy.TFYSwiftCategoryUtil") else {
+            return
+        }
+        let monitoringURL = containerURL.appendingPathComponent("vpn_monitoring.data")
+        
+        do {
+            let data = try Data(contentsOf: monitoringURL)
+            let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+            unarchiver.requiresSecureCoding = true
+            
+            if let storage = unarchiver.decodeObject(of: VPNSessionStorage.self, forKey: NSKeyedArchiveRootObjectKey) {
+                backgroundSessions = storage.getSessions()
+            }
+        } catch {
+            VPNLogger.log("加载监控数据失败: \(error)", level: .error)
         }
     }
     
@@ -120,3 +141,5 @@ public class TFYVPNBackgroundMonitor {
         }
     }
 }
+
+

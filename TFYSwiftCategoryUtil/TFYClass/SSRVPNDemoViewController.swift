@@ -470,6 +470,10 @@ class SSRVPNDemoViewController: UIViewController {
 // MARK: - VPNAcceleratorDelegate
 
 extension SSRVPNDemoViewController: TFYVPNAcceleratorDelegate {
+    func vpnDidUpdateLatency(_ latency: TimeInterval) {
+        
+    }
+    
     func vpnStatusDidChange(_ status: VPNStatus) {
         DispatchQueue.main.async { [weak self] in
             self?.updateUI(status: status)

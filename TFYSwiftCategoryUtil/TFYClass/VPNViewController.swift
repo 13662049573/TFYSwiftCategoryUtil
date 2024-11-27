@@ -86,17 +86,10 @@ class VPNViewController: UIViewController {
         let config = VPNConfiguration(
             vpnName: "My VPN",
             serverAddress: "115.236.101.106",
-            port: 18989, method: SSREncryptMethod.aes_256_cfb,
+            port: 18989, method: SSREncryptMethod.chacha20_ietf,
             password: "kedang@123",
             ssrProtocol: SSRProtocol.origin,
-            obfs: SSRObfs.plain,
-            dnsSettings: DNSSettings(
-                servers: ["8.8.8.8", "8.8.4.4"],
-                searchDomains: ["example.com"],
-                useSplitDNS: true),
-            autoReconnect: true,
-            autoReconnectDelay: 3.0,
-            connectionTimeout: 15.0)
+            obfs: SSRObfs.plain)
         
         vpnManager.configure(with: config) { result in
             switch result {
@@ -171,6 +164,11 @@ class VPNViewController: UIViewController {
 // MARK: - TFYVPNAcceleratorDelegate
 
 extension VPNViewController: TFYVPNAcceleratorDelegate {
+    
+    func vpnDidUpdateLatency(_ latency: TimeInterval) {
+        
+    }
+    
     func vpnStatusDidChange(_ status: VPNStatus) {
         DispatchQueue.main.async {
             self.updateConnectionStatus(status)
