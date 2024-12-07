@@ -64,8 +64,6 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonAction(btn:UIButton) {
-        let vc = VPNViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
         
 //        btn.isSelected = !btn.isSelected
 //        
