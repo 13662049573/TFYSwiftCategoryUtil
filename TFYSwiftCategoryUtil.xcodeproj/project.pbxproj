@@ -10,11 +10,6 @@
 		1804738F2CF6DC960026BF20 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1804738E2CF6DC960026BF20 /* NetworkExtension.framework */; };
 		180473972CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		180473A12CF6DC9C0026BF20 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */; };
-		180473A52CF6E6950026BF20 /* SimplePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180473A42CF6E6950026BF20 /* SimplePing.swift */; };
-		180473A82CF6EC6B0026BF20 /* TFYSSRLocalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */; };
-		180473A92CF6EC7C0026BF20 /* TFYSSRPerformanceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */; };
-		180473AA2CF6EC8D0026BF20 /* TFYSSRMemoryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */; };
-		180473AB2CF6ED250026BF20 /* TFYSSRConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */; };
 		3612E11526475AEC00476696 /* TFYSwiftCategoryUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */; };
 		3612E12026475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11F26475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift */; };
 		3612E13A26475B6700476696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E12E26475B6700476696 /* AppDelegate.swift */; };
@@ -25,31 +20,6 @@
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
 		362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */; };
-		3636D0F72CE8E229002AA074 /* TFYVPNMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D0F42CE8E229002AA074 /* TFYVPNMonitor.swift */; };
-		3636D0F82CE8E229002AA074 /* TFYVPNAccelerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D0F22CE8E229002AA074 /* TFYVPNAccelerator.swift */; };
-		3636D0FC2CE8E31F002AA074 /* TFYVPNConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D0F92CE8E31F002AA074 /* TFYVPNConfiguration.swift */; };
-		3636D0FE2CE8E31F002AA074 /* TFYVPNUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D0FB2CE8E31F002AA074 /* TFYVPNUtils.swift */; };
-		3636D1002CE8E497002AA074 /* TFYVPNTrafficStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D0FF2CE8E497002AA074 /* TFYVPNTrafficStats.swift */; };
-		3636D10E2CE8E84F002AA074 /* TFYSSRCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1092CE8E84F002AA074 /* TFYSSRCrypto.swift */; };
-		3636D10F2CE8E84F002AA074 /* TFYSSRLocalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */; };
-		3636D1102CE8E84F002AA074 /* TFYSOCKS5Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1052CE8E84F002AA074 /* TFYSOCKS5Handler.swift */; };
-		3636D1112CE8E84F002AA074 /* TFYSSRAccelerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1062CE8E84F002AA074 /* TFYSSRAccelerator.swift */; };
-		3636D1122CE8E84F002AA074 /* TFYSSRConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */; };
-		3636D1132CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */; };
-		3636D1142CE8E84F002AA074 /* TFYSSRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D10A2CE8E84F002AA074 /* TFYSSRError.swift */; };
-		3636D1152CE8E84F002AA074 /* TFYSSRConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1082CE8E84F002AA074 /* TFYSSRConnectionPool.swift */; };
-		3636D1192CE8E999002AA074 /* TFYSSRProtocolHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */; };
-		3636D11F2CE9714B002AA074 /* TFYVPNError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D11E2CE9714B002AA074 /* TFYVPNError.swift */; };
-		3636D1212CE97209002AA074 /* TFYSSRObfuscator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */; };
-		3636D16E2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */; };
-		3636D1702CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */; };
-		3636D1722CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */; };
-		3636D1752CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1742CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift */; };
-		3636D1772CEB7317002AA074 /* TFYVPNStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */; };
-		3636D1792CEB78C7002AA074 /* VPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1782CEB78C7002AA074 /* VPNViewController.swift */; };
-		3636D17B2CEB7CD2002AA074 /* SSRVPNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */; };
-		3636D17F2CEB8337002AA074 /* SSRVPNDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */; };
-		3636D1872CECDF52002AA074 /* TFYSSRTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */; };
 		3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
@@ -220,7 +190,6 @@
 		1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		1804739F2CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftPacketTunnelProvider.entitlements; sourceTree = "<group>"; };
 		180473A32CF6DCAE0026BF20 /* TFYSwiftCategoryUtil.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftCategoryUtil.entitlements; sourceTree = "<group>"; };
-		180473A42CF6E6950026BF20 /* SimplePing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePing.swift; sourceTree = "<group>"; };
 		3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftCategoryUtil.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11026475AEC00476696 /* TFYSwiftCategoryUtilTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftCategoryUtilTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCategoryUtilTests.swift; sourceTree = "<group>"; };
@@ -238,31 +207,6 @@
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
 		362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYNetstatManager.swift; sourceTree = "<group>"; };
-		3636D0F22CE8E229002AA074 /* TFYVPNAccelerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNAccelerator.swift; sourceTree = "<group>"; };
-		3636D0F42CE8E229002AA074 /* TFYVPNMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNMonitor.swift; sourceTree = "<group>"; };
-		3636D0F92CE8E31F002AA074 /* TFYVPNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNConfiguration.swift; sourceTree = "<group>"; };
-		3636D0FB2CE8E31F002AA074 /* TFYVPNUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNUtils.swift; sourceTree = "<group>"; };
-		3636D0FF2CE8E497002AA074 /* TFYVPNTrafficStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNTrafficStats.swift; sourceTree = "<group>"; };
-		3636D1052CE8E84F002AA074 /* TFYSOCKS5Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSOCKS5Handler.swift; sourceTree = "<group>"; };
-		3636D1062CE8E84F002AA074 /* TFYSSRAccelerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRAccelerator.swift; sourceTree = "<group>"; };
-		3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRConfiguration.swift; sourceTree = "<group>"; };
-		3636D1082CE8E84F002AA074 /* TFYSSRConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRConnectionPool.swift; sourceTree = "<group>"; };
-		3636D1092CE8E84F002AA074 /* TFYSSRCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRCrypto.swift; sourceTree = "<group>"; };
-		3636D10A2CE8E84F002AA074 /* TFYSSRError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRError.swift; sourceTree = "<group>"; };
-		3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRLocalServer.swift; sourceTree = "<group>"; };
-		3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRPerformanceMonitor.swift; sourceTree = "<group>"; };
-		3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRProtocolHandler.swift; sourceTree = "<group>"; };
-		3636D11E2CE9714B002AA074 /* TFYVPNError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNError.swift; sourceTree = "<group>"; };
-		3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRObfuscator.swift; sourceTree = "<group>"; };
-		3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRCipherConfigManager.swift; sourceTree = "<group>"; };
-		3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRPerformanceAnalyzer.swift; sourceTree = "<group>"; };
-		3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRMemoryOptimizer.swift; sourceTree = "<group>"; };
-		3636D1742CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNBackgroundMonitor.swift; sourceTree = "<group>"; };
-		3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYVPNStatistics.swift; sourceTree = "<group>"; };
-		3636D1782CEB78C7002AA074 /* VPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewController.swift; sourceTree = "<group>"; };
-		3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNViewController.swift; sourceTree = "<group>"; };
-		3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRVPNDemoViewController.swift; sourceTree = "<group>"; };
-		3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSSRTypes.swift; sourceTree = "<group>"; };
 		3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+obj.swift"; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
@@ -527,9 +471,6 @@
 			isa = PBXGroup;
 			children = (
 				3612E14126475BA400476696 /* ViewController.swift */,
-				3636D1782CEB78C7002AA074 /* VPNViewController.swift */,
-				3636D17A2CEB7CD2002AA074 /* SSRVPNViewController.swift */,
-				3636D17E2CEB8337002AA074 /* SSRVPNDemoViewController.swift */,
 			);
 			path = TFYClass;
 			sourceTree = "<group>";
@@ -537,7 +478,6 @@
 		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
-				3636D1732CEB6C4D002AA074 /* VPNSSR */,
 				36FA19452941D6290099BB35 /* CoreUiit */,
 				36FA199B2941DE440099BB35 /* SwiftUI */,
 				365478022830913800E4DE22 /* WKWeb */,
@@ -653,52 +593,6 @@
 				36F1B829278808360005E8B6 /* HasText.swift */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		3636D0F52CE8E229002AA074 /* VPN */ = {
-			isa = PBXGroup;
-			children = (
-				180473A42CF6E6950026BF20 /* SimplePing.swift */,
-				3636D1762CEB7317002AA074 /* TFYVPNStatistics.swift */,
-				3636D1742CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift */,
-				3636D11E2CE9714B002AA074 /* TFYVPNError.swift */,
-				3636D0FF2CE8E497002AA074 /* TFYVPNTrafficStats.swift */,
-				3636D0F92CE8E31F002AA074 /* TFYVPNConfiguration.swift */,
-				3636D0FB2CE8E31F002AA074 /* TFYVPNUtils.swift */,
-				3636D0F22CE8E229002AA074 /* TFYVPNAccelerator.swift */,
-				3636D0F42CE8E229002AA074 /* TFYVPNMonitor.swift */,
-			);
-			path = VPN;
-			sourceTree = "<group>";
-		};
-		3636D10D2CE8E84F002AA074 /* SSR */ = {
-			isa = PBXGroup;
-			children = (
-				3636D1052CE8E84F002AA074 /* TFYSOCKS5Handler.swift */,
-				3636D1062CE8E84F002AA074 /* TFYSSRAccelerator.swift */,
-				3636D16D2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift */,
-				3636D1072CE8E84F002AA074 /* TFYSSRConfiguration.swift */,
-				3636D1082CE8E84F002AA074 /* TFYSSRConnectionPool.swift */,
-				3636D1092CE8E84F002AA074 /* TFYSSRCrypto.swift */,
-				3636D10A2CE8E84F002AA074 /* TFYSSRError.swift */,
-				3636D10B2CE8E84F002AA074 /* TFYSSRLocalServer.swift */,
-				3636D1712CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift */,
-				3636D1202CE97209002AA074 /* TFYSSRObfuscator.swift */,
-				3636D16F2CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift */,
-				3636D10C2CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift */,
-				3636D1182CE8E999002AA074 /* TFYSSRProtocolHandler.swift */,
-				3636D1862CECDF52002AA074 /* TFYSSRTypes.swift */,
-			);
-			path = SSR;
-			sourceTree = "<group>";
-		};
-		3636D1732CEB6C4D002AA074 /* VPNSSR */ = {
-			isa = PBXGroup;
-			children = (
-				3636D10D2CE8E84F002AA074 /* SSR */,
-				3636D0F52CE8E229002AA074 /* VPN */,
-			);
-			path = VPNSSR;
 			sourceTree = "<group>";
 		};
 		365478022830913800E4DE22 /* WKWeb */ = {
@@ -954,10 +848,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				180473A12CF6DC9C0026BF20 /* PacketTunnelProvider.swift in Sources */,
-				180473AA2CF6EC8D0026BF20 /* TFYSSRMemoryOptimizer.swift in Sources */,
-				180473A82CF6EC6B0026BF20 /* TFYSSRLocalServer.swift in Sources */,
-				180473AB2CF6ED250026BF20 /* TFYSSRConfiguration.swift in Sources */,
-				180473A92CF6EC7C0026BF20 /* TFYSSRPerformanceAnalyzer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,8 +865,6 @@
 				36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */,
 				3612E14226475BA400476696 /* ViewController.swift in Sources */,
 				3694B0D72652A1D900296A92 /* TFYRuntime.swift in Sources */,
-				3636D0F72CE8E229002AA074 /* TFYVPNMonitor.swift in Sources */,
-				3636D0F82CE8E229002AA074 /* TFYVPNAccelerator.swift in Sources */,
 				36F2CDDB282CF85D003CF2E7 /* UIColor+Chain.swift in Sources */,
 				36DAFEE42787FF9D00D05EE1 /* UISegmentedControl+Chain.swift in Sources */,
 				36FA198B2941D6290099BB35 /* Binding.swift in Sources */,
@@ -988,7 +876,6 @@
 				36FA19992941D6290099BB35 /* CircleMotion.swift in Sources */,
 				36F283042834D93600460789 /* NSAttributedString+Chain.swift in Sources */,
 				36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */,
-				3636D1872CECDF52002AA074 /* TFYSSRTypes.swift in Sources */,
 				36F2835E2834E45700460789 /* UIApplication+Chain.swift in Sources */,
 				36DAFEDF2787FF9D00D05EE1 /* UIProgressView+Chain.swift in Sources */,
 				36F1B830278808360005E8B6 /* Chain.swift in Sources */,
@@ -1005,19 +892,15 @@
 				365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */,
 				365478882830A51C00E4DE22 /* UIViewController+Chain.swift in Sources */,
 				367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */,
-				3636D1792CEB78C7002AA074 /* VPNViewController.swift in Sources */,
 				36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */,
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
 				36FA19872941D6290099BB35 /* CLLocationManager.swift in Sources */,
-				3636D11F2CE9714B002AA074 /* TFYVPNError.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
-				3636D16E2CEA295C002AA074 /* TFYSSRCipherConfigManager.swift in Sources */,
 				36F2830E2834DC7B00460789 /* Timer+Chain.swift in Sources */,
 				36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */,
 				36FA19962941D6290099BB35 /* Button.swift in Sources */,
 				36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */,
-				3636D1192CE8E999002AA074 /* TFYSSRProtocolHandler.swift in Sources */,
 				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
 				36FA19902941D6290099BB35 /* Shape.swift in Sources */,
 				36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */,
@@ -1028,7 +911,6 @@
 				36FA19652941D6290099BB35 /* Operators.swift in Sources */,
 				36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */,
 				36FA19932941D6290099BB35 /* GeometryProxy.swift in Sources */,
-				3636D1212CE97209002AA074 /* TFYSSRObfuscator.swift in Sources */,
 				36D110402834C0010068E67E /* CLLocation+Chain.swift in Sources */,
 				36F1B82D278808360005E8B6 /* HasFont.swift in Sources */,
 				36DAFEE32787FF9D00D05EE1 /* UICollectionView+Chain.swift in Sources */,
@@ -1045,19 +927,13 @@
 				36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
-				3636D0FC2CE8E31F002AA074 /* TFYVPNConfiguration.swift in Sources */,
-				3636D1772CEB7317002AA074 /* TFYVPNStatistics.swift in Sources */,
-				3636D0FE2CE8E31F002AA074 /* TFYVPNUtils.swift in Sources */,
 				3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */,
 				36F283622835D98600460789 /* Codable+Chain.swift in Sources */,
-				3636D1702CEA2A4C002AA074 /* TFYSSRPerformanceAnalyzer.swift in Sources */,
 				368367AE264957DF0024939A /* UILongPressGestureRecognizer+ITools.swift in Sources */,
-				3636D17B2CEB7CD2002AA074 /* SSRVPNViewController.swift in Sources */,
 				36FA19862941D6290099BB35 /* AuthorizationPublisher.swift in Sources */,
 				36547819283091B100E4DE22 /* WKScriptHandlerParamsEncoder.swift in Sources */,
 				369A65762891263C00CF71BB /* TFYStitchImage.swift in Sources */,
 				36DAFEDB2787FF9D00D05EE1 /* UINavigationItem+Chain.swift in Sources */,
-				3636D1752CEB716D002AA074 /* TFYVPNBackgroundMonitor.swift in Sources */,
 				3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */,
 				36DAFEE92787FF9D00D05EE1 /* UIScrollView+Chain.swift in Sources */,
 				36547813283091B100E4DE22 /* WKEncoderValueContainer.swift in Sources */,
@@ -1081,21 +957,12 @@
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
-				3636D10E2CE8E84F002AA074 /* TFYSSRCrypto.swift in Sources */,
-				3636D10F2CE8E84F002AA074 /* TFYSSRLocalServer.swift in Sources */,
-				3636D1102CE8E84F002AA074 /* TFYSOCKS5Handler.swift in Sources */,
-				3636D1112CE8E84F002AA074 /* TFYSSRAccelerator.swift in Sources */,
-				3636D1122CE8E84F002AA074 /* TFYSSRConfiguration.swift in Sources */,
-				3636D1132CE8E84F002AA074 /* TFYSSRPerformanceMonitor.swift in Sources */,
-				3636D1142CE8E84F002AA074 /* TFYSSRError.swift in Sources */,
-				3636D1152CE8E84F002AA074 /* TFYSSRConnectionPool.swift in Sources */,
 				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,
 				36DAFEE62787FF9D00D05EE1 /* UIDatePicker+Chain.swift in Sources */,
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
 				36FA19972941D6290099BB35 /* Color.swift in Sources */,
 				36FA19952941D6290099BB35 /* Text.swift in Sources */,
-				3636D17F2CEB8337002AA074 /* SSRVPNDemoViewController.swift in Sources */,
 				368367B226495E3A0024939A /* UIPinchGestureRecognizer+ITools.swift in Sources */,
 				36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */,
 				365477BD283077B900E4DE22 /* UIWindow+Chain.swift in Sources */,
@@ -1107,15 +974,12 @@
 				36F283022834D87600460789 /* FileManager+Chain.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
 				36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */,
-				3636D1722CEA2B95002AA074 /* TFYSSRMemoryOptimizer.swift in Sources */,
 				36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */,
 				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
 				36DAFEE82787FF9D00D05EE1 /* UIBarItem+Chain.swift in Sources */,
 				36F283062834D99C00460789 /* UIDevice+Chain.swift in Sources */,
-				180473A52CF6E6950026BF20 /* SimplePing.swift in Sources */,
 				36FA19842941D6290099BB35 /* CLLocation.swift in Sources */,
 				36DAFEE12787FF9D00D05EE1 /* UITableView+Chain.swift in Sources */,
-				3636D1002CE8E497002AA074 /* TFYVPNTrafficStats.swift in Sources */,
 				36D1103E2834BD7D0068E67E /* Array+Chain.swift in Sources */,
 				365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */,
 				36547814283091B100E4DE22 /* WKEncoderKeyedContainer.swift in Sources */,

@@ -26,19 +26,6 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/13662049573/TFYSwiftCategoryUtil.git", :tag => spec.version }
 
 
-  spec.subspec 'VPNSSR' do |ss|
-    ss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/VPNSSR/*.{swift}"
-
-    ss.subspec 'SSR' do |sss|
-      sss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/VPNSSR/SSR/*.{swift}"
-      sss.dependency "TFYSwiftCategoryUtil/VPNSSR/VPN"
-    end
-
-    ss.subspec 'VPN' do |sss|
-      sss.source_files = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/VPNSSR/VPN/*.{swift}"
-    end
-  end
- 
   spec.subspec 'CoreUiit' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/*.{swift}"
   end

@@ -1,11 +1,6 @@
-import SwiftUI
 
-/**
- ```
- @UserDefault("key") var myInt = 0
- ```
- */
-/// Save Objects in UserDefaults.standard with Property wrapper syntax
+import UIKit
+
 @propertyWrapper
 public struct UserDefault<T> {
     

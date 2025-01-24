@@ -64,26 +64,24 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonAction(btn:UIButton) {
-        let vc = VPNViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
         
-//        btn.isSelected = !btn.isSelected
-//        
-//        let title = "用户协议和隐私政策"
-//        
-//        let attributedText = NSAttributedString.create(string, textTaps: Array(linkDic.keys))
-//        
-//        let alertVC = UIAlertController(title: title, message: nil, preferredStyle:  .alert)
-//            .addActionTitles(["取消", "同意"]) { vc, action in
-//                TFYUtils.log(action.title ?? "")
-//            }
-//        alertVC.setValue(attributedText, forKey: kAlertMessage)
-//        alertVC.messageLabel?.addGestureTap({ reco in
-//            reco.didTapLabelAttributedText(self.linkDic) { text, url in
-//                TFYUtils.log("\(text), \(url ?? "_")")
-//            }
-//        })
-//        alertVC.present()
+        btn.isSelected = !btn.isSelected
+        
+        let title = "用户协议和隐私政策"
+        
+        let attributedText = NSAttributedString.create(string, textTaps: Array(linkDic.keys))
+        
+        let alertVC = UIAlertController(title: title, message: nil, preferredStyle:  .alert)
+            .addActionTitles(["取消", "同意"]) { vc, action in
+                TFYUtils.log(action.title ?? "")
+            }
+        alertVC.setValue(attributedText, forKey: kAlertMessage)
+        alertVC.messageLabel?.addGestureTap({ reco in
+            reco.didTapLabelAttributedText(self.linkDic) { text, url in
+                TFYUtils.log("\(text), \(url ?? "_")")
+            }
+        })
+        alertVC.present()
     }
     
 }
