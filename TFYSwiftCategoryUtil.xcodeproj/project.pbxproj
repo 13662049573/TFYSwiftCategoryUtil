@@ -10,29 +10,6 @@
 		1804738F2CF6DC960026BF20 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1804738E2CF6DC960026BF20 /* NetworkExtension.framework */; };
 		180473972CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1804738C2CF6DC960026BF20 /* TFYSwiftPacketTunnelProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		180473A12CF6DC9C0026BF20 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */; };
-		189598E52D042FB800DD76B2 /* GCDAsyncSocket+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D62D042FB800DD76B2 /* GCDAsyncSocket+State.swift */; };
-		189598E62D042FB800DD76B2 /* GCDAsyncSocket+Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D72D042FB800DD76B2 /* GCDAsyncSocket+Timer.swift */; };
-		189598E72D042FB800DD76B2 /* GCDAsyncSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598CB2D042FB800DD76B2 /* GCDAsyncSocket.swift */; };
-		189598E82D042FB800DD76B2 /* GCDAsyncUdpSendPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D92D042FB800DD76B2 /* GCDAsyncUdpSendPacket.swift */; };
-		189598E92D042FB800DD76B2 /* GCDAsyncUdpSocket+Receiving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DD2D042FB800DD76B2 /* GCDAsyncUdpSocket+Receiving.swift */; };
-		189598EA2D042FB800DD76B2 /* GCDAsyncUdpSocket+Sending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DE2D042FB800DD76B2 /* GCDAsyncUdpSocket+Sending.swift */; };
-		189598EB2D042FB800DD76B2 /* GCDAsyncSocket+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D22D042FB800DD76B2 /* GCDAsyncSocket+Lookup.swift */; };
-		189598EC2D042FB800DD76B2 /* GCDAsyncSocket+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D02D042FB800DD76B2 /* GCDAsyncSocket+Interface.swift */; };
-		189598ED2D042FB800DD76B2 /* GCDAsyncSocket+NetworkSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D32D042FB800DD76B2 /* GCDAsyncSocket+NetworkSecurity.swift */; };
-		189598EE2D042FB800DD76B2 /* GCDAsyncSocket+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598CE2D042FB800DD76B2 /* GCDAsyncSocket+Delegate.swift */; };
-		189598EF2D042FB800DD76B2 /* GCDAsyncUdpSocket+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DB2D042FB800DD76B2 /* GCDAsyncUdpSocket+Configuration.swift */; };
-		189598F02D042FB800DD76B2 /* GCDAsyncSocket+PreBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D42D042FB800DD76B2 /* GCDAsyncSocket+PreBuffer.swift */; };
-		189598F12D042FB800DD76B2 /* GCDAsyncUdpSocket+Multicast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DC2D042FB800DD76B2 /* GCDAsyncUdpSocket+Multicast.swift */; };
-		189598F22D042FB800DD76B2 /* GCDAsyncSocket+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D12D042FB800DD76B2 /* GCDAsyncSocket+Logging.swift */; };
-		189598F32D042FB800DD76B2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598E22D042FB800DD76B2 /* NetworkManager.swift */; };
-		189598F42D042FB800DD76B2 /* GCDAsyncSocket+SSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598D52D042FB800DD76B2 /* GCDAsyncSocket+SSL.swift */; };
-		189598F52D042FB800DD76B2 /* GCDAsyncSocket+Addressing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598CC2D042FB800DD76B2 /* GCDAsyncSocket+Addressing.swift */; };
-		189598F62D042FB800DD76B2 /* NetworkExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598E12D042FB800DD76B2 /* NetworkExample.swift */; };
-		189598F72D042FB800DD76B2 /* GCDAsyncUdpSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DA2D042FB800DD76B2 /* GCDAsyncUdpSocket.swift */; };
-		189598F82D042FB800DD76B2 /* GCDAsyncSocket+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598CF2D042FB800DD76B2 /* GCDAsyncSocket+Error.swift */; };
-		189598F92D042FB800DD76B2 /* GCDAsyncSocket+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598CD2D042FB800DD76B2 /* GCDAsyncSocket+Configuration.swift */; };
-		189598FA2D042FB800DD76B2 /* GCDAsyncUdpSocket+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189598DF2D042FB800DD76B2 /* GCDAsyncUdpSocket+Utilities.swift */; };
-
 		3612E11526475AEC00476696 /* TFYSwiftCategoryUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */; };
 		3612E12026475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E11F26475AEC00476696 /* TFYSwiftCategoryUtilUITests.swift */; };
 		3612E13A26475B6700476696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E12E26475B6700476696 /* AppDelegate.swift */; };
@@ -43,6 +20,9 @@
 		3612E14226475BA400476696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E14126475BA400476696 /* ViewController.swift */; };
 		3612E16426475C4100476696 /* TFYAsynce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3612E15326475C4100476696 /* TFYAsynce.swift */; };
 		362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */; };
+		363B35592D43369700BC628D /* GCDSocketController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B35582D43369700BC628D /* GCDSocketController.swift */; };
+		363B355B2D4336B900BC628D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B355A2D4336B900BC628D /* HomeController.swift */; };
+		363B355D2D43378700BC628D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363B355C2D43378700BC628D /* TabBarController.swift */; };
 		3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */; };
 		365477B92830771E00E4DE22 /* CALayer+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477B82830771E00E4DE22 /* CALayer+Chain.swift */; };
 		365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365477BA2830779500E4DE22 /* Bundle+Chain.swift */; };
@@ -213,30 +193,6 @@
 		1804739E2CF6DC9C0026BF20 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		1804739F2CF6DC9C0026BF20 /* TFYSwiftPacketTunnelProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftPacketTunnelProvider.entitlements; sourceTree = "<group>"; };
 		180473A32CF6DCAE0026BF20 /* TFYSwiftCategoryUtil.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TFYSwiftCategoryUtil.entitlements; sourceTree = "<group>"; };
-
-		189598CB2D042FB800DD76B2 /* GCDAsyncSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDAsyncSocket.swift; sourceTree = "<group>"; };
-		189598CC2D042FB800DD76B2 /* GCDAsyncSocket+Addressing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Addressing.swift"; sourceTree = "<group>"; };
-		189598CD2D042FB800DD76B2 /* GCDAsyncSocket+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Configuration.swift"; sourceTree = "<group>"; };
-		189598CE2D042FB800DD76B2 /* GCDAsyncSocket+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Delegate.swift"; sourceTree = "<group>"; };
-		189598CF2D042FB800DD76B2 /* GCDAsyncSocket+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Error.swift"; sourceTree = "<group>"; };
-		189598D02D042FB800DD76B2 /* GCDAsyncSocket+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Interface.swift"; sourceTree = "<group>"; };
-		189598D12D042FB800DD76B2 /* GCDAsyncSocket+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Logging.swift"; sourceTree = "<group>"; };
-		189598D22D042FB800DD76B2 /* GCDAsyncSocket+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Lookup.swift"; sourceTree = "<group>"; };
-		189598D32D042FB800DD76B2 /* GCDAsyncSocket+NetworkSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+NetworkSecurity.swift"; sourceTree = "<group>"; };
-		189598D42D042FB800DD76B2 /* GCDAsyncSocket+PreBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+PreBuffer.swift"; sourceTree = "<group>"; };
-		189598D52D042FB800DD76B2 /* GCDAsyncSocket+SSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+SSL.swift"; sourceTree = "<group>"; };
-		189598D62D042FB800DD76B2 /* GCDAsyncSocket+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+State.swift"; sourceTree = "<group>"; };
-		189598D72D042FB800DD76B2 /* GCDAsyncSocket+Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncSocket+Timer.swift"; sourceTree = "<group>"; };
-		189598D92D042FB800DD76B2 /* GCDAsyncUdpSendPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDAsyncUdpSendPacket.swift; sourceTree = "<group>"; };
-		189598DA2D042FB800DD76B2 /* GCDAsyncUdpSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDAsyncUdpSocket.swift; sourceTree = "<group>"; };
-		189598DB2D042FB800DD76B2 /* GCDAsyncUdpSocket+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncUdpSocket+Configuration.swift"; sourceTree = "<group>"; };
-		189598DC2D042FB800DD76B2 /* GCDAsyncUdpSocket+Multicast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncUdpSocket+Multicast.swift"; sourceTree = "<group>"; };
-		189598DD2D042FB800DD76B2 /* GCDAsyncUdpSocket+Receiving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncUdpSocket+Receiving.swift"; sourceTree = "<group>"; };
-		189598DE2D042FB800DD76B2 /* GCDAsyncUdpSocket+Sending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncUdpSocket+Sending.swift"; sourceTree = "<group>"; };
-		189598DF2D042FB800DD76B2 /* GCDAsyncUdpSocket+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GCDAsyncUdpSocket+Utilities.swift"; sourceTree = "<group>"; };
-		189598E12D042FB800DD76B2 /* NetworkExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExample.swift; sourceTree = "<group>"; };
-		189598E22D042FB800DD76B2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-
 		3612E0FA26475AEB00476696 /* TFYSwiftCategoryUtil.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFYSwiftCategoryUtil.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11026475AEC00476696 /* TFYSwiftCategoryUtilTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFYSwiftCategoryUtilTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3612E11426475AEC00476696 /* TFYSwiftCategoryUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCategoryUtilTests.swift; sourceTree = "<group>"; };
@@ -254,6 +210,9 @@
 		3612E15326475C4100476696 /* TFYAsynce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYAsynce.swift; sourceTree = "<group>"; };
 		3612E16826475CED00476696 /* TFYSwiftCategoryUtil-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TFYSwiftCategoryUtil-Bridging-Header.h"; sourceTree = "<group>"; };
 		362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFYNetstatManager.swift; sourceTree = "<group>"; };
+		363B35582D43369700BC628D /* GCDSocketController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDSocketController.swift; sourceTree = "<group>"; };
+		363B355A2D4336B900BC628D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		363B355C2D43378700BC628D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3642FE1B2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+obj.swift"; sourceTree = "<group>"; };
 		365477B82830771E00E4DE22 /* CALayer+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Chain.swift"; sourceTree = "<group>"; };
 		365477BA2830779500E4DE22 /* Bundle+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Chain.swift"; sourceTree = "<group>"; };
@@ -431,59 +390,6 @@
 			path = TFYSwiftPacketTunnelProvider;
 			sourceTree = "<group>";
 		};
-		189598D82D042FB800DD76B2 /* GCDAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				189598CB2D042FB800DD76B2 /* GCDAsyncSocket.swift */,
-				189598CC2D042FB800DD76B2 /* GCDAsyncSocket+Addressing.swift */,
-				189598CD2D042FB800DD76B2 /* GCDAsyncSocket+Configuration.swift */,
-				189598CE2D042FB800DD76B2 /* GCDAsyncSocket+Delegate.swift */,
-				189598CF2D042FB800DD76B2 /* GCDAsyncSocket+Error.swift */,
-				189598D02D042FB800DD76B2 /* GCDAsyncSocket+Interface.swift */,
-				189598D12D042FB800DD76B2 /* GCDAsyncSocket+Logging.swift */,
-				189598D22D042FB800DD76B2 /* GCDAsyncSocket+Lookup.swift */,
-				189598D32D042FB800DD76B2 /* GCDAsyncSocket+NetworkSecurity.swift */,
-				189598D42D042FB800DD76B2 /* GCDAsyncSocket+PreBuffer.swift */,
-				189598D52D042FB800DD76B2 /* GCDAsyncSocket+SSL.swift */,
-				189598D62D042FB800DD76B2 /* GCDAsyncSocket+State.swift */,
-				189598D72D042FB800DD76B2 /* GCDAsyncSocket+Timer.swift */,
-			);
-			path = GCDAsyncSocket;
-			sourceTree = "<group>";
-		};
-		189598E02D042FB800DD76B2 /* GCDAsyncUdpSocket */ = {
-			isa = PBXGroup;
-			children = (
-				189598D92D042FB800DD76B2 /* GCDAsyncUdpSendPacket.swift */,
-				189598DA2D042FB800DD76B2 /* GCDAsyncUdpSocket.swift */,
-				189598DB2D042FB800DD76B2 /* GCDAsyncUdpSocket+Configuration.swift */,
-				189598DC2D042FB800DD76B2 /* GCDAsyncUdpSocket+Multicast.swift */,
-				189598DD2D042FB800DD76B2 /* GCDAsyncUdpSocket+Receiving.swift */,
-				189598DE2D042FB800DD76B2 /* GCDAsyncUdpSocket+Sending.swift */,
-				189598DF2D042FB800DD76B2 /* GCDAsyncUdpSocket+Utilities.swift */,
-			);
-			path = GCDAsyncUdpSocket;
-			sourceTree = "<group>";
-		};
-		189598E32D042FB800DD76B2 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				189598E12D042FB800DD76B2 /* NetworkExample.swift */,
-				189598E22D042FB800DD76B2 /* NetworkManager.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		189598E42D042FB800DD76B2 /* GCDAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				189598D82D042FB800DD76B2 /* GCDAsyncSocket */,
-				189598E02D042FB800DD76B2 /* GCDAsyncUdpSocket */,
-				189598E32D042FB800DD76B2 /* Network */,
-			);
-			path = GCDAsyncSocket;
-			sourceTree = "<group>";
-		};
 		3612E0F126475AEB00476696 = {
 			isa = PBXGroup;
 			children = (
@@ -570,7 +476,10 @@
 		3612E13926475B6700476696 /* TFYClass */ = {
 			isa = PBXGroup;
 			children = (
+				363B355C2D43378700BC628D /* TabBarController.swift */,
 				3612E14126475BA400476696 /* ViewController.swift */,
+				363B35582D43369700BC628D /* GCDSocketController.swift */,
+				363B355A2D4336B900BC628D /* HomeController.swift */,
 			);
 			path = TFYClass;
 			sourceTree = "<group>";
@@ -578,9 +487,6 @@
 		3612E14326475C4100476696 /* TFYSwiftCategoryUtil */ = {
 			isa = PBXGroup;
 			children = (
-
-				189598E42D042FB800DD76B2 /* GCDAsyncSocket */,
-
 				36FA19452941D6290099BB35 /* CoreUiit */,
 				36FA199B2941DE440099BB35 /* SwiftUI */,
 				365478022830913800E4DE22 /* WKWeb */,
@@ -994,6 +900,7 @@
 				36FA19662941D6290099BB35 /* CGPoint.swift in Sources */,
 				365478862830A4D800E4DE22 /* UITableViewCell+Chain.swift in Sources */,
 				365478882830A51C00E4DE22 /* UIViewController+Chain.swift in Sources */,
+				363B355B2D4336B900BC628D /* HomeController.swift in Sources */,
 				367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */,
 				36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */,
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
@@ -1014,6 +921,7 @@
 				36FA19652941D6290099BB35 /* Operators.swift in Sources */,
 				36FA199A2941D6290099BB35 /* KeyboardInfo.swift in Sources */,
 				36FA19932941D6290099BB35 /* GeometryProxy.swift in Sources */,
+				363B355D2D43378700BC628D /* TabBarController.swift in Sources */,
 				36D110402834C0010068E67E /* CLLocation+Chain.swift in Sources */,
 				36F1B82D278808360005E8B6 /* HasFont.swift in Sources */,
 				36DAFEE32787FF9D00D05EE1 /* UICollectionView+Chain.swift in Sources */,
@@ -1062,28 +970,7 @@
 				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
 				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,
 				36DAFEE62787FF9D00D05EE1 /* UIDatePicker+Chain.swift in Sources */,
-				189598E52D042FB800DD76B2 /* GCDAsyncSocket+State.swift in Sources */,
-				189598E62D042FB800DD76B2 /* GCDAsyncSocket+Timer.swift in Sources */,
-				189598E72D042FB800DD76B2 /* GCDAsyncSocket.swift in Sources */,
-				189598E82D042FB800DD76B2 /* GCDAsyncUdpSendPacket.swift in Sources */,
-				189598E92D042FB800DD76B2 /* GCDAsyncUdpSocket+Receiving.swift in Sources */,
-				189598EA2D042FB800DD76B2 /* GCDAsyncUdpSocket+Sending.swift in Sources */,
-				189598EB2D042FB800DD76B2 /* GCDAsyncSocket+Lookup.swift in Sources */,
-				189598EC2D042FB800DD76B2 /* GCDAsyncSocket+Interface.swift in Sources */,
-				189598ED2D042FB800DD76B2 /* GCDAsyncSocket+NetworkSecurity.swift in Sources */,
-				189598EE2D042FB800DD76B2 /* GCDAsyncSocket+Delegate.swift in Sources */,
-				189598EF2D042FB800DD76B2 /* GCDAsyncUdpSocket+Configuration.swift in Sources */,
-				189598F02D042FB800DD76B2 /* GCDAsyncSocket+PreBuffer.swift in Sources */,
-				189598F12D042FB800DD76B2 /* GCDAsyncUdpSocket+Multicast.swift in Sources */,
-				189598F22D042FB800DD76B2 /* GCDAsyncSocket+Logging.swift in Sources */,
-				189598F32D042FB800DD76B2 /* NetworkManager.swift in Sources */,
-				189598F42D042FB800DD76B2 /* GCDAsyncSocket+SSL.swift in Sources */,
-				189598F52D042FB800DD76B2 /* GCDAsyncSocket+Addressing.swift in Sources */,
-				189598F62D042FB800DD76B2 /* NetworkExample.swift in Sources */,
-				189598F72D042FB800DD76B2 /* GCDAsyncUdpSocket.swift in Sources */,
-				189598F82D042FB800DD76B2 /* GCDAsyncSocket+Error.swift in Sources */,
-				189598F92D042FB800DD76B2 /* GCDAsyncSocket+Configuration.swift in Sources */,
-				189598FA2D042FB800DD76B2 /* GCDAsyncUdpSocket+Utilities.swift in Sources */,
+				363B35592D43369700BC628D /* GCDSocketController.swift in Sources */,
 				368367B826495FED0024939A /* UITapGestureRecognizer+ITools.swift in Sources */,
 				36DAFEEB2787FF9D00D05EE1 /* UITextField+Chain.swift in Sources */,
 				36FA19972941D6290099BB35 /* Color.swift in Sources */,

@@ -3,12 +3,12 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.1.9.4"
+  spec.version      = "2.1.9.5"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS14 Swift5 "
 
   spec.description  = <<-DESC
-  Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS14 Swift5
+  Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS15 Swift5
                    DESC
 
   spec.homepage     = "https://github.com/13662049573/TFYSwiftCategoryUtil"
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.author       = { "田风有" => "420144542@qq.com" }
   
-  spec.platform     = :ios, "14.0"
+  spec.platform     = :ios, "15.0"
 
   spec.swift_version = '5.0'
 
