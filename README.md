@@ -189,9 +189,9 @@ TFYTimer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
 
 ## 🔧 系统要求
 
-- iOS 13.0+
+- iOS 15.0+
 - Swift 5.0+
-- Xcode 12.0+
+- Xcode 14.0+
 
 ## 📋 待办事项
 
