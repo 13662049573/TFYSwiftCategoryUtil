@@ -3,9 +3,9 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.1.9.5"
+  spec.version      = "2.1.9.6"
 
-  spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS14 Swift5 "
+  spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS15 Swift5 "
 
   spec.description  = <<-DESC
   Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS15 Swift5
