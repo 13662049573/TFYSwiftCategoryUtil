@@ -179,107 +179,221 @@ extension UIButton {
         case rightImageRight = 8
     }
     
-    /// 设置按钮的图片和文字位置关系
+    /// 设置图片和文字的相对位置
     /// - Parameters:
     ///   - type: 图片位置类型
     ///   - space: 图片和文字之间的间距
-    public func imageDirection(_ type: UIButton.ButtonImageDirection, _ space: CGFloat) {
+    public func imageDirection(_ type: ButtonImageDirection, _ space: CGFloat) {
         if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            
-            // 设置基础配置
-            configuration.imagePadding = space
-            
-            // 根据类型设置不同的布局
-            switch type {
-            case .centerImageTop:
-                configuration.imagePlacement = .top
-                configuration.titleAlignment = .center
-            case .centerImageLeft:
-                configuration.imagePlacement = .leading
-                configuration.titleAlignment = .center
-            case .centerImageRight:
-                configuration.imagePlacement = .trailing
-                configuration.titleAlignment = .center
-            case .centerImageBottom:
-                configuration.imagePlacement = .bottom
-                configuration.titleAlignment = .center
-            case .leftImageLeft:
-                configuration.imagePlacement = .leading
-                configuration.titleAlignment = .leading
-            case .leftImageRight:
-                configuration.imagePlacement = .trailing
-                configuration.titleAlignment = .leading
-            case .rightImageLeft:
-                configuration.imagePlacement = .leading
-                configuration.titleAlignment = .trailing
-            case .rightImageRight:
-                configuration.imagePlacement = .trailing
-                configuration.titleAlignment = .trailing
-            }
-            
-            self.configuration = configuration
+            applyModernConfiguration(type: type, space: space)
         } else {
-            // 获取图片宽高
-            let imageWidth: CGFloat = currentImage?.size.width ?? 0.0
-            let imageHeight: CGFloat = currentImage?.size.height ?? 0.0
+            applyLegacyEdgeInsets(type: type, space: space)
+        }
+    }
+    
+    // MARK: - iOS 15+ 实现
+    @available(iOS 15.0, *)
+    private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat) {
+        var configuration = UIButton.Configuration.plain()
+        
+        // 配置基础属性
+        configuration.imagePadding = space
+        configuration.titleLineBreakMode = .byTruncatingTail
+        
+        // 配置文字属性
+        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
+            var outgoing = incoming
+            outgoing.font = self?.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
+            return outgoing
+        }
+        
+        // 根据类型设置布局
+        switch type {
+        case .centerImageTop:
+            configuration.imagePlacement = .top
+            configuration.titleAlignment = .center
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: space,
+                trailing: 0
+            )
             
-            // 获取文字宽高
-            titleLabel?.sizeToFit()
-            let textWidth: CGFloat = titleLabel?.frame.size.width ?? 0.0
-            let textHeight: CGFloat = titleLabel?.frame.size.height ?? 0.0
+        case .centerImageLeft:
+            configuration.imagePlacement = .leading
+            configuration.titleAlignment = .center
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: space
+            )
             
-            // 初始化变量
-            var x: CGFloat = 0.0
-            var y: CGFloat = 0.0
-            let spaceValue: CGFloat = space/2
+        case .centerImageRight:
+            configuration.imagePlacement = .trailing
+            configuration.titleAlignment = .center
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: space,
+                bottom: 0,
+                trailing: 0
+            )
             
-            // 根据不同类型设置不同的位置关系
-            switch type {
-            case .centerImageTop:
-                x = textHeight / 2 + spaceValue
-                y = textWidth / 2
-                imageEdgeInsets = UIEdgeInsets(top: -x, left: y, bottom: x, right: -y)
-                x = imageHeight / 2 + spaceValue
-                y = imageWidth / 2
-                titleEdgeInsets = UIEdgeInsets(top: x, left: -y, bottom: -x, right: y)
-                
-            case .centerImageLeft:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: -spaceValue, bottom: 0, right: spaceValue)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: -spaceValue)
-                
-            case .centerImageRight:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue + textWidth, bottom: 0, right: -(spaceValue + textWidth))
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: -(spaceValue + imageWidth), bottom: 0, right: (spaceValue + imageWidth))
-                
-            case .centerImageBottom:
-                x = textHeight / 2 + spaceValue
-                y = textWidth / 2
-                imageEdgeInsets = UIEdgeInsets(top: x, left: y, bottom: -x, right: -y)
-                x = imageHeight / 2 + spaceValue
-                y = imageWidth / 2
-                titleEdgeInsets = UIEdgeInsets(top: -x, left: -y, bottom: x, right: y)
-                
-            case .leftImageLeft:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: 0)
-                contentHorizontalAlignment = .left
-                
-            case .leftImageRight:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: textWidth + spaceValue, bottom: 0, right: 0)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: -imageWidth, bottom: 0, right: 0)
-                contentHorizontalAlignment = .left
-                
-            case .rightImageLeft:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: spaceValue)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                contentHorizontalAlignment = .right
-                
-            case .rightImageRight:
-                imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -textWidth)
-                titleEdgeInsets = UIEdgeInsets(top: 0, left: spaceValue, bottom: 0, right: imageWidth + spaceValue)
-                contentHorizontalAlignment = .right
+        case .centerImageBottom:
+            configuration.imagePlacement = .bottom
+            configuration.titleAlignment = .center
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: space,
+                leading: 0,
+                bottom: 0,
+                trailing: 0
+            )
+            
+        case .leftImageLeft:
+            configuration.imagePlacement = .leading
+            configuration.titleAlignment = .leading
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: space
+            )
+            
+        case .leftImageRight:
+            configuration.imagePlacement = .trailing
+            configuration.titleAlignment = .leading
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 0,
+                trailing: space
+            )
+            
+        case .rightImageLeft:
+            configuration.imagePlacement = .leading
+            configuration.titleAlignment = .trailing
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: space,
+                bottom: 0,
+                trailing: 0
+            )
+            
+        case .rightImageRight:
+            configuration.imagePlacement = .trailing
+            configuration.titleAlignment = .trailing
+            configuration.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: space,
+                bottom: 0,
+                trailing: 0
+            )
+        }
+        
+        // 应用配置
+        self.configuration = configuration
+        
+        // 配置更新处理器
+        self.configurationUpdateHandler = { button in
+            var updatedConfig = button.configuration
+            updatedConfig?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = button.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
+                return outgoing
             }
+            button.configuration = updatedConfig
+        }
+    }
+    
+    // MARK: - iOS 15以下实现
+    private func applyLegacyEdgeInsets(type: ButtonImageDirection, space: CGFloat) {
+        guard let imageSize = currentImage?.size else { return }
+        titleLabel?.sizeToFit()
+        guard let textSize = titleLabel?.frame.size else { return }
+        
+        let (imageInsets, titleInsets) = calculateInsets(
+            type: type,
+            space: space,
+            imageSize: imageSize,
+            textSize: textSize
+        )
+        if #available(iOS 15.0, *) {
+        } else {
+            imageEdgeInsets = imageInsets
+            titleEdgeInsets = titleInsets
+        }
+        contentHorizontalAlignment = getHorizontalAlignment(for: type)
+    }
+    
+    /// 计算edgeInsets
+    private func calculateInsets(
+        type: ButtonImageDirection,
+        space: CGFloat,
+        imageSize: CGSize,
+        textSize: CGSize
+    ) -> (UIEdgeInsets, UIEdgeInsets) {
+        let halfSpace = space / 2
+        var imageInsets = UIEdgeInsets.zero
+        var titleInsets = UIEdgeInsets.zero
+        
+        switch type {
+        case .centerImageTop:
+            let x = textSize.height / 2 + halfSpace
+            let y = textSize.width / 2
+            imageInsets = UIEdgeInsets(top: -x, left: y, bottom: x, right: -y)
+            titleInsets = UIEdgeInsets(
+                top: imageSize.height / 2 + halfSpace,
+                left: -imageSize.width / 2,
+                bottom: -imageSize.height / 2 - halfSpace,
+                right: imageSize.width / 2
+            )
+            
+        case .centerImageLeft:
+            imageInsets = UIEdgeInsets(top: 0, left: -halfSpace, bottom: 0, right: halfSpace)
+            titleInsets = UIEdgeInsets(top: 0, left: halfSpace, bottom: 0, right: -halfSpace)
+            
+        case .centerImageRight:
+            imageInsets = UIEdgeInsets(top: 0, left: halfSpace + textSize.width, bottom: 0, right: -(halfSpace + textSize.width))
+            titleInsets = UIEdgeInsets(top: 0, left: -(halfSpace + imageSize.width), bottom: 0, right: halfSpace + imageSize.width)
+            
+        case .centerImageBottom:
+            let x = textSize.height / 2 + halfSpace
+            let y = textSize.width / 2
+            imageInsets = UIEdgeInsets(top: x, left: y, bottom: -x, right: -y)
+            titleInsets = UIEdgeInsets(
+                top: -imageSize.height / 2 - halfSpace,
+                left: -imageSize.width / 2,
+                bottom: imageSize.height / 2 + halfSpace,
+                right: imageSize.width / 2
+            )
+            
+        case .leftImageLeft:
+            titleInsets = UIEdgeInsets(top: 0, left: halfSpace, bottom: 0, right: 0)
+            
+        case .leftImageRight:
+            imageInsets = UIEdgeInsets(top: 0, left: textSize.width + halfSpace, bottom: 0, right: 0)
+            titleInsets = UIEdgeInsets(top: 0, left: -imageSize.width, bottom: 0, right: 0)
+            
+        case .rightImageLeft:
+            imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: halfSpace)
+            
+        case .rightImageRight:
+            imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -textSize.width)
+            titleInsets = UIEdgeInsets(top: 0, left: halfSpace, bottom: 0, right: imageSize.width + halfSpace)
+        }
+        
+        return (imageInsets, titleInsets)
+    }
+    
+    /// 获取水平对齐方式
+    private func getHorizontalAlignment(for type: ButtonImageDirection) -> UIControl.ContentHorizontalAlignment {
+        switch type {
+        case .leftImageLeft, .leftImageRight:
+            return .left
+        case .rightImageLeft, .rightImageRight:
+            return .right
+        default:
+            return .center
         }
     }
 }
