@@ -157,9 +157,6 @@ public extension TFY where Base: UIButton {
     }
 }
 
-// MARK: - 按钮图片方向枚举
-import UIKit
-
 extension UIButton {
     /// 按钮图片方向枚举
     public enum ButtonImageDirection: Int {
@@ -214,16 +211,32 @@ extension UIButton {
     private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat) {
         var configuration = UIButton.Configuration.plain()
         
-        // 配置基础属性
+        // 强制清除背景配置（关键修正）
+        configuration.background = {
+            var background = UIBackgroundConfiguration.clear()
+            background.backgroundColor = .clear
+            background.strokeColor = .clear
+            background.visualEffect = nil
+            return background
+        }()
+        
+        // 1. 获取当前文本属性
+        let buttonFont = self.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
+        let buttonColor = self.titleColor(for: .normal) ?? .black
+        
+        // 2. 正确创建 AttributeContainer
+        var attributeContainer = AttributeContainer()
+        attributeContainer.font = buttonFont
+        attributeContainer.foregroundColor = buttonColor
+        
+        // 3. 创建带属性的标题
+        if let title = self.title(for: .normal) {
+            configuration.attributedTitle = AttributedString(title, attributes: attributeContainer)
+        }
+        
+        // 4. 配置基础属性
         configuration.imagePadding = space
         configuration.titleLineBreakMode = .byWordWrapping
-        
-        // 配置文字属性
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
-            var outgoing = incoming
-            outgoing.font = self?.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
-            return outgoing
-        }
         
         // 根据类型设置布局
         switch type {
@@ -500,16 +513,24 @@ extension UIButton {
             self.heightAnchor.constraint(equalToConstant: 100).isActive = true
         }
         
-        // 应用配置
+        // 4. 应用配置
         self.configuration = configuration
         
-        // 配置更新处理器
+        // 修正配置更新处理器
         self.configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
-            updatedConfig?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = button.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
-                return outgoing
+            // 强制保持背景透明
+            updatedConfig?.background.backgroundColor = .clear
+            updatedConfig?.background.strokeColor = .clear
+            let newFont = button.titleLabel?.font ?? buttonFont
+            let newColor = button.titleColor(for: .normal) ?? buttonColor
+            
+            var newAttributes = AttributeContainer()
+            newAttributes.font = newFont
+            newAttributes.foregroundColor = newColor
+            
+            if let title = button.title(for: .normal) {
+                updatedConfig?.attributedTitle = AttributedString(title, attributes: newAttributes)
             }
             button.configuration = updatedConfig
         }
