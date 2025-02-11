@@ -8,24 +8,20 @@
 import Foundation
 import UIKit
 
-/// UIAlertController标题富文本key
-public let kAlertTitle = "attributedTitle"
-/// UIAlertController信息富文本key
-public let kAlertMessage = "attributedMessage"
-/// UIAlertController信息富文本key
-public let kAlertContentViewController = "contentViewController"
-/// UIAlertController按钮颜色key
-public let kAlertActionColor = "titleTextColor"
-/// UIAlertController按钮颜色image
-public let kAlertActionImage = "image"
-/// UIAlertController按钮颜色imageTintColor
-public let kAlertActionImageTintColor = "imageTintColor"
-/// UIAlertController按钮 checkmark
-public let kAlertActionChecked = "checked"
+public struct AlertKeys {
+    static let attributedTitle = "attributedTitle"
+    static let attributedMessage = "attributedMessage"
+    static let contentViewController = "contentViewController"
+    static let actionColor = "titleTextColor"
+    static let actionImage = "image"
+    static let actionImageTintColor = "imageTintColor"
+    static let actionChecked = "checked"
+}
 
 public extension UIAlertController {
+    /// 创建 UIAlertController
     @discardableResult
-    static func tfy_init(title: String? = nil, message: String? = nil, style : UIAlertController.Style = .alert) -> UIAlertController {
+    static func create(title: String? = nil, message: String? = nil, style: UIAlertController.Style = .alert) -> UIAlertController {
         return UIAlertController(title: title, message: message, preferredStyle: style)
     }
     
@@ -39,47 +35,37 @@ public extension UIAlertController {
         return subView5
     }
     
+    /// 获取标题 UILabel
     var titleLabel: UILabel? {
-        guard let _ = self.title,
-              let subView5 = subView5,
-              subView5.subviews.count > 2,
-              let label = subView5.subviews[1] as? UILabel
-              else { return nil }
-        return label
+        guard let subView5 = subView5, subView5.subviews.count > 2 else { return nil }
+        return subView5.subviews[1] as? UILabel
     }
     
+    /// 获取消息 UILabel
     var messageLabel: UILabel? {
-        guard let subView5 = subView5
-              else { return nil }
-        let messageLabelIndex = self.title == nil ? 1 : 2
-        if subView5.subviews.count > messageLabelIndex,
-           let label = subView5.subviews[messageLabelIndex] as? UILabel
-           {
-            return label
-        }
-        return nil
+        guard let subView5 = subView5 else { return nil }
+        let messageLabelIndex = title == nil ? 1 : 2
+        return subView5.subviews[messageLabelIndex] as? UILabel
     }
     
-    /// 创建系统sheetView
-    static func createSheet(_ title: String?,
-                            message: String? = nil,
-                            items: [String]? = nil,
-                            handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
+    /// 创建 ActionSheet
+    @discardableResult
+    static func createSheet(title: String?, message: String? = nil, items: [String]? = nil, handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
         let alertVC = self.init(title: title, message: message, preferredStyle: .actionSheet)
-        
-        items?.forEach({ (title) in
+        items?.forEach { title in
             let style: UIAlertAction.Style = title == "取消" ? .cancel : .default
-            alertVC.addAction(UIAlertAction(title: title, style: style, handler: { (action) in
+            let action = UIAlertAction(title: title, style: style) { action in
                 alertVC.actions.forEach {
                     if action.title != "取消" {
-                        let number = NSNumber(booleanLiteral: ($0 == action))
-                        $0.setValue(number, forKey: kAlertActionChecked)
+                        $0.setValue(NSNumber(booleanLiteral: $0 == action), forKey: AlertKeys.actionChecked)
                     }
                 }
-                alertVC.dismiss(animated: true, completion: nil)
-                handler?(alertVC, action)
-            }))
-        })
+                alertVC.dismiss(animated: true) {
+                    handler?(alertVC, action)
+                }
+            }
+            alertVC.addAction(action)
+        }
         return alertVC
     }
     
@@ -88,7 +74,7 @@ public extension UIAlertController {
                           message: String? = nil,
                           items: [String]? = nil,
                           handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) {
-        UIAlertController.createSheet(title, message:message, items: items, handler: handler)
+        UIAlertController.createSheet(title: title, message:message, items: items, handler: handler)
             .present()
     }
 
@@ -171,7 +157,7 @@ public extension UIAlertController {
         
         let attrTitle = NSMutableAttributedString(string: title)
         attrTitle.addAttributes([NSAttributedString.Key.foregroundColor: color], range: NSRange(location: 0, length: title.count))
-        setValue(attrTitle, forKey: kAlertTitle)
+        setValue(attrTitle, forKey: AlertKeys.attributedTitle)
         return self
     }
     
@@ -186,7 +172,7 @@ public extension UIAlertController {
         let attDic = [NSAttributedString.Key.paragraphStyle: paraStyle,
                       NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),]
         attrMsg.addAttributes(attDic, range: NSRange(location: 0, length: message.count))
-        setValue(attrMsg, forKey: kAlertMessage)
+        setValue(attrMsg, forKey: AlertKeys.attributedMessage)
         return self
     }
     
@@ -209,7 +195,7 @@ public extension UIAlertController {
     
     @discardableResult
     func setContent(vc: UIViewController, height: CGFloat) -> Self {
-        setValue(vc, forKey: kAlertContentViewController)
+        setValue(vc, forKey: AlertKeys.contentViewController)
         vc.preferredContentSize.height = height
         preferredContentSize.height = height
         return self
@@ -262,21 +248,20 @@ public extension UIAlertController {
 }
 
 public extension TFY where Base: UIAlertController {
-    
     @discardableResult
-    func show(_ vc:UIViewController?, block:(()->Void)? = nil) -> TFY {
-        if base.title == nil && base.message == nil && base.actions.count == 0 {
-            assertionFailure("👻💀大哥！你别什么东西都不放💀👻")
+    func show(in viewController: UIViewController?, completion: (() -> Void)? = nil) -> TFY {
+        guard let viewController = viewController else {
+            assertionFailure("👻💀 viewController 不能为空 💀👻")
             return self
         }
-        vc?.present(base, animated: true, completion: block)
+        viewController.present(base, animated: true, completion: completion)
         return self
     }
     
     @discardableResult
-    func hidden(_ time:TimeInterval, block:(()->Void)? = nil) -> TFY {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) { [weak base] in
-            base?.dismiss(animated: true, completion: block)
+    func dismiss(after delay: TimeInterval, completion: (() -> Void)? = nil) -> TFY {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak base] in
+            base?.dismiss(animated: true, completion: completion)
         }
         return self
     }
@@ -288,23 +273,23 @@ public extension TFY where Base: UIAlertController {
     }
     @discardableResult
     func title(_ font:UIFont) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: kAlertTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
+        let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: kAlertTitle)
+        base.setValue(attributedM, forKey: AlertKeys.attributedTitle)
         return self
     }
     @discardableResult
     func title(_ color:UIColor) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: kAlertTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
+        let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: kAlertTitle)
+        base.setValue(attributedM, forKey: AlertKeys.attributedTitle)
         return self
     }
     @discardableResult
     func title(_ attributed:NSAttributedString) -> TFY {
-        base.setValue(attributed, forKey: kAlertTitle)
+        base.setValue(attributed, forKey: AlertKeys.attributedTitle)
         return self
     }
     @discardableResult
@@ -314,23 +299,23 @@ public extension TFY where Base: UIAlertController {
     }
     @discardableResult
     func message(_ font:UIFont) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: kAlertMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
+        let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: kAlertMessage)
+        base.setValue(attributedM, forKey: AlertKeys.attributedMessage)
         return self
     }
     @discardableResult
     func message(_ color:UIColor) -> TFY {
-        let attributed:NSAttributedString = base.value(forKey: kAlertMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
+        let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
-        base.setValue(attributedM, forKey: kAlertMessage)
+        base.setValue(attributedM, forKey: AlertKeys.attributedMessage)
         return self
     }
     @discardableResult
     func message(_ attributed:NSAttributedString) -> TFY {
-        base.setValue(attributed, forKey: kAlertMessage)
+        base.setValue(attributed, forKey: AlertKeys.attributedMessage)
         return self
     }
     
@@ -348,20 +333,23 @@ public extension TFY where Base: UIAlertController {
 
 public extension TFY where Base: UIAlertAction {
     @discardableResult
-    func title(_ a:String) -> TFY {
-        base.setValue(a, forKey: "title")
+    func setTitle(_ title: String) -> TFY {
+        base.setValue(title, forKey: "title")
         return self
     }
+    
     @discardableResult
-    func titleColor(_ color:UIColor) -> TFY {
-        base.setValue(color, forKey: kAlertActionColor)
+    func setTitleColor(_ color: UIColor) -> TFY {
+        base.setValue(color, forKey: AlertKeys.actionColor)
         return self
     }
+    
     @discardableResult
-    func style(_ a:UIAlertAction.Style) -> TFY {
-        base.setValue(a, forKey: "style")
+    func setStyle(_ style: UIAlertAction.Style) -> TFY {
+        base.setValue(style, forKey: "style")
         return self
     }
+    
     @discardableResult
     func handler(_ a:((UIAlertAction) -> Void)? = nil) -> TFY {
         base.setValue(a, forKey: "handler")

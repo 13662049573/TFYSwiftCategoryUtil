@@ -109,7 +109,6 @@ class HomeController: UIViewController {
             }
             
             btn.tfy
-                .frame(x: 40, y: 0, width: UIScreen.width - 80, height: 60)
                 .font(.systemFont(ofSize: 12, weight: .bold))
                 .title(title, for: .normal)
                 .image(UIImage(named: "vip_broadcast"), for: .normal)
@@ -123,8 +122,8 @@ class HomeController: UIViewController {
             
             btn.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                btn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
-                btn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+                btn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20), // 减少边距
+                btn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20), // 减少边距
                 btn.heightAnchor.constraint(greaterThanOrEqualToConstant: 60) // 高度自适应
             ])
             
