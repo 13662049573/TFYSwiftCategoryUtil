@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     let linkDic = ["《用户协议》": "http://api.irainone.com/app/iop/register.html",
                    "《隐私政策》": "http://api.irainone.com/app/iop/register.html",]
     
-    let string = "\t用户协议和隐私政策请您务必审值阅读、充分理解 “用户协议” 和 ”隐私政策” 各项条款，包括但不限于：为了向您提供即时通讯、内容分享等服务，我们需要收集您的设备信息、操作日志等个人信息。\n\t您可阅读《用户协议》和《隐私政策》了解详细信息。如果您同意，请点击 “同意” 开始接受我们的服务;"
+    let string = "\t用户协议和隐私政策请您务必审值阅读、充分理解 \"用户协议\" 和 \"隐私政策\" 各项条款，包括但不限于：为了向您提供即时通讯、内容分享等服务，我们需要收集您的设备信息、操作日志等个人信息。\n\t您可阅读《用户协议》和《隐私政策》了解详细信息。如果您同意，请点击 \"同意\" 开始接受我们的服务;"
     
     private lazy var button: UIButton = {
         UIButton(type: .custom).tfy
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
             .addActionTitles(["取消", "同意"]) { vc, action in
                 TFYUtils.log(action.title ?? "")
             }
-        alertVC.setValue(attributedText, forKey: kAlertMessage)
+        alertVC.setValue(attributedText, forKey: AlertKeys.attributedMessage)
         alertVC.messageLabel?.addGestureTap({ reco in
             reco.didTapLabelAttributedText(self.linkDic) { text, url in
                 TFYUtils.log("\(text), \(url ?? "_")")
