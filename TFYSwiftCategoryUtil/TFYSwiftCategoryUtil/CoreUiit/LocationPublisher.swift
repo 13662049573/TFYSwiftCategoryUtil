@@ -10,7 +10,7 @@ protocol SubscriptionLocationDelegate: AnyObject {
     func didFail(with error: Error)
 }
 
-@available(iOS 13.0, *)
+
 final class LocationSubscription <S: Subscriber>:
     NSObject,
     SubscriptionLocationDelegate,
@@ -44,7 +44,7 @@ final class LocationSubscription <S: Subscriber>:
     
 }
 
-@available(iOS 13.0, *)
+
 final class LocationPublisher: NSObject,
                                Publisher,
                                CLLocationManagerDelegate,

@@ -171,19 +171,6 @@ public let kNumFormat = "¥###,##0.00";
         return fmt
     }
 
-    @available(*, deprecated, message: "弃用, 保留小数,默认四舍五入[代替者: format( _ style:, minFractionDigits:, maxFractionDigits:, positivePrefix:, groupingSeparator: , groupingSize:) -> NumberFormatter]")
-    static func fractionDigits(obj: CGFloat,
-                               min: Int = 2,
-                               max: Int = 2,
-                               roundingMode: NumberFormatter.RoundingMode = .halfUp,
-                               numberStyle: NumberFormatter.Style = .currency) -> String? {
-        let fmt = NumberFormatter.number(numberStyle)
-        fmt.minimumFractionDigits = min
-        fmt.maximumFractionDigits = max
-        fmt.roundingMode = roundingMode
-        return fmt.string(for: obj)
-    }
-    
     /// format 格式金钱显示
     /// - Parameters:
     ///   - obj: number

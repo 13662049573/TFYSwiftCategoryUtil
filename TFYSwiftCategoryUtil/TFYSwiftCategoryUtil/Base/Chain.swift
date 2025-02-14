@@ -104,7 +104,7 @@ extension NSObject: TFYCompatible {
         return self is T
     }
     
-    /// 尝试转换��指定类型
+    /// 尝试转换指定类型
     public func asKind<T>(of type: T.Type) -> T? {
         return self as? T
     }

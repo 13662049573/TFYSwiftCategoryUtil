@@ -6,12 +6,12 @@ protocol PublisherAuthorizationDelegate: AnyObject {
     func send(status: CLAuthorizationStatus)
 }
 
-@available(iOS 13.0, *)
+
 protocol SubscriptionAuthorizationDelegate: AnyObject {
     func requestAuthorization(type: CLLocationManager.AuthorizationType)
 }
 
-@available(iOS 13.0, *)
+
 final class AuthorizationSubscription <S: Subscriber>: NSObject,
     PublisherAuthorizationDelegate,
     Subscription where S.Input == CLAuthorizationStatus,
@@ -49,7 +49,7 @@ final class AuthorizationSubscription <S: Subscriber>: NSObject,
     }
 }
 
-@available(iOS 13.0, *)
+
 final class AuthorizationPublisher: NSObject,
                                     Publisher,
                                     CLLocationManagerDelegate,
