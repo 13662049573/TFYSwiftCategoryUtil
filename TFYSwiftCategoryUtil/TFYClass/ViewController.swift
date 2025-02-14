@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         lablel.changeColorWithTextColor(textColor: .orange, texts: linkDic.keys.sorted())
         lablel.addGestureTap { reco in
             reco.didTapLabelAttributedText(self.linkDic) { text, url in
-                TFYUtils.log("\(text), \(url ?? "_")")
+                TFYUtils.Logger.log("\(text), \(url ?? "_")")
             }
         }
     }
@@ -73,12 +73,12 @@ class ViewController: UIViewController {
         
         let alertVC = UIAlertController(title: title, message: nil, preferredStyle:  .alert)
             .addActionTitles(["取消", "同意"]) { vc, action in
-                TFYUtils.log(action.title ?? "")
+                TFYUtils.Logger.log(action.title ?? "")
             }
         alertVC.setValue(attributedText, forKey: AlertKeys.attributedMessage)
         alertVC.messageLabel?.addGestureTap({ reco in
             reco.didTapLabelAttributedText(self.linkDic) { text, url in
-                TFYUtils.log("\(text), \(url ?? "_")")
+                TFYUtils.Logger.log("\(text), \(url ?? "_")")
             }
         })
         alertVC.present()

@@ -36,7 +36,7 @@ public extension Data {
         do{
             return try JSONSerialization.jsonObject(with: self, options: .allowFragments) as? [String: Any]
         }catch{
-            TFYUtils.log(error.localizedDescription)
+            TFYUtils.Logger.log(error.localizedDescription)
             return nil
         }
     }
@@ -49,7 +49,7 @@ public extension Data {
         do {
             return try JSONDecoder().decode(type, from: self)
         } catch  {
-            TFYUtils.log("data to model error")
+            TFYUtils.Logger.log("data to model error")
             return nil
         }
     }
