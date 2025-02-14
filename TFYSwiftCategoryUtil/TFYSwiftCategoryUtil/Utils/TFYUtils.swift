@@ -306,99 +306,102 @@ public enum TFYUtils {
         }
     }
     
-    /// 获取当前视图所在的容器控制器（增强版）
-    /// - Parameters:
-    ///   - types: 优先查找的容器类型顺序，默认 [UINavigationController.self, UITabBarController.self]
-    /// - Returns: 找到的第一个匹配的容器控制器
-    @MainActor
-    static func currentContainer(
-        for viewController: UIViewController,
-        types: [UIViewController.Type] = [UINavigationController.self, UITabBarController.self]
-    ) -> UIViewController? {
-        // 优先检查直接父级关系
-        for type in types {
-            if let container = findContainer(from: viewController, type: type) {
-                return container
+    public enum viewController {
+        
+        /// 获取当前视图所在的容器控制器（增强版）
+        /// - Parameters:
+        ///   - types: 优先查找的容器类型顺序，默认 [UINavigationController.self, UITabBarController.self]
+        /// - Returns: 找到的第一个匹配的容器控制器
+        @MainActor
+        public static func currentContainer(
+            for viewController: UIViewController,
+            types: [UIViewController.Type] = [UINavigationController.self, UITabBarController.self]
+        ) -> UIViewController? {
+            // 优先检查直接父级关系
+            for type in types {
+                if let container = findContainer(from: viewController, type: type) {
+                    return container
+                }
             }
+            // 扩展查找层级
+            return findExtendedContainer(from: viewController, types: types)
         }
-        // 扩展查找层级
-        return findExtendedContainer(from: viewController, types: types)
-    }
-    
-    @MainActor
-    static var currentContainer: UIViewController? {
-        // 获取当前顶层视图控制器
-        guard let currentVC = Window.topViewController else {
-            Logger.log("无法获取当前视图控制器", level: .warning)
+        
+        @MainActor
+        public static var currentContainer: UIViewController? {
+            // 获取当前顶层视图控制器
+            guard let currentVC = Window.topViewController else {
+                Logger.log("无法获取当前视图控制器", level: .warning)
+                return nil
+            }
+            
+            // 默认查找导航和标签栏控制器
+            return currentContainer(for: currentVC)
+        }
+        
+        /// 私有化带参方法的重载版本
+        @MainActor
+        private static func currentContainer(for controller: UIViewController) -> UIViewController? {
+            currentContainer(for: controller, types: [UINavigationController.self, UITabBarController.self])
+        }
+        
+        /// 增强查找逻辑
+        private static func findExtendedContainer(
+            from source: UIViewController,
+            types: [UIViewController.Type]
+        ) -> UIViewController? {
+            var current: UIViewController? = source
+            
+            while let controller = current {
+                // 检查当前控制器是否匹配类型
+                for type in types {
+                    if controller.isKind(of: type) {
+                        return controller
+                    }
+                }
+                // 向上查找层级
+                current = getNextParent(for: controller)
+            }
+            
             return nil
         }
         
-        // 默认查找导航和标签栏控制器
-        return currentContainer(for: currentVC)
-    }
-    
-    /// 私有化带参方法的重载版本
-    @MainActor
-    private static func currentContainer(for controller: UIViewController) -> UIViewController? {
-        currentContainer(for: controller, types: [UINavigationController.self, UITabBarController.self])
-    }
-    
-    /// 增强查找逻辑
-    private static func findExtendedContainer(
-        from source: UIViewController,
-        types: [UIViewController.Type]
-    ) -> UIViewController? {
-        var current: UIViewController? = source
-        
-        while let controller = current {
-            // 检查当前控制器是否匹配类型
-            for type in types {
-                if controller.isKind(of: type) {
-                    return controller
-                }
-            }
-            // 向上查找层级
-            current = getNextParent(for: controller)
+        /// 获取下一级父级控制器
+        private static func getNextParent(for controller: UIViewController) -> UIViewController? {
+            if let parent = controller.parent { return parent }
+            if let presenting = controller.presentingViewController { return presenting }
+            if let navParent = controller.navigationController { return navParent }
+            if let tabParent = controller.tabBarController { return tabParent }
+            return nil
         }
         
-        return nil
-    }
-    
-    /// 获取下一级父级控制器
-    private static func getNextParent(for controller: UIViewController) -> UIViewController? {
-        if let parent = controller.parent { return parent }
-        if let presenting = controller.presentingViewController { return presenting }
-        if let navParent = controller.navigationController { return navParent }
-        if let tabParent = controller.tabBarController { return tabParent }
-        return nil
-    }
-    
-    /// 查找容器控制器
-    public static func findContainer<T: UIViewController>(
-        from source: UIViewController,
-        type: T.Type
-    ) -> T? {
-        if let target = source as? T { return target }
-        if let parent = source.parent { return findContainer(from: parent, type: type) }
-        if let presented = source.presentedViewController { return findContainer(from: presented, type: type) }
-        if let nav = source.navigationController { return findContainer(from: nav, type: type) }
-        if let tab = source.tabBarController { return findContainer(from: tab, type: type) }
-        return nil
-    }
-    
-    /// 设备是否具备生物识别
-    @MainActor
-   public static func dismiss(_ controller: UIViewController, animated: Bool = true) async {
-       await withCheckedContinuation { continuation in
-           // 确保在主线程执行 UI 操作
-           controller.dismiss(animated: animated) {
-               // 确保回调在主线程
-               MainActor.assumeIsolated {
-                   continuation.resume()
+        /// 查找容器控制器
+        public static func findContainer<T: UIViewController>(
+            from source: UIViewController,
+            type: T.Type
+        ) -> T? {
+            if let target = source as? T { return target }
+            if let parent = source.parent { return findContainer(from: parent, type: type) }
+            if let presented = source.presentedViewController { return findContainer(from: presented, type: type) }
+            if let nav = source.navigationController { return findContainer(from: nav, type: type) }
+            if let tab = source.tabBarController { return findContainer(from: tab, type: type) }
+            return nil
+        }
+        
+        /// 设备是否具备生物识别
+        @MainActor
+       public static func dismiss(_ controller: UIViewController, animated: Bool = true) async {
+           await withCheckedContinuation { continuation in
+               // 确保在主线程执行 UI 操作
+               controller.dismiss(animated: animated) {
+                   // 确保回调在主线程
+                   MainActor.assumeIsolated {
+                       continuation.resume()
+                   }
                }
            }
        }
-   }
+    }
 }
 
 // MARK: - 新增设备信息模块
@@ -545,39 +548,6 @@ public extension TFYUtils {
             transition.duration = duration
             transition.type = .fade
             view.layer.add(transition, forKey: nil)
-        }
-    }
-}
-
-// MARK: - 新增颜色处理模块
-public extension TFYUtils {
-    enum Color {
-        /// 动态颜色（支持深色模式）
-        public static func dynamic(
-            light: UIColor,
-            dark: UIColor
-        ) -> UIColor {
-            UIColor { trait in
-                trait.userInterfaceStyle == .dark ? dark : light
-            }
-        }
-        
-        /// HEX颜色创建
-        public static func hex(
-            _ hex: String,
-            alpha: CGFloat = 1.0
-        ) -> UIColor {
-            var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-            hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-            
-            var rgb: UInt64 = 0
-            Scanner(string: hexSanitized).scanHexInt64(&rgb)
-            
-            let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            let blue = CGFloat(rgb & 0x0000FF) / 255.0
-            
-            return UIColor(red: red, green: green, blue: blue, alpha: alpha)
         }
     }
 }
