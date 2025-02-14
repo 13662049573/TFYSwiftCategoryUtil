@@ -1,7 +1,7 @@
 import CoreLocation
 import Combine
 
-@available(iOS 13.0, *)
+
 public extension CLLocation {
 
     /// `CLLocation` from `CLLocationCoordinate2D`

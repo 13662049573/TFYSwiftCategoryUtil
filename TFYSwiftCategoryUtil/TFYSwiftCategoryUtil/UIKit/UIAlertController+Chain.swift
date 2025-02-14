@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 public struct AlertKeys {
-    static let attributedTitle = "attributedTitle"
-    static let attributedMessage = "attributedMessage"
-    static let contentViewController = "contentViewController"
-    static let actionColor = "titleTextColor"
-    static let actionImage = "image"
-    static let actionImageTintColor = "imageTintColor"
-    static let actionChecked = "checked"
+    public static let attributedTitle = "attributedTitle"
+    public static let attributedMessage = "attributedMessage"
+    public static let contentViewController = "contentViewController"
+    public static let actionColor = "titleTextColor"
+    public static let actionImage = "image"
+    public static let actionImageTintColor = "imageTintColor"
+    public static let actionChecked = "checked"
 }
 
 public extension UIAlertController {

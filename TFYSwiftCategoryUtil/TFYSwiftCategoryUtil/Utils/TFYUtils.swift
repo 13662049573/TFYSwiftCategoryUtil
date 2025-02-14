@@ -2,15 +2,18 @@
 //  TFYUtils.swift
 //  TFYSwiftCategoryUtil
 //
-//  Created by 田风有 on 2022/5/12.
+// 田风有 on 2022/5/12.
 //
 
 import Foundation
 import UIKit
 import StoreKit
 import SystemConfiguration.CaptiveNetwork
+import Combine
+import Network
+import LocalAuthentication
 
-/// 常用文件路径
+// MARK: - 文件路径常量
 public struct FilePath {
     /// 文档目录路径
     public static let document = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as NSString
@@ -22,228 +25,814 @@ public struct FilePath {
     public static let temp = NSTemporaryDirectory() as NSString
 }
 
-// MARK: - 工具类
-public struct TFYUtils {
+// MARK: - 主工具类
+public enum TFYUtils {
     
-    // MARK: - JSON操作
-    
-    /// 读取本地JSON文件
-    /// - Parameter name: JSON文件名(不含扩展名)
-    /// - Returns: 解析后的字典
-    public static func getJSON(name: String) -> NSDictionary {
-        guard let path = Bundle.main.path(forResource: name, ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-              let jsonData = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary else {
-            print("读取本地JSON数据失败!")
-            return NSDictionary()
-        }
-        return jsonData
-    }
-    
-    // MARK: - 日志功能
-    
-    /// 自定义日志打印
-    /// - Parameters:
-    ///   - msg: 打印内容
-    ///   - file: 文件路径
-    ///   - line: 所在行
-    ///   - column: 所在列
-    ///   - fn: 函数名
-    public static func log(_ msg: Any...,
-                          file: NSString = #file,
-                          line: Int = #line,
-                          column: Int = #column,
-                          fn: String = #function) {
-        #if DEBUG
-        // 构建日志内容
-        let content = buildLogContent(msg: msg, file: file, line: line, column: column, fn: fn)
-        // 打印到控制台
-        print(content)
-        // 写入日志文件
-        writeToLogFile(content: content)
-        #endif
-    }
-    
-    /// 构建日志内容
-    private static func buildLogContent(msg: [Any],
-                                      file: NSString,
-                                      line: Int,
-                                      column: Int,
-                                      fn: String) -> String {
-        let msgStr = msg.map { "\($0)" }.joined(separator: "\n")
-        return """
-        ----------------######################----begin🚀----##################----------------
-        当前时间：\(Date())
-        文件路径：\(file)
-        文件名：\(file.lastPathComponent)
-        第 \(line) 行
-        第 \(column) 列
-        函数名：\(fn)
-        打印内容：
-        \(msgStr)
-        ----------------######################----end😊----##################----------------
-        """
-    }
-    
-    /// 写入日志文件
-    private static func writeToLogFile(content: String) {
-        let logPath = FilePath.cache.appendingPathComponent("log.txt")
-        let logURL = URL(fileURLWithPath: logPath)
-        
-        // 确保文件存在
-        if !FileManager.default.fileExists(atPath: logPath) {
-            FileManager.default.createFile(atPath: logPath, contents: nil)
+    // MARK: - 窗口管理
+    public enum Window {
+        /// 获取当前活动窗口
+        public static var current: UIWindow? {
+            UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .first { $0.activationState == .foregroundActive }?
+                .windows
+                .first(where: \.isKeyWindow)
         }
         
-        // 追加写入
-        if let handle = try? FileHandle(forWritingTo: logURL) {
-            handle.seekToEndOfFile()
-            handle.write("\n\(content)".data(using: .utf8)!)
-            handle.closeFile()
+        /// 获取顶层视图控制器
+        public static var topViewController: UIViewController? {
+            guard let window = current else { return nil }
+            
+            func findTop(from controller: UIViewController?) -> UIViewController? {
+                if let nav = controller as? UINavigationController {
+                    return findTop(from: nav.visibleViewController)
+                }
+                if let tab = controller as? UITabBarController {
+                    return findTop(from: tab.selectedViewController)
+                }
+                if let presented = controller?.presentedViewController {
+                    return findTop(from: presented)
+                }
+                return controller
+            }
+            
+            return findTop(from: window.rootViewController)
+        }
+    }
+    
+    // MARK: - 增强日志系统
+    public enum Logger {
+        /// 日志级别
+        public enum Level: String, CaseIterable {
+            case debug = "🟢 DEBUG"
+            case info = "🔵 INFO"
+            case warning = "🟠 WARNING"
+            case error = "🔴 ERROR"
+        }
+        
+        /// 日志配置
+        public struct Config {
+            public static var maxFileSize: Int = 1024 * 1024 * 5 // 5MB
+            public static var maxFiles: Int = 7 // 保留7天
+            public static var enabledLevels: Set<Level> = Set(Level.allCases)
+        }
+        
+        /// 分级日志记录
+        public static func log(
+            _ items: Any...,
+            level: Level = .debug,
+            file: String = #fileID,
+            line: Int = #line,
+            function: String = #function
+        ) {
+            guard Config.enabledLevels.contains(level) else { return }
+            
+            let content = buildLogContent(items, level: level, file: file, line: line, function: function)
+            print(content)
+            writeToRotatedFile(content: content)
+        }
+        
+        private static func buildLogContent(
+            _ items: [Any],
+            level: Level,
+            file: String,
+            line: Int,
+            function: String
+        ) -> String {
+            let timestamp = Date().ISO8601Format()
+            let message = items.map { "\($0)" }.joined(separator: " ")
+            return "\(timestamp) \(level.rawValue) [\(file):\(line)] \(function) - \(message)"
+        }
+        
+        private static func writeToRotatedFile(content: String) {
+            let fileManager = Foundation.FileManager.default
+            let logDir = FilePath.cache.appendingPathComponent("logs")
+            
+            // 创建日志目录
+            if !fileManager.fileExists(atPath: logDir) {
+                try? fileManager.createDirectory(atPath: logDir, withIntermediateDirectories: true)
+            }
+            
+            // 按日期分文件
+            let formatter = Foundation.DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let filename = "app_\(formatter.string(from: Date())).log"
+            let filePath = (logDir as NSString).appendingPathComponent(filename)
+            
+            // 写入文件
+            if let data = (content + "\n").data(using: .utf8) {
+                if fileManager.fileExists(atPath: filePath) {
+                    if let handle = try? FileHandle(forWritingTo: URL(fileURLWithPath: filePath)) {
+                        handle.seekToEndOfFile()
+                        handle.write(data)
+                        try? handle.close()
+                    }
+                } else {
+                    try? data.write(to: URL(fileURLWithPath: filePath))
+                }
+            }
+            
+            cleanOldLogs()
+        }
+        
+        private static func cleanOldLogs() {
+            let fileManager = Foundation.FileManager.default
+            let logDir = FilePath.cache.appendingPathComponent("logs")
+            
+            guard let files = try? fileManager.contentsOfDirectory(atPath: logDir),
+                  files.count > Config.maxFiles else { return }
+            
+            let sortedFiles = files.sorted()
+            let filesToDelete = sortedFiles[0..<(sortedFiles.count - Config.maxFiles)]
+            
+            filesToDelete.forEach { file in
+                let fullPath = (logDir as NSString).appendingPathComponent(file)
+                try? fileManager.removeItem(atPath: fullPath)
+            }
+        }
+    }
+    
+    // MARK: - 内购管理
+    public enum IAP {
+        public enum PurchaseError: Error, CustomStringConvertible {
+            case paymentNotAllowed
+            case invalidProduct
+            case purchaseFailed(SKError)
+            case verificationFailed
+            
+            public var description: String {
+                switch self {
+                case .paymentNotAllowed: return "支付功能不可用"
+                case .invalidProduct: return "无效商品ID"
+                case .purchaseFailed(let error): return "购买失败: \(error.localizedDescription)"
+                case .verificationFailed: return "购买验证失败"
+                }
+            }
+        }
+        
+        /// 安全购买方法
+        public static func purchase(
+            productId: String,
+            completion: @escaping (Result<Transaction, PurchaseError>) -> Void
+        ) {
+            guard SKPaymentQueue.canMakePayments() else {
+                completion(.failure(.paymentNotAllowed))
+                return
+            }
+            
+            Task {
+                do {
+                    let products = try await Product.products(for: [productId])
+                    guard let product = products.first else {
+                        completion(.failure(.invalidProduct))
+                        return
+                    }
+                    
+                    let result = try await product.purchase()
+                    switch result {
+                    case .success(let verification):
+                        let transaction = try checkVerified(verification)
+                        await transaction.finish()
+                        completion(.success(transaction))
+                    case .pending:
+                        throw SKError(.paymentNotAllowed)
+                    case .userCancelled:
+                        throw SKError(.paymentCancelled)
+                    @unknown default:
+                        throw SKError(.unknown)
+                    }
+                } catch let error as SKError {
+                    completion(.failure(.purchaseFailed(error)))
+                } catch {
+                    completion(.failure(.verificationFailed))
+                }
+            }
+        }
+        
+        private static func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+            switch result {
+            case .unverified:
+                throw PurchaseError.verificationFailed
+            case .verified(let safe):
+                return safe
+            }
+        }
+    }
+    
+    // MARK: - 网络工具
+    public enum Network {
+        public enum Status: CustomStringConvertible {
+            case wifi
+            case cellular
+            case disconnected
+            
+            public var description: String {
+                switch self {
+                case .wifi: return "Wi-Fi"
+                case .cellular: return "蜂窝网络"
+                case .disconnected: return "无网络连接"
+                }
+            }
+        }
+        
+        /// 实时网络状态监测
+        public static func monitor(handler: @escaping (Status) -> Void) -> NWPathMonitor {
+            let monitor = NWPathMonitor()
+            let queue = DispatchQueue(label: "com.tfy.network.monitor")
+            
+            monitor.pathUpdateHandler = { path in
+                let status: Status
+                switch path.status {
+                case .satisfied:
+                    status = path.usesInterfaceType(.wifi) ? .wifi : .cellular
+                default:
+                    status = .disconnected
+                }
+                DispatchQueue.main.async { handler(status) }
+            }
+            
+            monitor.start(queue: queue)
+            return monitor
+        }
+        
+        /// 当前网络状态
+        public static var currentStatus: Status {
+            let monitor = NWPathMonitor()
+            let semaphore = DispatchSemaphore(value: 0)
+            var currentStatus: Status = .disconnected
+            
+            monitor.pathUpdateHandler = { path in
+                switch path.status {
+                case .satisfied:
+                    currentStatus = path.usesInterfaceType(.wifi) ? .wifi : .cellular
+                default:
+                    currentStatus = .disconnected
+                }
+                semaphore.signal()
+            }
+            
+            let queue = DispatchQueue(label: "com.tfy.network.status")
+            monitor.start(queue: queue)
+            semaphore.wait()
+            return currentStatus
         }
     }
     
     // MARK: - 系统功能
-    
-    /// 拨打电话
-    /// - Parameters:
-    ///   - phoneNumber: 电话号码
-    ///   - complete: 完成回调
-    public static func callPhone(phoneNumber: String, complete: @escaping ((Bool) -> Void)) {
-        guard let encodedPhone = ("tel://" + phoneNumber).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: encodedPhone),
-              UIApplication.shared.canOpenURL(url) else {
-            complete(false)
-            return
+    public enum System {
+        /// 安全打开URL
+        public static func openURL(_ urlString: String) async -> Bool {
+            guard let url = URL(string: urlString),
+                  await UIApplication.shared.canOpenURL(url) else {
+                return false
+            }
+            
+            return await UIApplication.shared.open(url)
         }
-        openUrl(url: url, complete: complete)
+        
+        /// 拨打电话
+        public static func call(_ number: String) async -> Bool {
+            let urlString = "tel://\(number)"
+            return await openURL(urlString)
+        }
+        
+        /// 跳转App Store评分
+        public static func requestReview() {
+            if let scene = UIApplication.shared.connectedScenes.first(where: {
+                $0.activationState == .foregroundActive
+            }) as? UIWindowScene {
+                SKStoreReviewController.requestReview(in: scene)
+            }
+        }
     }
     
-    /// App Store相关操作
-    public struct AppStore {
-        /// 跳转到App详情页
+    public enum viewController {
+        
+        /// 获取当前视图所在的容器控制器（增强版）
         /// - Parameters:
-        ///   - vc: 当前控制器
-        ///   - appId: App ID
-        public static func showAppDetail(from vc: UIViewController, appId: String) {
-            guard !appId.isEmpty else { return }
-            
-            let productVC = SKStoreProductViewController()
-            productVC.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: appId]) { success, error in
-                if !success {
-                    productVC.dismiss(animated: true)
+        ///   - types: 优先查找的容器类型顺序，默认 [UINavigationController.self, UITabBarController.self]
+        /// - Returns: 找到的第一个匹配的容器控制器
+        @MainActor
+        public static func currentContainer(
+            for viewController: UIViewController,
+            types: [UIViewController.Type] = [UINavigationController.self, UITabBarController.self]
+        ) -> UIViewController? {
+            // 优先检查直接父级关系
+            for type in types {
+                if let container = findContainer(from: viewController, type: type) {
+                    return container
                 }
             }
-            vc.present(productVC, animated: true)
+            // 扩展查找层级
+            return findExtendedContainer(from: viewController, types: types)
         }
         
-        /// 前往App Store评分
-        /// - Parameter appId: App ID
-        public static func rateApp(appId: String) {
-            let urlString = "https://itunes.apple.com/cn/app/id\(appId)?mt=12"
-            guard let url = URL(string: urlString) else { return }
-            TFYUtils.openUrl(url: url) { _ in }
+        @MainActor
+        public static var currentContainer: UIViewController? {
+            // 获取当前顶层视图控制器
+            guard let currentVC = Window.topViewController else {
+                Logger.log("无法获取当前视图控制器", level: .warning)
+                return nil
+            }
+            
+            // 默认查找导航和标签栏控制器
+            return currentContainer(for: currentVC)
         }
         
-        /// 检查App更新
-        /// - Parameters:
-        ///   - appId: App ID
-        ///   - completion: 完成回调(是否有更新,新版本号)
-        public static func checkUpdate(appId: String, completion: @escaping (Bool, String?) -> Void) {
-            let url = URL(string: "https://itunes.apple.com/lookup?id=\(appId)")!
-            
-            URLSession.shared.dataTask(with: url) { data, _, error in
-                DispatchQueue.main.async {
-                    guard let data = data, error == nil,
-                          let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                          let results = json["results"] as? [[String: Any]],
-                          let firstResult = results.first,
-                          let storeVersion = firstResult["version"] as? String,
-                          let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
-                        completion(false, nil)
-                        return
-                    }
-                    
-                    let hasUpdate = storeVersion.compare(currentVersion, options: .numeric) == .orderedDescending
-                    completion(hasUpdate, storeVersion)
-                }
-            }.resume()
+        /// 私有化带参方法的重载版本
+        @MainActor
+        private static func currentContainer(for controller: UIViewController) -> UIViewController? {
+            currentContainer(for: controller, types: [UINavigationController.self, UITabBarController.self])
         }
-    }
-    
-    // MARK: - 网络相关
-    
-    /// 获取设备网络信息
-    public struct Network {
-        /// 获取本机IP地址
-        public static func getIPAddress() -> String? {
-            var addresses = [String]()
-            var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        
+        /// 增强查找逻辑
+        private static func findExtendedContainer(
+            from source: UIViewController,
+            types: [UIViewController.Type]
+        ) -> UIViewController? {
+            var current: UIViewController? = source
             
-            guard getifaddrs(&ifaddr) == 0 else { return nil }
-            defer { freeifaddrs(ifaddr) }
-            
-            var ptr = ifaddr
-            while ptr != nil {
-                let flags = Int32(ptr!.pointee.ifa_flags)
-                var addr = ptr!.pointee.ifa_addr.pointee
-                
-                if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
-                    if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
-                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                        if getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
-                            if let address = String(validatingUTF8: hostname) {
-                                addresses.append(address)
-                            }
-                        }
+            while let controller = current {
+                // 检查当前控制器是否匹配类型
+                for type in types {
+                    if controller.isKind(of: type) {
+                        return controller
                     }
                 }
-                ptr = ptr!.pointee.ifa_next
+                // 向上查找层级
+                current = getNextParent(for: controller)
             }
             
-            return addresses.first
+            return nil
         }
         
-        /// 获取WiFi信息
-        /// - Returns: (WiFi名称, MAC地址)
-        public static func getWiFiInfo() -> (name: String?, macAddress: String?) {
-            guard let interfaces = CNCopySupportedInterfaces() as? [String] else {
-                return (nil, nil)
-            }
-            
-            for interface in interfaces {
-                guard let info = CFBridgingRetain(CNCopyCurrentNetworkInfo(interface as CFString)) as? [String: Any] else {
-                    continue
-                }
-                return (info["SSID"] as? String, info["BSSID"] as? String)
-            }
-            
-            return (nil, nil)
+        /// 获取下一级父级控制器
+        private static func getNextParent(for controller: UIViewController) -> UIViewController? {
+            if let parent = controller.parent { return parent }
+            if let presenting = controller.presentingViewController { return presenting }
+            if let navParent = controller.navigationController { return navParent }
+            if let tabParent = controller.tabBarController { return tabParent }
+            return nil
         }
+        
+        /// 查找容器控制器
+        public static func findContainer<T: UIViewController>(
+            from source: UIViewController,
+            type: T.Type
+        ) -> T? {
+            if let target = source as? T { return target }
+            if let parent = source.parent { return findContainer(from: parent, type: type) }
+            if let presented = source.presentedViewController { return findContainer(from: presented, type: type) }
+            if let nav = source.navigationController { return findContainer(from: nav, type: type) }
+            if let tab = source.tabBarController { return findContainer(from: tab, type: type) }
+            return nil
+        }
+        
+        /// 设备是否具备生物识别
+        @MainActor
+       public static func dismiss(_ controller: UIViewController, animated: Bool = true) async {
+           await withCheckedContinuation { continuation in
+               // 确保在主线程执行 UI 操作
+               controller.dismiss(animated: animated) {
+                   // 确保回调在主线程
+                   MainActor.assumeIsolated {
+                       continuation.resume()
+                   }
+               }
+           }
+       }
     }
-    
-    // MARK: - 应用相关
-    
-    /// 打开系统设置
-    public static func openSettings() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        openUrl(url: url) { _ in }
-    }
-    
-    /// 退出应用(模拟Home键)
-    public static func exitApp() {
-        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-    }
-    
-    /// 通用URL打开方法
-    /// - Parameters:
-    ///   - url: URL
-    ///   - complete: 完成回调
-    public static func openUrl(url: URL, complete: @escaping ((Bool) -> Void)) {
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: complete)
-        } else {
-            complete(UIApplication.shared.openURL(url))
+}
+
+// MARK: - 新增设备信息模块
+public extension TFYUtils {
+    enum Device {
+        /// 设备类型判断
+        public enum ModelType {
+            case iPhone
+            case iPad
+            case mac
+            case carPlay
+            case unspecified
+        }
+        
+        /// 当前设备类型
+        public static var modelType: ModelType {
+            #if targetEnvironment(macCatalyst)
+            return .mac
+            #elseif targetEnvironment(simulator)
+            return .unspecified
+            #else
+            switch UIDevice.current.userInterfaceIdiom {
+            case .phone: return .iPhone
+            case .pad: return .iPad
+            case .carPlay: return .carPlay
+            default: return .unspecified
+            }
+            #endif
+        }
+        
+        /// 设备安全区域
+        public static var safeAreaInsets: UIEdgeInsets {
+            Window.current?.safeAreaInsets ?? .zero
+        }
+        
+        /// 设备名称
+        static var name: String {
+            UIDevice.current.name
+        }
+        
+        /// 系统版本
+        static var systemVersion: String {
+            UIDevice.current.systemVersion
+        }
+        
+        /// 是否是刘海屏设备
+        static var hasNotch: Bool {
+            safeAreaInsets.top > 20
+        }
+        
+        /// 屏幕尺寸
+        static var screenSize: CGSize {
+            UIScreen.main.bounds.size
+        }
+        
+        /// 电池电量
+        static var batteryLevel: Float {
+            UIDevice.current.isBatteryMonitoringEnabled = true
+            return UIDevice.current.batteryLevel
+        }
+        
+        /// 是否处于低电量模式
+        static var isLowPowerModeEnabled: Bool {
+            ProcessInfo.processInfo.isLowPowerModeEnabled
         }
     }
 }
+
+// MARK: - 新增安全存储模块
+public extension TFYUtils {
+    enum Keychain {
+        /// 安全存储数据
+        public static func save(_ data: Data, service: String, account: String) throws {
+            let query = [
+                kSecValueData: data,
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: service,
+                kSecAttrAccount: account
+            ] as CFDictionary
+            
+            let status = SecItemAdd(query, nil)
+            guard status == errSecSuccess else {
+                throw KeychainError.unhandledError(status: status)
+            }
+        }
+        
+        /// 读取安全数据
+        public static func read(service: String, account: String) throws -> Data {
+            let query = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: service,
+                kSecAttrAccount: account,
+                kSecReturnData: true
+            ] as CFDictionary
+            
+            var result: AnyObject?
+            let status = SecItemCopyMatching(query, &result)
+            
+            guard status == errSecSuccess else {
+                throw KeychainError.unhandledError(status: status)
+            }
+            
+            return result as? Data ?? Data()
+        }
+        
+        public enum KeychainError: Error {
+            case unhandledError(status: OSStatus)
+        }
+    }
+}
+
+// MARK: - 新增动画效果模块
+public extension TFYUtils {
+    enum Animation {
+        /// 弹性缩放动画
+        public static func springScale(
+            view: UIView,
+            duration: TimeInterval = 0.6,
+            scale: CGFloat = 0.95
+        ) {
+            UIView.animate(
+                withDuration: duration,
+                delay: 0,
+                usingSpringWithDamping: 0.4,
+                initialSpringVelocity: 0.2,
+                options: [.curveEaseInOut],
+                animations: {
+                    view.transform = CGAffineTransform(scaleX: scale, y: scale)
+                },
+                completion: { _ in
+                    UIView.animate(withDuration: 0.3) {
+                        view.transform = .identity
+                    }
+                }
+            )
+        }
+        
+        /// 渐隐过渡
+        public static func crossfade(
+            view: UIView,
+            duration: TimeInterval = 0.3
+        ) {
+            let transition = CATransition()
+            transition.duration = duration
+            transition.type = .fade
+            view.layer.add(transition, forKey: nil)
+        }
+    }
+}
+
+// MARK: - 新增本地通知模块
+public extension TFYUtils {
+    enum Notification {
+        /// 请求通知权限
+        public static func requestAuthorization() async -> Bool {
+            do {
+                return try await UNUserNotificationCenter.current()
+                    .requestAuthorization(options: [.alert, .sound, .badge])
+            } catch {
+                Logger.log("通知权限请求失败: \(error)", level: .error)
+                return false
+            }
+        }
+        
+        /// 发送本地通知
+        public static func schedule(
+            title: String,
+            body: String,
+            interval: TimeInterval = 1.0
+        ) async {
+            let content = UNMutableNotificationContent()
+            content.title = title
+            content.body = body
+            content.sound = .default
+            
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: interval,
+                repeats: false
+            )
+            
+            let request = UNNotificationRequest(
+                identifier: UUID().uuidString,
+                content: content,
+                trigger: trigger
+            )
+            
+            do {
+                try await UNUserNotificationCenter.current().add(request)
+            } catch {
+                Logger.log("通知发送失败: \(error)", level: .error)
+            }
+        }
+    }
+}
+
+// MARK: - 新增触觉反馈模块
+public extension TFYUtils {
+    enum Haptics {
+        /// 触觉反馈类型
+        public enum FeedbackType {
+            case success
+            case warning
+            case error
+            case selection
+            case impact(style: UIImpactFeedbackGenerator.FeedbackStyle)
+        }
+        
+        /// 触发触觉反馈
+        public static func generate(_ type: FeedbackType) {
+            switch type {
+            case .success:
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            case .warning:
+                UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            case .error:
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            case .selection:
+                UISelectionFeedbackGenerator().selectionChanged()
+            case .impact(let style):
+                UIImpactFeedbackGenerator(style: style).impactOccurred()
+            }
+        }
+    }
+}
+
+// MARK: - 新增生物识别模块
+public extension TFYUtils {
+    enum Biometrics {
+        /// 生物识别类型
+        public enum BiometricType {
+            case none
+            case touchID
+            case faceID
+            
+            public var description: String {
+                switch self {
+                case .none: return "不支持"
+                case .touchID: return "Touch ID"
+                case .faceID: return "Face ID"
+                }
+            }
+        }
+        
+        /// 获取当前设备支持的生物识别类型
+        public static var biometricType: BiometricType {
+            let context = LAContext()
+            var error: NSError?
+            
+            guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+                return .none
+            }
+            
+            switch context.biometryType {
+            case .touchID:
+                return .touchID
+            case .faceID:
+                return .faceID
+            default:
+                return .none
+            }
+        }
+        
+        /// 执行生物识别验证
+        public static func authenticate(
+            reason: String,
+            completion: @escaping (Result<Void, Error>) -> Void
+        ) {
+            let context = LAContext()
+            context.evaluatePolicy(
+                .deviceOwnerAuthenticationWithBiometrics,
+                localizedReason: reason
+            ) { success, error in
+                DispatchQueue.main.async {
+                    if success {
+                        completion(.success(()))
+                    } else if let error = error {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 新增文件操作模块
+public extension TFYUtils {
+    enum FileManager {
+        /// 获取文件大小
+        public static func fileSize(at path: String) -> Int64 {
+            guard let attributes = try? Foundation.FileManager.default.attributesOfItem(atPath: path) else {
+                return 0
+            }
+            return attributes[.size] as? Int64 ?? 0
+        }
+        
+        /// 格式化文件大小
+        public static func formatFileSize(_ size: Int64) -> String {
+            let units = ["B", "KB", "MB", "GB"]
+            var size = Double(size)
+            var unitIndex = 0
+            
+            while size >= 1024 && unitIndex < units.count - 1 {
+                size /= 1024
+                unitIndex += 1
+            }
+            
+            return String(format: "%.2f %@", size, units[unitIndex])
+        }
+        
+        /// 创建目录
+        public static func createDirectory(at path: String) throws {
+            try Foundation.FileManager.default.createDirectory(
+                atPath: path,
+                withIntermediateDirectories: true
+            )
+        }
+        
+        /// 删除文件或目录
+        public static func remove(at path: String) throws {
+            try Foundation.FileManager.default.removeItem(atPath: path)
+        }
+    }
+}
+
+// MARK: - 新增图片处理模块
+public extension TFYUtils {
+    enum ImageProcessor {
+        /// 压缩图片
+        public static func compress(
+            image: UIImage,
+            maxSize: Int = 1024 * 1024  // 1MB
+        ) -> Data? {
+            var compression: CGFloat = 1.0
+            var data = image.jpegData(compressionQuality: compression)
+            
+            while let currentData = data, currentData.count > maxSize && compression > 0.1 {
+                compression -= 0.1
+                data = image.jpegData(compressionQuality: compression)
+            }
+            
+            return data
+        }
+        
+        /// 调整图片尺寸
+        public static func resize(
+            image: UIImage,
+            to size: CGSize,
+            scale: CGFloat = UIScreen.main.scale
+        ) -> UIImage? {
+            UIGraphicsBeginImageContextWithOptions(size, false, scale)
+            defer { UIGraphicsEndImageContext() }
+            
+            image.draw(in: CGRect(origin: .zero, size: size))
+            return UIGraphicsGetImageFromCurrentImageContext()
+        }
+        
+        /// 生成圆角图片
+        public static func roundCorners(
+            image: UIImage,
+            radius: CGFloat
+        ) -> UIImage? {
+            let rect = CGRect(origin: .zero, size: image.size)
+            
+            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+            defer { UIGraphicsEndImageContext() }
+            
+            let context = UIGraphicsGetCurrentContext()
+            context?.addPath(UIBezierPath(roundedRect: rect, cornerRadius: radius).cgPath)
+            context?.clip()
+            
+            image.draw(in: rect)
+            return UIGraphicsGetImageFromCurrentImageContext()
+        }
+    }
+}
+
+// MARK: - 新增日期处理模块
+public extension TFYUtils {
+    enum DateUtils {  // 重命名以避免与 Foundation.DateFormatter 冲突
+        private static let sharedFormatter: Foundation.DateFormatter = {
+            let formatter = Foundation.DateFormatter()
+            formatter.locale = Locale(identifier: "zh_CN")  // 设置中文区域
+            return formatter
+        }()
+        
+        /// 格式化日期
+        public static func string(
+            from date: Date,
+            format: String = "yyyy-MM-dd HH:mm:ss"
+        ) -> String {
+            sharedFormatter.dateFormat = format
+            return sharedFormatter.string(from: date)
+        }
+        
+        /// 解析日期字符串
+        public static func date(
+            from string: String,
+            format: String = "yyyy-MM-dd HH:mm:ss"
+        ) -> Date? {
+            sharedFormatter.dateFormat = format
+            return sharedFormatter.date(from: string)
+        }
+        
+        /// 相对时间描述
+        public static func relativeTimeDescription(from date: Date) -> String {
+            let calendar = Calendar.current
+            let now = Date()
+            let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date, to: now)
+            
+            if let year = components.year, year > 0 {
+                return "\(year)年前"
+            }
+            if let month = components.month, month > 0 {
+                return "\(month)个月前"
+            }
+            if let day = components.day, day > 0 {
+                return "\(day)天前"
+            }
+            if let hour = components.hour, hour > 0 {
+                return "\(hour)小时前"
+            }
+            if let minute = components.minute, minute > 0 {
+                return "\(minute)分钟前"
+            }
+            return "刚刚"
+        }
+        
+        /// 获取指定格式的当前时间字符串
+        public static func currentTimeString(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+            string(from: Date(), format: format)
+        }
+    }
+}
+

@@ -292,7 +292,6 @@ public extension UIViewController {
     ///
     /// - Parameter base: `UIViewController` to search
     /// - Returns: Current `UIViewController`
-    @available(iOS 13.0, *)
     class func getCurrentViewController(base: UIViewController? = KeyWindows()?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return getCurrentViewController(base: nav.visibleViewController)

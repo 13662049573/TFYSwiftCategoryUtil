@@ -1,7 +1,6 @@
 import Combine
 
-/// Limited Sink subscriber that only takes in a specified amount of demand
-@available(iOS 13.0, *)
+
 public extension Subscribers {
     typealias ReceivedCompletion<E: Error> = (Subscribers.Completion<E>) -> ()
     typealias ReceivedValue<Input> = (Input) -> ()

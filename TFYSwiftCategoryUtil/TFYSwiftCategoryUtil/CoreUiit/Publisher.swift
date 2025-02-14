@@ -4,7 +4,6 @@ import UIKit
 
 // MARK: - Public
 
-@available(iOS 13.0, *)
 public extension Publisher where Failure == Never {
 
     /// Receive Output value on main thread  (DispatchQueue.main)
@@ -40,14 +39,12 @@ public extension Publisher where Failure == Never {
  
 }
 
-@available(iOS 13.0, *)
 public protocol TimerStartable {
     func start(totalTime: TimeInterval?) -> AnyPublisher<Date, Never>
     func stop()
 }
 
-/// AutoConnect publishers that have TimerPublisher as its their upstream aka "autoconnect()"
-@available(iOS 13.0, *)
+
 extension Publishers.Autoconnect: TimerStartable where Upstream: Timer.TimerPublisher {
     
     /// Stops timer of current timer publisher instance
