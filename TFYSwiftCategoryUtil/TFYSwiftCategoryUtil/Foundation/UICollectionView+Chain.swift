@@ -65,49 +65,89 @@ public extension TFY where Base: UICollectionView {
 }
 
 extension UICollectionView {
-
-    public func register<C>(cell clz:C.Type) where C : UICollectionViewCell {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(clz as AnyClass, forCellWithReuseIdentifier: identifier)
-    }
-    
-    public func register<C>(nibCell clz:C.Type) where C : UICollectionViewCell {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(identifier.nib(), forCellWithReuseIdentifier: identifier)
-    }
-    
-    public func register<C>(header clz:C.Type) where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(clz as AnyClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
-    }
-    public func register<C>(nibHeader clz:C.Type) where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(identifier.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
-    }
-    
-    public func register<C>(footer clz:C.Type) where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(clz as AnyClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier)
-    }
-    public func register<C>(nibFooter clz:C.Type) where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        register(identifier.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier)
-    }
-    
-    public func dequeueReusable<C>(cell clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionViewCell {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        return dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! C
+    // MARK: - 安全注册方法
+    private func safeIdentifier<C>(for clz: C.Type) -> String {
+        let fullName = String(describing: clz)
+        guard let validIdentifier = fullName.components(separatedBy: ".").last else {
+            fatalError("⚠️ 无效的类名格式: \(fullName)")
+        }
+        return validIdentifier
     }
 
-    public func dequeueReusable<C>(header clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        
-        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier, for: indexPath) as! C
+    // MARK: - Cell注册
+    public func register<C: UICollectionViewCell>(cell clz: C.Type) {
+        let identifier = safeIdentifier(for: clz)
+        register(clz, forCellWithReuseIdentifier: identifier)
     }
     
-    public func dequeueReusable<C>(footer clz: C.Type, for indexPath: IndexPath) -> C where C : UICollectionReusableView {
-        let identifier = NSStringFromClass(clz as AnyClass).split(separator: ".").last!.description
-        
-        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifier, for: indexPath) as! C
+    public func register<C: UICollectionViewCell>(nibCell clz: C.Type) {
+        let identifier = safeIdentifier(for: clz)
+        register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
+    }
+
+    // MARK: - 补充视图注册
+    public func register<C: UICollectionReusableView>(
+        header clz: C.Type,
+        kind: String = UICollectionView.elementKindSectionHeader
+    ) {
+        let identifier = safeIdentifier(for: clz)
+        register(clz, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+    }
+    
+    public func register<C: UICollectionReusableView>(
+        footer clz: C.Type,
+        kind: String = UICollectionView.elementKindSectionFooter
+    ) {
+        let identifier = safeIdentifier(for: clz)
+        register(clz, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+    }
+
+    public func register<C: UICollectionReusableView>(
+        nibHeader clz: C.Type,
+        kind: String = UICollectionView.elementKindSectionHeader
+    ) {
+        let identifier = safeIdentifier(for: clz)
+        register(UINib(nibName: identifier, bundle: nil), forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+    }
+    
+    public func register<C: UICollectionReusableView>(
+        nibFooter clz: C.Type,
+        kind: String = UICollectionView.elementKindSectionFooter
+    ) {
+        let identifier = safeIdentifier(for: clz)
+        register(UINib(nibName: identifier, bundle: nil), forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+    }
+
+    // MARK: - 安全获取方法
+    public func dequeueReusable<C: UICollectionViewCell>(cell clz: C.Type, for indexPath: IndexPath) -> C {
+        let identifier = safeIdentifier(for: clz)
+        guard let cell = dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? C else {
+            fatalError("⚠️ 未注册的Cell类型: \(identifier)")
+        }
+        return cell
+    }
+
+    public func dequeueReusable<C: UICollectionReusableView>(
+        header clz: C.Type,
+        for indexPath: IndexPath,
+        kind: String = UICollectionView.elementKindSectionHeader
+    ) -> C {
+        let identifier = safeIdentifier(for: clz)
+        guard let view = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath) as? C else {
+            fatalError("⚠️ 未注册的Header类型: \(identifier)")
+        }
+        return view
+    }
+    
+    public func dequeueReusable<C: UICollectionReusableView>(
+        footer clz: C.Type,
+        for indexPath: IndexPath,
+        kind: String = UICollectionView.elementKindSectionFooter
+    ) -> C {
+        let identifier = safeIdentifier(for: clz)
+        guard let view = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath) as? C else {
+            fatalError("⚠️ 未注册的Footer类型: \(identifier)")
+        }
+        return view
     }
 }

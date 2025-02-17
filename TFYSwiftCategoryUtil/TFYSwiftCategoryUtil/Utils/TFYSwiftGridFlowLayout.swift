@@ -147,7 +147,7 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         }
     }
     
-    // MARK: - 补充视图布局（关键修改）
+    // MARK: - 补充视图布局（关键修复）
     public override func layoutAttributesForSupplementaryView(ofKind elementKind: String,
                                                             at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
@@ -160,19 +160,22 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         var yPosition: CGFloat = 0
         var size: CGSize = .zero
         
+        // 尺寸优先级：1.布局属性设置 2.代理方法 3.默认值
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:
             size = self.headerReferenceSize
-            yPosition = section == 0 ? 0 : contentHeight
             if size == .zero {
                 size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section) ?? .zero
             }
+            yPosition = section == 0 ? contentHeight : contentHeight + sectionInset.top
+            
         case UICollectionView.elementKindSectionFooter:
             size = self.footerReferenceSize
-            yPosition = (sectionColumnsHeights[safe: section]?.max() ?? 0) + sectionInset.bottom
             if size == .zero {
                 size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section) ?? .zero
             }
+            yPosition = (sectionColumnsHeights[safe: section]?.max() ?? 0) + sectionInset.bottom
+            
         default:
             return nil
         }
@@ -182,6 +185,11 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         let validWidth = max(safeContentWidth, 0)
         let validHeight = max(size.height, 0)
         
+        // 仅当有有效尺寸时返回属性
+        guard validWidth > 0 && validHeight > 0 else {
+            return nil
+        }
+        
         attributes.frame = CGRect(
             x: sectionInset.left,
             y: yPosition,
@@ -189,11 +197,13 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             height: validHeight
         )
         
-        // 更新全局内容高度
-        if elementKind == UICollectionView.elementKindSectionHeader {
-            contentHeight = max(contentHeight, attributes.frame.maxY + sectionInset.top)
-        } else if elementKind == UICollectionView.elementKindSectionFooter {
+        // 更新全局内容高度（仅对当前section有效）
+        switch elementKind {
+        case UICollectionView.elementKindSectionHeader:
             contentHeight = attributes.frame.maxY
+        case UICollectionView.elementKindSectionFooter:
+            contentHeight = attributes.frame.maxY
+        default: break
         }
         
         return attributes
