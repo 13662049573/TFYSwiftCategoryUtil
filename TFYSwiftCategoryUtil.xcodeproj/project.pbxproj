@@ -146,6 +146,7 @@
 		36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */; };
 		36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */; };
 		3D68BB332D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */; };
+		3D68BB702D6322E500A244A7 /* CustomViewTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */; };
 		3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */; };
 /* End PBXBuildFile section */
 
@@ -338,6 +339,7 @@
 		36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Chain.swift"; sourceTree = "<group>"; };
 		36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Chain.swift"; sourceTree = "<group>"; };
 		3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftGridFlowLayout.swift; sourceTree = "<group>"; };
+		3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewTipsView.swift; sourceTree = "<group>"; };
 		3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Chain.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -482,6 +484,7 @@
 				3612E14126475BA400476696 /* ViewController.swift */,
 				363B35582D43369700BC628D /* GCDSocketController.swift */,
 				363B355A2D4336B900BC628D /* HomeController.swift */,
+				3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */,
 			);
 			path = TFYClass;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				36DAFEC12787FEAA00D05EE1 /* UIActivityIndicatorView+Chain.swift in Sources */,
 				36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */,
 				365478212830A1E700E4DE22 /* UIImage+Chain.swift in Sources */,
+				3D68BB702D6322E500A244A7 /* CustomViewTipsView.swift in Sources */,
 				36DAFEDC2787FF9D00D05EE1 /* UIButton+Chain.swift in Sources */,
 				3642FE1C2CCE83D3000ACC7C /* UIBarButtonItem+obj.swift in Sources */,
 				36F283622835D98600460789 /* Codable+Chain.swift in Sources */,

@@ -151,6 +151,11 @@ public class TFYSwiftPopupView: UIView {
     
     private var keyboardAdjustmentConstraint: NSLayoutConstraint?
     
+    private var containerConstraints: [NSLayoutConstraint] = []
+    
+    // MARK: - Static Properties
+    private static var currentPopupViews: [TFYSwiftPopupView] = []
+    
     // MARK: - Initialization
     public init(containerView: UIView, 
                contentView: UIView, 
@@ -172,6 +177,7 @@ public class TFYSwiftPopupView: UIView {
         setupGestures()
         setupAccessibility()
         setupKeyboardHandling()
+        setupContainerConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -210,6 +216,7 @@ public class TFYSwiftPopupView: UIView {
     // MARK: - Public Methods
     @discardableResult
     public func configure(with configuration: TFYSwiftPopupViewConfiguration) -> Self {
+        self.configuration = configuration
         isDismissible = configuration.isDismissible
         isInteractive = configuration.isInteractive
         isPenetrable = configuration.isPenetrable
@@ -218,6 +225,7 @@ public class TFYSwiftPopupView: UIView {
             color: configuration.backgroundColor,
             blurStyle: configuration.blurStyle
         )
+        setupContainerConstraints()
         return self
     }
     
@@ -231,30 +239,18 @@ public class TFYSwiftPopupView: UIView {
         return self
     }
     
-    public func display(animated: Bool, completion: (()->())? = nil) {
-        guard !isAnimating else { return }
-        
-        isPresenting = true
-        isAnimating = true
-        
-        setupConstraints()
-        willDisplayCallback?()
-        
-        animator.display(contentView: contentView, 
-                        backgroundView: backgroundView, 
-                        animated: animated) { [weak self] in
-            guard let self = self else { return }
-            completion?()
-            self.isAnimating = false
-            self.didDisplayCallback?()
+    public func display(animated: Bool, completion: (() -> Void)? = nil) {
+        performDisplay(animated: animated, completion: completion)
     }
-        }
     
     public func dismiss(animated: Bool, completion: (()->())? = nil) {
         guard !isAnimating else { return }
         
         isAnimating = true
         willDismissCallback?()
+        
+        // 从当前显示的弹窗数组中移除
+        TFYSwiftPopupView.currentPopupViews.removeAll { $0 === self }
         
         animator.dismiss(contentView: contentView, 
                         backgroundView: backgroundView, 
@@ -362,50 +358,192 @@ public class TFYSwiftPopupView: UIView {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    private func setupContainerConstraints() {
+        // 移除旧的约束
+        NSLayoutConstraint.deactivate(containerConstraints)
+        containerConstraints.removeAll()
+        
+        let config = configuration.containerConfiguration
+        
+        // 确保 contentView 已经添加到视图层级中
+        guard contentView.superview != nil else { return }
+        
+        // 设置宽度约束
+        switch config.width {
+        case .fixed(let width):
+            containerConstraints.append(
+                contentView.widthAnchor.constraint(equalToConstant: width)
+            )
+        case .automatic:
+            if let maxWidth = config.maxWidth {
+                containerConstraints.append(
+                    contentView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth)
+                )
+            }
+        case .ratio(let ratio):
+            containerConstraints.append(
+                contentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: ratio)
+            )
+        case .custom(let handler):
+            containerConstraints.append(
+                contentView.widthAnchor.constraint(equalToConstant: handler(contentView))
+            )
+        }
+        
+        // 设置高度约束
+        switch config.height {
+        case .fixed(let height):
+            containerConstraints.append(
+                contentView.heightAnchor.constraint(equalToConstant: height)
+            )
+        case .automatic:
+            if let maxHeight = config.maxHeight {
+                containerConstraints.append(
+                    contentView.heightAnchor.constraint(lessThanOrEqualToConstant: maxHeight)
+                )
+            }
+        case .ratio(let ratio):
+            containerConstraints.append(
+                contentView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
+            )
+        case .custom(let handler):
+            containerConstraints.append(
+                contentView.heightAnchor.constraint(equalToConstant: handler(contentView))
+            )
+        }
+        
+        // 设置最小尺寸约束
+        if let minWidth = config.minWidth {
+            containerConstraints.append(
+                contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: minWidth)
+            )
+        }
+        if let minHeight = config.minHeight {
+            containerConstraints.append(
+                contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: minHeight)
+            )
+        }
+        
+        // 激活所有约束
+        NSLayoutConstraint.activate(containerConstraints)
+    }
 }
 
 // MARK: - Convenience Methods
 public extension TFYSwiftPopupView {
-    static func show(in viewController: UIViewController,
-                    contentView: UIView,
-                    configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration(),
-                    animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
-                    animated: Bool = true,
-                    completion: (() -> Void)? = nil) -> TFYSwiftPopupView {
-        let popupView = TFYSwiftPopupView(containerView: viewController.view,
-                                         contentView: contentView,
-                                         animator: animator)
-        popupView.configure(with: configuration)
-        popupView.display(animated: animated, completion: completion)
-        return popupView
-    }
-    
     static func show(contentView: UIView,
                     configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration(),
                     animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                     animated: Bool = true,
-                    completion: (() -> Void)? = nil) {
-        guard let window = getKeyWindow() else { return }
+                    completion: (() -> Void)? = nil) -> TFYSwiftPopupView {
+        // 获取当前窗口（兼容 iOS 15 及以上版本）
+        let window: UIWindow? = {
+            if #available(iOS 15.0, *) {
+                return UIApplication.shared.connectedScenes
+                    .compactMap { $0 as? UIWindowScene }
+                    .flatMap { $0.windows }
+                    .first { $0.isKeyWindow }
+            } else {
+                return UIApplication.shared.windows.first { $0.isKeyWindow }
+            }
+        }()
         
-        let popupView = TFYSwiftPopupView(containerView: window,
-                                         contentView: contentView,
-                                         animator: animator)
-        popupView.isDismissible = true
-        popupView.display(animated: animated, completion: completion)
+        guard let window = window else {
+            return TFYSwiftPopupView(containerView: UIView(), contentView: contentView)
+        }
+        
+        // 创建弹窗
+        let popupView = TFYSwiftPopupView(
+            containerView: window,
+            contentView: contentView,
+            animator: animator,
+            configuration: configuration
+        )
+        
+        // 设置frame和autoresizing
+        popupView.frame = window.bounds
+        popupView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        // 添加到窗口
+        window.addSubview(popupView)
+        
+        // 添加到当前显示的弹窗数组
+        currentPopupViews.append(popupView)
+        
+        // 显示弹窗
+        popupView.display(animated: animated) {
+            completion?()
+        }
+        
+        return popupView
+    }
+    
+    static func dismissAll(animated: Bool = true, completion: (() -> Void)? = nil) {
+        let popups = currentPopupViews
+        currentPopupViews.removeAll()
+        
+        guard !popups.isEmpty else {
+            completion?()
+            return
+        }
+        
+        let group = DispatchGroup()
+        
+        for popup in popups {
+            group.enter()
+            popup.dismiss(animated: animated) {
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            completion?()
+        }
     }
 }
 
-// MARK: - Utilities
+// MARK: - Private Methods
 private extension TFYSwiftPopupView {
-    static func getKeyWindow() -> UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .first?.windows
-                .first(where: { $0.isKeyWindow })
-        } else {
-            return UIApplication.shared.keyWindow
+    func setupInitialLayout() {
+        // 设置内容视图的中心约束
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            contentView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            contentView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+    
+    func performDisplay(animated: Bool, completion: (() -> Void)? = nil) {
+        guard !isAnimating else { return }
+        
+        isPresenting = true
+        isAnimating = true
+        
+        // 确保视图已添加到容器中
+        if superview == nil {
+            containerView.addSubview(self)
+            frame = containerView.bounds
+            autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+        
+        // 设置约束
+        setupInitialLayout()
+        setupContainerConstraints()
+        
+        // 调用显示回调
+        willDisplayCallback?()
+        
+        // 执行动画
+        animator.display(contentView: contentView,
+                        backgroundView: backgroundView,
+                        animated: animated) { [weak self] in
+            guard let self = self else { return }
+            completion?()
+            self.isAnimating = false
+            self.didDisplayCallback?()
+    }
     }
 }
 
@@ -468,11 +606,11 @@ extension TFYSwiftPopupView {
             super.init(frame: frame)
             setupView()
         }
-        
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
+
         // MARK: - Private Methods
         private func setupView() {
             backgroundColor = color
@@ -482,8 +620,8 @@ extension TFYSwiftPopupView {
         
         private func refreshBackgroundStyle() {
             // 清除现有效果
-            effectView?.removeFromSuperview()
-            effectView = nil
+                effectView?.removeFromSuperview()
+                effectView = nil
             gradientLayer?.removeFromSuperlayer()
             gradientLayer = nil
             
@@ -1170,7 +1308,7 @@ open class TFYSwiftSpringAnimator: TFYSwiftBaseAnimator {
 
         contentView.alpha = 0
         contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        backgroundView.alpha = 0
+            backgroundView.alpha = 0
 
         displayAnimationBlock = {
             contentView.alpha = 1
@@ -1224,7 +1362,7 @@ open class TFYSwiftRotationAnimator: TFYSwiftBaseAnimator {
         
         contentView.alpha = 0
         contentView.transform = CGAffineTransform(rotationAngle: .pi)
-        backgroundView.alpha = 0
+            backgroundView.alpha = 0
         
         displayAnimationBlock = {
             contentView.alpha = 1
@@ -1252,9 +1390,9 @@ open class TFYSwiftPulseAnimator: TFYSwiftBaseAnimator {
             UIView.animateKeyframes(withDuration: self.displayDuration, delay: 0, options: .calculationModeCubic) {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
                     contentView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                    contentView.alpha = 1
-                    backgroundView.alpha = 1
-                }
+            contentView.alpha = 1
+            backgroundView.alpha = 1
+        }
                 
                 UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.2) {
                     contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
@@ -1291,20 +1429,20 @@ public extension TFYSwiftPopupViewDelegate {
 open class TFYSwiftCascadeAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-        
+
         // 初始状态
         contentView.alpha = 0
         contentView.transform = CGAffineTransform(translationX: 0, y: -50).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
         backgroundView.alpha = 0
-        
+
         displayAnimationBlock = {
             UIView.animateKeyframes(withDuration: self.displayDuration, delay: 0, options: .calculationModeCubic) {
                 // 第一阶段：下落并放大
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
                     contentView.transform = CGAffineTransform(translationX: 0, y: 10).concatenating(CGAffineTransform(scaleX: 1.1, y: 1.1))
-                    contentView.alpha = 1
-                    backgroundView.alpha = 1
-                }
+            contentView.alpha = 1
+            backgroundView.alpha = 1
+        }
                 
                 // 第二阶段：轻微回弹
                 UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
@@ -1327,11 +1465,11 @@ open class TFYSwiftElasticAnimator: TFYSwiftBaseAnimator {
         
         displaySpringDampingRatio = 0.5
         displaySpringVelocity = 0.8
-        
+
         contentView.alpha = 0
         contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
         backgroundView.alpha = 0
-        
+
         displayAnimationBlock = {
             contentView.alpha = 1
             contentView.transform = .identity
@@ -1386,60 +1524,5 @@ public struct TFYSwiftPopupTransition {
         transition.dismissAnimation = scaleOut
         
         return transition
-    }
-}
-
-extension TFYSwiftPopupView {
-    private func setupContainerConstraints() {
-        let config = configuration.containerConfiguration
-        
-        // 设置宽度约束
-        switch config.width {
-        case .fixed(let width):
-            contentView.widthAnchor.constraint(equalToConstant: width).isActive = true
-        case .automatic:
-            break // 不设置宽度约束，由内容决定
-        case .ratio(let ratio):
-            contentView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: ratio).isActive = true
-        case .custom(let handler):
-            contentView.widthAnchor.constraint(equalToConstant: handler(contentView)).isActive = true
-        }
-        
-        // 设置高度约束
-        switch config.height {
-        case .fixed(let height):
-            contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
-        case .automatic:
-            break // 不设置高度约束，由内容决定
-        case .ratio(let ratio):
-            contentView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: ratio).isActive = true
-        case .custom(let handler):
-            contentView.heightAnchor.constraint(equalToConstant: handler(contentView)).isActive = true
-        }
-        
-        // 设置最大/最小尺寸约束
-        if let maxWidth = config.maxWidth {
-            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
-        }
-        if let maxHeight = config.maxHeight {
-            contentView.heightAnchor.constraint(lessThanOrEqualToConstant: maxHeight).isActive = true
-        }
-        if let minWidth = config.minWidth {
-            contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: minWidth).isActive = true
-        }
-        if let minHeight = config.minHeight {
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: minHeight).isActive = true
-        }
-        
-        // 设置内容边距
-        let insets = config.contentInsets
-        if let stackView = contentView.subviews.first as? UIStackView {
-            NSLayoutConstraint.activate([
-                stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: insets.top),
-                stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: insets.left),
-                stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -insets.right),
-                stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -insets.bottom)
-            ])
-        }
     }
 }

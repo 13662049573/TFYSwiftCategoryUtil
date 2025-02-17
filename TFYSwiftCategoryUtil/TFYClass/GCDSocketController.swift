@@ -11,6 +11,7 @@ class GCDSocketController: UIViewController {
     
     // MARK: - Properties
     private var currentPopupView: TFYSwiftPopupView?
+   
     private let sections: [(title: String, items: [PopupItem])] = [
         ("基础动画", [
             PopupItem(title: "淡入淡出", style: .fade),
@@ -86,11 +87,32 @@ class GCDSocketController: UIViewController {
     
     // MARK: - Actions
     private func showPopup(for item: PopupItem) {
+        // 如果已经有弹窗在显示，先关闭它
+        if let existingPopup = currentPopupView {
+            existingPopup.dismiss(animated: false) { [weak self] in
+                self?.showNewPopup(for: item)
+            }
+        } else {
+            showNewPopup(for: item)
+        }
+    }
+    
+    private func showNewPopup(for item: PopupItem) {
+        let contentView = CustomViewTipsView()
+        contentView.dataBlock = { [weak self] btn in
+            self?.closeButtonTapped()
+        }
         var config = TFYSwiftPopupViewConfiguration()
         var animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator()
         
         // 配置基本属性
         config.isDismissible = true
+        config.backgroundStyle = .solidColor
+        config.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        // 设置容器大小
+        config.containerConfiguration.width = .fixed(UIScreen.main.bounds.width - 60)
+        config.containerConfiguration.height = .fixed(289)
         
         // 根据不同类型配置动画和样式
         switch item.style {
@@ -134,169 +156,59 @@ class GCDSocketController: UIViewController {
         case .center:
             animator = TFYSwiftFadeInOutAnimator(layout: .center(.init()))
             
-        // 背景效果
-        case .solidColor:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.backgroundStyle = .solidColor
-            config.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        case .blur:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.backgroundStyle = .blur
-        case .gradient:
-            animator = TFYSwiftFadeInOutAnimator()
-            let backgroundView = createGradientBackgroundView()
-            config.backgroundStyle = .custom { view in
-                view.addSubview(backgroundView)
-            }
-        case .customBackground:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.backgroundStyle = .custom { view in
-                view.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.3)
-            }
-            
-        // 交互方式
-        case .draggable:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.enableDragToDismiss = true
-        case .penetrable:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.isPenetrable = true
-        case .keyboard:
-            animator = TFYSwiftFadeInOutAnimator()
-            config.keyboardConfiguration.isEnabled = true
-            let contentView = createKeyboardTestView()
-            currentPopupView = TFYSwiftPopupView.show(
-                in: self,
-                contentView: contentView,
-                configuration: config,
-                animator: animator
-            )
-            return
+        // 容器大小
         case .fixedSize:
             config.containerConfiguration.width = .fixed(300)
-            config.containerConfiguration.height = .fixed(200)
+            config.containerConfiguration.height = .fixed(300)
             
         case .autoSize:
             config.containerConfiguration.width = .automatic
             config.containerConfiguration.height = .automatic
-            config.containerConfiguration.maxWidth = view.bounds.width * 0.8
-            config.containerConfiguration.maxHeight = view.bounds.height * 0.8
+            config.containerConfiguration.maxWidth = view.bounds.width - 40
+            config.containerConfiguration.maxHeight = view.bounds.height - 100
             
         case .ratioSize:
             config.containerConfiguration.width = .ratio(0.8)
             config.containerConfiguration.height = .ratio(0.4)
             
         case .customSize:
-            config.containerConfiguration.width = .custom { view in
-                // 根据内容动态计算宽度
-                return min(view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width + 40, 
-                          self.view.bounds.width * 0.9)
+            config.containerConfiguration.width = .custom { [weak self] view in
+                guard let self = self else { return 280 }
+                return self.view.bounds.width * 0.7
             }
-            config.containerConfiguration.height = .custom { view in
-                // 根据内容动态计算高度
-                return min(view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height + 40,
-                          self.view.bounds.height * 0.9)
+            config.containerConfiguration.height = .custom { [weak self] view in
+                guard let self = self else { return 200 }
+                return self.view.bounds.height * 0.3
             }
+            
+        // 背景效果
+        case .solidColor:
+            config.backgroundStyle = .solidColor
+            config.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        case .blur:
+            config.backgroundStyle = .blur
+        case .gradient:
+            config.backgroundStyle = .gradient
+        case .customBackground:
+            config.backgroundStyle = .custom { view in
+                view.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.3)
+            }
+            
+        // 交互方式
+        case .draggable:
+            config.enableDragToDismiss = true
+        case .penetrable:
+            config.isPenetrable = true
+        case .keyboard:
+            config.keyboardConfiguration.isEnabled = true
         }
         
-        // 创建并显示弹窗
-        let contentView = createDemoContentView(for: item)
+        // 显示弹窗
         currentPopupView = TFYSwiftPopupView.show(
-            in: self,
             contentView: contentView,
             configuration: config,
             animator: animator
         )
-    }
-    
-    // MARK: - Helper Methods
-    private func createDemoContentView(for item: PopupItem) -> UIView {
-        let contentView = UIView()
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 12
-        contentView.clipsToBounds = true
-        
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let titleLabel = UILabel()
-        titleLabel.text = item.title
-        titleLabel.font = .boldSystemFont(ofSize: 18)
-        
-        let messageLabel = UILabel()
-        messageLabel.text = "这是一个演示弹窗\n展示了不同的动画效果和交互方式"
-        messageLabel.numberOfLines = 0
-        messageLabel.textAlignment = .center
-        
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle("关闭", for: .normal)
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        
-        [titleLabel, messageLabel, closeButton].forEach { stackView.addArrangedSubview($0) }
-        contentView.addSubview(stackView)
-        
-        NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalToConstant: 280),
-            
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-        ])
-        
-        return contentView
-    }
-    
-    private func createKeyboardTestView() -> UIView {
-        let contentView = UIView()
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 12
-        
-        let textField = UITextField()
-        textField.placeholder = "请输入文字"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle("关闭", for: .normal)
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(textField)
-        contentView.addSubview(closeButton)
-        
-        NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalToConstant: 280),
-            
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            closeButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 20),
-            closeButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            closeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-        ])
-        
-        return contentView
-    }
-    
-    private func createGradientBackgroundView() -> UIView {
-        let view = UIView()
-        view.frame = self.view.bounds
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [
-            UIColor.systemBlue.withAlphaComponent(0.7).cgColor,
-            UIColor.systemPurple.withAlphaComponent(0.7).cgColor
-        ]
-        gradientLayer.locations = [0.0, 1.0]
-        view.layer.addSublayer(gradientLayer)
-        
-        return view
     }
     
     @objc private func closeButtonTapped() {
@@ -354,3 +266,5 @@ extension GCDSocketController {
         case fixedSize, autoSize, ratioSize, customSize
     }
 }
+
+
