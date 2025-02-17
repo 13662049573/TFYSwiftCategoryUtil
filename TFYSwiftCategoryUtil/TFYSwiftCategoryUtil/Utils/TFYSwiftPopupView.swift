@@ -381,6 +381,7 @@ public extension TFYSwiftPopupView {
     }
     
     static func show(contentView: UIView,
+                    configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration(),
                     animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                     animated: Bool = true,
                     completion: (() -> Void)? = nil) {
