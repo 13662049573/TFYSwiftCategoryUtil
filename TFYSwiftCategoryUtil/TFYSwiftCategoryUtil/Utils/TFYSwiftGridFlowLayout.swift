@@ -2,58 +2,57 @@
 //  TFYSwiftGridFlowLayout.swift
 //  TFYSwiftCategoryUtil
 //
-//  Created by mi ni on 2025/2/14.
+//  Created by 田风有 on 2025/2/14.
 //
 
 import UIKit
 
 protocol TFYSwiftGridFlowLayoutDelegateFlowLayout: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout: TFYSwiftGridFlowLayout,
+                        columnsCountForSection section: Int) -> Int
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       columnsCountForSection section: Int) -> Int
+                        layout: TFYSwiftGridFlowLayout,
+                        insetForSection section: Int) -> UIEdgeInsets
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       insetForSection section: Int) -> UIEdgeInsets
+                        layout: TFYSwiftGridFlowLayout,
+                        lineSpacingForSection section: Int) -> CGFloat
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       lineSpacingForSection section: Int) -> CGFloat
-    
-    func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       interitemSpacingForSection section: Int) -> CGFloat
+                        layout: TFYSwiftGridFlowLayout,
+                        interitemSpacingForSection section: Int) -> CGFloat
 }
 
 extension TFYSwiftGridFlowLayoutDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       columnsCountForSection section: Int) -> Int {
+                        layout: TFYSwiftGridFlowLayout,
+                        columnsCountForSection section: Int) -> Int {
         return layout.columnsCount
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       insetForSection section: Int) -> UIEdgeInsets {
+                        layout: TFYSwiftGridFlowLayout,
+                        insetForSection section: Int) -> UIEdgeInsets {
         return layout.edgeInsets
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       lineSpacingForSection section: Int) -> CGFloat {
+                        layout: TFYSwiftGridFlowLayout,
+                        lineSpacingForSection section: Int) -> CGFloat {
         return layout.rowSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                       layout: TFYSwiftGridFlowLayout,
-                       interitemSpacingForSection section: Int) -> CGFloat {
+                        layout: TFYSwiftGridFlowLayout,
+                        interitemSpacingForSection section: Int) -> CGFloat {
         return layout.columnSpacing
     }
 }
 
 public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
-
+    
     // MARK: - 配置属性
     public var columnsCount: Int = 2 {
         didSet { invalidateLayout() }
@@ -106,14 +105,15 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
     }
     
     private func prepareSectionLayout(section: Int, collectionView: UICollectionView) {
-        // Header
-        if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
-                                                            at: IndexPath(item: 0, section: section)) {
-            cache.append(header)
-            contentHeight = header.frame.maxY
+        // Header处理
+        let headerIndexPath = IndexPath(item: 0, section: section)
+        if let headerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerIndexPath),
+           headerAttributes.frame.height > 0 {
+            cache.append(headerAttributes)
+            contentHeight = headerAttributes.frame.maxY
         }
         
-        // Items
+        // Items布局
         let columnsCount = getColumnsCount(for: section)
         let sectionInset = getSectionInset(for: section)
         let lineSpacing = getLineSpacing(for: section)
@@ -122,19 +122,13 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         let contentWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
         let itemWidth = (contentWidth - CGFloat(columnsCount - 1) * interitemSpacing) / CGFloat(columnsCount)
         
-        // 安全宽度检查
-        let validItemWidth = max(itemWidth, 0)
-        if validItemWidth <= 0 {
-            print("⚠️ 无效Item宽度: \(itemWidth)，请检查列数和边距设置")
-        }
-        
         sectionColumnsHeights.append(Array(repeating: contentHeight + sectionInset.top, count: columnsCount))
         
         let itemsCount = collectionView.numberOfItems(inSection: section)
         for item in 0..<itemsCount {
             let indexPath = IndexPath(item: item, section: section)
             if let attributes = layoutAttributesForItem(at: indexPath,
-                                                      itemWidth: validItemWidth,
+                                                      itemWidth: itemWidth,
                                                       sectionInset: sectionInset,
                                                       lineSpacing: lineSpacing,
                                                       interitemSpacing: interitemSpacing) {
@@ -142,50 +136,65 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        // Footer
-        if let footer = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter,
-                                                            at: IndexPath(item: 0, section: section)) {
-            cache.append(footer)
-            contentHeight = footer.frame.maxY
+        // Footer处理
+        let footerIndexPath = IndexPath(item: 0, section: section)
+        if let footerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerIndexPath),
+           footerAttributes.frame.height > 0 {
+            cache.append(footerAttributes)
+            contentHeight = footerAttributes.frame.maxY
         } else {
             contentHeight = (sectionColumnsHeights[section].max() ?? 0) + sectionInset.bottom
         }
     }
     
-    // MARK: - 补充视图布局
+    // MARK: - 补充视图布局（关键修改）
     public override func layoutAttributesForSupplementaryView(ofKind elementKind: String,
                                                             at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
+        let attributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+                          ?? UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
         
-        guard let collectionView = collectionView,
-              let delegate = gridDelegate else {
-            return nil
-        }
+        guard let collectionView = collectionView else { return attributes }
         
         let section = indexPath.section
         let sectionInset = getSectionInset(for: section)
-        let contentWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
-        
-        var yPosition: CGFloat = contentHeight
+        var yPosition: CGFloat = 0
         var size: CGSize = .zero
         
         switch elementKind {
         case UICollectionView.elementKindSectionHeader:
-            size = delegate.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section) ?? .zero
-            yPosition = section == 0 ? sectionInset.top : contentHeight
+            size = self.headerReferenceSize
+            yPosition = section == 0 ? 0 : contentHeight
+            if size == .zero {
+                size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section) ?? .zero
+            }
         case UICollectionView.elementKindSectionFooter:
-            size = delegate.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section) ?? .zero
-            yPosition = (sectionColumnsHeights[section].max() ?? 0) + sectionInset.bottom
+            size = self.footerReferenceSize
+            yPosition = (sectionColumnsHeights[safe: section]?.max() ?? 0) + sectionInset.bottom
+            if size == .zero {
+                size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section) ?? .zero
+            }
         default:
             return nil
         }
         
+        // 安全尺寸处理
+        let safeContentWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
+        let validWidth = max(safeContentWidth, 0)
+        let validHeight = max(size.height, 0)
+        
         attributes.frame = CGRect(
             x: sectionInset.left,
             y: yPosition,
-            width: contentWidth,
-            height: size.height
+            width: validWidth,
+            height: validHeight
         )
+        
+        // 更新全局内容高度
+        if elementKind == UICollectionView.elementKindSectionHeader {
+            contentHeight = max(contentHeight, attributes.frame.maxY + sectionInset.top)
+        } else if elementKind == UICollectionView.elementKindSectionFooter {
+            contentHeight = attributes.frame.maxY
+        }
         
         return attributes
     }
@@ -209,15 +218,12 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         let x = sectionInset.left + CGFloat(minColumn) * (itemWidth + interitemSpacing)
         let y = minHeight
         
-        // 计算高度并应用限制
         var itemHeight = calculateItemHeight(at: indexPath, itemWidth: itemWidth)
         
-        // 全局最大高度限制
         if let maxHeight = maxItemHeight {
             itemHeight = min(itemHeight, maxHeight)
         }
         
-        // 容器剩余空间限制
         if let collectionView = collectionView {
             let availableHeight = collectionView.bounds.height - y - sectionInset.bottom
             itemHeight = min(itemHeight, availableHeight)
@@ -296,5 +302,12 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         }
         
         return debugInfo as NSString
+    }
+}
+
+// 安全访问扩展
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
