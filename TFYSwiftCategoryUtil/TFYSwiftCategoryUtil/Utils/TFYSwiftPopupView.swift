@@ -22,6 +22,25 @@ public struct KeyboardConfiguration {
     public init() {}
 }
 
+public struct ContainerConfiguration {
+    public var width: ContainerDimension = .fixed(280)
+    public var height: ContainerDimension = .automatic
+    public var maxWidth: CGFloat?
+    public var maxHeight: CGFloat?
+    public var minWidth: CGFloat?
+    public var minHeight: CGFloat?
+    public var contentInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    
+    public enum ContainerDimension {
+        case fixed(CGFloat)
+        case automatic
+        case ratio(CGFloat) // 相对于屏幕宽度/高度的比例
+        case custom((UIView) -> CGFloat)
+    }
+    
+    public init() {}
+}
+
 // MARK: - Configuration
 public struct TFYSwiftPopupViewConfiguration {
     public var isDismissible: Bool = false
@@ -43,6 +62,8 @@ public struct TFYSwiftPopupViewConfiguration {
     public var swipeToDismiss = true
     public var dismissOnBackgroundTap = true
     public var dismissWhenAppGoesToBackground = true
+    
+    public var containerConfiguration = ContainerConfiguration()
     
     public init() {}
     
@@ -1364,5 +1385,60 @@ public struct TFYSwiftPopupTransition {
         transition.dismissAnimation = scaleOut
         
         return transition
+    }
+}
+
+extension TFYSwiftPopupView {
+    private func setupContainerConstraints() {
+        let config = configuration.containerConfiguration
+        
+        // 设置宽度约束
+        switch config.width {
+        case .fixed(let width):
+            contentView.widthAnchor.constraint(equalToConstant: width).isActive = true
+        case .automatic:
+            break // 不设置宽度约束，由内容决定
+        case .ratio(let ratio):
+            contentView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: ratio).isActive = true
+        case .custom(let handler):
+            contentView.widthAnchor.constraint(equalToConstant: handler(contentView)).isActive = true
+        }
+        
+        // 设置高度约束
+        switch config.height {
+        case .fixed(let height):
+            contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        case .automatic:
+            break // 不设置高度约束，由内容决定
+        case .ratio(let ratio):
+            contentView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: ratio).isActive = true
+        case .custom(let handler):
+            contentView.heightAnchor.constraint(equalToConstant: handler(contentView)).isActive = true
+        }
+        
+        // 设置最大/最小尺寸约束
+        if let maxWidth = config.maxWidth {
+            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        }
+        if let maxHeight = config.maxHeight {
+            contentView.heightAnchor.constraint(lessThanOrEqualToConstant: maxHeight).isActive = true
+        }
+        if let minWidth = config.minWidth {
+            contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: minWidth).isActive = true
+        }
+        if let minHeight = config.minHeight {
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: minHeight).isActive = true
+        }
+        
+        // 设置内容边距
+        let insets = config.contentInsets
+        if let stackView = contentView.subviews.first as? UIStackView {
+            NSLayoutConstraint.activate([
+                stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: insets.top),
+                stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: insets.left),
+                stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -insets.right),
+                stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -insets.bottom)
+            ])
+        }
     }
 }

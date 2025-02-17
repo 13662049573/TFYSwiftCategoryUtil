@@ -45,6 +45,12 @@ class GCDSocketController: UIViewController {
             PopupItem(title: "可拖拽关闭", style: .draggable),
             PopupItem(title: "背景可穿透", style: .penetrable),
             PopupItem(title: "键盘处理", style: .keyboard)
+        ]),
+        ("容器大小", [
+            PopupItem(title: "固定大小", style: .fixedSize),
+            PopupItem(title: "自动大小", style: .autoSize),
+            PopupItem(title: "比例大小", style: .ratioSize),
+            PopupItem(title: "自定义大小", style: .customSize)
         ])
     ]
     
@@ -81,7 +87,7 @@ class GCDSocketController: UIViewController {
     // MARK: - Actions
     private func showPopup(for item: PopupItem) {
         var config = TFYSwiftPopupViewConfiguration()
-        var animator: TFYSwiftPopupViewAnimator
+        var animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator()
         
         // 配置基本属性
         config.isDismissible = true
@@ -166,6 +172,31 @@ class GCDSocketController: UIViewController {
                 animator: animator
             )
             return
+        case .fixedSize:
+            config.containerConfiguration.width = .fixed(300)
+            config.containerConfiguration.height = .fixed(200)
+            
+        case .autoSize:
+            config.containerConfiguration.width = .automatic
+            config.containerConfiguration.height = .automatic
+            config.containerConfiguration.maxWidth = view.bounds.width * 0.8
+            config.containerConfiguration.maxHeight = view.bounds.height * 0.8
+            
+        case .ratioSize:
+            config.containerConfiguration.width = .ratio(0.8)
+            config.containerConfiguration.height = .ratio(0.4)
+            
+        case .customSize:
+            config.containerConfiguration.width = .custom { view in
+                // 根据内容动态计算宽度
+                return min(view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width + 40, 
+                          self.view.bounds.width * 0.9)
+            }
+            config.containerConfiguration.height = .custom { view in
+                // 根据内容动态计算高度
+                return min(view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height + 40,
+                          self.view.bounds.height * 0.9)
+            }
         }
         
         // 创建并显示弹窗
@@ -319,5 +350,7 @@ extension GCDSocketController {
         case solidColor, blur, gradient, customBackground
         // 交互方式
         case draggable, penetrable, keyboard
+        // 容器大小
+        case fixedSize, autoSize, ratioSize, customSize
     }
 }
