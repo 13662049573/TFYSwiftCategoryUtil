@@ -29,12 +29,6 @@ public extension TFY where Base: Bundle {
         return (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String) ?? ""
     }
     
-    // MARK: 2.3、获取app的版本号
-    /// 获取app的版本号
-    static var appVersion: String {
-        return (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String) ?? ""
-    }
-    
     // MARK: 2.4、获取app的 Build ID
     /// 获取app的 Build ID
     static var appBuild: String {
@@ -96,4 +90,58 @@ public extension TFY where Base: Bundle {
         return URL(fileURLWithPath: path)
     }
     
+}
+
+public extension Bundle {
+    /// 应用显示版本 (CFBundleShortVersionString)
+    static var appVersion: String? {
+        return main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    }
+    
+    /// 应用构建版本 (CFBundleVersion)
+    static var buildVersion: String? {
+        return main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+    }
+    
+    /// 完整版本信息 (格式：1.0.0.123)
+    static var fullVersion: String? {
+        guard let version = appVersion, let build = buildVersion else { return nil }
+        return "\(version).\(build)"
+    }
+}
+
+public extension UIDevice {
+    /// 便捷访问版本信息
+    static var appVersion: String { Bundle.appVersion ?? "0.0.0" }
+    static var buildVersion: String { Bundle.buildVersion ?? "0" }
+    static var fullVersion: String { Bundle.fullVersion ?? "0.0.0.0" }
+}
+
+// 版本比较扩展
+public extension String {
+    
+    func versionCompare(_ otherVersion: String) -> ComparisonResult {
+        let versionDelimiter = "."
+        var versionComponents = self.components(separatedBy: versionDelimiter)
+        var otherVersionComponents = otherVersion.components(separatedBy: versionDelimiter)
+        
+        let zeroDiff = versionComponents.count - otherVersionComponents.count
+        
+        if zeroDiff > 0 {
+            otherVersionComponents += Array(repeating: "0", count: zeroDiff)
+        } else if zeroDiff < 0 {
+            versionComponents += Array(repeating: "0", count: -zeroDiff)
+        }
+        
+        for (v, ov) in zip(versionComponents, otherVersionComponents) {
+            let vInt = Int(v) ?? 0
+            let ovInt = Int(ov) ?? 0
+            if vInt < ovInt {
+                return .orderedAscending
+            } else if vInt > ovInt {
+                return .orderedDescending
+            }
+        }
+        return .orderedSame
+    }
 }
