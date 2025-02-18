@@ -10,55 +10,55 @@ import UIKit
 public extension TFY where Base: UICollectionView {
     
     @discardableResult
-    func backgroundView(_ backgroundView: UIView?) -> TFY {
+    func backgroundView(_ backgroundView: UIView?) -> Self {
         base.backgroundView = backgroundView
         return self
     }
     
     @discardableResult
-    func dataSource(_ dataSource: UICollectionViewDataSource?) -> TFY {
+    func dataSource(_ dataSource: UICollectionViewDataSource?) -> Self {
         base.dataSource = dataSource
         return self
     }
     
     @discardableResult
-    func delegate(_ delegate: UICollectionViewDelegate?) -> TFY {
+    func delegate(_ delegate: UICollectionViewDelegate?) -> Self {
         base.delegate = delegate
         return self
     }
     
     @discardableResult
-    func registerCell(_ cellClass: UICollectionViewCell.Type) -> TFY {
+    func registerCell(_ cellClass: UICollectionViewCell.Type) -> Self {
         base.register(cell: cellClass)
         return self
     }
     
     @discardableResult
-    func registerNibCell(_ nibCell: UICollectionViewCell.Type) -> TFY {
+    func registerNibCell(_ nibCell: UICollectionViewCell.Type) -> Self {
         base.register(nibCell: nibCell)
         return self
     }
     
     @discardableResult
-    func registerHeader(_ viewClass: UICollectionReusableView.Type) -> TFY {
+    func registerHeader(_ viewClass: UICollectionReusableView.Type) -> Self {
         base.register(header: viewClass)
         return self
     }
     
     @discardableResult
-    func registerFooter(_ viewClass: UICollectionReusableView.Type) -> TFY {
+    func registerFooter(_ viewClass: UICollectionReusableView.Type) -> Self {
         base.register(footer: viewClass)
         return self
     }
     
     @discardableResult
-    func registerNibHeader(_ nibHeader: UICollectionReusableView.Type) -> TFY {
+    func registerNibHeader(_ nibHeader: UICollectionReusableView.Type) -> Self {
         base.register(nibHeader: nibHeader)
         return self
     }
     
     @discardableResult
-    func registerNibFooter(_ nibFooter: UICollectionReusableView.Type) -> TFY {
+    func registerNibFooter(_ nibFooter: UICollectionReusableView.Type) -> Self {
         base.register(nibFooter: nibFooter)
         return self
     }

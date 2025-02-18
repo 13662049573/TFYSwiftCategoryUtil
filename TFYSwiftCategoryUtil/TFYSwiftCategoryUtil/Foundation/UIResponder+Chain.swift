@@ -17,13 +17,13 @@ private var isSwizzleFirstResponder = false
 public extension TFY where Base: UIResponder {
     
     @discardableResult
-    func becomeFirstResponder() -> TFY {
+    func becomeFirstResponder() -> Self {
         base.becomeFirstResponder()
         return self
     }
     
     @discardableResult
-    func resignFirstResponder() -> TFY {
+    func resignFirstResponder() -> Self {
         base.resignFirstResponder()
         return self
     }

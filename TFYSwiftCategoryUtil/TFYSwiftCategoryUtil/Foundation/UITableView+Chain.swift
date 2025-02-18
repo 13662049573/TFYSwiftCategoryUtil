@@ -10,145 +10,145 @@ import UIKit
 public extension TFY where Base: UITableView {
     
     @discardableResult
-    func backgroundView(_ backgroundView: UIView?) -> TFY {
+    func backgroundView(_ backgroundView: UIView?) -> Self {
         base.backgroundView = backgroundView
         return self
     }
 
     @discardableResult
-    func dataSource(_ dataSource: UITableViewDataSource?) -> TFY {
+    func dataSource(_ dataSource: UITableViewDataSource?) -> Self {
         base.dataSource = dataSource
         return self
     }
     
     @discardableResult
-    func delegate(_ delegate: UITableViewDelegate?) -> TFY {
+    func delegate(_ delegate: UITableViewDelegate?) -> Self {
         base.delegate = delegate
         return self
     }
     
     @discardableResult
-    func rowHeight(_ rowHeight: CGFloat) -> TFY {
+    func rowHeight(_ rowHeight: CGFloat) -> Self {
         base.rowHeight = rowHeight
         return self
     }
     
     @discardableResult
-    func sectionHeaderHeight(_ sectionHeaderHeight: CGFloat) -> TFY {
+    func sectionHeaderHeight(_ sectionHeaderHeight: CGFloat) -> Self {
         base.sectionHeaderHeight = sectionHeaderHeight
         return self
     }
     
     @discardableResult
-    func sectionFooterHeight(_ sectionFooterHeight: CGFloat) -> TFY {
+    func sectionFooterHeight(_ sectionFooterHeight: CGFloat) -> Self {
         base.sectionFooterHeight = sectionFooterHeight
         return self
     }
     
     @discardableResult
-    func estimatedRowHeight(_ estimatedRowHeight: CGFloat) -> TFY {
+    func estimatedRowHeight(_ estimatedRowHeight: CGFloat) -> Self {
         base.estimatedRowHeight = estimatedRowHeight
         return self
     }
     
     @discardableResult
-    func estimatedSectionHeaderHeight(_ estimatedSectionHeaderHeight: CGFloat) -> TFY {
+    func estimatedSectionHeaderHeight(_ estimatedSectionHeaderHeight: CGFloat) -> Self {
         base.estimatedSectionHeaderHeight = estimatedSectionHeaderHeight
         return self
     }
     
     @discardableResult
-    func estimatedSectionFooterHeight(_ estimatedSectionFooterHeight: CGFloat) -> TFY {
+    func estimatedSectionFooterHeight(_ estimatedSectionFooterHeight: CGFloat) -> Self {
         base.estimatedSectionFooterHeight = estimatedSectionFooterHeight
         return self
     }
     
     @discardableResult
-    func sectionIndexColor(_ sectionIndexColor: UIColor?) -> TFY {
+    func sectionIndexColor(_ sectionIndexColor: UIColor?) -> Self {
         base.sectionIndexColor = sectionIndexColor
         return self
     }
     
     @discardableResult
-    func sectionIndexBackgroundColor(_ sectionIndexBackgroundColor: UIColor?) -> TFY {
+    func sectionIndexBackgroundColor(_ sectionIndexBackgroundColor: UIColor?) -> Self {
         base.sectionIndexBackgroundColor = sectionIndexBackgroundColor
         return self
     }
     
     @discardableResult
-    func sectionIndexTrackingBackgroundColor(_ sectionIndexTrackingBackgroundColor: UIColor?) -> TFY {
+    func sectionIndexTrackingBackgroundColor(_ sectionIndexTrackingBackgroundColor: UIColor?) -> Self {
         base.sectionIndexTrackingBackgroundColor = sectionIndexTrackingBackgroundColor
         return self
     }
     
     @discardableResult
-    func sectionIndexMinimumDisplayRowCount(_ sectionIndexMinimumDisplayRowCount: Int) -> TFY {
+    func sectionIndexMinimumDisplayRowCount(_ sectionIndexMinimumDisplayRowCount: Int) -> Self {
         base.sectionIndexMinimumDisplayRowCount = sectionIndexMinimumDisplayRowCount
         return self
     }
     
     @discardableResult
-    func separatorStyle(_ separatorStyle: UITableViewCell.SeparatorStyle) -> TFY {
+    func separatorStyle(_ separatorStyle: UITableViewCell.SeparatorStyle) -> Self {
         base.separatorStyle = separatorStyle
         return self
     }
 
     @discardableResult
-    func separatorColor(_ separatorColor: UIColor?) -> TFY {
+    func separatorColor(_ separatorColor: UIColor?) -> Self {
         base.separatorColor = separatorColor
         return self
     }
     
     @discardableResult
-    func separatorInset(_ separatorInset: UIEdgeInsets) -> TFY {
+    func separatorInset(_ separatorInset: UIEdgeInsets) -> Self {
         base.separatorInset = separatorInset
         return self
     }
     
     @discardableResult
-    func separatorInset(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> TFY {
+    func separatorInset(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
         base.separatorInset = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
         return self
     }
     
     @discardableResult
-    func tableHeaderView(_ tableHeaderView: UIView?) -> TFY {
+    func tableHeaderView(_ tableHeaderView: UIView?) -> Self {
         base.tableHeaderView = tableHeaderView
         return self
     }
     
     @discardableResult
-    func tableFooterView(_ tableFooterView: UIView?) -> TFY {
+    func tableFooterView(_ tableFooterView: UIView?) -> Self {
         base.tableFooterView = tableFooterView
         return self
     }
     
     @discardableResult
-    func registerNibCell(_ nib: UITableViewCell.Type) -> TFY {
+    func registerNibCell(_ nib: UITableViewCell.Type) -> Self {
         base.register(nibCell: nib)
         return self
     }
     
     @discardableResult
-    func registerCell(_ cellClass: UITableViewCell.Type) -> TFY {
+    func registerCell(_ cellClass: UITableViewCell.Type) -> Self {
         base.register(cell: cellClass)
         return self
     }
     
     @discardableResult
-    func registerNibHeaderOrFooter(_ nib: UITableViewHeaderFooterView.Type) -> TFY {
+    func registerNibHeaderOrFooter(_ nib: UITableViewHeaderFooterView.Type) -> Self {
         base.register(nibHeaderOrFooter: nib)
         return self
     }
     
     @discardableResult
-    func registerHeaderOrFooter(_ aClass: UITableViewHeaderFooterView.Type) -> TFY {
+    func registerHeaderOrFooter(_ aClass: UITableViewHeaderFooterView.Type) -> Self {
         base.register(headerOrFooter: aClass)
         return self
     }
     
     @discardableResult
-    func estimatedAll(_ height:CGFloat = CGFloat.leastNormalMagnitude) -> TFY {
+    func estimatedAll(_ height:CGFloat = CGFloat.leastNormalMagnitude) -> Self {
         if #available(iOS 11.0, *) {
             base.contentInsetAdjustmentBehavior = .never
             base.estimatedRowHeight = height
@@ -168,21 +168,21 @@ public extension TFY where Base: UITableView {
     
     @available(iOS 10.0, *)
     @discardableResult
-    func prefetchDataSource(dataSource d: UITableViewDataSourcePrefetching?) -> TFY {
+    func prefetchDataSource(dataSource d: UITableViewDataSourcePrefetching?) -> Self {
         base.prefetchDataSource = d
         return self
     }
     
     @available(iOS 11.0, *)
     @discardableResult
-    func dropDelegate(delegate d: UITableViewDropDelegate?) -> TFY {
+    func dropDelegate(delegate d: UITableViewDropDelegate?) -> Self {
         base.dropDelegate = d
         return self
     }
 
     @available(iOS 11.0, *)
     @discardableResult
-    func separatorInsetReference(insetReference i: UITableView.SeparatorInsetReference) -> TFY {
+    func separatorInsetReference(insetReference i: UITableView.SeparatorInsetReference) -> Self {
         base.separatorInsetReference = i
         return self
     }

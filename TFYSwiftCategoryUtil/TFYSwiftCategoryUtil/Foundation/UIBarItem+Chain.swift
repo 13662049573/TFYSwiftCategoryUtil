@@ -10,14 +10,14 @@ import UIKit
 public extension TFY where Base: UIBarItem {
     
     @discardableResult
-    func isEnabled(_ isEnabled: Bool) -> TFY {
+    func isEnabled(_ isEnabled: Bool) -> Self {
         base.isEnabled = isEnabled
         return self
     }
     
     @discardableResult
     func titleTextAttributes(_ titleTextAttributes: [NSAttributedString.Key: Any]?,
-                             for state: UIControl.State...) -> TFY {
+                             for state: UIControl.State...) -> Self {
         state.forEach { base.setTitleTextAttributes(titleTextAttributes, for: $0) }
         return self
     }

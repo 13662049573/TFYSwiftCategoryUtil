@@ -10,13 +10,13 @@ import UIKit
 public extension TFY where Base: UIPickerView {
     
     @discardableResult
-    func dataSource(_ dataSource: UIPickerViewDataSource?) -> TFY {
+    func dataSource(_ dataSource: UIPickerViewDataSource?) -> Self {
         base.dataSource = dataSource
         return self
     }
     
     @discardableResult
-    func delegate(_ delegate: UIPickerViewDelegate?) -> TFY {
+    func delegate(_ delegate: UIPickerViewDelegate?) -> Self {
         base.delegate = delegate
         return self
     }

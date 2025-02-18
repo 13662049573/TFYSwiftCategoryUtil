@@ -10,13 +10,13 @@ import UIKit
 
 public extension TFY where Base: UITabBarController {
     @discardableResult
-    func addChild(_ vc:UIViewController) -> TFY {
+    func addChild(_ vc:UIViewController) -> Self {
         base.addChild(vc)
         return self
     }
     
     @discardableResult
-    func viewControllers(_ vc:[UIViewController]) -> TFY {
+    func viewControllers(_ vc:[UIViewController]) -> Self {
         base.viewControllers = vc
         return self
     }
@@ -26,7 +26,7 @@ public extension TFY where Base: UITabBar {
     
     /// 去掉tabBar顶部线条
     @discardableResult
-    func hideLine() -> TFY {
+    func hideLine() -> Self {
        
         let rect = CGRect(x: 0, y: 0, width: base.bounds.size.width, height: 0.5)
         UIGraphicsBeginImageContext(rect.size)
@@ -41,135 +41,135 @@ public extension TFY where Base: UITabBar {
     }
     
     @discardableResult
-    func isTranslucent(_ b:Bool) -> TFY {
+    func isTranslucent(_ b:Bool) -> Self {
         base.isTranslucent = b
         return self
     }
     
     @discardableResult
-    func barTintColor(_ b:UIColor) -> TFY {
+    func barTintColor(_ b:UIColor) -> Self {
         base.barTintColor = b
         return self
     }
     
     
     @discardableResult
-    func addTabBarItem(_ item:UITabBarItem) -> TFY {
+    func addTabBarItem(_ item:UITabBarItem) -> Self {
         base.items?.append(item)
         return self
     }
     
     @discardableResult
-    func tabBarItems(_ items:[UITabBarItem]) -> TFY {
+    func tabBarItems(_ items:[UITabBarItem]) -> Self {
         base.items = items
         return self
     }
 
     @discardableResult
-    func imageInsets(_ t:[UIEdgeInsets]) -> TFY {
+    func imageInsets(_ t:[UIEdgeInsets]) -> Self {
         base.tfy_imageInsets = t
         return self
     }
     
     @discardableResult
-    func imageNormals(_ t:[UIImage?]) -> TFY {
+    func imageNormals(_ t:[UIImage?]) -> Self {
         base.tfy_imageNormals = t
         return self
     }
     
     @discardableResult
-    func imageSelects(_ t:[UIImage?]) -> TFY {
+    func imageSelects(_ t:[UIImage?]) -> Self {
         base.tfy_imageSelects = t
         return self
     }
     @discardableResult
-    func titles(_ t:[String?]) -> TFY {
+    func titles(_ t:[String?]) -> Self {
         base.tfy_titles = t
         return self
     }
     @discardableResult
-    func badges(_ t:[String?]) -> TFY {
+    func badges(_ t:[String?]) -> Self {
         base.tfy_badges = t
         return self
     }
     
     @discardableResult @available(iOS 10.0, *)
-    func badgeColors(_ t:[UIColor?]) -> TFY {
+    func badgeColors(_ t:[UIColor?]) -> Self {
         base.tfy_badgeColors = t
         return self
     }
     
     @discardableResult
-    func colorNormals(_ t:[UIColor?]) -> TFY {
+    func colorNormals(_ t:[UIColor?]) -> Self {
         base.tfy_colorNormals = t
         return self
     }
     @discardableResult
-    func colorSelecteds(_ t:[UIColor?]) -> TFY {
+    func colorSelecteds(_ t:[UIColor?]) -> Self {
         base.tfy_colorSelecteds = t
         return self
     }
     
     
     @discardableResult
-    func colorHighlighteds(_ t:[UIColor?]) -> TFY {
+    func colorHighlighteds(_ t:[UIColor?]) -> Self {
         base.tfy_colorHighlighteds = t
         return self
     }
     @discardableResult
-    func fontNormals(_ t:[UIFont?]) -> TFY {
+    func fontNormals(_ t:[UIFont?]) -> Self {
         base.tfy_fontNormals = t
         return self
     }
     @discardableResult
-    func fontSelecteds(_ t:[UIFont?]) -> TFY {
+    func fontSelecteds(_ t:[UIFont?]) -> Self {
         base.tfy_fontSelecteds = t
         return self
     }
     
     @discardableResult
-    func fontHighlighteds(_ t:[UIFont?]) -> TFY {
+    func fontHighlighteds(_ t:[UIFont?]) -> Self {
         base.tfy_fontHighlighteds = t
         return self
     }
     @discardableResult @available(iOS 10.0, *)
-    func badgeColorNormals(_ t:[UIColor?]) -> TFY {
+    func badgeColorNormals(_ t:[UIColor?]) -> Self {
         base.tfy_badgeColorNormals = t
         return self
     }
     @discardableResult @available(iOS 10.0, *)
-    func badgeColorSelecteds(_ t:[UIColor?]) -> TFY {
+    func badgeColorSelecteds(_ t:[UIColor?]) -> Self {
         base.tfy_badgeColorSelecteds = t
         return self
     }
     @discardableResult @available(iOS 10.0, *)
-    func badgeColorHighlighteds(_ t:[UIColor?]) -> TFY {
+    func badgeColorHighlighteds(_ t:[UIColor?]) -> Self {
         base.tfy_badgeColorHighlighteds = t
         return self
     }
     
     @discardableResult @available(iOS 10.0, *)
-    func badgeFontNormals(_ t:[UIFont?]) -> TFY {
+    func badgeFontNormals(_ t:[UIFont?]) -> Self {
         base.tfy_badgeFontNormals = t
         return self
     }
     
     
     @discardableResult @available(iOS 10.0, *)
-    func badgeFontSelecteds(_ t:[UIFont?]) -> TFY {
+    func badgeFontSelecteds(_ t:[UIFont?]) -> Self {
         base.tfy_badgeFontSelecteds = t
         return self
     }
     
     
     @discardableResult @available(iOS 10.0, *)
-    func badgeFontHighlighteds(_ t:[UIFont?]) -> TFY {
+    func badgeFontHighlighteds(_ t:[UIFont?]) -> Self {
         base.tfy_badgeFontHighlighteds = t
         return self
     }
     
     @discardableResult
-    func color(_ normals:[UIColor?] = [], selecteds:[UIColor?] = [], highlighteds:[UIColor?] = []) -> TFY {
+    func color(_ normals:[UIColor?] = [], selecteds:[UIColor?] = [], highlighteds:[UIColor?] = []) -> Self {
         base.tfy_colorNormals = normals
         base.tfy_colorSelecteds = selecteds
         base.tfy_colorHighlighteds = highlighteds
@@ -184,7 +184,7 @@ public extension TFY where Base: UITabBar {
     }
     
     @discardableResult
-    func font(_ normals:[UIFont?] = [], selecteds:[UIFont?] = [], highlighteds:[UIFont?] = []) -> TFY {
+    func font(_ normals:[UIFont?] = [], selecteds:[UIFont?] = [], highlighteds:[UIFont?] = []) -> Self {
         base.tfy_fontNormals = normals
         base.tfy_fontSelecteds = selecteds
         base.tfy_fontHighlighteds = highlighteds
@@ -198,7 +198,7 @@ public extension TFY where Base: UITabBar {
     
     //MARK:--- badge ----------
     @discardableResult
-    func setTitle<T>(_ value:[T?], key:NSAttributedString.Key, for state: UIControl.State) -> TFY {
+    func setTitle<T>(_ value:[T?], key:NSAttributedString.Key, for state: UIControl.State) -> Self {
         guard let items = base.items else { return self}
         for (i, item) in items.enumerated() where i < value.count && value[i] != nil {
             if var attributes = item.titleTextAttributes(for: state) {
@@ -222,7 +222,7 @@ public extension TFY where Base: UITabBar {
     
     
     @discardableResult @available(iOS 10.0, *)
-    func setBadge<T>(_ value:[T?], key:NSAttributedString.Key, for state: UIControl.State) -> TFY {
+    func setBadge<T>(_ value:[T?], key:NSAttributedString.Key, for state: UIControl.State) -> Self {
         guard let items = base.items else { return self}
         for (i, item) in items.enumerated() where i < value.count && value[i] != nil {
             if var attributes = item.badgeTextAttributes(for: state) {

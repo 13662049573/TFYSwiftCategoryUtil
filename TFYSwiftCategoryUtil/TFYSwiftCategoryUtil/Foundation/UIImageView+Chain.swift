@@ -11,13 +11,13 @@ import ImageIO
 public extension TFY where Base: UIImageView {
     
     @discardableResult
-    func image(_ image: UIImage?) -> TFY {
+    func image(_ image: UIImage?) -> Self {
         base.image = image
         return self
     }
     
     @discardableResult
-    func isHighlighted(_ isHighlighted: Bool) -> TFY {
+    func isHighlighted(_ isHighlighted: Bool) -> Self {
         base.isHighlighted = isHighlighted
         return self
     }

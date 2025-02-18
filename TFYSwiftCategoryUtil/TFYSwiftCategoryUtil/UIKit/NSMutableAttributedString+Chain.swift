@@ -10,25 +10,25 @@ import UIKit
 public extension TFY where Base: NSMutableAttributedString {
     
     @discardableResult
-    func addAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) -> TFY {
+    func addAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) -> Self {
         base.addAttribute(name, value: value, range: range)
         return self
     }
     
     @discardableResult
-    func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) -> TFY {
+    func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) -> Self {
         base.addAttributes(attrs, range: range)
         return self
     }
     
     @discardableResult
-    func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) -> TFY {
+    func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) -> Self {
         base.removeAttribute(name, range: range)
         return self
     }
     
     @discardableResult
-    func font(_ font: UIFont, range: NSRange? = nil) -> TFY {
+    func font(_ font: UIFont, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.font, value: font, range: NSMakeRange(0, base.length))
             return self
@@ -38,7 +38,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func systemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> TFY {
+    func systemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.font, value: UIFont.systemFont(ofSize: fontSize), range: NSMakeRange(0, base.length))
             return self
@@ -48,7 +48,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func boldSystemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> TFY {
+    func boldSystemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: fontSize), range: NSMakeRange(0, base.length))
             return self
@@ -58,7 +58,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func paragraphStyle(_ paragraphStyle: NSParagraphStyle, range: NSRange? = nil) -> TFY {
+    func paragraphStyle(_ paragraphStyle: NSParagraphStyle, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, base.length))
             return self
@@ -68,7 +68,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func foregroundColor(_ foregroundColor: UIColor, range: NSRange? = nil) -> TFY {
+    func foregroundColor(_ foregroundColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.foregroundColor, value: foregroundColor, range: NSMakeRange(0, base.length))
             return self
@@ -78,7 +78,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func backgroundColor(_ backgroundColor: UIColor, range: NSRange? = nil) -> TFY {
+    func backgroundColor(_ backgroundColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.backgroundColor, value: backgroundColor, range: NSMakeRange(0, base.length))
             return self
@@ -88,7 +88,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func ligature(_ ligature: Int, range: NSRange? = nil) -> TFY {
+    func ligature(_ ligature: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.ligature, value: ligature, range: NSMakeRange(0, base.length))
             return self
@@ -98,7 +98,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func kern(_ kern: CGFloat, range: NSRange? = nil) -> TFY {
+    func kern(_ kern: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.kern, value: kern, range: NSMakeRange(0, base.length))
             return self
@@ -108,7 +108,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func strikethroughStyle(_ strikethroughStyle: Int, range: NSRange? = nil) -> TFY {
+    func strikethroughStyle(_ strikethroughStyle: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.strikethroughStyle, value: strikethroughStyle, range: NSMakeRange(0, base.length))
             return self
@@ -118,7 +118,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func underlineStyle(_ underlineStyle: Int, range: NSRange? = nil) -> TFY {
+    func underlineStyle(_ underlineStyle: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.underlineStyle, value: underlineStyle, range: NSMakeRange(0, base.length))
             return self
@@ -128,7 +128,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func strokeColor(_ strokeColor: UIColor, range: NSRange? = nil) -> TFY {
+    func strokeColor(_ strokeColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.strokeColor, value: strokeColor, range: NSMakeRange(0, base.length))
             return self
@@ -138,7 +138,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func strokeWidth(_ strokeWidth: CGFloat, range: NSRange? = nil) -> TFY {
+    func strokeWidth(_ strokeWidth: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.strokeWidth, value: strokeWidth, range: NSMakeRange(0, base.length))
             return self
@@ -148,7 +148,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func shadow(_ shadow: NSShadow, range: NSRange? = nil) -> TFY {
+    func shadow(_ shadow: NSShadow, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.shadow, value: shadow, range: NSMakeRange(0, base.length))
             return self
@@ -158,7 +158,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func textEffect(_ textEffect: String, range: NSRange? = nil) -> TFY {
+    func textEffect(_ textEffect: String, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.textEffect, value: textEffect, range: NSMakeRange(0, base.length))
             return self
@@ -168,7 +168,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func attachment(_ attachment: NSTextAttachment, range: NSRange? = nil) -> TFY {
+    func attachment(_ attachment: NSTextAttachment, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.attachment, value: attachment, range: NSMakeRange(0, base.length))
             return self
@@ -178,7 +178,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func link(_ link: URL, range: NSRange? = nil) -> TFY {
+    func link(_ link: URL, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.link, value: link, range: NSMakeRange(0, base.length))
             return self
@@ -188,7 +188,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func baselineOffset(_ baselineOffset: CGFloat, range: NSRange? = nil) -> TFY {
+    func baselineOffset(_ baselineOffset: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.baselineOffset, value: baselineOffset, range: NSMakeRange(0, base.length))
             return self
@@ -198,7 +198,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func underlineColor(_ underlineColor: UIColor, range: NSRange? = nil) -> TFY {
+    func underlineColor(_ underlineColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.underlineColor, value: underlineColor, range: NSMakeRange(0, base.length))
             return self
@@ -208,7 +208,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func strikethroughColor(_ strikethroughColor: UIColor, range: NSRange? = nil) -> TFY {
+    func strikethroughColor(_ strikethroughColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.strikethroughColor, value: strikethroughColor, range: NSMakeRange(0, base.length))
             return self
@@ -218,7 +218,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func obliqueness(_ obliqueness: CGFloat, range: NSRange? = nil) -> TFY {
+    func obliqueness(_ obliqueness: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.obliqueness, value: obliqueness, range: NSMakeRange(0, base.length))
             return self
@@ -228,7 +228,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func expansion(_ expansion: CGFloat, range: NSRange? = nil) -> TFY {
+    func expansion(_ expansion: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.expansion, value: expansion, range: NSMakeRange(0, base.length))
             return self
@@ -238,7 +238,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func writingDirection(_ writingDirection: [Int], range: NSRange? = nil) -> TFY {
+    func writingDirection(_ writingDirection: [Int], range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.writingDirection, value: writingDirection, range: NSMakeRange(0, base.length))
             return self
@@ -248,7 +248,7 @@ public extension TFY where Base: NSMutableAttributedString {
     }
     
     @discardableResult
-    func verticalGlyphForm(_ verticalGlyphForm: Int, range: NSRange? = nil) -> TFY {
+    func verticalGlyphForm(_ verticalGlyphForm: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
             base.addAttribute(.verticalGlyphForm, value: verticalGlyphForm, range: NSMakeRange(0, base.length))
             return self

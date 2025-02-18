@@ -249,7 +249,7 @@ public extension UIAlertController {
 
 public extension TFY where Base: UIAlertController {
     @discardableResult
-    func show(in viewController: UIViewController?, completion: (() -> Void)? = nil) -> TFY {
+    func show(in viewController: UIViewController?, completion: (() -> Void)? = nil) -> Self {
         guard let viewController = viewController else {
             assertionFailure("👻💀 viewController 不能为空 💀👻")
             return self
@@ -259,7 +259,7 @@ public extension TFY where Base: UIAlertController {
     }
     
     @discardableResult
-    func dismiss(after delay: TimeInterval, completion: (() -> Void)? = nil) -> TFY {
+    func dismiss(after delay: TimeInterval, completion: (() -> Void)? = nil) -> Self {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak base] in
             base?.dismiss(animated: true, completion: completion)
         }
@@ -267,12 +267,12 @@ public extension TFY where Base: UIAlertController {
     }
     
     @discardableResult
-    func title(_ a:String) -> TFY {
+    func title(_ a:String) -> Self {
         base.title = a
         return self
     }
     @discardableResult
-    func title(_ font:UIFont) -> TFY {
+    func title(_ font:UIFont) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
@@ -280,7 +280,7 @@ public extension TFY where Base: UIAlertController {
         return self
     }
     @discardableResult
-    func title(_ color:UIColor) -> TFY {
+    func title(_ color:UIColor) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
@@ -288,17 +288,17 @@ public extension TFY where Base: UIAlertController {
         return self
     }
     @discardableResult
-    func title(_ attributed:NSAttributedString) -> TFY {
+    func title(_ attributed:NSAttributedString) -> Self {
         base.setValue(attributed, forKey: AlertKeys.attributedTitle)
         return self
     }
     @discardableResult
-    func message(_ a:String) -> TFY {
+    func message(_ a:String) -> Self {
         base.message = a
         return self
     }
     @discardableResult
-    func message(_ font:UIFont) -> TFY {
+    func message(_ font:UIFont) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, attributedM.length))
@@ -306,7 +306,7 @@ public extension TFY where Base: UIAlertController {
         return self
     }
     @discardableResult
-    func message(_ color:UIColor) -> TFY {
+    func message(_ color:UIColor) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
         let attributedM = NSMutableAttributedString(attributedString: attributed)
         attributedM.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: NSMakeRange(0, attributedM.length))
@@ -314,7 +314,7 @@ public extension TFY where Base: UIAlertController {
         return self
     }
     @discardableResult
-    func message(_ attributed:NSAttributedString) -> TFY {
+    func message(_ attributed:NSAttributedString) -> Self {
         base.setValue(attributed, forKey: AlertKeys.attributedMessage)
         return self
     }
@@ -323,7 +323,7 @@ public extension TFY where Base: UIAlertController {
     func action(_ title:String,
                 style:UIAlertAction.Style = .default,
                 custom:((_ action:UIAlertAction) -> Void)? = nil,
-                handler:((_ action:UIAlertAction) -> Void)?) -> TFY {
+                handler:((_ action:UIAlertAction) -> Void)?) -> Self {
         let action = UIAlertAction(title: title, style: style, handler: handler)
         custom?(action)
         base.addAction(action)
@@ -333,25 +333,25 @@ public extension TFY where Base: UIAlertController {
 
 public extension TFY where Base: UIAlertAction {
     @discardableResult
-    func setTitle(_ title: String) -> TFY {
+    func setTitle(_ title: String) -> Self {
         base.setValue(title, forKey: "title")
         return self
     }
     
     @discardableResult
-    func setTitleColor(_ color: UIColor) -> TFY {
+    func setTitleColor(_ color: UIColor) -> Self {
         base.setValue(color, forKey: AlertKeys.actionColor)
         return self
     }
     
     @discardableResult
-    func setStyle(_ style: UIAlertAction.Style) -> TFY {
+    func setStyle(_ style: UIAlertAction.Style) -> Self {
         base.setValue(style, forKey: "style")
         return self
     }
     
     @discardableResult
-    func handler(_ a:((UIAlertAction) -> Void)? = nil) -> TFY {
+    func handler(_ a:((UIAlertAction) -> Void)? = nil) -> Self {
         base.setValue(a, forKey: "handler")
         return self
     }

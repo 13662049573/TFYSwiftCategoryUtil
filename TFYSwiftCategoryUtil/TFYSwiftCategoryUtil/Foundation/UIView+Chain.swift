@@ -354,189 +354,189 @@ public extension UIView {
 public extension TFY where Base: UIView {
     
     @discardableResult
-    func tag(_ tag: Int) -> TFY {
+    func tag(_ tag: Int) -> Self {
         base.tag = tag
         return self
     }
     
     @discardableResult
-    func frame(_ frame: CGRect) -> TFY {
+    func frame(_ frame: CGRect) -> Self {
         base.frame = frame
         return self
     }
     
     @discardableResult
-    func frame(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) -> TFY {
+    func frame(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) -> Self {
         base.frame = CGRect(x: x, y: y, width: width, height: height)
         return self
     }
     
     @discardableResult
-    func bounds(_ bounds: CGRect) -> TFY {
+    func bounds(_ bounds: CGRect) -> Self {
         base.bounds = bounds
         return self
     }
     
     @discardableResult
-    func center(_ center: CGPoint) -> TFY {
+    func center(_ center: CGPoint) -> Self {
         base.center = center
         return self
     }
     
     @discardableResult
-    func center(x: CGFloat, y: CGFloat) -> TFY {
+    func center(x: CGFloat, y: CGFloat) -> Self {
         base.center = CGPoint(x: x, y: y)
         return self
     }
     
     @discardableResult
-    func backgroundColor(_ backgroundColor: UIColor) -> TFY {
+    func backgroundColor(_ backgroundColor: UIColor) -> Self {
         base.backgroundColor = backgroundColor
         return self
     }
     
     @discardableResult
-    func contentMode(_ contentMode: UIView.ContentMode) -> TFY {
+    func contentMode(_ contentMode: UIView.ContentMode) -> Self {
         base.contentMode = contentMode
         return self
     }
     
     @discardableResult
-    func clipsToBounds(_ clipsToBounds: Bool) -> TFY {
+    func clipsToBounds(_ clipsToBounds: Bool) -> Self {
         base.clipsToBounds = clipsToBounds
         return self
     }
     
     @discardableResult
-    func alpha(_ alpha: CGFloat) -> TFY {
+    func alpha(_ alpha: CGFloat) -> Self {
         base.alpha = alpha
         return self
     }
     
     @discardableResult
-    func isHidden(_ isHidden: Bool) -> TFY {
+    func isHidden(_ isHidden: Bool) -> Self {
         base.isHidden = isHidden
         return self
     }
     
     @discardableResult
-    func isOpaque(_ isOpaque: Bool) -> TFY {
+    func isOpaque(_ isOpaque: Bool) -> Self {
         base.isOpaque = isOpaque
         return self
     }
     
     @discardableResult
-    func isUserInteractionEnabled(_ isUserInteractionEnabled: Bool) -> TFY {
+    func isUserInteractionEnabled(_ isUserInteractionEnabled: Bool) -> Self {
         base.isUserInteractionEnabled = isUserInteractionEnabled
         return self
     }
     
     @discardableResult
-    func tintColor(_ tintColor: UIColor) -> TFY {
+    func tintColor(_ tintColor: UIColor) -> Self {
         base.tintColor = tintColor
         return self
     }
     
     @discardableResult
-    func cornerRadius(_ cornerRadius: CGFloat) -> TFY {
+    func cornerRadius(_ cornerRadius: CGFloat) -> Self {
         base.cornerRadius = cornerRadius
         return self
     }
     
     @discardableResult
-    func borderWidth(_ borderWidth: CGFloat) -> TFY {
+    func borderWidth(_ borderWidth: CGFloat) -> Self {
         base.borderWidth = borderWidth
         return self
     }
     
     @discardableResult
-    func borderColor(_ borderColor: UIColor) -> TFY {
+    func borderColor(_ borderColor: UIColor) -> Self {
         base.borderColor = borderColor
         return self
     }
     
     @discardableResult
-    func shadowColor(_ shadowColor: UIColor?) -> TFY {
+    func shadowColor(_ shadowColor: UIColor?) -> Self {
         base.shadowColor = shadowColor
         return self
     }
     
     @discardableResult
-    func shadowOpacity(_ shadowOpacity: Float) -> TFY {
+    func shadowOpacity(_ shadowOpacity: Float) -> Self {
         base.shadowOpacity = shadowOpacity
         return self
     }
     
     @discardableResult
-    func shadowOffset(_ shadowOffset: CGSize) -> TFY {
+    func shadowOffset(_ shadowOffset: CGSize) -> Self {
         base.shadowOffset = shadowOffset
         return self
     }
     
     @discardableResult
-    func shadowRadius(_ shadowRadius: CGFloat) -> TFY {
+    func shadowRadius(_ shadowRadius: CGFloat) -> Self {
         base.shadowRadius = shadowRadius
         return self
     }
     
     @discardableResult
-    func shadowPath(_ shadowPath: CGPath?) -> TFY {
+    func shadowPath(_ shadowPath: CGPath?) -> Self {
         base.layer.shadowPath = shadowPath
         return self
     }
     
     @discardableResult
-    func addToSuperView(_ view: UIView) -> TFY {
+    func addToSuperView(_ view: UIView) -> Self {
         view.addSubview(base)
         return self
     }
     
     @discardableResult
-    func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) -> TFY {
+    func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) -> Self {
         base.addGestureRecognizer(gestureRecognizer)
         return self
     }
     
     @discardableResult
-    func addConstraint(_ constraint: NSLayoutConstraint) -> TFY {
+    func addConstraint(_ constraint: NSLayoutConstraint) -> Self {
         base.addConstraint(constraint)
         return self
     }
     
     @discardableResult
-    func addConstraints(_ constraints: [NSLayoutConstraint]) -> TFY {
+    func addConstraints(_ constraints: [NSLayoutConstraint]) -> Self {
         base.addConstraints(constraints)
         return self
     }
     
     @discardableResult
-    func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) -> TFY {
+    func addRadius(direction: UIRectCorner = .allCorners, vaule: CGFloat) -> Self {
         base.cornerCut(radius: vaule, corner: direction)
         return self
     }
     
     /// 变形属性(平移\缩放\旋转)
     @discardableResult
-    func transform(_ a: CGAffineTransform) -> TFY {
+    func transform(_ a: CGAffineTransform) -> Self {
         base.transform = a
         return self
     }
     /// 自动调整子视图尺寸，默认YES则会根据autoresizingMask属性自动调整子视图尺寸
     @discardableResult
-    func autoresizesSubviews(_ subviews: Bool) -> TFY {
+    func autoresizesSubviews(_ subviews: Bool) -> Self {
         base.autoresizesSubviews = subviews
         return self
     }
     /// 自动调整子视图与父视图的位置，默认UIViewAutoresizingNone
     @discardableResult
-    func autoresizingMask(_ mask: UIView.AutoresizingMask) -> TFY {
+    func autoresizingMask(_ mask: UIView.AutoresizingMask) -> Self {
         base.autoresizingMask = mask
         return self
     }
     
     /// 毛玻璃效果 view.blurEffect(UIColor.red.withAlphaComponent(0.5))
     @discardableResult
-    func blurEffect(_ color:UIColor = UIColor.clear,  style:UIBlurEffect.Style = .light, block:((UIVisualEffectView) -> Void)? = nil) -> TFY {
+    func blurEffect(_ color:UIColor = UIColor.clear,  style:UIBlurEffect.Style = .light, block:((UIVisualEffectView) -> Void)? = nil) -> Self {
         base.layoutIfNeeded()
         base.backgroundColor = UIColor.clear
         let blurEffect = UIBlurEffect(style: style)
@@ -550,54 +550,54 @@ public extension TFY where Base: UIView {
     }
     
     @discardableResult
-    func insertSubview(_ subview:UIView, at index:Int = 0) -> TFY {
+    func insertSubview(_ subview:UIView, at index:Int = 0) -> Self {
         base.insertSubview(subview, at: index)
         return self
     }
     
     @discardableResult
-    func insertSubview(_ subview:UIView, below view:UIView) -> TFY {
+    func insertSubview(_ subview:UIView, below view:UIView) -> Self {
         base.insertSubview(subview, belowSubview: view)
         return self
     }
     
     @discardableResult
-    func insertSubview(_ subview:UIView, above view:UIView) -> TFY {
+    func insertSubview(_ subview:UIView, above view:UIView) -> Self {
         base.insertSubview(subview, aboveSubview: view)
         return self
     }
     
     @discardableResult
-    func exchangeSubview(_ subview1:Int, _ subview2:Int) -> TFY {
+    func exchangeSubview(_ subview1:Int, _ subview2:Int) -> Self {
         base.exchangeSubview(at: subview1, withSubviewAt: subview2)
         return self
     }
     
     @discardableResult
-    func bringSubviewToFront(subviewToFront view:UIView) -> TFY {
+    func bringSubviewToFront(subviewToFront view:UIView) -> Self {
         base.bringSubviewToFront(view)
         return self
     }
     
     @discardableResult
-    func sendSubviewToBack(subviewToBack view:UIView) -> TFY {
+    func sendSubviewToBack(subviewToBack view:UIView) -> Self {
         base.sendSubviewToBack(view)
         return self
     }
     
     @discardableResult
-    func insertSubview(toSuperview superview:UIView, below view:UIView) -> TFY {
+    func insertSubview(toSuperview superview:UIView, below view:UIView) -> Self {
         superview.insertSubview(base, belowSubview: view)
         return self
     }
     @discardableResult
-    func insertSubview(toSuperview superview:UIView, above view:UIView) -> TFY {
+    func insertSubview(toSuperview superview:UIView, above view:UIView) -> Self {
         superview.insertSubview(base, aboveSubview: view)
         return self
     }
     
     @discardableResult
-    func exchangeSubview(_ view:UIView) -> TFY {
+    func exchangeSubview(_ view:UIView) -> Self {
         guard let idx1 = base.superview?.subviews.firstIndex(of: base),
             let idx2 = base.superview?.subviews.firstIndex(of: view) else {
             return self
@@ -607,36 +607,36 @@ public extension TFY where Base: UIView {
     }
     
     @discardableResult
-    func bringSubviewToFront() -> TFY {
+    func bringSubviewToFront() -> Self {
         base.superview?.bringSubviewToFront(base)
         return self
     }
     
     @discardableResult
-    func sendSubviewToBack() -> TFY {
+    func sendSubviewToBack() -> Self {
         base.superview?.sendSubviewToBack(base)
         return self
     }
     
     @discardableResult
-    func addArrangedSubview(toSuperstack stack:UIStackView) -> TFY {
+    func addArrangedSubview(toSuperstack stack:UIStackView) -> Self {
         stack.addArrangedSubview(base)
         return self
     }
     @discardableResult
-    func insertArrangedSubview(toSuperstack stack:UIStackView, at index:Int) -> TFY {
+    func insertArrangedSubview(toSuperstack stack:UIStackView, at index:Int) -> Self {
         stack.insertArrangedSubview(base, at: index)
         return self
     }
     
     @discardableResult
-    func removeFromSuperview() -> TFY {
+    func removeFromSuperview() -> Self {
         base.removeFromSuperview()
         return self
     }
     
     @discardableResult
-    func remove(subview view:UIView) -> TFY {
+    func remove(subview view:UIView) -> Self {
         base.subviews
             .filter{ $0 == view }
             .forEach{ $0.removeFromSuperview() }
@@ -644,7 +644,7 @@ public extension TFY where Base: UIView {
     }
     
     @discardableResult
-    func remove(subviews views:[UIView]) -> TFY {
+    func remove(subviews views:[UIView]) -> Self {
         base.subviews
             .filter{ views.contains($0)}
             .forEach{ $0.removeFromSuperview() }
@@ -652,7 +652,7 @@ public extension TFY where Base: UIView {
     }
     
     @discardableResult
-    func contents(contents:Any?) -> TFY {
+    func contents(contents:Any?) -> Self {
         base.layer.contents = contents
         return self
     }

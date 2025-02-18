@@ -12,42 +12,42 @@ public extension TFY where Base: UIButton {
     
     /// 设置按钮标题
     @discardableResult
-    func title(_ title: String?, for state: UIControl.State...) -> TFY {
+    func title(_ title: String?, for state: UIControl.State...) -> Self {
         state.forEach { base.setTitle(title, for: $0) }
         return self
     }
     
     /// 设置按钮标题颜色
     @discardableResult
-    func titleColor(_ color: UIColor?, for state: UIControl.State...) -> TFY {
+    func titleColor(_ color: UIColor?, for state: UIControl.State...) -> Self {
         state.forEach { base.setTitleColor(color, for: $0) }
         return self
     }
     
     /// 设置按钮图片
     @discardableResult
-    func image(_ image: UIImage?, for state: UIControl.State...) -> TFY {
+    func image(_ image: UIImage?, for state: UIControl.State...) -> Self {
         state.forEach { base.setImage(image, for: $0) }
         return self
     }
     
     /// 设置按钮背景图片
     @discardableResult
-    func backgroundImage(_ image: UIImage?, for state: UIControl.State...) -> TFY {
+    func backgroundImage(_ image: UIImage?, for state: UIControl.State...) -> Self {
         state.forEach { base.setBackgroundImage(image, for: $0) }
         return self
     }
     
     /// 设置按钮富文本标题
     @discardableResult
-    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControl.State...) -> TFY {
+    func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControl.State...) -> Self {
         state.forEach { base.setAttributedTitle(attributedTitle, for: $0) }
         return self
     }
     
     /// 设置标题内边距
     @discardableResult
-    func titleEdgeInsets(_ edgeInsets: UIEdgeInsets) -> TFY {
+    func titleEdgeInsets(_ edgeInsets: UIEdgeInsets) -> Self {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
@@ -66,7 +66,7 @@ public extension TFY where Base: UIButton {
     
     /// 设置标题内边距（分开设置）
     @discardableResult
-    func titleEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> TFY {
+    func titleEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
@@ -85,7 +85,7 @@ public extension TFY where Base: UIButton {
     
     /// 设置图片内边距
     @discardableResult
-    func imageEdgeInsets(_ edgeInsets: UIEdgeInsets) -> TFY {
+    func imageEdgeInsets(_ edgeInsets: UIEdgeInsets) -> Self {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
@@ -104,7 +104,7 @@ public extension TFY where Base: UIButton {
     
     /// 设置图片内边距（分开设置）
     @discardableResult
-    func imageEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> TFY {
+    func imageEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
@@ -123,35 +123,35 @@ public extension TFY where Base: UIButton {
     
     /// 设置内容水平对齐方式
     @discardableResult
-    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> TFY {
+    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
         base.contentHorizontalAlignment = alignment
         return self
     }
     
     /// 设置是否将自动调整大小掩码转换为约束
     @discardableResult
-    func translatesAutoresizingMaskIntoConstraints(_ transl: Bool) -> TFY {
+    func translatesAutoresizingMaskIntoConstraints(_ transl: Bool) -> Self {
         base.translatesAutoresizingMaskIntoConstraints = transl
         return self
     }
     
     /// 设置标题是否自适应字体大小
     @discardableResult
-    func adjustsFontSizeToFitWidth(_ fontbool: Bool) -> TFY {
+    func adjustsFontSizeToFitWidth(_ fontbool: Bool) -> Self {
         base.titleLabel?.adjustsFontSizeToFitWidth = fontbool
         return self
     }
     
     /// 设置图片方向和间距
     @discardableResult
-    func imageDirection(_ direction: UIButton.ButtonImageDirection, _ space: CGFloat) -> TFY {
+    func imageDirection(_ direction: UIButton.ButtonImageDirection, _ space: CGFloat) -> Self {
         base.imageDirection(direction, space)
         return self
     }
     
     /// 设置不同状态下的背景色
     @discardableResult
-    func backgroundStateColor(_ color: UIColor, for state: UIControl.State...) -> TFY {
+    func backgroundStateColor(_ color: UIColor, for state: UIControl.State...) -> Self {
         state.forEach { base.setBackgroundColor(color, for: $0) }
         return self
     }

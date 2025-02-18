@@ -10,55 +10,55 @@ import UIKit
 public extension TFY where Base: UIDatePicker {
     
     @discardableResult
-    func datePickerMode(_ datePickerMode: UIDatePicker.Mode) -> TFY {
+    func datePickerMode(_ datePickerMode: UIDatePicker.Mode) -> Self {
         base.datePickerMode = datePickerMode
         return self
     }
     
     @discardableResult
-    func locale(_ locale: Locale?) -> TFY {
+    func locale(_ locale: Locale?) -> Self {
         base.locale = locale
         return self
     }
     
     @discardableResult
-    func calendar(_ calendar: Calendar) -> TFY {
+    func calendar(_ calendar: Calendar) -> Self {
         base.calendar = calendar
         return self
     }
     
     @discardableResult
-    func timeZone(_ timeZone: TimeZone?) -> TFY {
+    func timeZone(_ timeZone: TimeZone?) -> Self {
         base.timeZone = timeZone
         return self
     }
     
     @discardableResult
-    func date(_ date: Date) -> TFY {
+    func date(_ date: Date) -> Self {
         base.date = date
         return self
     }
     
     @discardableResult
-    func minimumDate(_ minimumDate: Date?) -> TFY {
+    func minimumDate(_ minimumDate: Date?) -> Self {
         base.minimumDate = minimumDate
         return self
     }
     
     @discardableResult
-    func maximumDate(_ maximumDate: Date?) -> TFY {
+    func maximumDate(_ maximumDate: Date?) -> Self {
         base.maximumDate = maximumDate
         return self
     }
     
     @discardableResult
-    func countDownDuration(_ countDownDuration: TimeInterval) -> TFY {
+    func countDownDuration(_ countDownDuration: TimeInterval) -> Self {
         base.countDownDuration = countDownDuration
         return self
     }
     
     @discardableResult
-    func minuteInterval(_ minuteInterval: Int) -> TFY {
+    func minuteInterval(_ minuteInterval: Int) -> Self {
         base.minuteInterval = minuteInterval
         return self
     }

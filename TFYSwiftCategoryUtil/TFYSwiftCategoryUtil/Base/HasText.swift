@@ -166,63 +166,63 @@ extension UITextView: HasText {
 public extension TFY where Base: HasText {
     /// 设置文本
     @discardableResult
-    func text(_ text: String?) -> TFY {
+    func text(_ text: String?) -> Self {
         base.set(text: text)
         return self
     }
     
     /// 设置富文本
     @discardableResult
-    func attributedText(_ attributedText: NSAttributedString?) -> TFY {
+    func attributedText(_ attributedText: NSAttributedString?) -> Self {
         base.set(attributedText: attributedText)
         return self
     }
     
     /// 设置文本颜色
     @discardableResult
-    func textColor(_ textColor: UIColor) -> TFY {
+    func textColor(_ textColor: UIColor) -> Self {
         base.set(color: textColor)
         return self
     }
     
     /// 设置文本对齐方式
     @discardableResult
-    func textAlignment(_ textAlignment: NSTextAlignment) -> TFY {
+    func textAlignment(_ textAlignment: NSTextAlignment) -> Self {
         base.set(alignment: textAlignment)
         return self
     }
     
     /// 设置行数
     @discardableResult
-    func numberOfLines(_ number: Int) -> TFY {
+    func numberOfLines(_ number: Int) -> Self {
         base.set(numberOfLines: number)
         return self
     }
     
     /// 设置行间距
     @discardableResult
-    func lineSpacing(_ spacing: CGFloat) -> TFY {
+    func lineSpacing(_ spacing: CGFloat) -> Self {
         base.set(lineSpacing: spacing)
         return self
     }
     
     /// 设置字间距
     @discardableResult
-    func kern(_ kern: CGFloat) -> TFY {
+    func kern(_ kern: CGFloat) -> Self {
         base.set(kern: kern)
         return self
     }
     
     /// 设置占位符
     @discardableResult
-    func placeholder(_ text: String?) -> TFY {
+    func placeholder(_ text: String?) -> Self {
         base.set(placeholder: text)
         return self
     }
     
     /// 设置富文本属性
     @discardableResult
-    func attributes(_ attributes: [NSAttributedString.Key: Any]) -> TFY {
+    func attributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
         if let text = (base as? UILabel)?.text ?? (base as? UITextField)?.text ?? (base as? UITextView)?.text {
             let attributedString = NSAttributedString(string: text, attributes: attributes)
             base.set(attributedText: attributedString)

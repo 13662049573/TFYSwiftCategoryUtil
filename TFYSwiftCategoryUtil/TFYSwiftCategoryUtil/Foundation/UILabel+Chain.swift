@@ -10,13 +10,13 @@ import UIKit
 public extension TFY where Base: UILabel {
 
     @discardableResult
-    func numberOfLines(_ numberOfLines: Int) -> TFY {
+    func numberOfLines(_ numberOfLines: Int) -> Self {
         base.numberOfLines = numberOfLines
         return self
     }
     
     @discardableResult
-    func adjustsFontSizeToFitWidth(_ adjustsFontSizeToFitWidth: Bool) -> TFY {
+    func adjustsFontSizeToFitWidth(_ adjustsFontSizeToFitWidth: Bool) -> Self {
         base.adjustsFontSizeToFitWidth = adjustsFontSizeToFitWidth
         return self
     }

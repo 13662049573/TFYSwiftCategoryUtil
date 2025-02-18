@@ -11,25 +11,25 @@ import Foundation
 public extension TFY where Base: UIControl {
     
     @discardableResult
-    func isEnabled(_ isEnabled: Bool) -> TFY {
+    func isEnabled(_ isEnabled: Bool) -> Self {
         base.isEnabled = isEnabled
         return self
     }
     
     @discardableResult
-    func isSelected(_ isSelected: Bool) -> TFY {
+    func isSelected(_ isSelected: Bool) -> Self {
         base.isSelected = isSelected
         return self
     }
     
     @discardableResult
-    func isHighlighted(_ isHighlighted: Bool) -> TFY {
+    func isHighlighted(_ isHighlighted: Bool) -> Self {
         base.isHighlighted = isHighlighted
         return self
     }
     
     @discardableResult
-    func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> TFY {
+    func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) -> Self {
         base.addTarget(target, action: action, for: controlEvents)
         return self
     }

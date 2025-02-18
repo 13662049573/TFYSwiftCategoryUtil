@@ -11,13 +11,13 @@ import Foundation
 public extension TFY where Base: UIBarButtonItem {
     
     @discardableResult
-    func width(_ width: CGFloat) -> TFY {
+    func width(_ width: CGFloat) -> Self {
         base.width = width
         return self
     }
     
     @discardableResult
-    func tintColor(_ tintColor: UIColor?) -> TFY {
+    func tintColor(_ tintColor: UIColor?) -> Self {
         base.tintColor = tintColor
         return self
     }

@@ -15,7 +15,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter delegate: 委托对象
     /// - Returns: 链式调用对象
     @discardableResult
-    func delegate(_ delegate: UIGestureRecognizerDelegate?) -> TFY {
+    func delegate(_ delegate: UIGestureRecognizerDelegate?) -> Self {
         base.delegate = delegate
         return self
     }
@@ -24,7 +24,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter enabled: 是否启用
     /// - Returns: 链式调用对象
     @discardableResult
-    func enabled(_ enabled: Bool) -> TFY {
+    func enabled(_ enabled: Bool) -> Self {
         base.isEnabled = enabled
         return self
     }
@@ -33,7 +33,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter cancels: 是否取消
     /// - Returns: 链式调用对象
     @discardableResult
-    func cancelsTouchesInView(_ cancels: Bool) -> TFY {
+    func cancelsTouchesInView(_ cancels: Bool) -> Self {
         base.cancelsTouchesInView = cancels
         return self
     }
@@ -42,7 +42,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter delayeBegan: 是否延迟
     /// - Returns: 链式调用对象
     @discardableResult
-    func delaysTouchesBegan(_ delayeBegan: Bool) -> TFY {
+    func delaysTouchesBegan(_ delayeBegan: Bool) -> Self {
         base.delaysTouchesBegan = delayeBegan
         return self
     }
@@ -51,7 +51,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter delayeEnded: 是否延迟
     /// - Returns: 链式调用对象
     @discardableResult
-    func delaysTouchesEnded(_ delayeEnded: Bool) -> TFY {
+    func delaysTouchesEnded(_ delayeEnded: Bool) -> Self {
         base.delaysTouchesEnded = delayeEnded
         return self
     }
@@ -60,7 +60,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter types: 触摸类型数组
     /// - Returns: 链式调用对象
     @discardableResult
-    func allowedTouchTypes(_ types: [NSNumber]) -> TFY {
+    func allowedTouchTypes(_ types: [NSNumber]) -> Self {
         base.allowedTouchTypes = types
         return self
     }
@@ -69,7 +69,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter types: 按压类型数组
     /// - Returns: 链式调用对象
     @discardableResult
-    func allowedPressTypes(_ types: [NSNumber]) -> TFY {
+    func allowedPressTypes(_ types: [NSNumber]) -> Self {
         base.allowedPressTypes = types
         return self
     }
@@ -78,7 +78,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter requirs: 是否需要
     /// - Returns: 链式调用对象
     @discardableResult
-    func requiresExclusiveTouchType(_ requirs: Bool) -> TFY {
+    func requiresExclusiveTouchType(_ requirs: Bool) -> Self {
         base.requiresExclusiveTouchType = requirs
         return self
     }
@@ -87,7 +87,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter name: 名称
     /// - Returns: 链式调用对象
     @discardableResult
-    func name(_ name: String?) -> TFY {
+    func name(_ name: String?) -> Self {
         base.name = name
         return self
     }
@@ -96,7 +96,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter fail: 手势识别器
     /// - Returns: 链式调用对象
     @discardableResult
-    func require(_ fail: UIGestureRecognizer) -> TFY {
+    func require(_ fail: UIGestureRecognizer) -> Self {
         base.require(toFail: fail)
         return self
     }
@@ -107,7 +107,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     ///   - action: 动作方法
     /// - Returns: 链式调用对象
     @discardableResult
-    func addTarget(_ target: Any, action: Selector) -> TFY {
+    func addTarget(_ target: Any, action: Selector) -> Self {
         base.addTarget(target, action: action)
         return self
     }
@@ -118,7 +118,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     ///   - action: 动作方法
     /// - Returns: 链式调用对象
     @discardableResult
-    func removeTarget(_ target: Any?, action: Selector?) -> TFY {
+    func removeTarget(_ target: Any?, action: Selector?) -> Self {
         base.removeTarget(target, action: action)
         return self
     }
@@ -127,7 +127,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter number: 点击次数
     /// - Returns: 链式调用对象
     @discardableResult
-    func numberOfTapsRequired(_ number: Int) -> TFY {
+    func numberOfTapsRequired(_ number: Int) -> Self {
         base.numberOfTapsRequired = number
         return self
     }
@@ -136,7 +136,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Parameter number: 手指数
     /// - Returns: 链式调用对象
     @discardableResult
-    func numberOfTouchesRequired(_ number: Int) -> TFY {
+    func numberOfTouchesRequired(_ number: Int) -> Self {
         base.numberOfTouchesRequired = number
         return self
     }
@@ -146,7 +146,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @available(iOS 13.4, *)
     @discardableResult
-    func buttonMaskRequired(_ mask: UIEvent.ButtonMask) -> TFY {
+    func buttonMaskRequired(_ mask: UIEvent.ButtonMask) -> Self {
         base.buttonMaskRequired = mask
         return self
     }
