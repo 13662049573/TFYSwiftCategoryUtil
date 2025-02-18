@@ -538,7 +538,7 @@ extension UIButton {
 }
 
 // MARK: - 活动指示器相关扩展
-extension UIButton {
+public extension UIButton {
     /// 关联键
     private struct AssociatedKeys {
         static var activityIndicatorViewKey = UnsafeRawPointer(bitPattern: "activityIndicatorViewKey".hashValue)!
@@ -626,7 +626,7 @@ extension UIButton {
 }
 
 // MARK: - 背景色相关扩展
-extension UIButton {
+public extension UIButton {
     /// 普通状态背景色
     @IBInspectable var normalStateBackgroundColor: UIColor? {
         get { return nil }
@@ -680,7 +680,7 @@ extension UIButton {
 }
 
 // MARK: - 实用工具扩展
-extension UIButton {
+public extension UIButton {
     /// 标题图片位置是否反转
     var isTitleImagePositionReversed: Bool {
         get {
