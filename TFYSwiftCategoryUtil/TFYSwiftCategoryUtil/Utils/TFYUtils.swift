@@ -406,7 +406,8 @@ public enum TFYUtils {
 
 // MARK: - 新增设备信息模块
 public extension TFYUtils {
-    public enum Device {
+    
+    enum Device {
         /// 设备类型判断
         public enum ModelType {
             case iPhone
@@ -438,33 +439,33 @@ public extension TFYUtils {
         }
         
         /// 设备名称
-        static var name: String {
+        public static var name: String {
             UIDevice.current.name
         }
         
         /// 系统版本
-        static var systemVersion: String {
+        public static var systemVersion: String {
             UIDevice.current.systemVersion
         }
         
         /// 是否是刘海屏设备
-        static var hasNotch: Bool {
+        public static var hasNotch: Bool {
             safeAreaInsets.top > 20
         }
         
         /// 屏幕尺寸
-        static var screenSize: CGSize {
+        public static var screenSize: CGSize {
             UIScreen.main.bounds.size
         }
         
         /// 电池电量
-        static var batteryLevel: Float {
+        public static var batteryLevel: Float {
             UIDevice.current.isBatteryMonitoringEnabled = true
             return UIDevice.current.batteryLevel
         }
         
         /// 是否处于低电量模式
-        static var isLowPowerModeEnabled: Bool {
+        public static var isLowPowerModeEnabled: Bool {
             ProcessInfo.processInfo.isLowPowerModeEnabled
         }
     }
@@ -472,7 +473,7 @@ public extension TFYUtils {
 
 // MARK: - 新增安全存储模块
 public extension TFYUtils {
-    public enum Keychain {
+    enum Keychain {
         /// 安全存储数据
         public static func save(_ data: Data, service: String, account: String) throws {
             let query = [
@@ -515,7 +516,7 @@ public extension TFYUtils {
 
 // MARK: - 新增动画效果模块
 public extension TFYUtils {
-    public enum Animation {
+    enum Animation {
         /// 弹性缩放动画
         public static func springScale(
             view: UIView,
@@ -554,7 +555,7 @@ public extension TFYUtils {
 
 // MARK: - 新增本地通知模块
 public extension TFYUtils {
-    public enum Notification {
+    enum Notification {
         /// 请求通知权限
         public static func requestAuthorization() async -> Bool {
             do {
@@ -599,7 +600,7 @@ public extension TFYUtils {
 
 // MARK: - 新增触觉反馈模块
 public extension TFYUtils {
-    public enum Haptics {
+    enum Haptics {
         /// 触觉反馈类型
         public enum FeedbackType {
             case success
@@ -629,7 +630,7 @@ public extension TFYUtils {
 
 // MARK: - 新增生物识别模块
 public extension TFYUtils {
-    public enum Biometrics {
+    enum Biometrics {
         /// 生物识别类型
         public enum BiometricType {
             case none
@@ -688,7 +689,7 @@ public extension TFYUtils {
 
 // MARK: - 新增文件操作模块
 public extension TFYUtils {
-    public enum FileManager {
+    enum FileManager {
         /// 获取文件大小
         public static func fileSize(at path: String) -> Int64 {
             guard let attributes = try? Foundation.FileManager.default.attributesOfItem(atPath: path) else {
@@ -728,7 +729,7 @@ public extension TFYUtils {
 
 // MARK: - 新增图片处理模块
 public extension TFYUtils {
-    public enum ImageProcessor {
+    enum ImageProcessor {
         /// 压缩图片
         public static func compress(
             image: UIImage,
@@ -780,7 +781,7 @@ public extension TFYUtils {
 
 // MARK: - 新增日期处理模块
 public extension TFYUtils {
-    public enum DateUtils {  // 重命名以避免与 Foundation.DateFormatter 冲突
+    enum DateUtils {  // 重命名以避免与 Foundation.DateFormatter 冲突
         private static let sharedFormatter: Foundation.DateFormatter = {
             let formatter = Foundation.DateFormatter()
             formatter.locale = Locale(identifier: "zh_CN")  // 设置中文区域
