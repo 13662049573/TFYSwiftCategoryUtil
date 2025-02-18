@@ -735,7 +735,7 @@ extension UIButton {
     
     /// 验证码倒计时显示
     /// - Parameter interval: 倒计时时间（秒）
-    func timerStart(_ interval: Int = 60) {
+    func timerStart(_ interval: Int = 60,title:String) {
         var time = interval
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: .global())
         codeTimer.schedule(deadline: .now(), repeating: .milliseconds(1000))
@@ -748,7 +748,7 @@ extension UIButton {
                     return
                 }
                 codeTimer.cancel()
-                self.setTitle("发送验证码", for: .normal)
+                self.setTitle(title, for: .normal)
             }
         }
         codeTimer.resume()
