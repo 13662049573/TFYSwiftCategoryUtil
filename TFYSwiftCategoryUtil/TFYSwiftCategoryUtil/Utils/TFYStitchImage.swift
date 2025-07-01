@@ -8,6 +8,16 @@
 
 import UIKit
 
+// MARK: - Array Extension for chunked
+extension Array {
+    /// 将数组分割成指定大小的块
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0..<Swift.min($0 + size, count)])
+        }
+    }
+}
+
 /// 图片拼接布局类型
 public enum TFYStitchLayoutType {
     /// 网格布局（自动计算行列数）

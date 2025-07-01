@@ -80,7 +80,7 @@ open class WKWebHandler: NSObject, WKScriptMessageHandler {
                 let value = try T(from: decoder)
                 action(value)
             } catch let error {
-                TFYUtils.Logger.log("js handle[\(handle)] error body: \(body), error: \(error.localizedDescription)")
+                print("js handle[\(handle)] error body: \(body), error: \(error.localizedDescription)")
             }
         }
     }

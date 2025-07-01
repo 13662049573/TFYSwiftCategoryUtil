@@ -13,7 +13,8 @@ import CommonCrypto
 extension String: TFYCompatible {}
 
 public extension TFY where Base == String {
-    /// - Returns:  md5 加密
+    /// - Returns:  md5 加密 (deprecated, use sha256 instead)
+    @available(*, deprecated, message: "MD5 is cryptographically broken. Use sha256 instead.")
     var md5 : String {
         guard !base.isEmpty else { return "" }
         let str = base.cString(using: String.Encoding.utf8)
@@ -27,6 +28,17 @@ public extension TFY where Base == String {
         }
         free(result)
         return String(format: hash as String)
+     }
+     
+     /// - Returns:  sha256 加密 (recommended)
+     var sha256 : String {
+         guard !base.isEmpty else { return "" }
+         let data = Data(base.utf8)
+         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+         data.withUnsafeBytes { buffer in
+             _ = CC_SHA256(buffer.baseAddress, CC_LONG(buffer.count), &hash)
+         }
+         return hash.map { String(format: "%02x", $0) }.joined()
      }
 
     /// - Returns: 计算文本宽度
@@ -194,8 +206,9 @@ public extension String {
     }
     
     /**
-     return a md5 string
+     return a md5 string (deprecated, use sha256String instead)
      */
+    @available(*, deprecated, message: "MD5 is cryptographically broken. Use sha256String instead.")
     func md5String() -> String{
         guard !self.isEmpty else { return "" }
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(CC_MD5_DIGEST_LENGTH))
@@ -206,6 +219,19 @@ public extension String {
                          result[8], result[9], result[10], result[11],
                          result[12], result[13], result[14], result[15])
         return str
+    }
+    
+    /**
+     return a sha256 string (recommended)
+     */
+    func sha256String() -> String {
+        guard !self.isEmpty else { return "" }
+        let data = Data(self.utf8)
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+        data.withUnsafeBytes { buffer in
+            _ = CC_SHA256(buffer.baseAddress, CC_LONG(buffer.count), &hash)
+        }
+        return hash.map { String(format: "%02x", $0) }.joined()
     }
     
     /// returns the size of the string if it were rendered with the specified constraints
@@ -1893,10 +1919,11 @@ public extension TFY where Base: ExpressibleByStringLiteral {
         case uppercase16
     }
     
-    // MARK: 14.1、MD5加密 默认是32位小写加密
-    /// MD5加密 默认是32位小写加密
+    // MARK: 14.1、MD5加密 默认是32位小写加密 (deprecated)
+    /// MD5加密 默认是32位小写加密 (deprecated, use sha256Encrypt instead)
     /// - Parameter md5Type: 加密类型
     /// - Returns: MD5加密后的字符串
+    @available(*, deprecated, message: "MD5 is cryptographically broken. Use sha256Encrypt instead.")
     func md5Encrypt(_ md5Type: MD5EncryptType = .lowercase32) -> String {
         guard (self.base as! String).count > 0 else {
             return ""
@@ -1931,7 +1958,39 @@ public extension TFY where Base: ExpressibleByStringLiteral {
         }
     }
     
-    // MARK: 14.2、Base64 编解码
+    // MARK: 14.2、SHA256加密 (recommended)
+    /// SHA256加密 (recommended)
+    /// - Parameter shaType: 加密类型
+    /// - Returns: SHA256加密后的字符串
+    func sha256Encrypt(_ shaType: MD5EncryptType = .lowercase32) -> String {
+        guard (self.base as! String).count > 0 else {
+            return ""
+        }
+        let data = Data((self.base as! String).utf8)
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+        data.withUnsafeBytes { buffer in
+            _ = CC_SHA256(buffer.baseAddress, CC_LONG(buffer.count), &hash)
+        }
+        
+        switch shaType {
+        // 32位小写
+        case .lowercase32:
+            return hash.reduce("") { $0 + String(format: "%02x", $1)}
+        // 32位大写
+        case .uppercase32:
+            return hash.reduce("") { $0 + String(format: "%02X", $1)}
+        // 16位小写
+        case .lowercase16:
+            let tempStr = hash.reduce("") { $0 + String(format: "%02x", $1)}
+            return tempStr.tfy.slice(8..<24)
+        // 16位大写
+        case .uppercase16:
+            let tempStr = hash.reduce("") { $0 + String(format: "%02X", $1)}
+            return tempStr.tfy.slice(8..<24)
+        }
+    }
+    
+    // MARK: 14.3、Base64 编解码
     /// Base64 编解码
     /// - Parameter encode: true:编码 false:解码
     /// - Returns: 编解码结果
