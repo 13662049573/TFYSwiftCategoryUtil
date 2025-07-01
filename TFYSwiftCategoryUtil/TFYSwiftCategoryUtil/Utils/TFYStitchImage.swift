@@ -102,13 +102,18 @@ public class TFYStitchImage: NSObject {
     ) -> [UIImage] {
         var result: [UIImage] = []
         
-        // 手动分块，避免依赖扩展方法
+        // 完全手动分块，避免任何扩展方法
         let pageSize = config.itemsPerPage
         let totalImages = images.count
         
-        for startIndex in stride(from: 0, to: totalImages, by: pageSize) {
-            let endIndex = min(startIndex + pageSize, totalImages)
-            let chunk = Array(images[startIndex..<endIndex])
+        var currentIndex = 0
+        while currentIndex < totalImages {
+            let endIndex = min(currentIndex + pageSize, totalImages)
+            var chunk: [UIImage] = []
+            
+            for i in currentIndex..<endIndex {
+                chunk.append(images[i])
+            }
             
             if let image = stitchImage(
                 images: chunk,
@@ -117,6 +122,8 @@ public class TFYStitchImage: NSObject {
             ) {
                 result.append(image)
             }
+            
+            currentIndex = endIndex
         }
         
         return result
