@@ -249,17 +249,7 @@ public extension Array where Element: Hashable {
         return Dictionary(grouping: self, by: { $0[keyPath: keyPath] })
     }
     
-    // MARK: 6.4、数组分块
-    /// 数组分块
-    /// - Parameter size: 每块的大小
-    /// - Returns: 分块后的二维数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func chunked(into size: Int) -> [[Element]] {
-        guard size > 0 else { return [] }
-        return stride(from: 0, to: count, by: size).map {
-            Array(self[$0..<Swift.min($0 + size, count)])
-        }
-    }
+
     
     // MARK: 6.5、数组过滤并转换
     /// 数组过滤并转换
