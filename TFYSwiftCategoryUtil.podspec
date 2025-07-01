@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.2.4"
+  spec.version      = "2.2.5"
 
   spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS15 Swift5 "
 
@@ -28,13 +28,6 @@ Pod::Spec.new do |spec|
 
   spec.subspec 'CoreUiit' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/*.{swift}"
-  end
-
-  spec.subspec 'SwiftUI' do |ss|
-    ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/SwiftUI/*.{swift}"
-    ss.dependency "TFYSwiftCategoryUtil/Utils"
-    ss.dependency "TFYSwiftCategoryUtil/Foundation"
-    ss.dependency "TFYSwiftCategoryUtil/UIKit"
   end
 
   spec.subspec 'Base' do |ss|

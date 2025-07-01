@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2022/7/27.
+//  用途：图片拼接工具，支持网格、横向、纵向、瀑布流等多种布局。
 //
 
 import UIKit
@@ -68,6 +69,9 @@ public class TFYStitchImage: NSObject {
         // 处理图片数量限制
         let validImages = config.maxImageCount > 0 ? 
             Array(images.prefix(config.maxImageCount)) : images
+        if config.maxImageCount > 0 && images.count > config.maxImageCount {
+            print("TFYStitchImage: 图片数量超出最大限制，已截断到\(config.maxImageCount)张")
+        }
         
         // 是否需要分页
         if config.itemsPerPage > 0 {
@@ -382,17 +386,6 @@ public class TFYStitchImage: NSObject {
         }
         
         return frames
-    }
-}
-
-// MARK: - 数组扩展
-private extension Array {
-    /// 将数组分割成指定大小的块
-    func chunked(into size: Int) -> [[Element]] {
-        guard size > 0 else { return [self] }
-        return stride(from: 0, to: count, by: size).map {
-            Array(self[$0..<Swift.min($0 + size, count)])
-        }
     }
 }
 

@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2022/5/13.
+//  用途：String 链式编程扩展，支持加密、文本计算、类型转换等功能。
 //
 
 import Foundation
@@ -14,6 +15,7 @@ extension String: TFYCompatible {}
 public extension TFY where Base == String {
     /// - Returns:  md5 加密
     var md5 : String {
+        guard !base.isEmpty else { return "" }
         let str = base.cString(using: String.Encoding.utf8)
         let strLen = CUnsignedInt(base.lengthOfBytes(using: String.Encoding.utf8))
         let digestLen = Int(CC_MD5_DIGEST_LENGTH)
@@ -195,6 +197,7 @@ public extension String {
      return a md5 string
      */
     func md5String() -> String{
+        guard !self.isEmpty else { return "" }
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(CC_MD5_DIGEST_LENGTH))
         CC_MD5(Array(self.utf8), CC_LONG(self.count), result)
         let str = String(format: "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
@@ -1230,8 +1233,8 @@ extension TFY where Base: ExpressibleByStringLiteral {
         return predicateValue(rgex: rgex)
     }
     
-    // MARK: 9.7、是否是有效昵称，即允许“中文”、“英文”、“数字”
-    /// 是否是有效昵称，即允许“中文”、“英文”、“数字”
+    // MARK: 9.7、是否是有效昵称，即允许"中文"、"英文"、"数字"
+    /// 是否是有效昵称，即允许"中文"、"英文"、"数字"
     public var isValidNickName: Bool {
         let rgex = "(^[\u{4e00}-\u{9faf}_a-zA-Z0-9]+$)"
         return predicateValue(rgex: rgex)

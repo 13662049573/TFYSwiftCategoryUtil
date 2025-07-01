@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2022/5/18.
+//  用途：NSAttributedString 链式编程扩展，支持富文本样式设置、图片插入等功能。
 //
 
 import Foundation
@@ -188,8 +189,17 @@ public extension TFY where Base: NSAttributedString {
     /// - Returns: 返回设置后的富文本
     func setSpecificRangeTextMoreAttributes(attributes: Dictionary<NSAttributedString.Key, Any>, range: NSRange) -> NSAttributedString {
         let mutableAttributedString = NSMutableAttributedString(attributedString: self.base)
+        
+        // 检查 range 是否越界
+        let validRange = NSRange(location: range.location, length: min(range.length, self.base.length - range.location))
+        guard validRange.location >= 0 && validRange.length > 0 && validRange.location + validRange.length <= self.base.length else {
+            return self.base
+        }
+        
         for name in attributes.keys {
-            mutableAttributedString.addAttribute(name, value: attributes[name] ?? "", range: range)
+            if let value = attributes[name] {
+                mutableAttributedString.addAttribute(name, value: value, range: validRange)
+            }
         }
         return mutableAttributedString
     }
@@ -395,7 +405,7 @@ public extension TFY where Base: NSMutableParagraphStyle{
     }
         
     /// 富文本段落设置
-    static func paraDict(_ font: UIFont = UIFont.systemFont(ofSize: 15), textColor: UIColor = .black, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping) -> [NSAttributedString.Key: Any] {
+    static func paraDict(_ font: UIFont = UIFont.systemFont(ofSize: 15.adap), textColor: UIColor = .black, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping) -> [NSAttributedString.Key: Any] {
         let paraStyle = NSMutableParagraphStyle()
             .tfy
             .lineBreakModeChain(lineBreakMode)
@@ -413,7 +423,7 @@ public extension TFY where Base: NSMutableParagraphStyle{
     }
     
     /// 创建富文本
-    static func create(_ text: String, textTaps: [String], font: UIFont = UIFont.systemFont(ofSize: 15), tapFont: UIFont = UIFont.systemFont(ofSize: 15), color: UIColor = .black, tapColor: UIColor = .blue, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping, rangeOptions mask: NSString.CompareOptions = []) -> NSAttributedString {
+    static func create(_ text: String, textTaps: [String], font: UIFont = UIFont.systemFont(ofSize: 15.adap), tapFont: UIFont = UIFont.systemFont(ofSize: 15.adap), color: UIColor = .black, tapColor: UIColor = .blue, alignment: NSTextAlignment = .left, lineSpacing: CGFloat = 0, lineBreakMode: NSLineBreakMode = .byWordWrapping, rangeOptions mask: NSString.CompareOptions = []) -> NSAttributedString {
         let paraDic = paraDict(font, textColor: color, alignment: alignment, lineSpacing: lineSpacing, lineBreakMode: lineBreakMode)
         
         let linkDic: [NSAttributedString.Key: Any] = [
@@ -452,7 +462,7 @@ public extension TFY where Base: NSMutableParagraphStyle{
     }
     
     /// nsRange范围子字符串差异华显示
-    static func attString(_ text: String, nsRange: NSRange, font: UIFont = UIFont.systemFont(ofSize: 15), tapColor: UIColor = .black) -> NSAttributedString {
+    static func attString(_ text: String, nsRange: NSRange, font: UIFont = UIFont.systemFont(ofSize: 15.adap), tapColor: UIColor = .black) -> NSAttributedString {
         assert((nsRange.location + nsRange.length) <= text.count)
 
         let attDic: [NSAttributedString.Key: Any] = [

@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by mi ni on 2024/10/26.
+//  优化：参数安全性检查、注释补全、健壮性提升
 //
 
 import Foundation
@@ -37,12 +38,14 @@ import WebKit
     
     /// JS注入
     func addUserScript(_ source: String) {
+        guard !source.isEmpty else { return }
         let userScript = WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(userScript)
     }
     
     ///设置 Cookie 参数
     func setCookieByJavaScript(_ dic: [String: String], completionHandler: ((Any?, Error?) -> Void)? = nil){
+        guard !dic.isEmpty else { completionHandler?(nil, nil); return }
         var result = ""
         dic.forEach { (key: String, value: String) in
             result = (result + "\(key)=\(value),")
@@ -53,7 +56,7 @@ import WebKit
     ///添加 cookie的自动推送
     @available(iOS 11.0, macOS 10.13, *)
     func copyNSHTTPCookieStorageToWKHTTPCookieStore(_  handler: (() -> Void)? = nil) {
-        guard let cookies = HTTPCookieStorage.shared.cookies else { return }
+        guard let cookies = HTTPCookieStorage.shared.cookies, !cookies.isEmpty else { handler?(); return }
         let cookieStore = self.configuration.websiteDataStore.httpCookieStore
 
         if cookies.count == 0 {
@@ -84,14 +87,14 @@ import WebKit
     ///此方法解决了: Web 页面包含了 ajax 请求的话，cookie 要重新处理,这个处理需要在 WKWebView 的 WKWebViewConfiguration 中进行配置。
     func loadUrl(_ urlString: String?, additionalHttpHeaders: [String: String]? = nil, isAddUserScript: Bool = true) {
         guard let urlString = urlString,
-              let urlStr = urlString.removingPercentEncoding as String?,
-              let url = URL(string: urlStr) as URL?
-              else {
+              let urlStr = urlString.removingPercentEncoding,
+              let url = URL(string: urlStr) else {
             print("链接错误")
-            return }
+            return
+        }
         
         if isAddUserScript == false {
-            if let URL = URL(string: urlString) as URL? {
+            if let URL = URL(string: urlString) {
                 var request = URLRequest(url: URL)
                 additionalHttpHeaders?.forEach { (key, value) in
                     request.addValue(value, forHTTPHeaderField: key)
@@ -110,12 +113,8 @@ import WebKit
         configuration.userContentController = userContentController
 
         var request = URLRequest(url: url)
-        if let headFields: [AnyHashable : Any] = request.allHTTPHeaderFields {
-            if headFields["user"] != nil {
-
-            } else {
-                request.addValue("user=\("userValue")", forHTTPHeaderField: "Cookie")
-            }
+        if let headFields = request.allHTTPHeaderFields, headFields["user"] == nil {
+            request.addValue("user=\("userValue")", forHTTPHeaderField: "Cookie")
         }
 
         additionalHttpHeaders?.forEach { (key, value) in

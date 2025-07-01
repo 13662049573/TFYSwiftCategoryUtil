@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/10.
+//  优化：参数安全性检查、注释补全、健壮性提升
 //
 
 import Foundation
@@ -61,6 +62,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @discardableResult
     func allowedTouchTypes(_ types: [NSNumber]) -> Self {
+        guard !types.isEmpty else { return self }
         base.allowedTouchTypes = types
         return self
     }
@@ -70,6 +72,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @discardableResult
     func allowedPressTypes(_ types: [NSNumber]) -> Self {
+        guard !types.isEmpty else { return self }
         base.allowedPressTypes = types
         return self
     }
@@ -108,6 +111,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @discardableResult
     func addTarget(_ target: Any, action: Selector) -> Self {
+        guard let _ = target as? NSObjectProtocol else { return self }
         base.addTarget(target, action: action)
         return self
     }
@@ -128,7 +132,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @discardableResult
     func numberOfTapsRequired(_ number: Int) -> Self {
-        base.numberOfTapsRequired = number
+        base.numberOfTapsRequired = max(1, number)
         return self
     }
     
@@ -137,7 +141,7 @@ public extension TFY where Base == UITapGestureRecognizer {
     /// - Returns: 链式调用对象
     @discardableResult
     func numberOfTouchesRequired(_ number: Int) -> Self {
-        base.numberOfTouchesRequired = number
+        base.numberOfTouchesRequired = max(1, number)
         return self
     }
 

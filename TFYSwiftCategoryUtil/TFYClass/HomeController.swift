@@ -11,10 +11,12 @@ class HomeController: UIViewController {
 
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+    private let stackView = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupDeviceAdaptation()
     }
     
     private let types: [UIButton.ButtonImageDirection] = [
@@ -61,85 +63,137 @@ class HomeController: UIViewController {
         title = "首页"
         view.backgroundColor = .systemBackground
         
-        // 设置ScrollView
+        setupScrollView()
+        setupContentView()
+        setupStackView()
+        addButtons()
+    }
+    
+    private func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         view.addSubview(scrollView)
         
-        // 设置ContentView
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentView)
-        
-        // 添加约束
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func setupContentView() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
+    }
+    
+    private func setupStackView() {
+        stackView.axis = .vertical
+        stackView.spacing = 20.adap
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(stackView)
         
-        // 添加按钮
-        var previousButton: UIButton?
-        for (_, direction) in types.enumerated() {
-            let btn = UIButton(type: .custom)
-            let title: String
-            
-            // 为不同模式设置不同的文字内容
-            switch direction {
-            case .centerImageTop, .centerImageLeft, .centerImageRight, .centerImageBottom,
-                 .leftImageLeft, .leftImageRight, .rightImageLeft, .rightImageRight,
-                 .centerImageTopFixedSpace, .centerImageLeftFixedSpace, .centerImageRightFixedSpace, .centerImageBottomFixedSpace,
-                 .topImageTop, .topImageBottom, .bottomImageTop, .bottomImageBottom:
-                title = "\(direction) - 单行文字"
-            case .centerImageTopTextBelow, .centerImageLeftTextRight, .centerImageRightTextLeft, .centerImageBottomTextAbove:
-                title = "\(direction) - 这是一段较长的文字，用于测试多行显示效果"
-            case .imageOnly:
-                title = "" // 仅显示图片
-            case .textOnly:
-                title = "\(direction) - 仅显示文字"
-            case .imageTopTextBelowFixedHeight, .imageBottomTextAboveFixedHeight:
-                title = "\(direction) - 固定高度模式"
-            case .imageLeftTextRightFixedWidth, .imageRightTextLeftFixedWidth:
-                title = "\(direction) - 固定宽度模式"
-            }
-            
-            btn.tfy
-                .font(.systemFont(ofSize: 12, weight: .bold))
-                .title(title, for: .normal)
-                .image(UIImage(named: "vip_broadcast"), for: .normal)
-                .imageDirection(direction, 10) // 设置间距为10
-                .borderWidth(1)
-                .cornerRadius(10)
-                .backgroundColor(UIColor.random())
-                .borderColor(.systemGray)
-                .titleColor(.label, for: .normal)
-                .addToSuperView(contentView)
-            
-            btn.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                btn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20), // 减少边距
-                btn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20), // 减少边距
-                btn.heightAnchor.constraint(greaterThanOrEqualToConstant: 60) // 高度自适应
-            ])
-            
-            if let previousButton = previousButton {
-                btn.topAnchor.constraint(equalTo: previousButton.bottomAnchor, constant: 20).isActive = true
-            } else {
-                btn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-            }
-            
-            previousButton = btn
-        }
-        
-        // 设置ContentView的底部约束
-        if let lastButton = previousButton {
-            contentView.bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 20).isActive = true
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20.adap),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.adap),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20.adap),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20.adap)
+        ])
+    }
+    
+    private func addButtons() {
+        for (index, direction) in types.enumerated() {
+            let btn = createButton(for: direction, at: index)
+            stackView.addArrangedSubview(btn)
         }
     }
-
+    
+    private func createButton(for direction: UIButton.ButtonImageDirection, at index: Int) -> UIButton {
+        let btn = UIButton(type: .custom)
+        let title = getButtonTitle(for: direction)
+        
+        btn.tfy
+            .font(.systemFont(ofSize: 12.adap, weight: .bold))
+            .title(title, for: .normal)
+            .image(UIImage(named: "vip_broadcast"), for: .normal)
+            .imageDirection(direction, 10.adap)
+            .borderWidth(1.adap)
+            .cornerRadius(10.adap)
+            .backgroundColor(UIColor.random())
+            .borderColor(.systemGray)
+            .titleColor(.label, for: .normal)
+        
+        // 设置按钮高度约束
+        btn.heightAnchor.constraint(greaterThanOrEqualToConstant: 60.adap).isActive = true
+        
+        // 添加点击事件
+        btn.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        btn.tag = index
+        
+        return btn
+    }
+    
+    private func getButtonTitle(for direction: UIButton.ButtonImageDirection) -> String {
+        switch direction {
+        case .centerImageTop, .centerImageLeft, .centerImageRight, .centerImageBottom,
+             .leftImageLeft, .leftImageRight, .rightImageLeft, .rightImageRight,
+             .centerImageTopFixedSpace, .centerImageLeftFixedSpace, .centerImageRightFixedSpace, .centerImageBottomFixedSpace,
+             .topImageTop, .topImageBottom, .bottomImageTop, .bottomImageBottom:
+            return "\(direction) - 单行文字"
+        case .centerImageTopTextBelow, .centerImageLeftTextRight, .centerImageRightTextLeft, .centerImageBottomTextAbove:
+            return "\(direction) - 这是一段较长的文字，用于测试多行显示效果"
+        case .imageOnly:
+            return "" // 仅显示图片
+        case .textOnly:
+            return "\(direction) - 仅显示文字"
+        case .imageTopTextBelowFixedHeight, .imageBottomTextAboveFixedHeight:
+            return "\(direction) - 固定高度模式"
+        case .imageLeftTextRightFixedWidth, .imageRightTextLeftFixedWidth:
+            return "\(direction) - 固定宽度模式"
+        }
+    }
+    
+    @objc private func buttonTapped(_ sender: UIButton) {
+        let direction = types[sender.tag]
+        let alert = UIAlertController(title: "按钮点击", message: "您点击了: \(direction)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确定", style: .default))
+        present(alert, animated: true)
+    }
+    
+    private func setupDeviceAdaptation() {
+        // 根据设备类型调整布局
+        if TFYSwiftAdaptiveKit.Device.isIPad {
+            // iPad布局调整
+            stackView.spacing = 30.adap
+            
+            // 如果是分屏模式，调整间距
+            if TFYSwiftAdaptiveKit.Device.isSplitScreen {
+                stackView.spacing = 20.adap
+            }
+        }
+    }
+    
+    // MARK: - Orientation Support
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate { _ in
+            // 重新计算布局 - 只在需要时更新
+            if TFYSwiftAdaptiveKit.Device.isIPad {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
 }

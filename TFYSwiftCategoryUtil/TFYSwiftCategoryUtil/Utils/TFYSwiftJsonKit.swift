@@ -3,7 +3,7 @@
 //  TFYSwiftPickerView
 //
 //  Created by 田风有 on 2022/5/19.
-//  Copyright © 2022 TFYSwift. All rights reserved.
+//  用途：JSON 编解码工具，支持对象、字典、数组与 JSON 的互转。
 //
 
 import Foundation
@@ -130,6 +130,10 @@ public class TFYSwiftJsonKit: NSObject {
     public static func decode<T: Decodable>(_ type: T.Type, 
                                           from data: Data, 
                                           config: TFYJsonConfig = defaultConfig) -> Result<T, TFYJsonError> {
+        guard !data.isEmpty else {
+            print("TFYSwiftJsonKit: decode 传入数据为空")
+            return .failure(.invalidData)
+        }
         do {
             let decoder = config.makeDecoder()
             let value = try decoder.decode(type, from: data)

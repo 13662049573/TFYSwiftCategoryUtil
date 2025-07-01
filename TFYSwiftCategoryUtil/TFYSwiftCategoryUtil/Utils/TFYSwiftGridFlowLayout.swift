@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2025/2/14.
+//  用途：自定义 UICollectionView 网格流式布局，支持动态列数、间距、补充视图等。
 //
 
 import UIKit
@@ -122,7 +123,10 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         let contentWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
         let itemWidth = (contentWidth - CGFloat(columnsCount - 1) * interitemSpacing) / CGFloat(columnsCount)
         
-        sectionColumnsHeights.append(Array(repeating: contentHeight + sectionInset.top, count: columnsCount))
+        if section >= sectionColumnsHeights.count {
+            print("TFYSwiftGridFlowLayout: section越界，section=\(section)")
+            sectionColumnsHeights.append(Array(repeating: contentHeight + sectionInset.top, count: columnsCount))
+        }
         
         let itemsCount = collectionView.numberOfItems(inSection: section)
         for item in 0..<itemsCount {
@@ -143,7 +147,7 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             cache.append(footerAttributes)
             contentHeight = footerAttributes.frame.maxY
         } else {
-            contentHeight = (sectionColumnsHeights[section].max() ?? 0) + sectionInset.bottom
+            contentHeight = (sectionColumnsHeights[safe: section]?.max() ?? 0) + sectionInset.bottom
         }
     }
     

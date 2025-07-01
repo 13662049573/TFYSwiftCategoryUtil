@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2022/6/6.
+//  用途：通用弹窗视图，支持多种动画、手势、键盘适配、配置灵活。
 //
 
 import UIKit
@@ -161,6 +162,10 @@ public class TFYSwiftPopupView: UIView {
                contentView: UIView, 
                animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration()) {
+        assert(contentView.superview == nil, "TFYSwiftPopupView: contentView 已经被添加到其他视图")
+        if contentView.superview != nil {
+            print("TFYSwiftPopupView: contentView 已经被添加到其他视图，可能导致布局异常")
+        }
         self.containerView = containerView
         self.contentView = contentView
         self.animator = animator

@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2022/5/18.
+//  用途：正则表达式工具，支持常用字符串、数字、手机号等校验。
 //
 
 import Foundation
@@ -81,11 +82,14 @@ public struct TFYRegexHelper {
         pattern: String,
         options: NSRegularExpression.Options = []
     ) -> Bool {
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: options)
+            let matches = regex.matches(in: input, range: NSRange(input.startIndex..., in: input))
+            return !matches.isEmpty
+        } catch {
+            print("TFYRegexHelper: 正则表达式错误 pattern=\(pattern), error=\(error)")
             return false
         }
-        let matches = regex.matches(in: input, range: NSRange(input.startIndex..., in: input))
-        return !matches.isEmpty
     }
     
     /// 获取匹配的范围

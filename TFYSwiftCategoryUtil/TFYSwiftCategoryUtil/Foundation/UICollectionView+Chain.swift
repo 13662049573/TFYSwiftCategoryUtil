@@ -3,60 +3,61 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/10.
+//  优化：参数安全性检查、注释补全、健壮性提升
 //
 
 import UIKit
 
 public extension TFY where Base: UICollectionView {
-    
+    /// 设置背景视图
     @discardableResult
     func backgroundView(_ backgroundView: UIView?) -> Self {
         base.backgroundView = backgroundView
         return self
     }
-    
+    /// 设置数据源
     @discardableResult
     func dataSource(_ dataSource: UICollectionViewDataSource?) -> Self {
         base.dataSource = dataSource
         return self
     }
-    
+    /// 设置代理
     @discardableResult
     func delegate(_ delegate: UICollectionViewDelegate?) -> Self {
         base.delegate = delegate
         return self
     }
-    
+    /// 注册Cell类
     @discardableResult
     func registerCell(_ cellClass: UICollectionViewCell.Type) -> Self {
         base.register(cell: cellClass)
         return self
     }
-    
+    /// 注册Nib Cell
     @discardableResult
     func registerNibCell(_ nibCell: UICollectionViewCell.Type) -> Self {
         base.register(nibCell: nibCell)
         return self
     }
-    
+    /// 注册Header类
     @discardableResult
     func registerHeader(_ viewClass: UICollectionReusableView.Type) -> Self {
         base.register(header: viewClass)
         return self
     }
-    
+    /// 注册Footer类
     @discardableResult
     func registerFooter(_ viewClass: UICollectionReusableView.Type) -> Self {
         base.register(footer: viewClass)
         return self
     }
-    
+    /// 注册Nib Header
     @discardableResult
     func registerNibHeader(_ nibHeader: UICollectionReusableView.Type) -> Self {
         base.register(nibHeader: nibHeader)
         return self
     }
-    
+    /// 注册Nib Footer
     @discardableResult
     func registerNibFooter(_ nibFooter: UICollectionReusableView.Type) -> Self {
         base.register(nibFooter: nibFooter)

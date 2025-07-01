@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 // 田风有 on 2022/5/12.
+//  用途：核心工具类，提供窗口管理、日志系统、内购管理等功能。
 //
 
 import Foundation
@@ -110,7 +111,12 @@ public enum TFYUtils {
             
             // 创建日志目录
             if !fileManager.fileExists(atPath: logDir) {
-                try? fileManager.createDirectory(atPath: logDir, withIntermediateDirectories: true)
+                do {
+                    try fileManager.createDirectory(atPath: logDir, withIntermediateDirectories: true)
+                } catch {
+                    print("Failed to create log directory: \(error)")
+                    return
+                }
             }
             
             // 按日期分文件
@@ -128,7 +134,11 @@ public enum TFYUtils {
                         try? handle.close()
                     }
                 } else {
-                    try? data.write(to: URL(fileURLWithPath: filePath))
+                    do {
+                        try data.write(to: URL(fileURLWithPath: filePath))
+                    } catch {
+                        print("Failed to write log file: \(error)")
+                    }
                 }
             }
             

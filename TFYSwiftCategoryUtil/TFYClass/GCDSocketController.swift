@@ -62,6 +62,9 @@ class GCDSocketController: UIViewController {
         table.dataSource = self
         table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = .systemGroupedBackground
+        table.separatorStyle = .singleLine
+        table.separatorInset = UIEdgeInsets(top: 0, left: 20.adap, bottom: 0, right: 20.adap)
         return table
     }()
     
@@ -69,12 +72,13 @@ class GCDSocketController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupDeviceAdaptation()
     }
     
     // MARK: - Setup
     private func setupUI() {
-        title = "Popup 演示"
-        view.backgroundColor = .white
+        title = "弹窗演示"
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -83,6 +87,15 @@ class GCDSocketController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupDeviceAdaptation() {
+        // 根据设备类型调整布局
+        if TFYSwiftAdaptiveKit.Device.isIPad {
+            // iPad布局调整
+            tableView.separatorStyle = .singleLine
+            tableView.separatorInset = UIEdgeInsets(top: 0, left: 20.adap, bottom: 0, right: 20.adap)
+        }
     }
     
     // MARK: - Actions
@@ -110,9 +123,12 @@ class GCDSocketController: UIViewController {
         config.backgroundStyle = .solidColor
         config.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
-        // 设置容器大小
-        config.containerConfiguration.width = .fixed(UIScreen.main.bounds.width - 60)
-        config.containerConfiguration.height = .fixed(289)
+        // 根据设备类型设置默认容器大小
+        let defaultWidth = TFYSwiftAdaptiveKit.Device.isIPad ? 400.adap : UIScreen.main.bounds.width - 60.adap
+        let defaultHeight = TFYSwiftAdaptiveKit.Device.isIPad ? 350.adap : 289.adap
+        
+        config.containerConfiguration.width = .fixed(defaultWidth)
+        config.containerConfiguration.height = .fixed(defaultHeight)
         
         // 根据不同类型配置动画和样式
         switch item.style {
@@ -136,36 +152,36 @@ class GCDSocketController: UIViewController {
             
         // 方向动画
         case .upward:
-            animator = TFYSwiftUpwardAnimator(layout: .bottom(.init(bottomMargin: 20)))
+            animator = TFYSwiftUpwardAnimator(layout: .bottom(.init(bottomMargin: 20.adap)))
         case .downward:
-            animator = TFYSwiftDownwardAnimator(layout: .top(.init(topMargin: 20)))
+            animator = TFYSwiftDownwardAnimator(layout: .top(.init(topMargin: 20.adap)))
         case .leftward:
-            animator = TFYSwiftLeftwardAnimator(layout: .trailing(.init(trailingMargin: 20)))
+            animator = TFYSwiftLeftwardAnimator(layout: .trailing(.init(trailingMargin: 20.adap)))
         case .rightward:
-            animator = TFYSwiftRightwardAnimator(layout: .leading(.init(leadingMargin: 20)))
+            animator = TFYSwiftRightwardAnimator(layout: .leading(.init(leadingMargin: 20.adap)))
             
         // 位置展示
         case .top:
-            animator = TFYSwiftFadeInOutAnimator(layout: .top(.init(topMargin: 50)))
+            animator = TFYSwiftFadeInOutAnimator(layout: .top(.init(topMargin: 50.adap)))
         case .bottom:
-            animator = TFYSwiftFadeInOutAnimator(layout: .bottom(.init(bottomMargin: 50)))
+            animator = TFYSwiftFadeInOutAnimator(layout: .bottom(.init(bottomMargin: 50.adap)))
         case .leading:
-            animator = TFYSwiftFadeInOutAnimator(layout: .leading(.init(leadingMargin: 20)))
+            animator = TFYSwiftFadeInOutAnimator(layout: .leading(.init(leadingMargin: 20.adap)))
         case .trailing:
-            animator = TFYSwiftFadeInOutAnimator(layout: .trailing(.init(trailingMargin: 20)))
+            animator = TFYSwiftFadeInOutAnimator(layout: .trailing(.init(trailingMargin: 20.adap)))
         case .center:
             animator = TFYSwiftFadeInOutAnimator(layout: .center(.init()))
             
         // 容器大小
         case .fixedSize:
-            config.containerConfiguration.width = .fixed(300)
-            config.containerConfiguration.height = .fixed(300)
+            config.containerConfiguration.width = .fixed(300.adap)
+            config.containerConfiguration.height = .fixed(300.adap)
             
         case .autoSize:
             config.containerConfiguration.width = .automatic
             config.containerConfiguration.height = .automatic
-            config.containerConfiguration.maxWidth = view.bounds.width - 40
-            config.containerConfiguration.maxHeight = view.bounds.height - 100
+            config.containerConfiguration.maxWidth = view.bounds.width - 40.adap
+            config.containerConfiguration.maxHeight = view.bounds.height - 100.adap
             
         case .ratioSize:
             config.containerConfiguration.width = .ratio(0.8)
@@ -173,11 +189,11 @@ class GCDSocketController: UIViewController {
             
         case .customSize:
             config.containerConfiguration.width = .custom { [weak self] view in
-                guard let self = self else { return 280 }
+                guard let self = self else { return 280.adap }
                 return self.view.bounds.width * 0.7
             }
             config.containerConfiguration.height = .custom { [weak self] view in
-                guard let self = self else { return 200 }
+                guard let self = self else { return 200.adap }
                 return self.view.bounds.height * 0.3
             }
             

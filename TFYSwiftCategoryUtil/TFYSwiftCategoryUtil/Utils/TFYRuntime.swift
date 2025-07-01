@@ -3,6 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/17.
+//  用途：Runtime 工具，支持关联对象、属性/方法/协议获取、方法交换等。
 //
 
 import UIKit
@@ -132,11 +133,13 @@ public class TFYRuntime: NSObject {
     /// 获取属性的类型编码
     public static func getPropertyType(_ property: objc_property_t) -> String {
         guard let attributesPointer = property_getAttributes(property) else {
+            print("TFYRuntime: 属性类型解析失败 property=\(property)")
             return ""
         }
         let attributes = String(cString: attributesPointer)
         let slices = attributes.split(separator: "\"")
         guard slices.count >= 2 else {
+            print("TFYRuntime: 属性类型格式异常 attributes=\(attributes)")
             return ""
         }
         return String(slices[1])

@@ -3,24 +3,25 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/10.
+//  优化：参数安全性检查、注释补全、健壮性提升
 //
 
 import UIKit
 
 public extension TFY where Base: UILabel {
-
+    /// 设置行数
     @discardableResult
     func numberOfLines(_ numberOfLines: Int) -> Self {
-        base.numberOfLines = numberOfLines
+        base.numberOfLines = max(0, numberOfLines)
         return self
     }
-    
+    /// 设置是否自动调整字体大小以适应宽度
     @discardableResult
     func adjustsFontSizeToFitWidth(_ adjustsFontSizeToFitWidth: Bool) -> Self {
         base.adjustsFontSizeToFitWidth = adjustsFontSizeToFitWidth
         return self
     }
-    
+    /// 获取适合指定大小的尺寸
     @discardableResult
     func sizeThatFits(size:CGSize) -> CGSize {
         let sizes:CGSize = base.sizeThatFits(size)
@@ -29,21 +30,23 @@ public extension TFY where Base: UILabel {
 }
 
 public extension UILabel {
-    /// 改变字段间距
+    /// 改变字体
     func changeFontWithTextFont(font:UIFont) {
         self.changeFontWithTextFont(font: font, text: self.text ?? "")
     }
-    /// 改变行间距
+    /// 改变字体
     func changeFontWithTextFont(font:UIFont,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: font, text: text, name: NSAttributedString.Key.font)
     }
     
-    /// 改变行间距
+    /// 改变字间距
     func changeSpaceWithTextSpace(textSpace:CGFloat) {
         self.changeSpaceWithTextSpace(textSpace: textSpace, text: self.text ?? "")
     }
-    /// 改变行间距
+    /// 改变字间距
     func changeSpaceWithTextSpace(textSpace:CGFloat,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textSpace, text: text, name: NSAttributedString.Key.kern)
     }
     
@@ -59,7 +62,10 @@ public extension UILabel {
     func changeParagraphStyleWithTextParagraphStyle(paragraphStyle:NSParagraphStyle) {
         let att:NSAttributedString = NSAttributedString(string: "")
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: self.attributedText ?? att)
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, NSString(string: self.text ?? "").length))
+        let textLength = NSString(string: self.text ?? "").length
+        if textLength > 0 {
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, textLength))
+        }
         self.attributedText = attributedString
     }
     
@@ -70,29 +76,36 @@ public extension UILabel {
     
     /// 改变字段颜色
     func changeColorWithTextColor(textColor:UIColor,text:String) {
+        guard !text.isEmpty else { return }
         self.changeColorWithTextColor(textColor: textColor, texts: [text])
     }
     
     /// 改变字段颜色
     func changeColorWithTextColor(textColor:UIColor,texts:[String]) {
+        guard !texts.isEmpty else { return }
         let attributedString = NSMutableAttributedString(string: self.text ?? "")
         texts.forEach { textStr in
+            guard !textStr.isEmpty else { return }
             let range = ((self.text ?? "") as NSString).range(of: textStr)
-            attributedString.addAttribute(.foregroundColor, value: textColor, range: range)
+            if range.location != NSNotFound {
+                attributedString.addAttribute(.foregroundColor, value: textColor, range: range)
+            }
         }
         self.attributedText = attributedString
     }
     
     /// 改变不同字段颜色
     func changeColorWithTextColors(textColors:[UIColor],texts:[String]) {
-        if textColors.count == texts.count {
-            let attributedString = NSMutableAttributedString(string: self.text ?? "")
-            for (index,color) in textColors.enumerated() {
-                let range = ((self.text ?? "") as NSString).range(of: texts[index])
+        guard textColors.count == texts.count, !textColors.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(string: self.text ?? "")
+        for (index,color) in textColors.enumerated() {
+            guard index < texts.count, !texts[index].isEmpty else { continue }
+            let range = ((self.text ?? "") as NSString).range(of: texts[index])
+            if range.location != NSNotFound {
                 attributedString.addAttribute(.foregroundColor, value: color, range: range)
             }
-            self.attributedText = attributedString
         }
+        self.attributedText = attributedString
     }
     
     /// 改变字段背景颜色
@@ -102,6 +115,7 @@ public extension UILabel {
     
     /// 改变字段背景颜色
     func changeBgColorWithBgTextColor(bgTextColor:UIColor,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: bgTextColor, text: text, name: NSAttributedString.Key.backgroundColor)
     }
     
@@ -112,6 +126,7 @@ public extension UILabel {
     
     /// 改变字段连笔字 value值为1或者0
     func changeLigatureWithTextLigature(textLigature:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textLigature, text: text, name: NSAttributedString.Key.ligature)
     }
     
@@ -122,6 +137,7 @@ public extension UILabel {
     
     /// 改变字间距
     func changeKernWithTextKern(textKern:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textKern, text: text, name: NSAttributedString.Key.kern)
     }
     
@@ -132,6 +148,7 @@ public extension UILabel {
     
     /// 改变字的删除线
     func changeStrikethroughStyleWithTextStrikethroughStyle(textStrikethroughStyle:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textStrikethroughStyle, text: text, name: NSAttributedString.Key.strikethroughStyle)
     }
     
@@ -142,6 +159,7 @@ public extension UILabel {
     
     /// 改变字的删除线颜色
     func changeStrikethroughColorWithTextStrikethroughColor(textStrikethroughColor:UIColor,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textStrikethroughColor, text: text, name: NSAttributedString.Key.strikethroughColor)
     }
     
@@ -152,6 +170,7 @@ public extension UILabel {
     
     /// 改变字的下划线
     func changeUnderlineStyleWithTextStrikethroughStyle(textUnderlineStyle:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textUnderlineStyle, text: text, name: NSAttributedString.Key.underlineStyle)
     }
     
@@ -162,29 +181,31 @@ public extension UILabel {
     
     /// 改变字的下划线颜色
     func changeUnderlineColorWithTextStrikethroughColor(textUnderlineColor:UIColor,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textUnderlineColor, text: text, name: NSAttributedString.Key.underlineColor)
     }
     
-    /// 改变字的颜色
+    /// 改变字的描边颜色
     func changeStrokeColorWithTextStrikethroughColor(textStrokeColor:UIColor) {
         self.changeStrokeColorWithTextStrikethroughColor(textStrokeColor: textStrokeColor, text: self.text ?? "")
     }
     
-    /// 改变字的颜色
+    /// 改变字的描边颜色
     func changeStrokeColorWithTextStrikethroughColor(textStrokeColor:UIColor,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textStrokeColor, text: text, name: NSAttributedString.Key.strokeColor)
     }
     
-    /// 改变字的描边
+    /// 改变字的描边宽度
     func changeStrokeWidthWithTextStrikethroughWidth(textStrokeWidth:NSNumber) {
         self.changeStrokeWidthWithTextStrikethroughWidth(textStrokeWidth: textStrokeWidth, text: self.text ?? "")
     }
     
-    /// 改变字的描边
+    /// 改变字的描边宽度
     func changeStrokeWidthWithTextStrikethroughWidth(textStrokeWidth:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textStrokeWidth, text: text, name: NSAttributedString.Key.strokeWidth)
     }
-    
     
     /// 改变字的阴影
     func changeShadowWithTextShadow(textShadow:NSShadow) {
@@ -193,6 +214,7 @@ public extension UILabel {
     
     /// 改变字的阴影
     func changeShadowWithTextShadow(textShadow:NSShadow,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textShadow, text: text, name: NSAttributedString.Key.shadow)
     }
     
@@ -201,9 +223,9 @@ public extension UILabel {
         self.changeTextEffectWithTextEffect(textEffect: textEffect, text: self.text ?? "")
     }
     
-    
     /// 改变字的特殊效果
     func changeTextEffectWithTextEffect(textEffect:String,text:String) {
+        guard !text.isEmpty, !textEffect.isEmpty else { return }
         self.attributedString(value: textEffect, text: text, name: NSAttributedString.Key.textEffect)
     }
     
@@ -214,6 +236,7 @@ public extension UILabel {
     
     /// 改变字的文本附件
     func changeAttachmentWithTextAttachment(textAttachment:NSTextAttachment,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textAttachment, text: text, name: NSAttributedString.Key.attachment)
     }
     
@@ -224,6 +247,7 @@ public extension UILabel {
     
     /// 改变字的链接
     func changeLinkWithTextLink(textLink:String,text:String) {
+        guard !text.isEmpty, !textLink.isEmpty else { return }
         self.attributedString(value: textLink, text: text, name: NSAttributedString.Key.link)
     }
     
@@ -234,6 +258,7 @@ public extension UILabel {
     
     /// 改变字的基准线偏移 value>0坐标往上偏移 value<0坐标往下偏移
     func changeBaselineOffsetWithTextBaselineOffset(textBaselineOffset:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textBaselineOffset, text: text, name: NSAttributedString.Key.baselineOffset)
     }
     
@@ -244,6 +269,7 @@ public extension UILabel {
     
     /// 改变字的倾斜 value>0向右倾斜 value<0向左倾斜
     func changeObliquenessWithTextObliqueness(textObliqueness:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textObliqueness, text: text, name: NSAttributedString.Key.obliqueness)
     }
     
@@ -254,16 +280,19 @@ public extension UILabel {
     
     /// 改变字粗细 0就是不变 >0加粗 <0加细
     func changeExpansionsWithTextExpansion(textExpansion:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textExpansion, text: text, name: NSAttributedString.Key.expansion)
     }
     
     /// 改变字方向 NSWritingDirection
     func changeWritingDirectionWithTextExpansion(textWritingDirection:[Any],text:String) {
+        guard !text.isEmpty, !textWritingDirection.isEmpty else { return }
         self.attributedString(value: textWritingDirection, text: text, name: NSAttributedString.Key.writingDirection)
     }
     
     /// 改变字的水平或者竖直 1竖直 0水平
     func changeVerticalGlyphFormWithTextVerticalGlyphForm(textVerticalGlyphForm:NSNumber,text:String) {
+        guard !text.isEmpty else { return }
         self.attributedString(value: textVerticalGlyphForm, text: text, name: NSAttributedString.Key.verticalGlyphForm)
     }
     
@@ -271,12 +300,16 @@ public extension UILabel {
     func changeCTKernWithTextCTKern(textCTKern:NSNumber) {
         let att:NSAttributedString = NSAttributedString(string: "")
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: self.attributedText ?? att)
-        attributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key, value: textCTKern, range: NSMakeRange(0, NSString(string: self.text ?? "").length-1))
+        let textLength = NSString(string: self.text ?? "").length
+        if textLength > 1 {
+            attributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key, value: textCTKern, range: NSMakeRange(0, textLength-1))
+        }
         self.attributedText = attributedString
     }
     
     /// 为UILabel首部设置图片标签
     func changeImage(text:String,images:[UIImage],imageSpan:CGFloat) {
+        guard !images.isEmpty else { return }
         
         let textAttrStr:NSMutableAttributedString = NSMutableAttributedString()
         images.forEach { image in
@@ -301,6 +334,7 @@ public extension UILabel {
     }
     
     private func attributedString(value:Any,text:String,name:NSAttributedString.Key) {
+        guard !text.isEmpty else { return }
         let att:NSAttributedString = NSAttributedString(string: "")
         let options: NSString.CompareOptions = [.caseInsensitive,.backwards,.diacriticInsensitive,.widthInsensitive]
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: self.attributedText ?? att)

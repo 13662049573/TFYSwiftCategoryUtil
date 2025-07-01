@@ -3,6 +3,7 @@
 //  SocialItem
 //
 //  Created by 田风有 on 2024/4/16.
+//  用途：网络状态检测工具，支持 WiFi/蜂窝/无网络等类型判断。
 //
 
 import UIKit
@@ -124,6 +125,7 @@ private extension TFYNetstatManager {
             return .cellular4G
             
         default:
+            print("TFYNetstatManager: 未知蜂窝网络类型\(technology)")
             return .notReachable
         }
     }

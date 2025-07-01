@@ -3,6 +3,8 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/10.
+//  用途：UIButton 链式编程扩展，支持图片文字布局、活动指示器、倒计时等功能。
+//  优化：参数安全性检查、注释补全、健壮性提升
 //
 
 import UIKit
@@ -13,6 +15,7 @@ public extension TFY where Base: UIButton {
     /// 设置按钮标题
     @discardableResult
     func title(_ title: String?, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setTitle(title, for: $0) }
         return self
     }
@@ -20,6 +23,7 @@ public extension TFY where Base: UIButton {
     /// 设置按钮标题颜色
     @discardableResult
     func titleColor(_ color: UIColor?, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setTitleColor(color, for: $0) }
         return self
     }
@@ -27,6 +31,7 @@ public extension TFY where Base: UIButton {
     /// 设置按钮图片
     @discardableResult
     func image(_ image: UIImage?, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setImage(image, for: $0) }
         return self
     }
@@ -34,6 +39,7 @@ public extension TFY where Base: UIButton {
     /// 设置按钮背景图片
     @discardableResult
     func backgroundImage(_ image: UIImage?, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setBackgroundImage(image, for: $0) }
         return self
     }
@@ -41,6 +47,7 @@ public extension TFY where Base: UIButton {
     /// 设置按钮富文本标题
     @discardableResult
     func attributedTitle(_ attributedTitle: NSAttributedString?, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setAttributedTitle(attributedTitle, for: $0) }
         return self
     }
@@ -51,12 +58,12 @@ public extension TFY where Base: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: edgeInsets.top,
-                leading: edgeInsets.left,
-                bottom: edgeInsets.bottom,
-                trailing: edgeInsets.right
+                top: max(0, edgeInsets.top),
+                leading: max(0, edgeInsets.left),
+                bottom: max(0, edgeInsets.bottom),
+                trailing: max(0, edgeInsets.right)
             )
-            configuration.titlePadding = edgeInsets.left
+            configuration.titlePadding = max(0, edgeInsets.left)
             base.configuration = configuration
         } else {
             base.titleEdgeInsets = edgeInsets
@@ -70,12 +77,12 @@ public extension TFY where Base: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: top,
-                leading: left,
-                bottom: bottom,
-                trailing: right
+                top: max(0, top),
+                leading: max(0, left),
+                bottom: max(0, bottom),
+                trailing: max(0, right)
             )
-            configuration.titlePadding = left
+            configuration.titlePadding = max(0, left)
             base.configuration = configuration
         } else {
             base.titleEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
@@ -89,12 +96,12 @@ public extension TFY where Base: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: edgeInsets.top,
-                leading: edgeInsets.left,
-                bottom: edgeInsets.bottom,
-                trailing: edgeInsets.right
+                top: max(0, edgeInsets.top),
+                leading: max(0, edgeInsets.left),
+                bottom: max(0, edgeInsets.bottom),
+                trailing: max(0, edgeInsets.right)
             )
-            configuration.imagePadding = edgeInsets.left
+            configuration.imagePadding = max(0, edgeInsets.left)
             base.configuration = configuration
         } else {
             base.imageEdgeInsets = edgeInsets
@@ -108,12 +115,12 @@ public extension TFY where Base: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: top,
-                leading: left,
-                bottom: bottom,
-                trailing: right
+                top: max(0, top),
+                leading: max(0, left),
+                bottom: max(0, bottom),
+                trailing: max(0, right)
             )
-            configuration.imagePadding = left
+            configuration.imagePadding = max(0, left)
             base.configuration = configuration
         } else {
             base.imageEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
@@ -145,13 +152,14 @@ public extension TFY where Base: UIButton {
     /// 设置图片方向和间距
     @discardableResult
     func imageDirection(_ direction: UIButton.ButtonImageDirection, _ space: CGFloat) -> Self {
-        base.imageDirection(direction, space)
+        base.imageDirection(direction, max(0, space))
         return self
     }
     
     /// 设置不同状态下的背景色
     @discardableResult
     func backgroundStateColor(_ color: UIColor, for state: UIControl.State...) -> Self {
+        guard !state.isEmpty else { return self }
         state.forEach { base.setBackgroundColor(color, for: $0) }
         return self
     }
@@ -735,9 +743,18 @@ public extension UIButton {
     
     /// 验证码倒计时显示
     /// - Parameter interval: 倒计时时间（秒）
-    func timerStart(_ interval: Int = 60,title:String) {
+    func timerStart(_ interval: Int = 60, title: String) {
+        // 防止重复启动计时器
+        if objc_getAssociatedObject(self, "timerKey") != nil {
+            return
+        }
+        
         var time = interval
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: .global())
+        
+        // 保存计时器引用，防止内存泄漏
+        objc_setAssociatedObject(self, "timerKey", codeTimer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        
         codeTimer.schedule(deadline: .now(), repeating: .milliseconds(1000))
         codeTimer.setEventHandler {
             time -= 1
@@ -749,8 +766,18 @@ public extension UIButton {
                 }
                 codeTimer.cancel()
                 self.setTitle(title, for: .normal)
+                // 清理计时器引用
+                objc_setAssociatedObject(self, "timerKey", nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
         codeTimer.resume()
+    }
+    
+    /// 停止倒计时
+    func timerStop() {
+        if let timer = objc_getAssociatedObject(self, "timerKey") as? DispatchSourceTimer {
+            timer.cancel()
+            objc_setAssociatedObject(self, "timerKey", nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
 }
