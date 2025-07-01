@@ -47,6 +47,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec 'Utils' do |ss|
     ss.source_files  = "TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/*.{swift}"
+    ss.dependency "TFYSwiftCategoryUtil/Base"
   end
 
   spec.subspec 'WKWeb' do |ss|

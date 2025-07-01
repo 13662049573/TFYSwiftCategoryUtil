@@ -311,3 +311,16 @@ public extension TFY where Base: UIControl {
         return self
     }
 }
+
+// MARK: - Array扩展
+public extension Array {
+    /// 将数组分割成指定大小的块
+    /// - Parameter size: 每块的大小
+    /// - Returns: 分块后的二维数组
+    func chunked(into size: Int) -> [[Element]] {
+        guard size > 0 else { return [] }
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0..<Swift.min($0 + size, count)])
+        }
+    }
+}
