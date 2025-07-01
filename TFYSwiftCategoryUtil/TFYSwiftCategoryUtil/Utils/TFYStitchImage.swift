@@ -111,9 +111,15 @@ public class TFYStitchImage: NSObject {
         config: TFYStitchConfig
     ) -> [UIImage] {
         var result: [UIImage] = []
-        let chunks = images.chunked(into: config.itemsPerPage)
         
-        for chunk in chunks {
+        // 手动分块，避免依赖扩展方法
+        let pageSize = config.itemsPerPage
+        let totalImages = images.count
+        
+        for startIndex in stride(from: 0, to: totalImages, by: pageSize) {
+            let endIndex = min(startIndex + pageSize, totalImages)
+            let chunk = Array(images[startIndex..<endIndex])
+            
             if let image = stitchImage(
                 images: chunk,
                 size: size,

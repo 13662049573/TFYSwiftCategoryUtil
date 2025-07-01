@@ -21,6 +21,7 @@ public extension TFY where Base == String {
         let strLen = CUnsignedInt(base.lengthOfBytes(using: String.Encoding.utf8))
         let digestLen = Int(CC_MD5_DIGEST_LENGTH)
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
+        // swiftlint:disable:next deprecated_crypto
         CC_MD5(str!, strLen, result)
         let hash = NSMutableString()
         for i in 0 ..< digestLen {
@@ -212,6 +213,7 @@ public extension String {
     func md5String() -> String{
         guard !self.isEmpty else { return "" }
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(CC_MD5_DIGEST_LENGTH))
+        // swiftlint:disable:next deprecated_crypto
         CC_MD5(Array(self.utf8), CC_LONG(self.count), result)
         let str = String(format: "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
                          result[0], result[1], result[2], result[3],
@@ -1938,6 +1940,7 @@ public extension TFY where Base: ExpressibleByStringLiteral {
          第二个参数: 获取要加密字符串的长度
          第三个参数: 接收结果的数组
          */
+        // swiftlint:disable:next deprecated_crypto
         CC_MD5(cCharArray, CC_LONG(cCharArray!.count - 1), &uint8Array)
         
         switch md5Type {
