@@ -365,6 +365,11 @@ public class TFYSwiftPopupView: UIView {
     }
     
     private func setupContainerConstraints() {
+        // 检查是否为底部弹出框动画器，如果是则跳过容器约束设置
+        if animator is TFYSwiftBottomSheetAnimator {
+            return // 底部弹出框使用自己的约束系统
+        }
+        
         // 移除旧的约束
         NSLayoutConstraint.deactivate(containerConstraints)
         containerConstraints.removeAll()
@@ -511,7 +516,12 @@ public extension TFYSwiftPopupView {
 // MARK: - Private Methods
 private extension TFYSwiftPopupView {
     func setupInitialLayout() {
-        // 设置内容视图的中心约束
+        // 检查是否为底部弹出框动画器，如果是则跳过center约束设置
+        if animator is TFYSwiftBottomSheetAnimator {
+            return // 底部弹出框使用自己的约束系统
+        }
+        
+        // 设置内容视图的中心约束（仅用于非底部弹出框）
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -1112,40 +1122,135 @@ open class TFYSwiftRightwardAnimator: TFYSwiftDirectionalAnimator {
     }
 }
 
-// MARK: - Constraint Helpers
-extension UIView {
-    func widthConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .width && $0.firstItem as? UIView == firstItem }
+// MARK: - Bottom Sheet Animator
+
+public class TFYSwiftBottomSheetAnimator: TFYSwiftPopupViewAnimator {
+    public struct Configuration {
+        public var defaultHeight: CGFloat = 300
+        public var minimumHeight: CGFloat = 100
+        public var maximumHeight: CGFloat = UIScreen.main.bounds.height
+        public var allowsFullScreen: Bool = true
+        public var snapToDefaultThreshold: CGFloat = 80
+        public var springDamping: CGFloat = 0.8
+        public var springVelocity: CGFloat = 0.4
+        public var animationDuration: TimeInterval = 0.35
+        public var dismissThreshold: CGFloat = 60
+        public init() {}
     }
     
-    func heightConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .height && $0.firstItem as? UIView == firstItem }
+    public let configuration: Configuration
+    private weak var popupView: TFYSwiftPopupView?
+    private weak var contentView: UIView?
+    private weak var backgroundView: TFYSwiftPopupView.BackgroundView?
+    private var panGesture: UIPanGestureRecognizer?
+    private var currentHeight: CGFloat = 0
+    private var isDragging = false
+    private var initialTouchPoint: CGPoint = .zero
+    private var initialFrame: CGRect = .zero
+    
+    public init(configuration: Configuration = Configuration()) {
+        self.configuration = configuration
     }
-
-    func centerXConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .centerX && $0.firstItem as? UIView == firstItem }
+    
+    public func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+        self.popupView = popupView
+        self.contentView = contentView
+        self.backgroundView = backgroundView
+        contentView.layer.cornerRadius = 16
+        contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        contentView.clipsToBounds = true
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        setupLayout(popupView: popupView, contentView: contentView)
+        addPanGesture(to: contentView)
     }
-
-    func centerYConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .centerY && $0.firstItem as? UIView == firstItem }
+    
+    public func refreshLayout(popupView: TFYSwiftPopupView, contentView: UIView) {
+        // 可根据需要刷新布局
     }
-
-    func topConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .top && $0.firstItem as? UIView == firstItem }
+    
+    public func display(contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView, animated: Bool, completion: @escaping () -> ()) {
+        guard let popupView = popupView else { completion(); return }
+        let height = configuration.defaultHeight
+        let y = popupView.bounds.height
+        contentView.frame = CGRect(x: 0, y: y, width: popupView.bounds.width, height: height)
+        backgroundView.alpha = 0
+        UIView.animate(withDuration: configuration.animationDuration, delay: 0, usingSpringWithDamping: configuration.springDamping, initialSpringVelocity: configuration.springVelocity, options: .curveEaseOut) {
+            contentView.frame = CGRect(x: 0, y: popupView.bounds.height - height, width: popupView.bounds.width, height: height)
+            backgroundView.alpha = 1
+        } completion: { _ in
+            completion()
+        }
     }
-
-    func bottomConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-       return constraints.first { $0.firstAttribute == .bottom && $0.firstItem as? UIView == firstItem }
+    
+    public func dismiss(contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView, animated: Bool, completion: @escaping () -> ()) {
+        guard let popupView = popupView else { completion(); return }
+        let y = popupView.bounds.height
+        UIView.animate(withDuration: configuration.animationDuration, delay: 0, options: .curveEaseIn) {
+            contentView.frame.origin.y = y
+            backgroundView.alpha = 0
+        } completion: { _ in
+            completion()
+        }
     }
-
-    func leadingConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-        return constraints.first { $0.firstAttribute == .leading && $0.firstItem as? UIView == firstItem }
+    
+    private func setupLayout(popupView: TFYSwiftPopupView, contentView: UIView) {
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: popupView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: popupView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: popupView.bottomAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: configuration.minimumHeight),
+            contentView.heightAnchor.constraint(lessThanOrEqualToConstant: configuration.maximumHeight)
+        ])
     }
-
-    func trailingConstraint(firstItem: UIView) -> NSLayoutConstraint? {
-       return constraints.first { $0.firstAttribute == .trailing && $0.firstItem as? UIView == firstItem }
+    
+    private func addPanGesture(to view: UIView) {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        view.addGestureRecognizer(pan)
+        self.panGesture = pan
+    }
+    
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        guard let popupView = popupView, let contentView = contentView else { return }
+        let translation = gesture.translation(in: popupView)
+        let velocity = gesture.velocity(in: popupView)
+        switch gesture.state {
+        case .began:
+            isDragging = true
+            initialTouchPoint = gesture.location(in: popupView)
+            initialFrame = contentView.frame
+        case .changed:
+            let newY = max(initialFrame.origin.y + translation.y, popupView.bounds.height - configuration.maximumHeight)
+            let maxY = popupView.bounds.height - configuration.minimumHeight
+            if newY <= maxY {
+                contentView.frame.origin.y = newY
+            }
+        case .ended, .cancelled:
+            isDragging = false
+            let moved = contentView.frame.origin.y - (popupView.bounds.height - configuration.defaultHeight)
+            if moved > configuration.dismissThreshold || velocity.y > 1000 {
+                // 关闭
+                popupView.dismiss(animated: true)
+            } else if abs(moved) > configuration.snapToDefaultThreshold && configuration.allowsFullScreen && velocity.y < 0 {
+                // 全屏展开
+                UIView.animate(withDuration: configuration.animationDuration, delay: 0, usingSpringWithDamping: configuration.springDamping, initialSpringVelocity: configuration.springVelocity, options: .curveEaseOut) {
+                    contentView.frame.origin.y = popupView.bounds.height - self.configuration.maximumHeight
+                    contentView.frame.size.height = self.configuration.maximumHeight
+                }
+            } else {
+                // 回弹到默认高度
+                UIView.animate(withDuration: configuration.animationDuration, delay: 0, usingSpringWithDamping: configuration.springDamping, initialSpringVelocity: configuration.springVelocity, options: .curveEaseOut) {
+                    contentView.frame.origin.y = popupView.bounds.height - self.configuration.defaultHeight
+                    contentView.frame.size.height = self.configuration.defaultHeight
+                }
+            }
+        default:
+            break
+        }
     }
 }
+
+// MARK: - Constraint Helpers
+// 删除UIView的widthConstraint、heightConstraint等约束查找扩展
 
 // MARK: - Gesture Support
 extension TFYSwiftPopupView {
@@ -1215,80 +1320,6 @@ extension TFYSwiftPopupView {
     }
 }
 
-// MARK: - Configuration
-extension TFYSwiftPopupView {
-    public struct InteractionConfiguration {
-        public var enableDragToDismiss: Bool
-        public var dragDismissThreshold: CGFloat
-        public var dragResistance: CGFloat
-        public var bounceBackVelocityThreshold: CGFloat
-        
-        public static let `default` = InteractionConfiguration(
-            enableDragToDismiss: true,
-            dragDismissThreshold: 0.3,
-            dragResistance: 1.0,
-            bounceBackVelocityThreshold: 1000
-        )
-    }
-    
-    public struct AnimationConfiguration {
-        public var duration: TimeInterval
-        public var springDamping: CGFloat
-        public var springVelocity: CGFloat
-        public var options: UIView.AnimationOptions
-        
-        public static let `default` = AnimationConfiguration(
-            duration: 0.3,
-            springDamping: 0.8,
-            springVelocity: 0.2,
-            options: .curveEaseOut
-        )
-    }
-}
-
-// MARK: - Transition Coordinator
-extension TFYSwiftPopupView {
-    final class TransitionCoordinator {
-        private weak var popupView: TFYSwiftPopupView?
-        private var currentAnimation: UIViewPropertyAnimator?
-        
-        init(popupView: TFYSwiftPopupView) {
-            self.popupView = popupView
-        }
-        
-        func animate(withDuration duration: TimeInterval,
-                    delay: TimeInterval = 0,
-                    dampingRatio: CGFloat = 1,
-                    velocity: CGFloat = 0,
-                    options: UIView.AnimationOptions = [],
-                    animations: @escaping () -> Void,
-                    completion: ((Bool) -> Void)? = nil) {
-            // 取消当前动画
-            currentAnimation?.stopAnimation(true)
-            
-            // 创建新动画
-            let animator = UIViewPropertyAnimator(
-                duration: duration,
-                dampingRatio: dampingRatio,
-                animations: animations
-            )
-            
-            animator.addCompletion { position in
-                completion?(position == .end)
-                self.currentAnimation = nil
-            }
-            
-            currentAnimation = animator
-            animator.startAnimation(afterDelay: delay)
-        }
-        
-        func cancelCurrentAnimation() {
-            currentAnimation?.stopAnimation(true)
-            currentAnimation = nil
-        }
-    }
-}
-
 // MARK: - Accessibility
 extension TFYSwiftPopupView {
     private func setupAccessibility() {
@@ -1302,232 +1333,43 @@ extension TFYSwiftPopupView {
     }
 }
 
-// MARK: - Additional Animators
+// MARK: - Spring Animator
 open class TFYSwiftSpringAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-        
-        // 配置弹簧动画参数
-        displaySpringDampingRatio = 0.7
-        displaySpringVelocity = 0.3
-
         contentView.alpha = 0
-        contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            backgroundView.alpha = 0
-
+        backgroundView.alpha = 0
+        contentView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         displayAnimationBlock = {
             contentView.alpha = 1
             contentView.transform = .identity
             backgroundView.alpha = 1
         }
-        
         dismissAnimationBlock = {
             contentView.alpha = 0
-            contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            contentView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
             backgroundView.alpha = 0
         }
     }
 }
 
-open class TFYSwiftBounceAnimator: TFYSwiftBaseAnimator {
-    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
-        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-
-        contentView.alpha = 0
-        contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-        backgroundView.alpha = 0
-
-        displayAnimationBlock = {
-            UIView.animateKeyframes(withDuration: self.displayDuration, delay: 0, options: .calculationModeCubic) {
-                // 关键帧1：快速放大超过目标大小
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
-                    contentView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            contentView.alpha = 1
-            backgroundView.alpha = 1
-                }
-                
-                // 关键帧2：回弹到正常大小
-                UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
-                    contentView.transform = .identity
-                }
-            }
-        }
-        
-        dismissAnimationBlock = {
-            contentView.alpha = 0
-            contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-            backgroundView.alpha = 0
-        }
-    }
-}
-
-open class TFYSwiftRotationAnimator: TFYSwiftBaseAnimator {
-    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
-        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-        
-        contentView.alpha = 0
-        contentView.transform = CGAffineTransform(rotationAngle: .pi)
-            backgroundView.alpha = 0
-        
-        displayAnimationBlock = {
-            contentView.alpha = 1
-            contentView.transform = .identity
-            backgroundView.alpha = 1
-        }
-        
-        dismissAnimationBlock = {
-            contentView.alpha = 0
-            contentView.transform = CGAffineTransform(rotationAngle: -.pi)
-            backgroundView.alpha = 0
-        }
-    }
-}
-
-open class TFYSwiftPulseAnimator: TFYSwiftBaseAnimator {
-    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
-        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-        
-        contentView.alpha = 0
-        contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        backgroundView.alpha = 0
-        
-        displayAnimationBlock = {
-            UIView.animateKeyframes(withDuration: self.displayDuration, delay: 0, options: .calculationModeCubic) {
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
-                    contentView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-            contentView.alpha = 1
-            backgroundView.alpha = 1
-        }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.2) {
-                    contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.2) {
-                    contentView.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
-                    contentView.transform = .identity
-                }
-            }
-        }
-        
-        dismissAnimationBlock = {
-            contentView.alpha = 0
-            contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            backgroundView.alpha = 0
-        }
-    }
-}
-
-// MARK: - Providing Default Implementations
-public extension TFYSwiftPopupViewDelegate {
-    func popupViewWillAppear(_ popupView: TFYSwiftPopupView) {}
-    func popupViewDidAppear(_ popupView: TFYSwiftPopupView) {}
-    func popupViewWillDisappear(_ popupView: TFYSwiftPopupView) {}
-    func popupViewDidDisappear(_ popupView: TFYSwiftPopupView) {}
-    func popupViewDidReceiveMemoryWarning(_ popupView: TFYSwiftPopupView) {}
-}
-
-// MARK: - Additional Animation Effects
-open class TFYSwiftCascadeAnimator: TFYSwiftBaseAnimator {
-    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
-        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-
-        // 初始状态
-        contentView.alpha = 0
-        contentView.transform = CGAffineTransform(translationX: 0, y: -50).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-        backgroundView.alpha = 0
-
-        displayAnimationBlock = {
-            UIView.animateKeyframes(withDuration: self.displayDuration, delay: 0, options: .calculationModeCubic) {
-                // 第一阶段：下落并放大
-                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
-                    contentView.transform = CGAffineTransform(translationX: 0, y: 10).concatenating(CGAffineTransform(scaleX: 1.1, y: 1.1))
-            contentView.alpha = 1
-            backgroundView.alpha = 1
-        }
-                
-                // 第二阶段：轻微回弹
-                UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
-                    contentView.transform = .identity
-                }
-            }
-        }
-        
-        dismissAnimationBlock = {
-            contentView.alpha = 0
-            contentView.transform = CGAffineTransform(translationX: 0, y: 50).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-            backgroundView.alpha = 0
-        }
-    }
-}
-
-open class TFYSwiftElasticAnimator: TFYSwiftBaseAnimator {
-    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
-        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
-        
-        displaySpringDampingRatio = 0.5
-        displaySpringVelocity = 0.8
-
-        contentView.alpha = 0
-        contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-        backgroundView.alpha = 0
-
-        displayAnimationBlock = {
-            contentView.alpha = 1
-            contentView.transform = .identity
-            backgroundView.alpha = 1
-        }
-        
-        dismissAnimationBlock = {
-            contentView.alpha = 0
-            contentView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-            backgroundView.alpha = 0
-        }
-    }
-}
-
-// MARK: - Custom Transition
-public struct TFYSwiftPopupTransition {
-    public var presentDuration: TimeInterval = 0.3
-    public var dismissDuration: TimeInterval = 0.3
-    public var presentTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-    public var dismissTimingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-    
-    public var presentAnimation: CAAnimation?
-    public var dismissAnimation: CAAnimation?
-    
-    public static func createFadeTransition() -> TFYSwiftPopupTransition {
-        var transition = TFYSwiftPopupTransition()
-        
-        let fadeIn = CABasicAnimation(keyPath: "opacity")
-        fadeIn.fromValue = 0
-        fadeIn.toValue = 1
-        transition.presentAnimation = fadeIn
-        
-        let fadeOut = CABasicAnimation(keyPath: "opacity")
-        fadeOut.fromValue = 1
-        fadeOut.toValue = 0
-        transition.dismissAnimation = fadeOut
-        
-        return transition
-    }
-    
-    public static func createScaleTransition() -> TFYSwiftPopupTransition {
-        var transition = TFYSwiftPopupTransition()
-        
-        let scaleIn = CAKeyframeAnimation(keyPath: "transform.scale")
-        scaleIn.values = [0.3, 1.1, 0.9, 1.0]
-        scaleIn.keyTimes = [0, 0.6, 0.8, 1.0]
-        transition.presentAnimation = scaleIn
-        
-        let scaleOut = CABasicAnimation(keyPath: "transform.scale")
-        scaleOut.fromValue = 1.0
-        scaleOut.toValue = 0.3
-        transition.dismissAnimation = scaleOut
-        
-        return transition
+// MARK: - Bottom Sheet PopupView Convenience
+public extension TFYSwiftPopupView {
+    @discardableResult
+    static func showBottomSheet(
+        contentView: UIView,
+        configuration: TFYSwiftBottomSheetAnimator.Configuration = TFYSwiftBottomSheetAnimator.Configuration(),
+        popupConfig: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration(),
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) -> TFYSwiftPopupView {
+        let animator = TFYSwiftBottomSheetAnimator(configuration: configuration)
+        return TFYSwiftPopupView.show(
+            contentView: contentView,
+            configuration: popupConfig,
+            animator: animator,
+            animated: animated,
+            completion: completion
+        )
     }
 }
