@@ -207,307 +207,6 @@ public extension TFY where Base: UICollectionView {
         base.keyboardDismissMode = mode
         return self
     }
-    
-    /// 设置刷新控件
-    @discardableResult
-    func refreshControl(_ control: UIRefreshControl?) -> Self {
-        base.refreshControl = control
-        return self
-    }
-    
-    /// 设置内容偏移调整行为（iOS 11.0+）
-    @available(iOS 11.0, *)
-    @discardableResult
-    func contentInsetAdjustmentBehavior(_ behavior: UIScrollView.ContentInsetAdjustmentBehavior) -> Self {
-        base.contentInsetAdjustmentBehavior = behavior
-        return self
-    }
-    
-    /// 设置自动调整内容偏移（iOS 11.0+）
-    @available(iOS 11.0, *)
-    @discardableResult
-    func automaticallyAdjustsScrollIndicatorInsets(_ adjusts: Bool) -> Self {
-        base.automaticallyAdjustsScrollIndicatorInsets = adjusts
-        return self
-    }
-    
-    /// 设置内容偏移
-    @discardableResult
-    func contentOffset(_ offset: CGPoint) -> Self {
-        base.contentOffset = offset
-        return self
-    }
-    
-    /// 设置内容偏移（带动画）
-    @discardableResult
-    func contentOffset(_ offset: CGPoint, animated: Bool) -> Self {
-        base.setContentOffset(offset, animated: animated)
-        return self
-    }
-    
-    /// 设置内容内边距
-    @discardableResult
-    func contentInset(_ insets: UIEdgeInsets) -> Self {
-        base.contentInset = insets
-        return self
-    }
-    
-    /// 设置滚动指示器内边距（iOS 11.0+）
-    @available(iOS 11.0, *)
-    @discardableResult
-    func scrollIndicatorInsets(_ insets: UIEdgeInsets) -> Self {
-        base.scrollIndicatorInsets = insets
-        return self
-    }
-    
-    /// 设置是否启用滚动
-    @discardableResult
-    func isScrollEnabled(_ enabled: Bool) -> Self {
-        base.isScrollEnabled = enabled
-        return self
-    }
-    
-    /// 设置是否启用方向锁定
-    @discardableResult
-    func isDirectionalLockEnabled(_ enabled: Bool) -> Self {
-        base.isDirectionalLockEnabled = enabled
-        return self
-    }
-    
-    /// 设置是否启用弹性
-    @discardableResult
-    func bounces(_ bounces: Bool) -> Self {
-        base.bounces = bounces
-        return self
-    }
-    
-    /// 设置是否启用水平弹性
-    @discardableResult
-    func alwaysBounceHorizontal(_ always: Bool) -> Self {
-        base.alwaysBounceHorizontal = always
-        return self
-    }
-    
-    /// 设置是否启用垂直弹性
-    @discardableResult
-    func alwaysBounceVertical(_ always: Bool) -> Self {
-        base.alwaysBounceVertical = always
-        return self
-    }
-    
-    /// 设置是否启用缩放
-    @discardableResult
-    func bouncesZoom(_ bounces: Bool) -> Self {
-        base.bouncesZoom = bounces
-        return self
-    }
-    
-    /// 设置是否显示滚动指示器
-    @discardableResult
-    func showsScrollIndicator(_ shows: Bool) -> Self {
-        base.showsVerticalScrollIndicator = shows
-        base.showsHorizontalScrollIndicator = shows
-        return self
-    }
-    
-    /// 设置是否延迟内容触摸
-    @discardableResult
-    func delaysContentTouches(_ delays: Bool) -> Self {
-        base.delaysContentTouches = delays
-        return self
-    }
-    
-    /// 设置是否取消内容触摸
-    @discardableResult
-    func canCancelContentTouches(_ canCancel: Bool) -> Self {
-        base.canCancelContentTouches = canCancel
-        return self
-    }
-    
-    /// 设置最小缩放比例
-    @discardableResult
-    func minimumZoomScale(_ scale: CGFloat) -> Self {
-        base.minimumZoomScale = max(0, scale)
-        return self
-    }
-    
-    /// 设置最大缩放比例
-    @discardableResult
-    func maximumZoomScale(_ scale: CGFloat) -> Self {
-        base.maximumZoomScale = max(0, scale)
-        return self
-    }
-    
-    /// 设置缩放比例
-    @discardableResult
-    func zoomScale(_ scale: CGFloat, animated: Bool = true) -> Self {
-        let finalScale = max(base.minimumZoomScale, min(base.maximumZoomScale, scale))
-        base.setZoomScale(finalScale, animated: animated)
-        return self
-    }
-    
-    /// 缩放到指定区域
-    @discardableResult
-    func zoom(to rect: CGRect, animated: Bool = true) -> Self {
-        base.zoom(to: rect, animated: animated)
-        return self
-    }
-    
-    /// 设置是否启用多选（iOS 13.0+）
-    @available(iOS 13.0, *)
-    @discardableResult
-    func allowsMultipleSelectionDuringEditing(_ allows: Bool) -> Self {
-        base.allowsMultipleSelectionDuringEditing = allows
-        return self
-    }
-
-    /// 设置是否启用自动布局
-    @discardableResult
-    func translatesAutoresizingMaskIntoConstraints(_ translates: Bool) -> Self {
-        base.translatesAutoresizingMaskIntoConstraints = translates
-        return self
-    }
-    
-    /// 设置是否隐藏
-    @discardableResult
-    func isHidden(_ hidden: Bool) -> Self {
-        base.isHidden = hidden
-        return self
-    }
-    
-    /// 设置透明度
-    @discardableResult
-    func alpha(_ alpha: CGFloat) -> Self {
-        base.alpha = max(0, min(1, alpha))
-        return self
-    }
-    
-    /// 设置用户交互
-    @discardableResult
-    func isUserInteractionEnabled(_ enabled: Bool) -> Self {
-        base.isUserInteractionEnabled = enabled
-        return self
-    }
-    
-    /// 设置标签
-    @discardableResult
-    func tag(_ tag: Int) -> Self {
-        base.tag = tag
-        return self
-    }
-    
-    /// 设置圆角
-    @discardableResult
-    func cornerRadius(_ radius: CGFloat) -> Self {
-        base.layer.cornerRadius = max(0, radius)
-        base.layer.masksToBounds = radius > 0
-        return self
-    }
-    
-    /// 设置边框宽度
-    @discardableResult
-    func borderWidth(_ width: CGFloat) -> Self {
-        base.layer.borderWidth = max(0, width)
-        return self
-    }
-    
-    /// 设置边框颜色
-    @discardableResult
-    func borderColor(_ color: UIColor?) -> Self {
-        base.layer.borderColor = color?.cgColor
-        return self
-    }
-    
-    /// 设置阴影颜色
-    @discardableResult
-    func shadowColor(_ color: UIColor?) -> Self {
-        base.layer.shadowColor = color?.cgColor
-        return self
-    }
-    
-    /// 设置阴影偏移
-    @discardableResult
-    func shadowOffset(_ offset: CGSize) -> Self {
-        base.layer.shadowOffset = offset
-        return self
-    }
-    
-    /// 设置阴影透明度
-    @discardableResult
-    func shadowOpacity(_ opacity: Float) -> Self {
-        base.layer.shadowOpacity = max(0, min(1, opacity))
-        return self
-    }
-    
-    /// 设置阴影半径
-    @discardableResult
-    func shadowRadius(_ radius: CGFloat) -> Self {
-        base.layer.shadowRadius = max(0, radius)
-        return self
-    }
-    
-    /// 设置背景颜色
-    @discardableResult
-    func backgroundColor(_ color: UIColor?) -> Self {
-        base.backgroundColor = color
-        return self
-    }
-    
-    /// 设置内容模式
-    @discardableResult
-    func contentMode(_ mode: UIView.ContentMode) -> Self {
-        base.contentMode = mode
-        return self
-    }
-    
-    /// 设置是否裁剪子视图
-    @discardableResult
-    func clipsToBounds(_ clips: Bool) -> Self {
-        base.clipsToBounds = clips
-        return self
-    }
-    
-    /// 设置是否启用辅助功能
-    @discardableResult
-    func isAccessibilityElement(_ isElement: Bool) -> Self {
-        base.isAccessibilityElement = isElement
-        return self
-    }
-    
-    /// 设置辅助功能标签
-    @discardableResult
-    func accessibilityLabel(_ label: String?) -> Self {
-        base.accessibilityLabel = label
-        return self
-    }
-    
-    /// 设置辅助功能提示
-    @discardableResult
-    func accessibilityHint(_ hint: String?) -> Self {
-        base.accessibilityHint = hint
-        return self
-    }
-    
-    /// 设置辅助功能值
-    @discardableResult
-    func accessibilityValue(_ value: String?) -> Self {
-        base.accessibilityValue = value
-        return self
-    }
-    
-    /// 设置辅助功能特征
-    @discardableResult
-    func accessibilityTraits(_ traits: UIAccessibilityTraits) -> Self {
-        base.accessibilityTraits = traits
-        return self
-    }
-    
-    /// 设置辅助功能标识符
-    @discardableResult
-    func accessibilityIdentifier(_ identifier: String?) -> Self {
-        base.accessibilityIdentifier = identifier
-        return self
-    }
 }
 
 extension UICollectionView {
@@ -719,33 +418,6 @@ extension UICollectionView {
         nibFooterClasses.forEach { register(nibFooter: $0) }
     }
     
-    // MARK: - 验证方法
-    
-    /// 验证Cell是否已注册
-    public func isCellRegistered<C: UICollectionViewCell>(_ cellClass: C.Type) -> Bool {
-        _ = safeIdentifier(for: cellClass)
-        // 这里需要实际检查是否已注册，暂时返回true
-        return true
-    }
-    
-    /// 验证补充视图是否已注册
-    public func isSupplementaryViewRegistered<C: UICollectionReusableView>(
-        _ viewClass: C.Type,
-        kind: String
-    ) -> Bool {
-        _ = safeIdentifier(for: viewClass)
-        // 这里需要实际检查是否已注册，暂时返回true
-        return true
-    }
-    
-    /// 获取所有已注册的标识符
-    public var registeredIdentifiers: [String] {
-        // 这里需要根据实际情况实现，可能需要通过私有API或其他方式获取
-        return []
-    }
-    
-    // MARK: - 性能优化方法
-    
     /// 预加载Cell（iOS 15+）
     @available(iOS 15.0, *)
     public func prefetchItems(at indexPaths: [IndexPath]) {
@@ -851,11 +523,6 @@ public extension UICollectionView {
         )
         
         setCollectionViewLayout(layout, animated: false)
-        
-        // 启用预取
-        if prefetchingEnabled {
-            // 预取功能在iOS 15+中有更好的性能
-        }
         
         // 启用重新排序
         if reorderingEnabled {
@@ -1349,8 +1016,6 @@ public extension UICollectionViewCell {
         backgroundConfiguration = configuration
     }
     
-
-    
     /// 设置选中状态背景配置（iOS 14.0+）
     @available(iOS 14.0, *)
     func configureSelectedBackgroundConfiguration() -> UIBackgroundConfiguration {
@@ -1387,26 +1052,6 @@ public extension UICollectionViewCell {
             }
         }
     }
-    
-    /// 设置Cell的缓存策略
-    func setCacheStrategy(_ strategy: CellCacheStrategy) {
-        // 根据策略设置缓存
-        switch strategy {
-        case .none:
-            // 不缓存
-            break
-        case .weak:
-            // 弱引用缓存
-            break
-        case .strong:
-            // 强引用缓存
-            break
-        }
-    }
-    
-
-    
-    // MARK: - 动画和交互方法
     
     /// 添加选中动画
     func addSelectionAnimation(duration: TimeInterval = 0.2) {
@@ -1452,16 +1097,7 @@ public extension UICollectionViewCell {
     }
 }
 
-// MARK: - 缓存策略枚举
-
-public enum CellCacheStrategy {
-    case none    // 不缓存
-    case weak    // 弱引用缓存
-    case strong  // 强引用缓存
-}
-
 // MARK: - UICollectionViewFlowLayout 自适应扩展
-
 public extension UICollectionViewFlowLayout {
     
     /// 配置为自适应布局
@@ -1702,10 +1338,7 @@ open class TFYSwiftAutoSizingCollectionViewCell: UICollectionViewCell {
     
     /// 是否已配置
     public var isConfigured: Bool = false
-    
-    /// 缓存策略
-    public var cacheStrategy: CellCacheStrategy = .weak
-    
+
     /// 内存使用量
     public var memoryUsage: Int {
         return calculateMemoryUsage()
@@ -1948,11 +1581,5 @@ public extension TFYSwiftAutoSizingCollectionViewCell {
         configurationCompletion = completion
         return self
     }
-    
-    /// 设置缓存策略
-    @discardableResult
-    func setCacheStrategy(_ strategy: CellCacheStrategy) -> Self {
-        cacheStrategy = strategy
-        return self
-    }
+
 }
