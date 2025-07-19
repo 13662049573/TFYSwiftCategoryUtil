@@ -495,23 +495,33 @@ class VIPProductCell: UICollectionViewCell {
             // 价格
             priceLabel.topAnchor.constraint(equalTo: discountBadge.bottomAnchor, constant: 8),
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            priceLabel.bottomAnchor.constraint(lessThanOrEqualTo: actionButton.topAnchor, constant: -8),
             
             // 原价
             originalPriceLabel.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
             originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 8),
-            originalPriceLabel.bottomAnchor.constraint(lessThanOrEqualTo: actionButton.topAnchor, constant: -8),
             
             // 操作按钮
             actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
             actionButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
             actionButton.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
-            actionButton.heightAnchor.constraint(equalToConstant: 32)
+            actionButton.heightAnchor.constraint(equalToConstant: 32),
+            
+            // 关键：确保价格标签和按钮之间有正确的垂直关系
+            priceLabel.bottomAnchor.constraint(lessThanOrEqualTo: actionButton.topAnchor, constant: -8),
+            originalPriceLabel.bottomAnchor.constraint(lessThanOrEqualTo: actionButton.topAnchor, constant: -8)
         ])
         
-        // 确保contentView有明确的宽度约束，这对自适应布局很重要
+        // 确保容器视图有明确的高度约束
+        containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        
+        // 确保contentView有明确的约束，这对自适应布局很重要
         contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80).isActive = true
+        
+        // 添加最大宽度约束，防止无限扩展
+        contentView.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+        contentView.heightAnchor.constraint(lessThanOrEqualToConstant: 300).isActive = true
     }
 
     // MARK: - 弹窗系统
@@ -628,19 +638,35 @@ class VIPProductCell: UICollectionViewCell {
         setNeedsLayout()
         layoutIfNeeded()
         
+        // 获取CollectionView的宽度作为参考
+        let targetWidth = layoutAttributes.frame.width
+        
+        // 设置contentView的宽度约束
+        contentView.widthAnchor.constraint(equalToConstant: targetWidth).isActive = true
+        
+        // 计算自适应高度
         let size = contentView.systemLayoutSizeFitting(
-            layoutAttributes.size,
+            CGSize(width: targetWidth, height: UIView.layoutFittingExpandedSize.height),
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         )
         
-        // 确保返回有效的尺寸，避免无穷大值
-        let validWidth = max(min(size.width, 400), 200)
-        let validHeight = max(min(size.height, 200), 100)
+        // 确保尺寸有效
+        let validSize = CGSize(
+            width: max(100, min(targetWidth, size.width)),
+            height: max(80, min(1000, size.height))
+        )
         
         var newFrame = layoutAttributes.frame
-        newFrame.size = CGSize(width: validWidth, height: validHeight)
+        newFrame.size = validSize
         layoutAttributes.frame = newFrame
+        
+        // 移除临时约束
+        contentView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .width && constraint.firstItem === contentView {
+                contentView.removeConstraint(constraint)
+            }
+        }
         
         return layoutAttributes
     }
@@ -649,11 +675,19 @@ class VIPProductCell: UICollectionViewCell {
     func configure(with product: Any) {
         self.product = product
         
+        // 确保约束正确设置
+        setNeedsLayout()
+        layoutIfNeeded()
+        
         if let cycleProduct = product as? VIPCycleProduct {
             configureCycleProduct(cycleProduct)
         } else if let coinProduct = product as? VIPCoinProduct {
             configureCoinProduct(coinProduct)
         }
+        
+        // 配置完成后重新布局
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     private func configureCycleProduct(_ product: VIPCycleProduct) {
@@ -775,6 +809,13 @@ class VIPProductCell: UICollectionViewCell {
         // 重置动画状态
         isAnimating = false
         transform = .identity
+        
+        // 重置约束状态
+        contentView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .width && constraint.firstItem === contentView {
+                contentView.removeConstraint(constraint)
+            }
+        }
         
         // 确保约束正确
         setNeedsLayout()
@@ -913,7 +954,7 @@ class JSONAdaptiveDemoController: UIViewController {
         layout.minimumInteritemSpacing = 16
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
-        // 设置合理的预估尺寸，避免无穷大值
+        // 设置预估尺寸，这对自适应布局很重要
         layout.estimatedItemSize = CGSize(width: 300, height: 120)
         
         // 创建CollectionView
@@ -923,10 +964,9 @@ class JSONAdaptiveDemoController: UIViewController {
             .backgroundColor(.systemGroupedBackground)
             .delegate(self)
             .dataSource(self)
+            .registerCell(VIPProductCell.self)
             .translatesAutoresizingMaskIntoConstraints(false)
             .showsVerticalScrollIndicator(false)
-            .registerCell(VIPProductCell.self)
-            .showsHorizontalScrollIndicator(false)
         
         // 添加刷新控件
         refreshControl = UIRefreshControl()
@@ -952,9 +992,11 @@ class JSONAdaptiveDemoController: UIViewController {
             return
         }
         
-        // 检查预估尺寸是否有效
-        if flowLayout.estimatedItemSize.width <= 0 || flowLayout.estimatedItemSize.height <= 0 {
-            TFYUtils.Logger.log("布局验证失败：预估尺寸无效", level: .warning)
+        // 检查是否使用自适应布局
+        if flowLayout.estimatedItemSize.width > 0 && flowLayout.estimatedItemSize.height > 0 {
+            TFYUtils.Logger.log("布局验证通过：使用预估尺寸 \(flowLayout.estimatedItemSize)", level: .info)
+        } else {
+            TFYUtils.Logger.log("布局验证警告：预估尺寸无效", level: .warning)
             flowLayout.estimatedItemSize = CGSize(width: 300, height: 120)
         }
         
@@ -1209,111 +1251,109 @@ class JSONAdaptiveDemoController: UIViewController {
     private func applyAutoSizingLayout() {
         currentLayoutType = "完全自适应"
         
-        // 使用UICollectionView+Chain.swift中的完全自适应功能
-        collectionView.configureFullAutoSizing(
-            scrollDirection: .vertical,
-            minimumLineSpacing: 16,
-            minimumInteritemSpacing: 16,
-            sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        )
-        
-        // 手动设置合理的预估尺寸，避免无穷大值
+        // 直接配置FlowLayout
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.scrollDirection = .vertical
+            flowLayout.minimumLineSpacing = 16
+            flowLayout.minimumInteritemSpacing = 16
+            flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
             flowLayout.estimatedItemSize = CGSize(width: 300, height: 120)
         }
         
         updateTitle()
         collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
         TFYUtils.Logger.log("切换到完全自适应布局", level: .info)
     }
     
     private func applyHighPerformanceLayout() {
         currentLayoutType = "高性能自适应"
         
-        // 使用UICollectionView+Chain.swift中的高性能自适应功能（iOS 15+）
-        if #available(iOS 15.0, *) {
-            collectionView.configureHighPerformanceAutoSizing(
-                scrollDirection: .vertical,
-                minimumLineSpacing: 16,
-                minimumInteritemSpacing: 16,
-                sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
-                prefetchingEnabled: true,
-                reorderingEnabled: false
-            )
-        } else {
-            // iOS 15以下使用普通自适应
-            collectionView.configureAutoSizing(
-                estimatedSize: CGSize(width: 300, height: 120),
-                scrollDirection: .vertical,
-                minimumLineSpacing: 16,
-                minimumInteritemSpacing: 16,
-                sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-            )
-            return
+        // 直接配置FlowLayout
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.scrollDirection = .vertical
+            flowLayout.minimumLineSpacing = 16
+            flowLayout.minimumInteritemSpacing = 16
+            flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            flowLayout.estimatedItemSize = CGSize(width: 300, height: 120)
         }
         
         updateTitle()
         collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
         TFYUtils.Logger.log("切换到高性能自适应布局", level: .info)
     }
     
     private func applyGridLayout() {
         currentLayoutType = "网格布局"
         
-        // 使用UICollectionView+Chain.swift中的网格布局功能
+        // 直接配置FlowLayout为网格布局
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.configureGridLayout(
-                columns: 2,
-                itemHeight: 150,
-                minimumLineSpacing: 16,
-                minimumInteritemSpacing: 16,
-                sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-            )
+            let availableWidth = collectionView.bounds.width - 40 // 减去左右边距
+            let itemWidth = (availableWidth - 16) / 2 // 2列，减去间距
+            let itemHeight: CGFloat = 150
+            
+            flowLayout.scrollDirection = .vertical
+            flowLayout.minimumLineSpacing = 16
+            flowLayout.minimumInteritemSpacing = 16
+            flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            flowLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
+            flowLayout.estimatedItemSize = .zero // 禁用自适应
         }
         
         updateTitle()
         collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
         TFYUtils.Logger.log("切换到网格布局", level: .info)
     }
     
     private func applyListLayout() {
         currentLayoutType = "列表布局"
         
-        // 使用UICollectionView+Chain.swift中的列表布局功能
-        collectionView.configureAutoSizing(
-            estimatedSize: CGSize(width: 300, height: 120),
-            scrollDirection: .vertical,
-            minimumLineSpacing: 12,
-            minimumInteritemSpacing: 0,
-            sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        )
+        // 直接配置FlowLayout为列表布局
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.scrollDirection = .vertical
+            flowLayout.minimumLineSpacing = 12
+            flowLayout.minimumInteritemSpacing = 0
+            flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            flowLayout.estimatedItemSize = CGSize(width: 300, height: 100)
+        }
         
         updateTitle()
         collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
         TFYUtils.Logger.log("切换到列表布局", level: .info)
     }
     
     private func applyCardLayout() {
         currentLayoutType = "卡片布局"
         
-        // 使用UICollectionView+Chain.swift中的卡片布局功能
+        // 直接配置FlowLayout为卡片布局
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.configureCardLayout(
-                cardWidth: 300,
-                cardHeight: 180,
-                minimumLineSpacing: 20,
-                minimumInteritemSpacing: 20,
-                sectionInset: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-            )
+            let cardWidth = collectionView.bounds.width - 40 // 减去左右边距
+            let cardHeight: CGFloat = 180
+            
+            flowLayout.scrollDirection = .vertical
+            flowLayout.minimumLineSpacing = 20
+            flowLayout.minimumInteritemSpacing = 20
+            flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+            flowLayout.itemSize = CGSize(width: cardWidth, height: cardHeight)
+            flowLayout.estimatedItemSize = .zero // 禁用自适应
         }
         
         updateTitle()
         collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
         TFYUtils.Logger.log("切换到卡片布局", level: .info)
     }
     
     private func updateTitle() {
         title = "JSON自适应布局 (\(currentLayoutType))"
+        
+        // 调试信息
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            TFYUtils.Logger.log("布局更新 - 类型: \(currentLayoutType), 预估尺寸: \(flowLayout.estimatedItemSize), 项目尺寸: \(flowLayout.itemSize)", level: .debug)
+        }
     }
     
     private func loadJSONData() -> Data? {
@@ -1376,25 +1416,32 @@ extension JSONAdaptiveDemoController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension JSONAdaptiveDemoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 使用自适应尺寸，让Cell自己决定大小
-        if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
-            if flowLayout.estimatedItemSize != .zero {
-                // 返回合理的默认尺寸，避免无穷大值
-                let padding: CGFloat = 20
-                let collectionViewWidth = max(collectionView.bounds.width, 320)
-                let availableWidth = collectionViewWidth - padding * 2 - 16
-                let itemWidth = max(availableWidth / 2, 150)
-                
-                return CGSize(width: itemWidth, height: 120)
-            }
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize(width: 300, height: 120)
         }
         
-        // 如果自适应失败，提供合理的默认尺寸
-        let padding: CGFloat = 20
-        let collectionViewWidth = max(collectionView.bounds.width, 320)
-        let availableWidth = collectionViewWidth - padding * 2 - 16
-        let itemWidth = max(availableWidth / 2, 150)
-        
-        return CGSize(width: itemWidth, height: 120)
+        // 根据当前布局类型返回不同的尺寸
+        switch currentLayoutType {
+        case "完全自适应", "高性能自适应", "列表布局":
+            // 使用自适应尺寸
+            let availableWidth = collectionView.bounds.width - 40
+            return CGSize(width: availableWidth, height: UICollectionViewFlowLayout.automaticSize.height)
+            
+        case "网格布局":
+            // 网格布局使用固定尺寸
+            let availableWidth = collectionView.bounds.width - 40
+            let itemWidth = (availableWidth - 16) / 2
+            return CGSize(width: itemWidth, height: 150)
+            
+        case "卡片布局":
+            // 卡片布局使用固定尺寸
+            let cardWidth = collectionView.bounds.width - 40
+            return CGSize(width: cardWidth, height: 180)
+            
+        default:
+            // 默认自适应
+            let availableWidth = collectionView.bounds.width - 40
+            return CGSize(width: availableWidth, height: UICollectionViewFlowLayout.automaticSize.height)
+        }
     }
 } 
