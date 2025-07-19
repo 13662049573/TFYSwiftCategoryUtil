@@ -28,19 +28,27 @@ public extension Dictionary {
     
     // MARK: 1.3、JSON字符串 -> 字典
     /// 本地JSON 转 字典
-    /// - Parameter json: JSON字符串
+    /// - Parameters:
+    ///   - name: 文件名
+    ///   - ofType: 文件类型
     /// - Returns: 字典
-    static func pathForResource(name:String,ofType:String) -> Dictionary<String, Any>? {
-        var encoding:String.Encoding = .ascii
-        
-        let path:String = Bundle.main.path(forResource: name, ofType: ofType)!
-        
-        if let plays = try? String(contentsOfFile: path, usedEncoding: &encoding){
-            let dict = Dictionary.jsonToDictionary(json: plays)
-            
-            return dict
+    static func pathForResource(name: String, ofType: String) -> Dictionary<String, Any>? {
+        // 安全获取Bundle路径，避免强制解包
+        guard let path = Bundle.main.path(forResource: name, ofType: ofType) else {
+            TFYUtils.Logger.log("未找到文件: \(name).\(ofType)", level: .warning)
+            return nil
         }
-        return nil
+        
+        var encoding: String.Encoding = .utf8
+        
+        do {
+            let jsonString = try String(contentsOfFile: path, usedEncoding: &encoding)
+            let dict = Dictionary.jsonToDictionary(json: jsonString)
+            return dict
+        } catch {
+            TFYUtils.Logger.log("读取文件失败: \(error.localizedDescription)", level: .error)
+            return nil
+        }
     }
     // MARK: 1.3、JSON字符串 -> 字典
     /// JsonString转为字典

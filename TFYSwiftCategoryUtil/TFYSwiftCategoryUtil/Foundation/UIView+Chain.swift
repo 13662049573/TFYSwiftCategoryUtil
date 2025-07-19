@@ -660,6 +660,69 @@ public extension TFY where Base: UIView {
         base.layer.contents = contents
         return self
     }
+    
+    /// 设置是否启用自动布局
+    @discardableResult
+    func translatesAutoresizingMaskIntoConstraints(_ translates: Bool) -> Self {
+        base.translatesAutoresizingMaskIntoConstraints = translates
+        return self
+    }
+    
+    /// 设置边框颜色
+    @discardableResult
+    func borderColor(_ color: UIColor?) -> Self {
+        base.layer.borderColor = color?.cgColor
+        return self
+    }
+    
+    /// 设置背景颜色
+    @discardableResult
+    func backgroundColor(_ color: UIColor?) -> Self {
+        base.backgroundColor = color
+        return self
+    }
+    
+    /// 设置是否启用辅助功能
+    @discardableResult
+    func isAccessibilityElement(_ isElement: Bool) -> Self {
+        base.isAccessibilityElement = isElement
+        return self
+    }
+    
+    /// 设置辅助功能标签
+    @discardableResult
+    func accessibilityLabel(_ label: String?) -> Self {
+        base.accessibilityLabel = label
+        return self
+    }
+    
+    /// 设置辅助功能提示
+    @discardableResult
+    func accessibilityHint(_ hint: String?) -> Self {
+        base.accessibilityHint = hint
+        return self
+    }
+    
+    /// 设置辅助功能值
+    @discardableResult
+    func accessibilityValue(_ value: String?) -> Self {
+        base.accessibilityValue = value
+        return self
+    }
+    
+    /// 设置辅助功能特征
+    @discardableResult
+    func accessibilityTraits(_ traits: UIAccessibilityTraits) -> Self {
+        base.accessibilityTraits = traits
+        return self
+    }
+    
+    /// 设置辅助功能标识符
+    @discardableResult
+    func accessibilityIdentifier(_ identifier: String?) -> Self {
+        base.accessibilityIdentifier = identifier
+        return self
+    }
 }
 
 public extension UIView {

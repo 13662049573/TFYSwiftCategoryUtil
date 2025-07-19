@@ -245,6 +245,100 @@ public extension TFY where Base: UIScrollView {
         }
         return false
     }
+    
+    /// 设置滚动指示器样式
+    @discardableResult
+    func indicatorStyle(_ style: UIScrollView.IndicatorStyle) -> Self {
+        base.indicatorStyle = style
+        return self
+    }
+    
+    /// 设置键盘消失模式
+    @discardableResult
+    func keyboardDismissMode(_ mode: UIScrollView.KeyboardDismissMode) -> Self {
+        base.keyboardDismissMode = mode
+        return self
+    }
+    
+    /// 设置刷新控件
+    @discardableResult
+    func refreshControl(_ control: UIRefreshControl?) -> Self {
+        base.refreshControl = control
+        return self
+    }
+    
+    /// 设置自动调整内容偏移（iOS 11.0+）
+    @available(iOS 11.0, *)
+    @discardableResult
+    func automaticallyAdjustsScrollIndicatorInsets(_ adjusts: Bool) -> Self {
+        base.automaticallyAdjustsScrollIndicatorInsets = adjusts
+        return self
+    }
+    
+    /// 设置内容偏移（带动画）
+    @discardableResult
+    func contentOffset(_ offset: CGPoint, animated: Bool) -> Self {
+        base.setContentOffset(offset, animated: animated)
+        return self
+    }
+
+    /// 设置是否启用缩放
+    @discardableResult
+    func bouncesZoom(_ bounces: Bool) -> Self {
+        base.bouncesZoom = bounces
+        return self
+    }
+    
+    /// 设置是否显示滚动指示器
+    @discardableResult
+    func showsScrollIndicator(_ shows: Bool) -> Self {
+        base.showsVerticalScrollIndicator = shows
+        base.showsHorizontalScrollIndicator = shows
+        return self
+    }
+    
+    /// 设置是否延迟内容触摸
+    @discardableResult
+    func delaysContentTouches(_ delays: Bool) -> Self {
+        base.delaysContentTouches = delays
+        return self
+    }
+    
+    /// 设置是否取消内容触摸
+    @discardableResult
+    func canCancelContentTouches(_ canCancel: Bool) -> Self {
+        base.canCancelContentTouches = canCancel
+        return self
+    }
+    
+    /// 设置最小缩放比例
+    @discardableResult
+    func minimumZoomScale(_ scale: CGFloat) -> Self {
+        base.minimumZoomScale = max(0, scale)
+        return self
+    }
+    
+    /// 设置最大缩放比例
+    @discardableResult
+    func maximumZoomScale(_ scale: CGFloat) -> Self {
+        base.maximumZoomScale = max(0, scale)
+        return self
+    }
+    
+    /// 设置缩放比例
+    @discardableResult
+    func zoomScale(_ scale: CGFloat, animated: Bool = true) -> Self {
+        let finalScale = max(base.minimumZoomScale, min(base.maximumZoomScale, scale))
+        base.setZoomScale(finalScale, animated: animated)
+        return self
+    }
+    
+    /// 缩放到指定区域
+    @discardableResult
+    func zoom(to rect: CGRect, animated: Bool = true) -> Self {
+        base.zoom(to: rect, animated: animated)
+        return self
+    }
 }
 
 public extension UIScrollView {

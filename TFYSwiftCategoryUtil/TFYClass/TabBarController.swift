@@ -33,7 +33,7 @@ class TabBarController: UITabBarController {
         )
         let socketNav = UINavigationController(rootViewController: socketVC)
         
-        let adaptiveVC = AdaptiveDemoController()
+        let adaptiveVC = UICollectionViewAdaptiveDemoController()
         adaptiveVC.tabBarItem = UITabBarItem(
             title: "适配", 
             image: UIImage(systemName: "iphone.landscape"), 

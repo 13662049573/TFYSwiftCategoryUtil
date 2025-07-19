@@ -67,6 +67,7 @@ class HomeController: UIViewController {
         setupContentView()
         setupStackView()
         addButtons()
+        addCollectionViewDemoButton()
     }
     
     private func setupScrollView() {
@@ -134,7 +135,7 @@ class HomeController: UIViewController {
             .borderColor(.systemGray)
             .titleColor(.label, for: .normal)
         
-        // 设置按钮高度约束
+        // 设置按钮高度约束，移除固定宽度约束
         btn.heightAnchor.constraint(greaterThanOrEqualToConstant: 60.adap).isActive = true
         
         // 添加点击事件
@@ -169,6 +170,27 @@ class HomeController: UIViewController {
         let alert = UIAlertController(title: "按钮点击", message: "您点击了: \(direction)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确定", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func addCollectionViewDemoButton() {
+        let demoButton = UIButton(type: .system)
+        demoButton.setTitle("UICollectionView自适应演示", for: .normal)
+        demoButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        demoButton.backgroundColor = .systemBlue
+        demoButton.setTitleColor(.white, for: .normal)
+        demoButton.layer.cornerRadius = 12
+        demoButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        demoButton.addTarget(self, action: #selector(collectionViewDemoTapped), for: .touchUpInside)
+        
+        stackView.addArrangedSubview(demoButton)
+        
+        demoButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
+    @objc private func collectionViewDemoTapped() {
+        let demoVC = UICollectionViewAdaptiveDemoController()
+        navigationController?.pushViewController(demoVC, animated: true)
     }
     
     private func setupDeviceAdaptation() {
