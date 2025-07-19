@@ -31,7 +31,6 @@ enum CollectionDemoAction {
     case focusSupport
     case accessibility
     case performance
-    case jsonAdaptive
 }
 
 // MARK: - 主控制器
@@ -129,12 +128,6 @@ class UICollectionViewAdaptiveDemoController: UIViewController {
             description: "实时性能指标监控",
             action: .performance,
             icon: "📊"
-        ),
-        CollectionDemoItem(
-            title: "JSON自适应",
-            description: "使用JSON数据和自适应布局",
-            action: .jsonAdaptive,
-            icon: "📄"
         )
     ]
     
@@ -350,8 +343,6 @@ class UICollectionViewAdaptiveDemoController: UIViewController {
             showAccessibilityDemo()
         case .performance:
             showPerformanceDemo()
-        case .jsonAdaptive:
-            showJSONAdaptiveDemo()
         }
     }
     
@@ -423,11 +414,6 @@ class UICollectionViewAdaptiveDemoController: UIViewController {
     
     private func showPerformanceDemo() {
         let demoVC = PerformanceDemoController()
-        navigationController?.pushViewController(demoVC, animated: true)
-    }
-    
-    private func showJSONAdaptiveDemo() {
-        let demoVC = JSONAdaptiveDemoController()
         navigationController?.pushViewController(demoVC, animated: true)
     }
 }
