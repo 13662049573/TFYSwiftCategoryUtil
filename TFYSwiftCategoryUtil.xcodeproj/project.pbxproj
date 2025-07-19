@@ -139,6 +139,8 @@
 		84DDF3872E2B1D36007405F5 /* PlaceholderDemoControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF3862E2B1D36007405F5 /* PlaceholderDemoControllers.swift */; };
 		84DDF3882E2B1D36007405F5 /* GridLayoutDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF3852E2B1D36007405F5 /* GridLayoutDemoController.swift */; };
 		84DDF3892E2B1D36007405F5 /* BatchUpdatesDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF3842E2B1D36007405F5 /* BatchUpdatesDemoController.swift */; };
+		84DDF3952E2B9D5C007405F5 /* TFYChainGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF3922E2B9D5C007405F5 /* TFYChainGenerator.swift */; };
+		84DDF3992E2BA4B4007405F5 /* CHAIN_GENERATOR_README.md in Resources */ = {isa = PBXBuildFile; fileRef = 84DDF3982E2BA4B4007405F5 /* CHAIN_GENERATOR_README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -323,6 +325,8 @@
 		84DDF3842E2B1D36007405F5 /* BatchUpdatesDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchUpdatesDemoController.swift; sourceTree = "<group>"; };
 		84DDF3852E2B1D36007405F5 /* GridLayoutDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayoutDemoController.swift; sourceTree = "<group>"; };
 		84DDF3862E2B1D36007405F5 /* PlaceholderDemoControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderDemoControllers.swift; sourceTree = "<group>"; };
+		84DDF3922E2B9D5C007405F5 /* TFYChainGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYChainGenerator.swift; sourceTree = "<group>"; };
+		84DDF3982E2BA4B4007405F5 /* CHAIN_GENERATOR_README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHAIN_GENERATOR_README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,6 +579,8 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				84DDF3982E2BA4B4007405F5 /* CHAIN_GENERATOR_README.md */,
+				84DDF3922E2B9D5C007405F5 /* TFYChainGenerator.swift */,
 				84449D7A2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift */,
 				362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */,
 				36F283652835E83800460789 /* TFYSwiftJsonKit.swift */,
@@ -801,6 +807,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3612E13D26475B6700476696 /* Assets.xcassets in Resources */,
+				84DDF3992E2BA4B4007405F5 /* CHAIN_GENERATOR_README.md in Resources */,
 				3612E13F26475B6700476696 /* Main.storyboard in Resources */,
 				3612E13E26475B6700476696 /* LaunchScreen.storyboard in Resources */,
 				84DDF37D2E2A668D007405F5 /* content.json in Resources */,
@@ -949,6 +956,7 @@
 				36FA19882941D6290099BB35 /* LocationPublisher.swift in Sources */,
 				36F283022834D87600460789 /* FileManager+Chain.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
+				84DDF3952E2B9D5C007405F5 /* TFYChainGenerator.swift in Sources */,
 				36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */,
 				36DAFEF12787FF9D00D05EE1 /* UIPickerView+Chain.swift in Sources */,
 				36F2CDD9282CF7EC003CF2E7 /* TFYUtils.swift in Sources */,
