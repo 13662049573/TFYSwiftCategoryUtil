@@ -1431,12 +1431,12 @@ extension JSONAdaptiveDemoController: UICollectionViewDelegateFlowLayout {
             // 网格布局使用固定尺寸
             let availableWidth = collectionView.bounds.width - 40
             let itemWidth = (availableWidth - 16) / 2
-            return CGSize(width: itemWidth, height: 150)
+            return CGSize(width: itemWidth, height: UICollectionViewFlowLayout.automaticSize.height)
             
         case "卡片布局":
             // 卡片布局使用固定尺寸
             let cardWidth = collectionView.bounds.width - 40
-            return CGSize(width: cardWidth, height: 180)
+            return CGSize(width: cardWidth, height: UICollectionViewFlowLayout.automaticSize.height)
             
         default:
             // 默认自适应
