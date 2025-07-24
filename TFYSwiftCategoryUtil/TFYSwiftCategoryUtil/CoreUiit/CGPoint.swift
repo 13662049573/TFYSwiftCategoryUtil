@@ -224,10 +224,6 @@ public extension CGPoint {
 /// CGPoint 常量定义
 
 public extension CGPoint {
-    
-    /// 原点 (0, 0)
-    static let zero = CGPoint(x: 0, y: 0)
-    
     /// 单位点 (1, 1)
     static let one = CGPoint(x: 1, y: 1)
     

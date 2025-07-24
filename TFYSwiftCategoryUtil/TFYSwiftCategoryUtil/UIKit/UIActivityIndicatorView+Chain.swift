@@ -153,15 +153,6 @@ public extension UIActivityIndicatorView {
         return UIActivityIndicatorView(style: .medium)
     }
     
-    // MARK: 2.4、检查是否正在动画
-    /// 检查是否正在动画
-    /// - Returns: 是否正在动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    var isAnimating: Bool {
-        // 直接返回原生属性，避免递归
-        return (self as UIActivityIndicatorView).value(forKey: "isAnimating") as? Bool ?? false
-    }
-    
     // MARK: 2.5、显示活动指示器
     /// 显示活动指示器
     /// - Note: 支持iOS 15+，适配iPhone和iPad

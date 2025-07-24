@@ -444,10 +444,6 @@ public extension CGRect {
 /// CGRect 常量定义
 
 public extension CGRect {
-    
-    /// 零矩形
-    static let zero = CGRect(x: 0, y: 0, width: 0, height: 0)
-    
     /// 单位矩形
     static let unit = CGRect(x: 0, y: 0, width: 1, height: 1)
     

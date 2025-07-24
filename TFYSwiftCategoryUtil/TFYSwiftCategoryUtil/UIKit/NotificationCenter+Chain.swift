@@ -86,50 +86,6 @@ public extension TFY where Base: NotificationCenter {
 // MARK: - 二、NotificationCenter的便利方法
 public extension NotificationCenter {
     
-    // MARK: 2.1、添加通知观察者（闭包方式）
-    /// 添加通知观察者（闭包方式）
-    /// - Parameters:
-    ///   - name: 通知名称
-    ///   - object: 对象
-    ///   - queue: 队列
-    ///   - block: 执行块
-    /// - Returns: 观察者令牌
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func addObserverClosure(forName name: NSNotification.Name?,
-                           object obj: Any?,
-                           queue: OperationQueue?,
-                           using block: @escaping (Notification) -> Void) -> NSObjectProtocol {
-        return self.addObserver(forName: name, object: obj, queue: queue, using: block)
-    }
-    
-    // MARK: 2.2、发送简单通知
-    /// 发送简单通知
-    /// - Parameter name: 通知名称
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func post(name: NSNotification.Name) {
-        self.post(name: name, object: nil, userInfo: nil)
-    }
-    
-    // MARK: 2.3、发送带对象的通知
-    /// 发送带对象的通知
-    /// - Parameters:
-    ///   - name: 通知名称
-    ///   - object: 对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func post(name: NSNotification.Name, object: Any?) {
-        self.post(name: name, object: object, userInfo: nil)
-    }
-    
-    // MARK: 2.4、发送带用户信息的通知
-    /// 发送带用户信息的通知
-    /// - Parameters:
-    ///   - name: 通知名称
-    ///   - userInfo: 用户信息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func post(name: NSNotification.Name, userInfo: [AnyHashable: Any]?) {
-        self.post(name: name, object: nil, userInfo: userInfo)
-    }
-    
     // MARK: 2.5、在主线程发送通知
     /// 在主线程发送通知
     /// - Parameters:
