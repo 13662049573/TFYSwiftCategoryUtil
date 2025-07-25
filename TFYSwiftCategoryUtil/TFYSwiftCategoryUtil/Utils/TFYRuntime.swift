@@ -13,12 +13,29 @@ public func tfy_getAssociatedObject<T>(_ object: Any, _ key: UnsafeRawPointer) -
     return objc_getAssociatedObject(object, key) as? T
 }
 
-/// 设置关联对象
+/// 设置/移除关联对象
+/// - Parameters:
+///   - object: 目标对象
+///   - key: 关联key
+///   - value: 关联值（为nil时移除关联对象）
+///   - policy: 关联策略
 public func tfy_setRetainedAssociatedObject<T>(_ object: Any, 
                                               _ key: UnsafeRawPointer, 
-                                              _ value: T, 
+                                              _ value: T?, 
                                               _ policy: objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) {
-    objc_setAssociatedObject(object, key, value, policy)
+    if let value = value {
+        objc_setAssociatedObject(object, key, value, policy)
+    } else {
+        objc_setAssociatedObject(object, key, nil, policy)
+    }
+}
+
+/// 移除关联对象
+/// - Parameters:
+///   - object: 目标对象
+///   - key: 关联key
+public func tfy_removeAssociatedObject(_ object: Any, _ key: UnsafeRawPointer) {
+    objc_setAssociatedObject(object, key, nil, .OBJC_ASSOCIATION_ASSIGN)
 }
 
 /// Runtime工具类
@@ -130,13 +147,21 @@ public class TFYRuntime: NSObject {
         return protocolList
     }
     
-    /// 获取属性的类型编码
+    /// 获取属性的类型编码（兼容Swift类型）
+    /// - Parameter property: objc_property_t
+    /// - Returns: 类型字符串
     public static func getPropertyType(_ property: objc_property_t) -> String {
         guard let attributesPointer = property_getAttributes(property) else {
             print("TFYRuntime: 属性类型解析失败 property=\(property)")
             return ""
         }
         let attributes = String(cString: attributesPointer)
+        // Swift属性类型编码兼容
+        if let typeAttr = attributes.split(separator: ",").first, typeAttr.hasPrefix("T@"), typeAttr.count > 3 {
+            // T@"TypeName"
+            let typeName = typeAttr.dropFirst(3).dropLast()
+            return String(typeName)
+        }
         let slices = attributes.split(separator: "\"")
         guard slices.count >= 2 else {
             print("TFYRuntime: 属性类型格式异常 attributes=\(attributes)")
@@ -150,6 +175,10 @@ public class TFYRuntime: NSObject {
 public extension TFYRuntime {
     
     /// 交换实例方法（使用方法名字符串）
+    /// - Parameters:
+    ///   - target: 原方法名
+    ///   - replace: 替换方法名
+    ///   - classType: 类类型
     static func exchangeMethod(target: String,
                              replace: String,
                              class classType: AnyClass) {
@@ -159,20 +188,25 @@ public extension TFYRuntime {
     }
     
     /// 交换实例方法（使用选择器）
+    /// - Parameters:
+    ///   - selector: 原方法选择器
+    ///   - replace: 替换方法选择器
+    ///   - classType: 类类型
     static func exchangeMethod(selector: Selector,
                              replace: Selector,
                              class classType: AnyClass) {
-        guard let originalMethod = class_getInstanceMethod(classType, selector),
-              let replaceMethod = class_getInstanceMethod(classType, replace) else {
-            debugPrint("Method exchange failed: methods not found")
+        guard let originalMethod = class_getInstanceMethod(classType, selector) else {
+            debugPrint("Method exchange failed: original method \(selector) not found in \(classType)")
             return
         }
-        
+        guard let replaceMethod = class_getInstanceMethod(classType, replace) else {
+            debugPrint("Method exchange failed: replace method \(replace) not found in \(classType)")
+            return
+        }
         let didAddMethod = class_addMethod(classType,
                                          selector,
                                          method_getImplementation(replaceMethod),
                                          method_getTypeEncoding(replaceMethod))
-        
         if didAddMethod {
             class_replaceMethod(classType,
                               replace,
@@ -184,11 +218,19 @@ public extension TFYRuntime {
     }
     
     /// 交换类方法
+    /// - Parameters:
+    ///   - selector: 原方法选择器
+    ///   - replace: 替换方法选择器
+    ///   - classType: 类类型
     static func exchangeClassMethod(selector: Selector,
                                   replace: Selector,
                                   class classType: AnyClass) {
-        guard let originalMethod = class_getClassMethod(classType, selector),
-              let replaceMethod = class_getClassMethod(classType, replace) else {
+        guard let originalMethod = class_getClassMethod(classType, selector) else {
+            debugPrint("Class method exchange failed: original method \(selector) not found in \(classType)")
+            return
+        }
+        guard let replaceMethod = class_getClassMethod(classType, replace) else {
+            debugPrint("Class method exchange failed: replace method \(replace) not found in \(classType)")
             return
         }
         method_exchangeImplementations(originalMethod, replaceMethod)
@@ -206,6 +248,10 @@ public extension TFYRuntime {
     static func addMethod(_ selector: Selector,
                          to classType: AnyClass,
                          implementation: IMP) {
+        if hasMethod(selector, in: classType) {
+            debugPrint("addMethod: \(selector) already exists in \(classType)")
+            return
+        }
         class_addMethod(classType,
                        selector,
                        implementation,
@@ -222,6 +268,10 @@ public extension TFYRuntime {
 public extension TFYRuntime {
     
     /// 动态添加属性
+    /// - Parameters:
+    ///   - name: 属性名
+    ///   - classType: 类型
+    ///   - attributes: 属性特性
     static func addProperty(_ name: String,
                            to classType: AnyClass,
                            attributes: objc_property_attribute_t...) {
@@ -229,13 +279,16 @@ public extension TFYRuntime {
         attributes.enumerated().forEach { index, attribute in
             attributeList[index] = attribute
         }
-        
-        // 修复：安全地处理 C 字符串转换
         guard let cName = (name as NSString).utf8String else {
             attributeList.deallocate()
             return
         }
-        
+        // 判断属性是否已存在
+        if class_getProperty(classType, cName) != nil {
+            debugPrint("addProperty: \(name) already exists in \(classType)")
+            attributeList.deallocate()
+            return
+        }
         class_addProperty(classType, cName, attributeList, UInt32(attributes.count))
         attributeList.deallocate()
     }
@@ -246,3 +299,57 @@ public extension TFYRuntime {
         return mirror.children.first { $0.label == property }?.value
     }
 }
+
+// MARK: - TFYRuntime 用法示例
+/*
+// 1. 关联对象
+class MyClass: NSObject {}
+private var kMyKey: UInt8 = 0
+let obj = MyClass()
+tfy_setRetainedAssociatedObject(obj, &kMyKey, "Hello")
+let value: String? = tfy_getAssociatedObject(obj, &kMyKey)
+print("关联对象值: \(value ?? "nil")")
+tfy_removeAssociatedObject(obj, &kMyKey)
+
+// 2. 获取属性/方法/协议
+let props = TFYRuntime.getAllPropertyName(MyClass.self)
+print("属性列表: \(props)")
+let methods = TFYRuntime.methods(from: MyClass.self)
+print("方法列表: \(methods)")
+let protocols = TFYRuntime.getProtocols(MyClass.self)
+print("协议列表: \(protocols)")
+
+// 3. 方法交换
+class SwizzleDemo: NSObject {
+    @objc dynamic func foo() { print("foo origin") }
+    @objc dynamic func bar() { print("bar swizzled") }
+}
+let demo = SwizzleDemo()
+demo.foo() // 输出 foo origin
+TFYRuntime.exchangeMethod(target: "foo", replace: "bar", class: SwizzleDemo.self)
+demo.foo() // 输出 bar swizzled
+
+// 4. 动态添加方法
+func newMethodIMP(_ self: AnyObject, _ _cmd: Selector) {
+    print("动态添加方法执行")
+}
+let sel = Selector("dynamicMethod")
+TFYRuntime.addMethod(sel, to: MyClass.self, implementation: imp_implementationWithBlock({
+    (obj: AnyObject) in print("动态方法调用")
+} as @convention(block) (AnyObject) -> Void))
+if obj.responds(to: sel) {
+    obj.perform(sel)
+}
+
+// 5. 动态添加属性
+let attrType = objc_property_attribute_t(name: "T", value: "@\"NSString\"")
+let attrOwnership = objc_property_attribute_t(name: "&", value: "")
+let attrBacking = objc_property_attribute_t(name: "V", value: "_dynamicProp")
+TFYRuntime.addProperty("dynamicProp", to: MyClass.self, attributes: attrType, attrOwnership, attrBacking)
+
+// 6. 获取属性类型
+if let property = class_getProperty(MyClass.self, "dynamicProp") {
+    let type = TFYRuntime.getPropertyType(property)
+    print("属性类型: \(type)")
+}
+*/

@@ -89,5 +89,105 @@ public extension TFYCodable {
             return false
         }
     }
+    
+    /// 比较两个对象是否相等
+    /// - Parameter other: 要比较的对象
+    /// - Returns: 是否相等
+    func isEqual(to other: Self) -> Bool {
+        guard let data1 = toData(),
+              let data2 = other.toData() else { return false }
+        return data1 == data2
+    }
+    
+    /// 获取对象的哈希值
+    var hashValue: Int {
+        return toData()?.hashValue ?? 0
+    }
+    
+    /// 创建对象的浅拷贝
+    /// - Returns: 浅拷贝的对象
+    func shallowCopy() -> Self {
+        return self
+    }
+    
+    /// 获取对象的JSON Schema
+    /// - Returns: 对象的Schema定义
+    func getSchema() -> [String: Any] {
+        // 这里可以实现动态Schema生成
+        // 目前返回基础结构
+        return [
+            "type": "object",
+            "properties": [:],
+            "required": []
+        ]
+    }
+    
+    /// 验证对象是否符合指定Schema
+    /// - Parameter schema: Schema定义
+    /// - Returns: 是否符合Schema
+    func validate(against schema: [String: Any]) -> Bool {
+        guard let dict = toDict() else { return false }
+        return TFYSwiftJsonKit.validateSchema(dict as Any, against: schema)
+    }
+    
+    /// 获取对象的变更记录
+    /// - Parameter original: 原始对象
+    /// - Returns: 变更记录
+    func getChanges(from original: Self) -> [String: Any] {
+        guard let currentDict = toDict(),
+              let originalDict = original.toDict() else { return [:] }
+        
+        var changes: [String: Any] = [:]
+        
+        for (key, currentValue) in currentDict {
+            if let originalValue = originalDict[key] {
+                if !isEqual(currentValue, originalValue) {
+                    changes[key] = [
+                        "old": originalValue,
+                        "new": currentValue
+                    ]
+                }
+            } else {
+                changes[key] = [
+                    "old": NSNull(),
+                    "new": currentValue
+                ]
+            }
+        }
+        
+        // 检查删除的字段
+        for (key, originalValue) in originalDict {
+            if currentDict[key] == nil {
+                changes[key] = [
+                    "old": originalValue,
+                    "new": NSNull()
+                ]
+            }
+        }
+        
+        return changes
+    }
+    
+    /// 比较两个值是否相等
+    private func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
+        if let lhs = lhs as? NSNumber, let rhs = rhs as? NSNumber {
+            return lhs.isEqual(rhs)
+        }
+        if let lhs = lhs as? String, let rhs = rhs as? String {
+            return lhs == rhs
+        }
+        if let lhs = lhs as? Bool, let rhs = rhs as? Bool {
+            return lhs == rhs
+        }
+        if let lhs = lhs as? [Any], let rhs = rhs as? [Any] {
+            return lhs.count == rhs.count && zip(lhs, rhs).allSatisfy { isEqual($0, $1) }
+        }
+        if let lhs = lhs as? [String: Any], let rhs = rhs as? [String: Any] {
+            return lhs.count == rhs.count && lhs.allSatisfy { key, value in
+                rhs[key].map { isEqual(value, $0) } ?? false
+            }
+        }
+        return false
+    }
 }
 

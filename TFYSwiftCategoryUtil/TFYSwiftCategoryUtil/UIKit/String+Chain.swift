@@ -2233,3 +2233,214 @@ public extension TFY where Base == String {
     }
 }
 
+// MARK: - 十九、新增实用功能
+public extension TFY where Base == String {
+    
+    // MARK: 19.1、字符串验证
+    /// 验证邮箱格式
+    var isValidEmail: Bool {
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return emailPredicate.evaluate(with: base)
+    }
+    
+    /// 验证手机号格式（中国大陆）
+    var isValidPhoneNumber: Bool {
+        let phoneRegex = "^1[3-9]\\d{9}$"
+        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        return phonePredicate.evaluate(with: base)
+    }
+    
+    /// 验证身份证号格式（中国大陆）
+    var isValidIDCard: Bool {
+        let idCardRegex = "^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$"
+        let idCardPredicate = NSPredicate(format: "SELF MATCHES %@", idCardRegex)
+        return idCardPredicate.evaluate(with: base)
+    }
+    
+    /// 验证URL格式
+    var isValidURL: Bool {
+        guard let url = URL(string: base) else { return false }
+        return UIApplication.shared.canOpenURL(url)
+    }
+    
+    // MARK: 19.2、字符串转换
+    /// 转换为拼音
+    func toPinyin() -> String {
+        let mutableString = NSMutableString(string: base)
+        CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
+        CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
+        return String(mutableString)
+    }
+    
+    /// 转换为拼音首字母
+    func toPinyinInitials() -> String {
+        let pinyin = toPinyin()
+        let words = pinyin.components(separatedBy: " ")
+        return words.compactMap { $0.first }.map { String($0) }.joined()
+    }
+    
+    /// 转换为驼峰命名
+    func toCamelCase() -> String {
+        let words = base.components(separatedBy: CharacterSet.alphanumerics.inverted)
+        let camelCase = words.enumerated().map { index, word in
+            if index == 0 {
+                return word.lowercased()
+            } else {
+                return word.prefix(1).uppercased() + word.dropFirst().lowercased()
+            }
+        }.joined()
+        return camelCase
+    }
+    
+    /// 转换为蛇形命名
+    func toSnakeCase() -> String {
+        let pattern = "([a-z0-9])([A-Z])"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: base.count)
+        let snakeCase = regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: "$1_$2")
+        return snakeCase.lowercased()
+    }
+    
+    // MARK: 19.3、字符串处理
+    /// 截取指定长度的字符串
+    /// - Parameter length: 长度
+    /// - Returns: 截取后的字符串
+    func truncate(to length: Int) -> String {
+        if base.count <= length {
+            return base
+        }
+        return String(base.prefix(length)) + "..."
+    }
+    
+    /// 移除HTML标签
+    func removeHTMLTags() -> String {
+        let pattern = "<[^>]*>"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: base.count)
+        return regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: "")
+    }
+    
+    /// 移除特殊字符
+    func removeSpecialCharacters() -> String {
+        let pattern = "[^a-zA-Z0-9\\u4e00-\\u9fa5]"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: base.count)
+        return regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: "")
+    }
+    
+    /// 提取数字
+    func extractNumbers() -> String {
+        let pattern = "[^0-9]"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: base.count)
+        return regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: "")
+    }
+    
+    /// 提取字母
+    func extractLetters() -> String {
+        let pattern = "[^a-zA-Z]"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: base.count)
+        return regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: "")
+    }
+    
+    // MARK: 19.4、字符串统计
+    /// 计算字符数（包括中文字符）
+    var characterCount: Int {
+        return base.count
+    }
+    
+    /// 计算字节数
+    var byteCount: Int {
+        return base.utf8.count
+    }
+    
+    /// 计算单词数
+    var wordCount: Int {
+        let words = base.components(separatedBy: .whitespacesAndNewlines)
+        return words.filter { !$0.isEmpty }.count
+    }
+    
+    /// 计算行数
+    var lineCount: Int {
+        let lines = base.components(separatedBy: .newlines)
+        return lines.count
+    }
+    
+    // MARK: 19.5、字符串格式化
+    /// 格式化文件大小
+    func formatFileSize() -> String {
+        guard let size = Double(base) else { return "0 B" }
+        
+        let units = ["B", "KB", "MB", "GB", "TB"]
+        var index = 0
+        var fileSize = size
+        
+        while fileSize >= 1024 && index < units.count - 1 {
+            fileSize /= 1024
+            index += 1
+        }
+        
+        return String(format: "%.2f %@", fileSize, units[index])
+    }
+    
+    /// 格式化时间间隔
+    func formatTimeInterval() -> String {
+        guard let interval = TimeInterval(base) else { return "0秒" }
+        
+        let hours = Int(interval) / 3600
+        let minutes = Int(interval) % 3600 / 60
+        let seconds = Int(interval) % 60
+        
+        if hours > 0 {
+            return String(format: "%d小时%d分钟%d秒", hours, minutes, seconds)
+        } else if minutes > 0 {
+            return String(format: "%d分钟%d秒", minutes, seconds)
+        } else {
+            return String(format: "%d秒", seconds)
+        }
+    }
+    
+    /// 格式化金额
+    func formatCurrency() -> String {
+        guard let amount = Double(base) else { return "¥0.00" }
+        return String(format: "¥%.2f", amount)
+    }
+    
+    // MARK: 19.6、字符串加密
+    /// 简单加密（异或）
+    /// - Parameter key: 密钥
+    /// - Returns: 加密后的字符串
+    func simpleEncrypt(key: String) -> String {
+        let keyData = key.data(using: .utf8) ?? Data()
+        let stringData = base.data(using: .utf8) ?? Data()
+        
+        var encryptedData = Data()
+        for (index, byte) in stringData.enumerated() {
+            let keyByte = keyData[index % keyData.count]
+            let encryptedByte = byte ^ keyByte
+            encryptedData.append(encryptedByte)
+        }
+        
+        return encryptedData.base64EncodedString()
+    }
+    
+    /// 简单解密（异或）
+    /// - Parameter key: 密钥
+    /// - Returns: 解密后的字符串
+    func simpleDecrypt(key: String) -> String? {
+        guard let encryptedData = Data(base64Encoded: base) else { return nil }
+        let keyData = key.data(using: .utf8) ?? Data()
+        
+        var decryptedData = Data()
+        for (index, byte) in encryptedData.enumerated() {
+            let keyByte = keyData[index % keyData.count]
+            let decryptedByte = byte ^ keyByte
+            decryptedData.append(decryptedByte)
+        }
+        
+        return String(data: decryptedData, encoding: .utf8)
+    }
+}
+

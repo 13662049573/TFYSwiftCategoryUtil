@@ -360,6 +360,258 @@ public class TFYSwiftJsonKit: NSObject {
         config.outputFormatting = outputFormatting
         return config
     }
+    
+    // MARK: - 高级功能
+    
+    /// 深度合并两个JSON对象
+    /// - Parameters:
+    ///   - target: 目标对象
+    ///   - source: 源对象
+    /// - Returns: 合并后的对象
+    public static func deepMerge(_ target: [String: Any], with source: [String: Any]) -> [String: Any] {
+        var result = target
+        
+        for (key, value) in source {
+            if let dictValue = value as? [String: Any],
+               let existingValue = result[key] as? [String: Any] {
+                result[key] = deepMerge(existingValue, with: dictValue)
+            } else if let arrayValue = value as? [Any],
+                      let existingValue = result[key] as? [Any] {
+                result[key] = existingValue + arrayValue
+            } else {
+                result[key] = value
+            }
+        }
+        
+        return result
+    }
+    
+    /// 提取JSON路径的值
+    /// - Parameters:
+    ///   - json: JSON对象
+    ///   - path: 路径，如 "user.profile.name"
+    /// - Returns: 路径对应的值
+    public static func extractValue(from json: [String: Any], at path: String) -> Any? {
+        let keys = path.components(separatedBy: ".")
+        var current: Any = json
+        
+        for key in keys {
+            if let dict = current as? [String: Any] {
+                current = dict[key] ?? NSNull()
+            } else if let array = current as? [Any],
+                      let index = Int(key),
+                      index >= 0 && index < array.count {
+                current = array[index]
+            } else {
+                return nil
+            }
+            
+            if current is NSNull {
+                return nil
+            }
+        }
+        
+        return current
+    }
+    
+    /// 验证JSON Schema
+    /// - Parameters:
+    ///   - json: 要验证的JSON
+    ///   - schema: Schema定义
+    /// - Returns: 验证结果
+    public static func validateSchema(_ json: Any, against schema: [String: Any]) -> Bool {
+        // 基础Schema验证实现
+        guard let type = schema["type"] as? String else { return true }
+        
+        switch type {
+        case "object":
+            guard let jsonObject = json as? [String: Any] else { return false }
+            
+            // 检查必需字段
+            if let required = schema["required"] as? [String] {
+                for field in required {
+                    if jsonObject[field] == nil { return false }
+                }
+            }
+            
+            // 检查属性类型
+            if let properties = schema["properties"] as? [String: [String: Any]] {
+                for (key, value) in jsonObject {
+                    if let propertySchema = properties[key] {
+                        if !validateSchema(value, against: propertySchema) {
+                            return false
+                        }
+                    }
+                }
+            }
+            
+        case "array":
+            guard let jsonArray = json as? [Any] else { return false }
+            
+            // 检查数组元素类型
+            if let items = schema["items"] as? [String: Any] {
+                for item in jsonArray {
+                    if !validateSchema(item, against: items) {
+                        return false
+                    }
+                }
+            }
+            
+            // 检查数组长度限制
+            if let minItems = schema["minItems"] as? Int {
+                if jsonArray.count < minItems { return false }
+            }
+            if let maxItems = schema["maxItems"] as? Int {
+                if jsonArray.count > maxItems { return false }
+            }
+            
+        case "string":
+            guard json is String else { return false }
+            
+            // 检查字符串长度限制
+            if let minLength = schema["minLength"] as? Int {
+                if let str = json as? String, str.count < minLength { return false }
+            }
+            if let maxLength = schema["maxLength"] as? Int {
+                if let str = json as? String, str.count > maxLength { return false }
+            }
+            
+            // 检查正则表达式
+            if let pattern = schema["pattern"] as? String {
+                if let str = json as? String {
+                    let regex = try? NSRegularExpression(pattern: pattern, options: [])
+                    let range = NSRange(location: 0, length: str.count)
+                    if regex?.firstMatch(in: str, options: [], range: range) == nil {
+                        return false
+                    }
+                }
+            }
+            
+        case "number":
+            guard json is NSNumber else { return false }
+            
+            // 检查数值范围
+            if let minimum = schema["minimum"] as? Double {
+                if let num = json as? NSNumber, num.doubleValue < minimum { return false }
+            }
+            if let maximum = schema["maximum"] as? Double {
+                if let num = json as? NSNumber, num.doubleValue > maximum { return false }
+            }
+            
+        case "integer":
+            guard json is NSNumber else { return false }
+            if let num = json as? NSNumber {
+                // 检查是否为整数
+                if num.doubleValue.truncatingRemainder(dividingBy: 1) != 0 { return false }
+            }
+            
+        case "boolean":
+            guard json is Bool else { return false }
+            
+        case "null":
+            guard json is NSNull else { return false }
+            
+        default:
+            return true
+        }
+        
+        return true
+    }
+    
+    // MARK: - Schema构建器
+    
+    /// 创建对象Schema
+    /// - Parameters:
+    ///   - properties: 属性定义
+    ///   - required: 必需字段
+    /// - Returns: Schema定义
+    public static func objectSchema(properties: [String: [String: Any]], required: [String] = []) -> [String: Any] {
+        return [
+            "type": "object",
+            "properties": properties,
+            "required": required
+        ]
+    }
+    
+    /// 创建数组Schema
+    /// - Parameters:
+    ///   - items: 数组元素Schema
+    ///   - minItems: 最小元素数量
+    ///   - maxItems: 最大元素数量
+    /// - Returns: Schema定义
+    public static func arraySchema(items: [String: Any], minItems: Int? = nil, maxItems: Int? = nil) -> [String: Any] {
+        var schema: [String: Any] = [
+            "type": "array",
+            "items": items
+        ]
+        
+        if let minItems = minItems {
+            schema["minItems"] = minItems
+        }
+        if let maxItems = maxItems {
+            schema["maxItems"] = maxItems
+        }
+        
+        return schema
+    }
+    
+    /// 创建字符串Schema
+    /// - Parameters:
+    ///   - minLength: 最小长度
+    ///   - maxLength: 最大长度
+    ///   - pattern: 正则表达式
+    /// - Returns: Schema定义
+    public static func stringSchema(minLength: Int? = nil, maxLength: Int? = nil, pattern: String? = nil) -> [String: Any] {
+        var schema: [String: Any] = ["type": "string"]
+        
+        if let minLength = minLength {
+            schema["minLength"] = minLength
+        }
+        if let maxLength = maxLength {
+            schema["maxLength"] = maxLength
+        }
+        if let pattern = pattern {
+            schema["pattern"] = pattern
+        }
+        
+        return schema
+    }
+    
+    /// 创建数字Schema
+    /// - Parameters:
+    ///   - minimum: 最小值
+    ///   - maximum: 最大值
+    /// - Returns: Schema定义
+    public static func numberSchema(minimum: Double? = nil, maximum: Double? = nil) -> [String: Any] {
+        var schema: [String: Any] = ["type": "number"]
+        
+        if let minimum = minimum {
+            schema["minimum"] = minimum
+        }
+        if let maximum = maximum {
+            schema["maximum"] = maximum
+        }
+        
+        return schema
+    }
+    
+    /// 创建整数Schema
+    /// - Parameters:
+    ///   - minimum: 最小值
+    ///   - maximum: 最大值
+    /// - Returns: Schema定义
+    public static func integerSchema(minimum: Int? = nil, maximum: Int? = nil) -> [String: Any] {
+        var schema: [String: Any] = ["type": "integer"]
+        
+        if let minimum = minimum {
+            schema["minimum"] = minimum
+        }
+        if let maximum = maximum {
+            schema["maximum"] = maximum
+        }
+        
+        return schema
+    }
 }
 
 // MARK: - Codable扩展
@@ -381,6 +633,11 @@ public extension Array where Element: Encodable {
     func toDictionaries(config: TFYJsonConfig = .init()) -> Result<[[String: Any]], TFYJsonError> {
         return TFYSwiftJsonKit.dictionaries(from: self, config: config)
     }
+    
+    /// 模型数组转JSON字符串
+    func toJsonString(config: TFYJsonConfig = .init()) -> Result<String, TFYJsonError> {
+        return TFYSwiftJsonKit.encodeToString(self, config: config)
+    }
 }
 
 // MARK: - Decodable扩展
@@ -395,3 +652,72 @@ public extension Decodable {
         return TFYSwiftJsonKit.models(Self.self, from: array, config: config)
     }
 }
+
+// MARK: - TFYSwiftJsonKit 用法示例
+/*
+// 1. 基本模型与JSON互转
+struct Address: Codable {
+    let city: String
+    let street: String
+}
+struct User: Codable {
+    let id: Int
+    let name: String
+    let address: Address
+    let tags: [String]
+}
+let address = Address(city: "北京", street: "中关村")
+let user = User(id: 1, name: "张三", address: address, tags: ["VIP", "Swift"])
+
+// 模型转JSON字符串
+let jsonStringResult = user.toJsonString()
+switch jsonStringResult {
+case .success(let jsonString):
+    print("模型转JSON字符串: \(jsonString)")
+case .failure(let error):
+    print("编码失败: \(error.localizedDescription)")
+}
+
+// JSON字符串转模型
+let jsonString = "{"id":1,"name":"张三","address":{"city":"北京","street":"中关村"},"tags":["VIP","Swift"]}"
+let userResult = User.from(dict: TFYSwiftJsonKit.dictionary(from: jsonString.data(using: .utf8)!).value ?? [:])
+switch userResult {
+case .success(let user):
+    print("JSON转模型: \(user)")
+case .failure(let error):
+    print("解码失败: \(error.localizedDescription)")
+}
+
+// 2. 嵌套模型数组转JSON
+let users = [user, User(id: 2, name: "李四", address: address, tags: ["同事"])]
+let usersJsonString = users.toJsonString().value ?? ""
+print("模型数组转JSON字符串: \(usersJsonString)")
+
+// 3. 字典/数组与模型互转
+let dict: [String: Any] = ["id": 3, "name": "王五", "address": ["city": "上海", "street": "浦东"], "tags": ["新用户"]]
+let userFromDict = User.from(dict: dict)
+print("字典转模型: \(userFromDict)")
+
+let userDict = user.toDictionary().value ?? [:]
+print("模型转字典: \(userDict)")
+
+// 4. JSON格式化、美化
+let uglyJson = "{\"id\":1,\"name\":\"张三\",\"address\":{\"city\":\"北京\",\"street\":\"中关村\"},\"tags\":[\"VIP\",\"Swift\"]}"
+let pretty = TFYSwiftJsonKit.prettyPrint(uglyJson)
+print("格式化后的JSON:\n\(pretty.value ?? "")")
+
+// 5. JSON Schema 验证
+let schema = TFYSwiftJsonKit.objectSchema(properties: [
+    "id": TFYSwiftJsonKit.integerSchema(minimum: 1),
+    "name": TFYSwiftJsonKit.stringSchema(minLength: 1),
+    "address": TFYSwiftJsonKit.objectSchema(properties: [
+        "city": TFYSwiftJsonKit.stringSchema(),
+        "street": TFYSwiftJsonKit.stringSchema()
+    ], required: ["city", "street"]),
+    "tags": TFYSwiftJsonKit.arraySchema(items: TFYSwiftJsonKit.stringSchema())
+], required: ["id", "name", "address", "tags"])
+
+let userDictForSchema = user.toDictionary().value ?? [:]
+let isValid = TFYSwiftJsonKit.validateSchema(userDictForSchema, against: schema)
+print("模型是否符合Schema: \(isValid)")
+*/
