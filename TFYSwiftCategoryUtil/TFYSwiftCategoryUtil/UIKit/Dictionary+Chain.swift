@@ -205,13 +205,13 @@ public extension Dictionary {
     /// - Parameter other: 要合并的字典
     /// - Returns: 合并后的字典
     /// - Note: 支持iOS 15+，适配iPhone和iPad
-    func deepMerge(with other: [Key: Value]) -> [Key: Value] {
+    func tfy_deepMerge(with other: [Key: Value]) -> [Key: Value] {
         var result = self
         
         for (key, value) in other {
             if let existingValue = result[key] as? [String: Any],
                let newValue = value as? [String: Any] {
-                result[key] = (existingValue.deepMerge(with: newValue) as! Value)
+                result[key] = (existingValue.tfy_deepMerge(with: newValue) as! Value)
             } else {
                 result[key] = value
             }

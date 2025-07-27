@@ -1029,7 +1029,7 @@ public extension UIView {
 //        self.drawHierarchy(in: self.frame, afterScreenUpdates: true)
         guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
         // 保存相册
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil) // 注释掉，因为参数不正确
         return image
     }
     

@@ -39,6 +39,15 @@ public class TFYTimer {
     /// 生命周期事件回调
     public var onStateChange: ((TFYTimerState) -> Void)?
     
+    /// 执行次数统计
+    private var _executionCount: Int = 0
+    
+    /// 开始执行时间
+    private var startTime: DispatchTime?
+    
+    /// 最后执行时间
+    private var lastExecutionTime: DispatchTime?
+    
     // MARK: - 初始化方法
     
     /// 创建定时器
@@ -63,6 +72,8 @@ public class TFYTimer {
         // 设置回调
         internalTimer.setEventHandler { [weak self] in
             guard let self = self else { return }
+            self._executionCount += 1
+            self.lastExecutionTime = .now()
             handler(self)
         }
         
@@ -84,13 +95,28 @@ public class TFYTimer {
     ///   - queue: 执行队列
     ///   - handler: 回调处理
     /// - Returns: 定时器实例
-    public static func repeaticTimer(interval: DispatchTimeInterval,
+    public static func repeatingTimer(interval: DispatchTimeInterval,
                                    leeway: DispatchTimeInterval = .seconds(0),
                                    queue: DispatchQueue = .main,
                                    handler: @escaping SwiftTimerHandler) -> TFYTimer {
         return TFYTimer(interval: interval,
                        repeats: true,
                        leeway: leeway,
+                       queue: queue,
+                       handler: handler)
+    }
+    
+    /// 创建延迟执行的定时器
+    /// - Parameters:
+    ///   - delay: 延迟时间
+    ///   - queue: 执行队列
+    ///   - handler: 回调处理
+    /// - Returns: 定时器实例
+    public static func delayedTimer(delay: DispatchTimeInterval,
+                                  queue: DispatchQueue = .main,
+                                  handler: @escaping SwiftTimerHandler) -> TFYTimer {
+        return TFYTimer(interval: delay,
+                       repeats: false,
                        queue: queue,
                        handler: handler)
     }
@@ -124,6 +150,22 @@ public class TFYTimer {
         return state
     }
     
+    /// 获取执行次数
+    public var executionCount: Int {
+        return _executionCount
+    }
+    
+    /// 获取运行时间（秒）
+    public var runningTime: TimeInterval {
+        guard let startTime = startTime else { return 0 }
+        return Double(DispatchTime.now().uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000_000
+    }
+    
+    /// 获取最后执行时间
+    public var lastExecution: DispatchTime? {
+        return lastExecutionTime
+    }
+    
     // MARK: - 控制方法
     
     /// 立即触发定时器
@@ -140,6 +182,7 @@ public class TFYTimer {
     /// 启动定时器
     public func start() {
         guard isValid && state != .running else { return }
+        startTime = .now()
         internalTimer.resume()
         state = .running
         onStateChange?(state)
@@ -167,6 +210,13 @@ public class TFYTimer {
         guard repeats && isValid else { return }
         internalTimer.schedule(deadline: .now() + interval,
                              repeating: interval)
+    }
+    
+    /// 重置执行统计
+    public func resetStatistics() {
+        _executionCount = 0
+        startTime = nil
+        lastExecutionTime = nil
     }
     
     /// 重新设置定时器回调
@@ -280,6 +330,131 @@ public extension TFYTimer {
         defer { workItemsLock.unlock() }
         return workItems.count
     }
+    
+    /// 检查是否存在指定标识符的节流/防抖操作
+    /// - Parameter identifier: 标识符
+    /// - Returns: 是否存在
+    static func hasThrottlingTimer(identifier: String) -> Bool {
+        workItemsLock.lock()
+        defer { workItemsLock.unlock() }
+        return workItems[identifier] != nil
+    }
+    
+    /// 获取所有活跃的节流/防抖操作标识符
+    /// - Returns: 标识符数组
+    static var activeThrottlingTimerIdentifiers: [String] {
+        workItemsLock.lock()
+        defer { workItemsLock.unlock() }
+        return Array(workItems.keys)
+    }
+}
+
+// MARK: - 定时器管理器
+public class TFYTimerManager {
+    
+    // MARK: - 单例
+    public static let shared = TFYTimerManager()
+    
+    // MARK: - 属性
+    private var timers: [String: TFYTimer] = [:]
+    private let timersLock = NSLock()
+    
+    private init() {}
+    
+    // MARK: - 管理方法
+    
+    /// 创建并管理定时器
+    /// - Parameters:
+    ///   - identifier: 标识符
+    ///   - interval: 时间间隔
+    ///   - repeats: 是否重复
+    ///   - queue: 执行队列
+    ///   - handler: 回调处理
+    /// - Returns: 定时器实例
+    @discardableResult
+    public func createTimer(identifier: String,
+                          interval: DispatchTimeInterval,
+                          repeats: Bool = false,
+                          queue: DispatchQueue = .main,
+                          handler: @escaping TFYTimer.SwiftTimerHandler) -> TFYTimer {
+        
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        
+        // 如果已存在，先取消
+        if let existingTimer = timers[identifier] {
+            existingTimer.cancel()
+        }
+        
+        let timer = TFYTimer(interval: interval, repeats: repeats, queue: queue, handler: handler)
+        timers[identifier] = timer
+        
+        // 设置状态变化回调，自动清理
+        timer.onStateChange = { [weak self] state in
+            if state == .cancelled {
+                self?.timersLock.lock()
+                self?.timers.removeValue(forKey: identifier)
+                self?.timersLock.unlock()
+            }
+        }
+        
+        return timer
+    }
+    
+    /// 获取定时器
+    /// - Parameter identifier: 标识符
+    /// - Returns: 定时器实例
+    public func getTimer(identifier: String) -> TFYTimer? {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        return timers[identifier]
+    }
+    
+    /// 取消定时器
+    /// - Parameter identifier: 标识符
+    public func cancelTimer(identifier: String) {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        
+        if let timer = timers[identifier] {
+            timer.cancel()
+            timers.removeValue(forKey: identifier)
+        }
+    }
+    
+    /// 取消所有定时器
+    public func cancelAllTimers() {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        
+        for (_, timer) in timers {
+            timer.cancel()
+        }
+        timers.removeAll()
+    }
+    
+    /// 获取活跃定时器数量
+    public var activeTimerCount: Int {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        return timers.count
+    }
+    
+    /// 获取所有活跃定时器标识符
+    public var activeTimerIdentifiers: [String] {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        return Array(timers.keys)
+    }
+    
+    /// 检查是否存在指定标识符的定时器
+    /// - Parameter identifier: 标识符
+    /// - Returns: 是否存在
+    public func hasTimer(identifier: String) -> Bool {
+        timersLock.lock()
+        defer { timersLock.unlock() }
+        return timers[identifier] != nil
+    }
 }
 
 // MARK: - 倒计时定时器
@@ -289,6 +464,9 @@ public class TFYCountDownTimer {
     
     /// 内部定时器
     private let internalTimer: TFYTimer
+    
+    /// 时间间隔
+    private let interval: DispatchTimeInterval
     
     /// 剩余次数
     private var leftTimes: Int
@@ -321,9 +499,10 @@ public class TFYCountDownTimer {
         self.leftTimes = times
         self.originalTimes = times
         self.handler = handler
+        self.interval = interval
         
         // 创建重复定时器
-        self.internalTimer = TFYTimer.repeaticTimer(interval: interval,
+        self.internalTimer = TFYTimer.repeatingTimer(interval: interval,
                                                    queue: queue) { _ in }
         
         // 设置定时器回调
@@ -387,6 +566,12 @@ public class TFYCountDownTimer {
         self.internalTimer.start()
     }
     
+    /// 重置倒计时并启动
+    public func resetAndStart() {
+        reCountDown()
+        start()
+    }
+    
     /// 重置倒计时
     public func reCountDown() {
         self.leftTimes = self.originalTimes
@@ -402,10 +587,38 @@ public class TFYCountDownTimer {
     public func setRemainingTimes(_ times: Int) {
         self.leftTimes = max(0, min(times, originalTimes))
     }
+    
+    /// 获取剩余时间（秒）
+    public var remainingTime: TimeInterval {
+        return TimeInterval(leftTimes) * interval.seconds
+    }
+    
+    /// 获取已用时间（秒）
+    public var elapsedTime: TimeInterval {
+        return TimeInterval(originalTimes - leftTimes) * interval.seconds
+    }
 }
 
 // MARK: - 时间间隔扩展
 public extension DispatchTimeInterval {
+    
+    /// 获取秒数
+    var seconds: Double {
+        switch self {
+        case .seconds(let value):
+            return Double(value)
+        case .milliseconds(let value):
+            return Double(value) / 1000.0
+        case .microseconds(let value):
+            return Double(value) / 1_000_000.0
+        case .nanoseconds(let value):
+            return Double(value) / 1_000_000_000.0
+        case .never:
+            return 0
+        @unknown default:
+            return 0
+        }
+    }
     
     /// 从秒数创建时间间隔
     /// - Parameter seconds: 秒数
@@ -444,7 +657,7 @@ let timer = TFYTimer(interval: .seconds(2), repeats: false) { t in
 }
 timer.start()
 
-let repeatTimer = TFYTimer.repeaticTimer(interval: .seconds(1)) { t in
+let repeatTimer = TFYTimer.repeatingTimer(interval: .seconds(1)) { t in
     print("重复定时器触发")
 }
 repeatTimer.onStateChange = { state in
@@ -452,7 +665,13 @@ repeatTimer.onStateChange = { state in
 }
 repeatTimer.start()
 
-// 2. 节流/防抖
+// 2. 延迟定时器
+let delayedTimer = TFYTimer.delayedTimer(delay: .seconds(3)) { t in
+    print("延迟3秒后执行")
+}
+delayedTimer.start()
+
+// 3. 节流/防抖
 TFYTimer.debounce(interval: .seconds(1), identifier: "search") {
     print("防抖触发：用户停止输入1秒后执行")
 }
@@ -461,10 +680,15 @@ TFYTimer.throttle(interval: .seconds(2), identifier: "api") {
     print("节流触发：2秒内只会执行一次")
 }
 
+// 检查节流/防抖状态
+if TFYTimer.hasThrottlingTimer(identifier: "search") {
+    print("搜索防抖正在运行")
+}
+
 // 取消所有节流/防抖
 TFYTimer.cancelAllThrottlingTimers()
 
-// 3. 倒计时定时器
+// 4. 倒计时定时器
 let countDown = TFYCountDownTimer(interval: .seconds(1), times: 5) { timer, left in
     print("倒计时剩余: \(left)")
 }
@@ -476,7 +700,18 @@ countDown.onStateChange = { timer, left in
 }
 countDown.start()
 
-// 4. 进阶：动态重置、暂停、恢复
+// 5. 定时器管理器
+let manager = TFYTimerManager.shared
+let managedTimer = manager.createTimer(identifier: "myTimer", interval: .seconds(1), repeats: true) { t in
+    print("管理定时器触发，执行次数: \(t.executionCount)")
+}
+
+// 检查定时器状态
+if manager.hasTimer(identifier: "myTimer") {
+    print("定时器存在")
+}
+
+// 6. 进阶：动态重置、暂停、恢复
 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
     countDown.suspend()
     print("倒计时暂停")
@@ -486,8 +721,12 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
     print("倒计时恢复")
 }
 DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
-    countDown.reCountDown()
-    countDown.start()
+    countDown.resetAndStart()
     print("倒计时重置并启动")
 }
+
+// 7. 统计信息
+print("定时器运行时间: \(managedTimer.runningTime)秒")
+print("定时器执行次数: \(managedTimer.executionCount)")
+print("活跃定时器数量: \(manager.activeTimerCount)")
 */

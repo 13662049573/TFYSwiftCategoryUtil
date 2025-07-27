@@ -13,6 +13,8 @@ public struct KeyboardConfiguration {
     public var isEnabled: Bool = false
     public var avoidingMode: KeyboardAvoidingMode = .transform
     public var additionalOffset: CGFloat = 10
+    public var animationDuration: TimeInterval = 0.25
+    public var respectSafeArea: Bool = true
     
     public enum KeyboardAvoidingMode {
         case transform  // 使用变换来避开键盘
@@ -21,6 +23,11 @@ public struct KeyboardConfiguration {
     }
     
     public init() {}
+    
+    /// 验证配置是否有效
+    public func validate() -> Bool {
+        return additionalOffset >= 0 && animationDuration >= 0
+    }
 }
 
 public struct ContainerConfiguration {
@@ -31,6 +38,12 @@ public struct ContainerConfiguration {
     public var minWidth: CGFloat?
     public var minHeight: CGFloat?
     public var contentInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    public var cornerRadius: CGFloat = 0
+    public var shadowEnabled: Bool = false
+    public var shadowColor: UIColor = .black
+    public var shadowOpacity: Float = 0.3
+    public var shadowRadius: CGFloat = 5
+    public var shadowOffset: CGSize = .zero
     
     public enum ContainerDimension {
         case fixed(CGFloat)
@@ -40,6 +53,17 @@ public struct ContainerConfiguration {
     }
     
     public init() {}
+    
+    /// 验证配置是否有效
+    public func validate() -> Bool {
+        if let maxWidth = maxWidth, let minWidth = minWidth {
+            return maxWidth >= minWidth
+        }
+        if let maxHeight = maxHeight, let minHeight = minHeight {
+            return maxHeight >= minHeight
+        }
+        return true
+    }
 }
 
 // MARK: - Configuration
@@ -66,7 +90,24 @@ public struct TFYSwiftPopupViewConfiguration {
     
     public var containerConfiguration = ContainerConfiguration()
     
+    // 新增配置选项
+    public var maxPopupCount: Int = 10 // 最大弹窗数量限制
+    public var autoDismissDelay: TimeInterval = 0 // 自动消失延迟，0表示不自动消失
+    public var enableHapticFeedback: Bool = true // 启用触觉反馈
+    public var enableAccessibility: Bool = true // 启用无障碍支持
+    public var theme: PopupTheme = .default // 主题支持
+    
     public init() {}
+    
+    /// 验证配置是否有效
+    public func validate() -> Bool {
+        guard maxPopupCount > 0 else { return false }
+        guard autoDismissDelay >= 0 else { return false }
+        guard dragDismissThreshold >= 0 && dragDismissThreshold <= 1 else { return false }
+        guard animationDuration >= 0 else { return false }
+        
+        return keyboardConfiguration.validate() && containerConfiguration.validate()
+    }
     
     public struct ShadowConfiguration {
         public var isEnabled: Bool = false
@@ -76,6 +117,21 @@ public struct TFYSwiftPopupViewConfiguration {
         public var offset: CGSize = .zero
         
         public init() {}
+    }
+    
+    /// 弹窗主题
+    public enum PopupTheme {
+        case `default`
+        case light
+        case dark
+        case custom(backgroundColor: UIColor, textColor: UIColor, cornerRadius: CGFloat)
+        
+        public static var current: PopupTheme {
+            if #available(iOS 13.0, *) {
+                return UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light
+            }
+            return .default
+        }
     }
 }
 
@@ -123,6 +179,31 @@ public protocol TFYSwiftPopupViewDelegate: AnyObject {
     func popupViewWillDisappear(_ popupView: TFYSwiftPopupView)
     func popupViewDidDisappear(_ popupView: TFYSwiftPopupView)
     func popupViewDidReceiveMemoryWarning(_ popupView: TFYSwiftPopupView)
+    
+    // 新增可选方法
+    func popupViewShouldDismiss(_ popupView: TFYSwiftPopupView) -> Bool
+    func popupViewDidTapBackground(_ popupView: TFYSwiftPopupView)
+    func popupViewDidSwipeToDismiss(_ popupView: TFYSwiftPopupView)
+    func popupViewDidDragToDismiss(_ popupView: TFYSwiftPopupView)
+}
+
+// 默认实现
+public extension TFYSwiftPopupViewDelegate {
+    func popupViewShouldDismiss(_ popupView: TFYSwiftPopupView) -> Bool {
+        return true
+    }
+    
+    func popupViewDidTapBackground(_ popupView: TFYSwiftPopupView) {
+        // 默认实现为空
+    }
+    
+    func popupViewDidSwipeToDismiss(_ popupView: TFYSwiftPopupView) {
+        // 默认实现为空
+    }
+    
+    func popupViewDidDragToDismiss(_ popupView: TFYSwiftPopupView) {
+        // 默认实现为空
+    }
 }
 
 // MARK: - Main PopupView Class
@@ -136,6 +217,7 @@ public class TFYSwiftPopupView: UIView {
     public var isPenetrable: Bool
     public private(set) var isPresenting: Bool
     public let backgroundView: BackgroundView
+    public weak var delegate: TFYSwiftPopupViewDelegate?
     
     // MARK: - Callbacks
     public var willDisplayCallback: (()->())?
@@ -156,16 +238,32 @@ public class TFYSwiftPopupView: UIView {
     
     // MARK: - Static Properties
     private static var currentPopupViews: [TFYSwiftPopupView] = []
+    private static let popupQueue = DispatchQueue(label: "com.tfy.popup.queue", attributes: .concurrent)
+    private static let maxPopupCount = 10
     
     // MARK: - Initialization
     public init(containerView: UIView, 
                contentView: UIView, 
                animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration()) {
+        
+        // 验证配置
+        guard configuration.validate() else {
+            fatalError("TFYSwiftPopupView: 配置验证失败，请检查配置参数")
+        }
+        
+        // 检查contentView是否已被添加
         assert(contentView.superview == nil, "TFYSwiftPopupView: contentView 已经被添加到其他视图")
         if contentView.superview != nil {
-            print("TFYSwiftPopupView: contentView 已经被添加到其他视图，可能导致布局异常")
+            TFYUtils.Logger.log("TFYSwiftPopupView: contentView 已经被添加到其他视图，可能导致布局异常", level: .warning)
         }
+        
+        // 检查弹窗数量限制
+        if Self.currentPopupViews.count >= configuration.maxPopupCount {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 弹窗数量已达上限，将自动清理最旧的弹窗", level: .warning)
+            Self.cleanupOldestPopup()
+        }
+        
         self.containerView = containerView
         self.contentView = contentView
         self.animator = animator
@@ -183,6 +281,7 @@ public class TFYSwiftPopupView: UIView {
         setupAccessibility()
         setupKeyboardHandling()
         setupContainerConstraints()
+        applyTheme()
     }
     
     required init?(coder: NSCoder) {
@@ -245,17 +344,34 @@ public class TFYSwiftPopupView: UIView {
     }
     
     public func display(animated: Bool, completion: (() -> Void)? = nil) {
+        // 检查代理是否允许显示
+        if let delegate = delegate, !delegate.popupViewShouldDismiss(self) {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 代理不允许显示弹窗", level: .warning)
+            return
+        }
+        
         performDisplay(animated: animated, completion: completion)
     }
     
     public func dismiss(animated: Bool, completion: (()->())? = nil) {
-        guard !isAnimating else { return }
+        guard !isAnimating else { 
+            TFYUtils.Logger.log("TFYSwiftPopupView: 弹窗正在动画中，忽略消失请求", level: .debug)
+            return 
+        }
+        
+        // 检查代理是否允许消失
+        if let delegate = delegate, !delegate.popupViewShouldDismiss(self) {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 代理不允许消失弹窗", level: .warning)
+            return
+        }
         
         isAnimating = true
         willDismissCallback?()
         
         // 从当前显示的弹窗数组中移除
-        TFYSwiftPopupView.currentPopupViews.removeAll { $0 === self }
+        Self.popupQueue.async(flags: .barrier) {
+            Self.currentPopupViews.removeAll { $0 === self }
+        }
         
         animator.dismiss(contentView: contentView, 
                         backgroundView: backgroundView, 
@@ -284,9 +400,61 @@ public class TFYSwiftPopupView: UIView {
     private func cleanup() {
         contentView.removeFromSuperview()
         removeFromSuperview()
+        
+        // 清理通知观察者
+        NotificationCenter.default.removeObserver(self)
+        
+        // 清理手势识别器
+        contentView.gestureRecognizers?.forEach { contentView.removeGestureRecognizer($0) }
+        backgroundView.gestureRecognizers?.forEach { backgroundView.removeGestureRecognizer($0) }
+    }
+    
+    // MARK: - 内存管理
+    private static func cleanupOldestPopup() {
+        popupQueue.async(flags: .barrier) {
+            if let oldestPopup = currentPopupViews.first {
+                oldestPopup.dismiss(animated: false)
+                currentPopupViews.removeFirst()
+            }
+        }
+    }
+    
+    private static func cleanupAllPopups() {
+        popupQueue.async(flags: .barrier) {
+            currentPopupViews.forEach { $0.dismiss(animated: false) }
+            currentPopupViews.removeAll()
+        }
+    }
+    
+    // MARK: - 主题应用
+    private func applyTheme() {
+        guard configuration.enableAccessibility else { return }
+        
+        switch configuration.theme {
+        case .light:
+            backgroundColor = UIColor.white.withAlphaComponent(0.95)
+            contentView.backgroundColor = .white
+        case .dark:
+            backgroundColor = UIColor.black.withAlphaComponent(0.95)
+            contentView.backgroundColor = .black
+        case .custom(let backgroundColor, _, let cornerRadius):
+            self.backgroundColor = backgroundColor
+            contentView.backgroundColor = backgroundColor
+            contentView.layer.cornerRadius = cornerRadius
+        default:
+            break
+        }
     }
     
     @objc private func backgroundViewClicked() {
+        guard configuration.dismissOnBackgroundTap else { return }
+        
+        // 检查代理是否允许消失
+        if let delegate = delegate, !delegate.popupViewShouldDismiss(self) {
+            return
+        }
+        
+        delegate?.popupViewDidTapBackground(self)
         dismiss(animated: true)
     }
     
@@ -313,9 +481,12 @@ public class TFYSwiftPopupView: UIView {
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
+        guard configuration.keyboardConfiguration.isEnabled else { return }
+        
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
               let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 键盘通知信息不完整", level: .warning)
             return
         }
         
@@ -325,6 +496,12 @@ public class TFYSwiftPopupView: UIView {
         
         if overlap > 0 {
             let offset = overlap + configuration.keyboardConfiguration.additionalOffset
+            
+            // 添加触觉反馈
+            if configuration.enableHapticFeedback {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
+            }
             
             UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions(rawValue: curve)) {
                 switch self.configuration.keyboardConfiguration.avoidingMode {
@@ -447,6 +624,13 @@ public extension TFYSwiftPopupView {
                     animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                     animated: Bool = true,
                     completion: (() -> Void)? = nil) -> TFYSwiftPopupView {
+        
+        // 验证配置
+        guard configuration.validate() else {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 配置验证失败", level: .error)
+            fatalError("TFYSwiftPopupView: 配置验证失败，请检查配置参数")
+        }
+        
         // 获取当前窗口（兼容 iOS 15 及以上版本）
         let window: UIWindow? = {
             if #available(iOS 15.0, *) {
@@ -460,7 +644,14 @@ public extension TFYSwiftPopupView {
         }()
         
         guard let window = window else {
-            return TFYSwiftPopupView(containerView: UIView(), contentView: contentView)
+            TFYUtils.Logger.log("TFYSwiftPopupView: 无法获取当前窗口", level: .error)
+            fatalError("TFYSwiftPopupView: 无法获取当前窗口")
+        }
+        
+        // 检查弹窗数量限制
+        if currentPopupViews.count >= configuration.maxPopupCount {
+            TFYUtils.Logger.log("TFYSwiftPopupView: 弹窗数量已达上限，将自动清理最旧的弹窗", level: .warning)
+            cleanupOldestPopup()
         }
         
         // 创建弹窗
@@ -479,37 +670,68 @@ public extension TFYSwiftPopupView {
         window.addSubview(popupView)
         
         // 添加到当前显示的弹窗数组
-        currentPopupViews.append(popupView)
+        popupQueue.async(flags: .barrier) {
+            currentPopupViews.append(popupView)
+        }
         
         // 显示弹窗
         popupView.display(animated: animated) {
             completion?()
         }
         
+        // 设置自动消失
+        if configuration.autoDismissDelay > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + configuration.autoDismissDelay) {
+                popupView.dismiss(animated: true)
+            }
+        }
+        
         return popupView
     }
     
     static func dismissAll(animated: Bool = true, completion: (() -> Void)? = nil) {
-        let popups = currentPopupViews
-        currentPopupViews.removeAll()
-        
-        guard !popups.isEmpty else {
-            completion?()
-            return
-        }
-        
-        let group = DispatchGroup()
-        
-        for popup in popups {
-            group.enter()
-            popup.dismiss(animated: animated) {
-                group.leave()
+        popupQueue.async(flags: .barrier) {
+            let popups = currentPopupViews
+            currentPopupViews.removeAll()
+            
+            guard !popups.isEmpty else {
+                DispatchQueue.main.async {
+                    completion?()
+                }
+                return
+            }
+            
+            let group = DispatchGroup()
+            
+            for popup in popups {
+                group.enter()
+                popup.dismiss(animated: animated) {
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
+                completion?()
             }
         }
-        
-        group.notify(queue: .main) {
-            completion?()
+    }
+    
+    /// 获取当前显示的弹窗数量
+    static var currentPopupCount: Int {
+        var count = 0
+        popupQueue.sync {
+            count = currentPopupViews.count
         }
+        return count
+    }
+    
+    /// 获取当前显示的所有弹窗
+    static var allCurrentPopups: [TFYSwiftPopupView] {
+        var popups: [TFYSwiftPopupView] = []
+        popupQueue.sync {
+            popups = currentPopupViews
+        }
+        return popups
     }
 }
 
@@ -1353,6 +1575,110 @@ open class TFYSwiftSpringAnimator: TFYSwiftBaseAnimator {
     }
 }
 
+// MARK: - 新增动画器类型
+open class TFYSwiftBounceAnimator: TFYSwiftBaseAnimator {
+    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        contentView.alpha = 0
+        backgroundView.alpha = 0
+        contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        
+        displayAnimationBlock = {
+            contentView.alpha = 1
+            contentView.transform = .identity
+            backgroundView.alpha = 1
+        }
+        
+        dismissAnimationBlock = {
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            backgroundView.alpha = 0
+        }
+        
+        // 设置弹性动画参数
+        displaySpringDampingRatio = 0.6
+        displaySpringVelocity = 0.8
+        dismissSpringDampingRatio = 0.8
+        dismissSpringVelocity = 0.5
+    }
+}
+
+open class TFYSwiftSlideAnimator: TFYSwiftBaseAnimator {
+    public enum SlideDirection {
+        case fromTop, fromBottom, fromLeft, fromRight
+    }
+    
+    private let direction: SlideDirection
+    
+    public init(direction: SlideDirection, layout: Layout = .center(.init())) {
+        self.direction = direction
+        super.init(layout: layout)
+    }
+    
+    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        
+        contentView.alpha = 0
+        backgroundView.alpha = 0
+        
+        // 根据方向设置初始位置
+        let screenBounds = UIScreen.main.bounds
+        switch direction {
+        case .fromTop:
+            contentView.transform = CGAffineTransform(translationX: 0, y: -screenBounds.height)
+        case .fromBottom:
+            contentView.transform = CGAffineTransform(translationX: 0, y: screenBounds.height)
+        case .fromLeft:
+            contentView.transform = CGAffineTransform(translationX: -screenBounds.width, y: 0)
+        case .fromRight:
+            contentView.transform = CGAffineTransform(translationX: screenBounds.width, y: 0)
+        }
+        
+        displayAnimationBlock = {
+            contentView.alpha = 1
+            contentView.transform = .identity
+            backgroundView.alpha = 1
+        }
+        
+        dismissAnimationBlock = {
+            contentView.alpha = 0
+            switch self.direction {
+            case .fromTop:
+                contentView.transform = CGAffineTransform(translationX: 0, y: -screenBounds.height)
+            case .fromBottom:
+                contentView.transform = CGAffineTransform(translationX: 0, y: screenBounds.height)
+            case .fromLeft:
+                contentView.transform = CGAffineTransform(translationX: -screenBounds.width, y: 0)
+            case .fromRight:
+                contentView.transform = CGAffineTransform(translationX: screenBounds.width, y: 0)
+            }
+            backgroundView.alpha = 0
+        }
+    }
+}
+
+open class TFYSwiftRotateAnimator: TFYSwiftBaseAnimator {
+    open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+        super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        
+        contentView.alpha = 0
+        backgroundView.alpha = 0
+        contentView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+        
+        displayAnimationBlock = {
+            contentView.alpha = 1
+            contentView.transform = .identity
+            backgroundView.alpha = 1
+        }
+        
+        dismissAnimationBlock = {
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            backgroundView.alpha = 0
+        }
+    }
+}
+
 // MARK: - Bottom Sheet PopupView Convenience
 public extension TFYSwiftPopupView {
     @discardableResult
@@ -1373,3 +1699,687 @@ public extension TFYSwiftPopupView {
         )
     }
 }
+
+// MARK: - 实用方法扩展
+public extension TFYSwiftPopupView {
+    
+    /// 显示警告弹窗
+    @discardableResult
+    static func showAlert(
+        title: String? = nil,
+        message: String,
+        buttonTitle: String = "确定",
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) -> TFYSwiftPopupView {
+        
+        let alertView = createAlertView(title: title, message: message, buttonTitle: buttonTitle)
+        
+        var config = TFYSwiftPopupViewConfiguration()
+        config.isDismissible = true
+        config.tapOutsideToDismiss = true
+        config.autoDismissDelay = 0
+        config.enableHapticFeedback = true
+        
+        return show(
+            contentView: alertView,
+            configuration: config,
+            animated: animated,
+            completion: completion
+        )
+    }
+    
+    /// 显示确认弹窗
+    @discardableResult
+    static func showConfirm(
+        title: String? = nil,
+        message: String,
+        confirmTitle: String = "确定",
+        cancelTitle: String = "取消",
+        animated: Bool = true,
+        onConfirm: @escaping () -> Void,
+        onCancel: @escaping () -> Void
+    ) -> TFYSwiftPopupView {
+        
+        let confirmView = createConfirmView(
+            title: title,
+            message: message,
+            confirmTitle: confirmTitle,
+            cancelTitle: cancelTitle,
+            onConfirm: onConfirm,
+            onCancel: onCancel
+        )
+        
+        var config = TFYSwiftPopupViewConfiguration()
+        config.isDismissible = true
+        config.tapOutsideToDismiss = false
+        config.autoDismissDelay = 0
+        config.enableHapticFeedback = true
+        
+        return show(
+            contentView: confirmView,
+            configuration: config,
+            animated: animated
+        )
+    }
+    
+    /// 显示加载弹窗
+    @discardableResult
+    static func showLoading(
+        message: String = "加载中...",
+        animated: Bool = true
+    ) -> TFYSwiftPopupView {
+        
+        let loadingView = createLoadingView(message: message)
+        
+        var config = TFYSwiftPopupViewConfiguration()
+        config.isDismissible = false
+        config.tapOutsideToDismiss = false
+        config.autoDismissDelay = 0
+        config.enableHapticFeedback = false
+        
+        return show(
+            contentView: loadingView,
+            configuration: config,
+            animated: animated
+        )
+    }
+    
+    /// 显示成功提示
+    @discardableResult
+    static func showSuccess(
+        message: String,
+        duration: TimeInterval = 2.0,
+        animated: Bool = true
+    ) -> TFYSwiftPopupView {
+        
+        let successView = createSuccessView(message: message)
+        
+        var config = TFYSwiftPopupViewConfiguration()
+        config.isDismissible = true
+        config.tapOutsideToDismiss = false
+        config.autoDismissDelay = duration
+        config.enableHapticFeedback = true
+        
+        return show(
+            contentView: successView,
+            configuration: config,
+            animated: animated
+        )
+    }
+    
+    /// 显示错误提示
+    @discardableResult
+    static func showError(
+        message: String,
+        duration: TimeInterval = 3.0,
+        animated: Bool = true
+    ) -> TFYSwiftPopupView {
+        
+        let errorView = createErrorView(message: message)
+        
+        var config = TFYSwiftPopupViewConfiguration()
+        config.isDismissible = true
+        config.tapOutsideToDismiss = false
+        config.autoDismissDelay = duration
+        config.enableHapticFeedback = true
+        
+        return show(
+            contentView: errorView,
+            configuration: config,
+            animated: animated
+        )
+    }
+    
+    // MARK: - 私有辅助方法
+    private static func createAlertView(title: String?, message: String, buttonTitle: String) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        if let title = title {
+            let titleLabel = UILabel()
+            titleLabel.text = title
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+            titleLabel.textAlignment = .center
+            titleLabel.numberOfLines = 0
+            stackView.addArrangedSubview(titleLabel)
+        }
+        
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        stackView.addArrangedSubview(messageLabel)
+        
+        let button = UIButton(type: .system)
+        button.setTitle(buttonTitle, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.backgroundColor = UIColor.systemBlue
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 8
+        button.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(button)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 24),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24),
+            
+            button.heightAnchor.constraint(equalToConstant: 44),
+            button.widthAnchor.constraint(equalTo: stackView.widthAnchor)
+        ])
+        
+        button.addTarget(self, action: #selector(alertButtonTapped(_:)), for: .touchUpInside)
+        
+        return containerView
+    }
+    
+    private static func createConfirmView(
+        title: String?,
+        message: String,
+        confirmTitle: String,
+        cancelTitle: String,
+        onConfirm: @escaping () -> Void,
+        onCancel: @escaping () -> Void
+    ) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        if let title = title {
+            let titleLabel = UILabel()
+            titleLabel.text = title
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+            titleLabel.textAlignment = .center
+            titleLabel.numberOfLines = 0
+            stackView.addArrangedSubview(titleLabel)
+        }
+        
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        stackView.addArrangedSubview(messageLabel)
+        
+        let buttonStackView = UIStackView()
+        buttonStackView.axis = .horizontal
+        buttonStackView.spacing = 12
+        buttonStackView.distribution = .fillEqually
+        stackView.addArrangedSubview(buttonStackView)
+        
+        let cancelButton = UIButton(type: .system)
+        cancelButton.setTitle(cancelTitle, for: .normal)
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        cancelButton.backgroundColor = UIColor.systemGray5
+        cancelButton.setTitleColor(.systemGray, for: .normal)
+        cancelButton.layer.cornerRadius = 8
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.addArrangedSubview(cancelButton)
+        
+        let confirmButton = UIButton(type: .system)
+        confirmButton.setTitle(confirmTitle, for: .normal)
+        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        confirmButton.backgroundColor = UIColor.systemBlue
+        confirmButton.setTitleColor(.white, for: .normal)
+        confirmButton.layer.cornerRadius = 8
+        confirmButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.addArrangedSubview(confirmButton)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 24),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24),
+            
+            cancelButton.heightAnchor.constraint(equalToConstant: 44),
+            confirmButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        // 存储回调
+        cancelButton.tag = 1001
+        confirmButton.tag = 1002
+        
+        cancelButton.addTarget(self, action: #selector(confirmButtonTapped(_:)), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(confirmButtonTapped(_:)), for: .touchUpInside)
+        
+        return containerView
+    }
+    
+    private static func createLoadingView(message: String) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.startAnimating()
+        stackView.addArrangedSubview(activityIndicator)
+        
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        stackView.addArrangedSubview(messageLabel)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 32),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -32)
+        ])
+        
+        return containerView
+    }
+    
+    private static func createSuccessView(message: String) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        let successImageView = UIImageView()
+        successImageView.image = UIImage(systemName: "checkmark.circle.fill")
+        successImageView.tintColor = .systemGreen
+        successImageView.contentMode = .scaleAspectFit
+        successImageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(successImageView)
+        
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        stackView.addArrangedSubview(messageLabel)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 24),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24),
+            
+            successImageView.widthAnchor.constraint(equalToConstant: 48),
+            successImageView.heightAnchor.constraint(equalToConstant: 48)
+        ])
+        
+        return containerView
+    }
+    
+    private static func createErrorView(message: String) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        let errorImageView = UIImageView()
+        errorImageView.image = UIImage(systemName: "xmark.circle.fill")
+        errorImageView.tintColor = .systemRed
+        errorImageView.contentMode = .scaleAspectFit
+        errorImageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(errorImageView)
+        
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.font = UIFont.systemFont(ofSize: 16)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        stackView.addArrangedSubview(messageLabel)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 24),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24),
+            
+            errorImageView.widthAnchor.constraint(equalToConstant: 48),
+            errorImageView.heightAnchor.constraint(equalToConstant: 48)
+        ])
+        
+        return containerView
+    }
+    
+    @objc private static func alertButtonTapped(_ sender: UIButton) {
+        // 查找弹窗并消失
+        if let popupView = sender.findPopupView() {
+            popupView.dismiss(animated: true)
+        }
+    }
+    
+    @objc private static func confirmButtonTapped(_ sender: UIButton) {
+        // 查找弹窗并消失
+        if let popupView = sender.findPopupView() {
+            popupView.dismiss(animated: true)
+        }
+    }
+}
+
+// MARK: - UIView 扩展
+private extension UIView {
+    func findPopupView() -> TFYSwiftPopupView? {
+        var currentView: UIView? = self
+        while currentView != nil {
+            if let popupView = currentView as? TFYSwiftPopupView {
+                return popupView
+            }
+            currentView = currentView?.superview
+        }
+        return nil
+    }
+}
+
+// MARK: - 详细使用示例和示范
+
+/*
+ 
+ ========================================
+ TFYSwiftPopupView 完整使用指南
+ ========================================
+ 
+ 1. 基本使用
+ ========================================
+ 
+ // 创建自定义内容视图
+ let customView = UIView()
+ customView.backgroundColor = .white
+ customView.layer.cornerRadius = 12
+ 
+ // 基本配置
+ var config = TFYSwiftPopupViewConfiguration()
+ config.isDismissible = true
+ config.tapOutsideToDismiss = true
+ config.enableHapticFeedback = true
+ config.autoDismissDelay = 0
+ 
+ // 显示弹窗
+ let popupView = TFYSwiftPopupView.show(
+     contentView: customView,
+     configuration: config,
+     animated: true
+ ) {
+     print("弹窗显示完成")
+ }
+ 
+ 2. 不同动画效果
+ ========================================
+ 
+ // 淡入淡出动画
+ let fadeAnimator = TFYSwiftFadeInOutAnimator()
+ 
+ // 缩放动画
+ let zoomAnimator = TFYSwiftZoomInOutAnimator()
+ 
+ // 3D翻转动画
+ let flipAnimator = TFYSwift3DFlipAnimator()
+ 
+ // 弹性动画
+ let bounceAnimator = TFYSwiftBounceAnimator()
+ 
+ // 滑动动画
+ let slideAnimator = TFYSwiftSlideAnimator(direction: .fromBottom)
+ 
+ // 旋转动画
+ let rotateAnimator = TFYSwiftRotateAnimator()
+ 
+ // 使用不同动画器
+ TFYSwiftPopupView.show(
+     contentView: customView,
+     animator: bounceAnimator,
+     animated: true
+ )
+ 
+ 3. 底部弹出框
+ ========================================
+ 
+ // 底部弹出框配置
+ var bottomSheetConfig = TFYSwiftBottomSheetAnimator.Configuration()
+ bottomSheetConfig.defaultHeight = 300
+ bottomSheetConfig.minimumHeight = 100
+ bottomSheetConfig.maximumHeight = 600
+ bottomSheetConfig.allowsFullScreen = true
+ 
+ // 显示底部弹出框
+ TFYSwiftPopupView.showBottomSheet(
+     contentView: customView,
+     configuration: bottomSheetConfig
+ )
+ 
+ 4. 实用方法
+ ========================================
+ 
+ // 显示警告弹窗
+ TFYSwiftPopupView.showAlert(
+     title: "提示",
+     message: "这是一个警告弹窗",
+     buttonTitle: "知道了"
+ )
+ 
+ // 显示确认弹窗
+ TFYSwiftPopupView.showConfirm(
+     title: "确认",
+     message: "确定要删除吗？",
+     confirmTitle: "删除",
+     cancelTitle: "取消",
+     onConfirm: {
+         print("用户确认删除")
+     },
+     onCancel: {
+         print("用户取消删除")
+     }
+ )
+ 
+ // 显示加载弹窗
+ let loadingPopup = TFYSwiftPopupView.showLoading(message: "加载中...")
+ 
+ // 隐藏加载弹窗
+ loadingPopup.dismiss(animated: true)
+ 
+ // 显示成功提示
+ TFYSwiftPopupView.showSuccess(message: "操作成功！")
+ 
+ // 显示错误提示
+ TFYSwiftPopupView.showError(message: "操作失败，请重试")
+ 
+ 5. 高级配置
+ ========================================
+ 
+ // 键盘配置
+ var keyboardConfig = KeyboardConfiguration()
+ keyboardConfig.isEnabled = true
+ keyboardConfig.avoidingMode = .transform
+ keyboardConfig.additionalOffset = 20
+ 
+ // 容器配置
+ var containerConfig = ContainerConfiguration()
+ containerConfig.width = .fixed(300)
+ containerConfig.height = .automatic
+ containerConfig.cornerRadius = 16
+ containerConfig.shadowEnabled = true
+ containerConfig.shadowColor = .black
+ containerConfig.shadowOpacity = 0.3
+ containerConfig.shadowRadius = 10
+ 
+ // 主配置
+ var advancedConfig = TFYSwiftPopupViewConfiguration()
+ advancedConfig.keyboardConfiguration = keyboardConfig
+ advancedConfig.containerConfiguration = containerConfig
+ advancedConfig.maxPopupCount = 5
+ advancedConfig.enableDragToDismiss = true
+ advancedConfig.dragDismissThreshold = 0.3
+ advancedConfig.theme = .dark
+ advancedConfig.enableAccessibility = true
+ 
+ 6. 代理使用
+ ========================================
+ 
+ class ViewController: UIViewController, TFYSwiftPopupViewDelegate {
+     
+     func showCustomPopup() {
+         let customView = createCustomView()
+         
+         let popupView = TFYSwiftPopupView.show(contentView: customView)
+         popupView.delegate = self
+     }
+     
+     // MARK: - TFYSwiftPopupViewDelegate
+     
+     func popupViewWillAppear(_ popupView: TFYSwiftPopupView) {
+         print("弹窗即将显示")
+     }
+     
+     func popupViewDidAppear(_ popupView: TFYSwiftPopupView) {
+         print("弹窗已显示")
+     }
+     
+     func popupViewWillDisappear(_ popupView: TFYSwiftPopupView) {
+         print("弹窗即将消失")
+     }
+     
+     func popupViewDidDisappear(_ popupView: TFYSwiftPopupView) {
+         print("弹窗已消失")
+     }
+     
+     func popupViewShouldDismiss(_ popupView: TFYSwiftPopupView) -> Bool {
+         // 检查是否可以消失
+         return true
+     }
+     
+     func popupViewDidTapBackground(_ popupView: TFYSwiftPopupView) {
+         print("用户点击了背景")
+     }
+ }
+ 
+ 7. 主题支持
+ ========================================
+ 
+ // 使用系统主题
+ var config = TFYSwiftPopupViewConfiguration()
+ config.theme = .current // 自动适配深色/浅色模式
+ 
+ // 使用自定义主题
+ config.theme = .custom(
+     backgroundColor: UIColor.systemBlue.withAlphaComponent(0.9),
+     textColor: .white,
+     cornerRadius: 20
+ )
+ 
+ 8. 多弹窗管理
+ ========================================
+ 
+ // 获取当前弹窗数量
+ let count = TFYSwiftPopupView.currentPopupCount
+ print("当前显示弹窗数量: \(count)")
+ 
+ // 获取所有当前弹窗
+ let allPopups = TFYSwiftPopupView.allCurrentPopups
+ 
+ // 关闭所有弹窗
+ TFYSwiftPopupView.dismissAll(animated: true) {
+     print("所有弹窗已关闭")
+ }
+ 
+ 9. 自定义动画器
+ ========================================
+ 
+ class CustomAnimator: TFYSwiftBaseAnimator {
+     
+     override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
+         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+         
+         // 设置初始状态
+         contentView.alpha = 0
+         contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5).rotated(by: .pi)
+         
+         // 设置显示动画
+         displayAnimationBlock = {
+             contentView.alpha = 1
+             contentView.transform = .identity
+         }
+         
+         // 设置消失动画
+         dismissAnimationBlock = {
+             contentView.alpha = 0
+             contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5).rotated(by: .pi)
+         }
+     }
+ }
+ 
+ // 使用自定义动画器
+ let customAnimator = CustomAnimator()
+ TFYSwiftPopupView.show(
+     contentView: customView,
+     animator: customAnimator,
+     animated: true
+ )
+ 
+ 10. 性能优化建议
+ ========================================
+ 
+ // 1. 合理设置弹窗数量限制
+ config.maxPopupCount = 3
+ 
+ // 2. 使用自动消失减少内存占用
+ config.autoDismissDelay = 5.0
+ 
+ // 3. 大量数据时关闭动画
+ config.animationDuration = 0.1
+ 
+ // 4. 合理使用主题
+ config.theme = .current // 自动适配系统主题
+ 
+ // 5. 及时清理弹窗
+ TFYSwiftPopupView.dismissAll()
+ 
+ 11. 注意事项
+ ========================================
+ 
+ // 1. 确保contentView没有被添加到其他视图
+ // 2. 合理设置弹窗数量限制，避免内存泄漏
+ // 3. 在适当的时机调用dismissAll()清理弹窗
+ // 4. 注意键盘处理，避免遮挡输入框
+ // 5. 合理使用代理方法，避免循环引用
+ // 6. 大量数据时考虑关闭动画提升性能
+ // 7. 注意深色模式适配
+ // 8. 合理使用触觉反馈，提升用户体验
+ 
+ */
