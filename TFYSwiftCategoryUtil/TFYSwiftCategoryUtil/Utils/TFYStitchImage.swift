@@ -473,9 +473,14 @@ public class TFYStitchImage: NSObject {
         )
         
         // 绘制图片
+        print("TFYStitchImage: 开始绘制 \(images.count) 张图片")
         for (index, image) in images.enumerated() {
-            guard index < frames.count else { break }
+            guard index < frames.count else { 
+                print("TFYStitchImage: 图片索引 \(index) 超出帧数组范围 \(frames.count)")
+                break 
+            }
             let frame = frames[index]
+            print("TFYStitchImage: 绘制第 \(index + 1) 张图片，帧: \(frame)")
             
             // 绘制阴影
             if config.enableShadow {
@@ -512,6 +517,7 @@ public class TFYStitchImage: NSObject {
                 )
             }
         }
+        print("TFYStitchImage: 图片绘制完成")
         
         guard let resultImage = UIGraphicsGetImageFromCurrentImageContext() else {
             throw TFYStitchError.processingFailed
@@ -531,6 +537,12 @@ public class TFYStitchImage: NSObject {
             width: size.width - config.contentInsets.left - config.contentInsets.right,
             height: size.height - config.contentInsets.top - config.contentInsets.bottom
         )
+        
+        // 验证可用区域
+        guard availableSize.width > 0, availableSize.height > 0 else {
+            print("TFYStitchImage: 可用区域无效，返回空数组")
+            return []
+        }
         
         // 根据布局类型计算位置
         var frames = [CGRect]()
@@ -600,6 +612,9 @@ public class TFYStitchImage: NSObject {
             frames = layout(images.count, availableSize, config.gap)
         }
         
+        // 验证并修正边界
+        frames = validateAndFixFrames(frames, in: availableSize, config: config)
+        
         // 应用边距
         return frames.map { frame in
             CGRect(
@@ -608,6 +623,35 @@ public class TFYStitchImage: NSObject {
                 width: frame.width,
                 height: frame.height
             )
+        }
+    }
+    
+    /// 验证并修正帧边界
+    private class func validateAndFixFrames(_ frames: [CGRect], in size: CGSize, config: TFYStitchConfig) -> [CGRect] {
+        return frames.map { frame in
+            var correctedFrame = frame
+            
+            // 确保不超出左边界
+            if correctedFrame.minX < 0 {
+                correctedFrame.origin.x = 0
+            }
+            
+            // 确保不超出右边界
+            if correctedFrame.maxX > size.width {
+                correctedFrame.origin.x = size.width - correctedFrame.width
+            }
+            
+            // 确保不超出上边界
+            if correctedFrame.minY < 0 {
+                correctedFrame.origin.y = 0
+            }
+            
+            // 确保不超出下边界
+            if correctedFrame.maxY > size.height {
+                correctedFrame.origin.y = size.height - correctedFrame.height
+            }
+            
+            return correctedFrame
         }
     }
     
@@ -650,27 +694,45 @@ public class TFYStitchImage: NSObject {
         keepAspectRatio: Bool
     ) -> [CGRect] {
         var frames: [CGRect] = []
-        var xOffset: CGFloat = gap
+        var xOffset: CGFloat = 0 // 从0开始，因为size已经是可用区域
+        
+        // 计算可用宽度（size已经是可用区域，不需要再减去gap）
+        let availableWidth = size.width
+        let totalGaps = CGFloat(max(0, images.count - 1)) * gap
+        let totalImageWidth = availableWidth - totalGaps
         
         for image in images {
             var itemWidth: CGFloat
             if keepAspectRatio {
                 let aspectRatio = image.size.width / image.size.height
-                itemWidth = (size.height - 2 * gap) * aspectRatio
+                let maxWidth = totalImageWidth / CGFloat(images.count)
+                let calculatedWidth = size.height * aspectRatio
+                itemWidth = min(calculatedWidth, maxWidth)
             } else {
-                itemWidth = (size.width - CGFloat(images.count + 1) * gap) / CGFloat(images.count)
+                itemWidth = totalImageWidth / CGFloat(images.count)
             }
             
             let frame = CGRect(
                 x: xOffset,
-                y: gap,
+                y: 0,
                 width: itemWidth,
-                height: size.height - 2 * gap
+                height: size.height
             )
             frames.append(frame)
             
             xOffset += itemWidth + gap
         }
+        
+        // 调试信息
+        print("TFYStitchImage 横向布局调试:")
+        print("图片数量: \(images.count)")
+        print("容器尺寸: \(size)")
+        print("间距: \(gap)")
+        print("可用宽度: \(availableWidth)")
+        print("总间距: \(totalGaps)")
+        print("总图片宽度: \(totalImageWidth)")
+        print("每张图片宽度: \(totalImageWidth / CGFloat(images.count))")
+        print("生成的帧数量: \(frames.count)")
         return frames
     }
     
@@ -682,21 +744,28 @@ public class TFYStitchImage: NSObject {
         keepAspectRatio: Bool
     ) -> [CGRect] {
         var frames: [CGRect] = []
-        var yOffset: CGFloat = gap
+        var yOffset: CGFloat = 0 // 从0开始，因为size已经是可用区域
+        
+        // 计算可用高度（size已经是可用区域，不需要再减去gap）
+        let availableHeight = size.height
+        let totalGaps = CGFloat(max(0, images.count - 1)) * gap
+        let totalImageHeight = availableHeight - totalGaps
         
         for image in images {
             var itemHeight: CGFloat
             if keepAspectRatio {
                 let aspectRatio = image.size.width / image.size.height
-                itemHeight = (size.width - 2 * gap) / aspectRatio
+                let maxHeight = totalImageHeight / CGFloat(images.count)
+                let calculatedHeight = size.width / aspectRatio
+                itemHeight = min(calculatedHeight, maxHeight)
             } else {
-                itemHeight = (size.height - CGFloat(images.count + 1) * gap) / CGFloat(images.count)
+                itemHeight = totalImageHeight / CGFloat(images.count)
             }
             
             let frame = CGRect(
-                x: gap,
+                x: 0,
                 y: yOffset,
-                width: size.width - 2 * gap,
+                width: size.width,
                 height: itemHeight
             )
             frames.append(frame)
@@ -776,22 +845,44 @@ public class TFYStitchImage: NSObject {
         gap: CGFloat
     ) -> [CGRect] {
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
-        let angleIncrement = CGFloat.pi * 2 / CGFloat(images.count)
+        let angleIncrement = CGFloat.pi * 2 / CGFloat(max(images.count, 1))
         var frames: [CGRect] = []
+        
+        // 计算安全半径（size已经是可用区域）
+        let safeRadius = min(radius, min(size.width, size.height) / 2)
+        
+        // 计算每个图片的最大尺寸
+        let maxImageSize = min(safeRadius * 0.8, min(size.width, size.height) / 4)
         
         for (index, image) in images.enumerated() {
             let angle = angleIncrement * CGFloat(index)
-            let x = center.x + cos(angle) * (radius - image.size.width / 2 - gap)
-            let y = center.y + sin(angle) * (radius - image.size.height / 2 - gap)
+            
+            // 计算图片在圆上的位置
+            let circleX = center.x + cos(angle) * safeRadius
+            let circleY = center.y + sin(angle) * safeRadius
+            
+            // 限制图片尺寸
+            let imageWidth = min(image.size.width, maxImageSize)
+            let imageHeight = min(image.size.height, maxImageSize)
             
             let frame = CGRect(
-                x: x - image.size.width / 2,
-                y: y - image.size.height / 2,
-                width: image.size.width,
-                height: image.size.height
+                x: circleX - imageWidth / 2,
+                y: circleY - imageHeight / 2,
+                width: imageWidth,
+                height: imageHeight
             )
             frames.append(frame)
         }
+        
+        // 调试信息
+        print("TFYStitchImage 圆形布局调试:")
+        print("图片数量: \(images.count)")
+        print("容器尺寸: \(size)")
+        print("半径: \(radius)")
+        print("安全半径: \(safeRadius)")
+        print("最大图片尺寸: \(maxImageSize)")
+        print("生成的帧数量: \(frames.count)")
+        
         return frames
     }
     
@@ -802,26 +893,47 @@ public class TFYStitchImage: NSObject {
         gap: CGFloat
     ) -> [CGRect] {
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
-        let radiusIncrement = (size.width + size.height) / 2 / CGFloat(images.count)
+        let radiusIncrement = (size.width + size.height) / 2 / CGFloat(max(images.count, 1))
         var currentRadius: CGFloat = radiusIncrement
         var currentAngle: CGFloat = 0
         var frames: [CGRect] = []
         
+        // 计算最大安全半径（size已经是可用区域）
+        let maxSafeRadius = min(size.width, size.height) / 2
+        
+        // 计算每个图片的最大尺寸
+        let maxImageSize = min(maxSafeRadius * 0.6, min(size.width, size.height) / 6)
+        
         for (_, image) in images.enumerated() {
-            let x = center.x + cos(currentAngle) * currentRadius
-            let y = center.y + sin(currentAngle) * currentRadius
+            // 确保半径不会超出边界
+            let safeRadius = min(currentRadius, maxSafeRadius)
+            let x = center.x + cos(currentAngle) * safeRadius
+            let y = center.y + sin(currentAngle) * safeRadius
+            
+            // 限制图片尺寸
+            let imageWidth = min(image.size.width, maxImageSize)
+            let imageHeight = min(image.size.height, maxImageSize)
             
             let frame = CGRect(
-                x: x - image.size.width / 2,
-                y: y - image.size.height / 2,
-                width: image.size.width,
-                height: image.size.height
+                x: x - imageWidth / 2,
+                y: y - imageHeight / 2,
+                width: imageWidth,
+                height: imageHeight
             )
             frames.append(frame)
             
             currentRadius += radiusIncrement
             currentAngle += CGFloat.pi / 2 // 每次旋转90度
         }
+        
+        // 调试信息
+        print("TFYStitchImage 螺旋布局调试:")
+        print("图片数量: \(images.count)")
+        print("容器尺寸: \(size)")
+        print("最大安全半径: \(maxSafeRadius)")
+        print("最大图片尺寸: \(maxImageSize)")
+        print("生成的帧数量: \(frames.count)")
+        
         return frames
     }
     
@@ -832,21 +944,59 @@ public class TFYStitchImage: NSObject {
         gap: CGFloat
     ) -> [CGRect] {
         var frames: [CGRect] = []
-        let availableWidth = size.width - 2 * gap
-        let availableHeight = size.height - 2 * gap
+        let availableWidth = size.width
+        let availableHeight = size.height
+        
+        // 计算每个图片的最大尺寸
+        let maxImageSize = min(availableWidth, availableHeight) / 4
         
         for image in images {
-            let x = CGFloat.random(in: gap...(availableWidth - image.size.width))
-            let y = CGFloat.random(in: gap...(availableHeight - image.size.height))
+            // 限制图片尺寸
+            let imageWidth = min(image.size.width, maxImageSize)
+            let imageHeight = min(image.size.height, maxImageSize)
             
-            let frame = CGRect(
-                x: x,
-                y: y,
-                width: image.size.width,
-                height: image.size.height
-            )
+            // 确保随机范围有效
+            let maxX = max(0, availableWidth - imageWidth)
+            let maxY = max(0, availableHeight - imageHeight)
+            
+            // 尝试找到不重叠的位置
+            var attempts = 0
+            var frame: CGRect
+            var foundPosition = false
+            
+            repeat {
+                let x = CGFloat.random(in: 0...maxX)
+                let y = CGFloat.random(in: 0...maxY)
+                
+                frame = CGRect(
+                    x: x,
+                    y: y,
+                    width: imageWidth,
+                    height: imageHeight
+                )
+                
+                // 检查是否与现有图片重叠
+                let hasOverlap = frames.contains { existingFrame in
+                    frame.intersects(existingFrame.insetBy(dx: -gap, dy: -gap))
+                }
+                
+                if !hasOverlap {
+                    foundPosition = true
+                }
+                
+                attempts += 1
+            } while !foundPosition && attempts < 50 // 最多尝试50次
+            
             frames.append(frame)
         }
+        
+        // 调试信息
+        print("TFYStitchImage 随机布局调试:")
+        print("图片数量: \(images.count)")
+        print("容器尺寸: \(size)")
+        print("最大图片尺寸: \(maxImageSize)")
+        print("生成的帧数量: \(frames.count)")
+        
         return frames
     }
 }
@@ -912,7 +1062,8 @@ public extension TFYStitchImage {
         var config = TFYStitchConfig()
         config.layoutType = .circular(radius: radius)
         config.gap = gap
-        config.keepAspectRatio = true
+        config.keepAspectRatio = false // 改为false，确保图片能完整显示
+        config.contentMode = .scaleToFill
         let result = stitchImagesSync(images: images, size: size, config: config)
         return result.images.first
     }
@@ -926,7 +1077,8 @@ public extension TFYStitchImage {
         var config = TFYStitchConfig()
         config.layoutType = .spiral
         config.gap = gap
-        config.keepAspectRatio = true
+        config.keepAspectRatio = false // 改为false，确保图片能完整显示
+        config.contentMode = .scaleToFill
         let result = stitchImagesSync(images: images, size: size, config: config)
         return result.images.first
     }
@@ -940,7 +1092,8 @@ public extension TFYStitchImage {
         var config = TFYStitchConfig()
         config.layoutType = .random
         config.gap = gap
-        config.keepAspectRatio = true
+        config.keepAspectRatio = false // 改为false，确保图片能完整显示
+        config.contentMode = .scaleToFill
         let result = stitchImagesSync(images: images, size: size, config: config)
         return result.images.first
     }

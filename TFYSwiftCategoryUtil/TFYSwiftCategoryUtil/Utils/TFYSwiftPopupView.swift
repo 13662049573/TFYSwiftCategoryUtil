@@ -230,6 +230,7 @@ public class TFYSwiftPopupView: UIView {
     private let contentView: UIView
     private let animator: TFYSwiftPopupViewAnimator
     private var isAnimating = false
+    private var isBeingCleanedUp = false
     private var configuration: TFYSwiftPopupViewConfiguration
     
     private var keyboardAdjustmentConstraint: NSLayoutConstraint?
@@ -246,6 +247,9 @@ public class TFYSwiftPopupView: UIView {
                contentView: UIView, 
                animator: TFYSwiftPopupViewAnimator = TFYSwiftFadeInOutAnimator(),
                configuration: TFYSwiftPopupViewConfiguration = TFYSwiftPopupViewConfiguration()) {
+        
+        print("TFYSwiftPopupView.init: 开始初始化弹窗")
+        print("TFYSwiftPopupView.init: 背景样式 - \(configuration.backgroundStyle)")
         
         // 验证配置
         guard configuration.validate() else {
@@ -282,6 +286,15 @@ public class TFYSwiftPopupView: UIView {
         setupKeyboardHandling()
         setupContainerConstraints()
         applyTheme()
+        
+        // 应用背景配置
+        configureBackground(
+            style: configuration.backgroundStyle,
+            color: configuration.backgroundColor,
+            blurStyle: configuration.blurStyle
+        )
+        
+        print("TFYSwiftPopupView.init: 弹窗初始化完成")
     }
     
     required init?(coder: NSCoder) {
@@ -337,6 +350,7 @@ public class TFYSwiftPopupView: UIView {
     public func configureBackground(style: BackgroundView.BackgroundStyle = .solidColor,
                                   color: UIColor = UIColor.black.withAlphaComponent(0.3),
                                   blurStyle: UIBlurEffect.Style = .dark) -> Self {
+        print("TFYSwiftPopupView: 配置背景 - style: \(style), color: \(color), blurStyle: \(blurStyle)")
         backgroundView.style = style
         backgroundView.color = color
         backgroundView.blurEffectStyle = blurStyle
@@ -368,9 +382,11 @@ public class TFYSwiftPopupView: UIView {
         isAnimating = true
         willDismissCallback?()
         
-        // 从当前显示的弹窗数组中移除
-        Self.popupQueue.async(flags: .barrier) {
-            Self.currentPopupViews.removeAll { $0 === self }
+        // 从当前显示的弹窗数组中移除（仅在非cleanupOldestPopup调用时）
+        if !isBeingCleanedUp {
+            Self.popupQueue.async(flags: .barrier) {
+                Self.currentPopupViews.removeAll { $0 === self }
+            }
         }
         
         animator.dismiss(contentView: contentView, 
@@ -413,16 +429,26 @@ public class TFYSwiftPopupView: UIView {
     private static func cleanupOldestPopup() {
         popupQueue.async(flags: .barrier) {
             if let oldestPopup = currentPopupViews.first {
-                oldestPopup.dismiss(animated: false)
+                // 先从数组中移除，避免重复移除
                 currentPopupViews.removeFirst()
+                // 设置清理标志
+                oldestPopup.isBeingCleanedUp = true
+                // 然后调用dismiss方法
+                oldestPopup.dismiss(animated: false)
             }
         }
     }
     
     private static func cleanupAllPopups() {
         popupQueue.async(flags: .barrier) {
-            currentPopupViews.forEach { $0.dismiss(animated: false) }
+            let popups = currentPopupViews
             currentPopupViews.removeAll()
+            
+            // 设置清理标志并调用dismiss
+            for popup in popups {
+                popup.isBeingCleanedUp = true
+                popup.dismiss(animated: false)
+            }
         }
     }
     
@@ -625,6 +651,9 @@ public extension TFYSwiftPopupView {
                     animated: Bool = true,
                     completion: (() -> Void)? = nil) -> TFYSwiftPopupView {
         
+        print("TFYSwiftPopupView.show: 开始显示弹窗")
+        print("TFYSwiftPopupView.show: 背景样式 - \(configuration.backgroundStyle)")
+        
         // 验证配置
         guard configuration.validate() else {
             TFYUtils.Logger.log("TFYSwiftPopupView: 配置验证失败", level: .error)
@@ -660,6 +689,13 @@ public extension TFYSwiftPopupView {
             contentView: contentView,
             animator: animator,
             configuration: configuration
+        )
+        
+        // 确保背景配置被正确应用
+        popupView.configureBackground(
+            style: configuration.backgroundStyle,
+            color: configuration.backgroundColor,
+            blurStyle: configuration.blurStyle
         )
         
         // 设置frame和autoresizing
@@ -705,6 +741,8 @@ public extension TFYSwiftPopupView {
             
             for popup in popups {
                 group.enter()
+                // 设置清理标志，避免重复移除
+                popup.isBeingCleanedUp = true
                 popup.dismiss(animated: animated) {
                     group.leave()
                 }
@@ -758,16 +796,18 @@ private extension TFYSwiftPopupView {
         isPresenting = true
         isAnimating = true
         
-        // 确保视图已添加到容器中
+        // 确保视图已添加到容器中（仅在未添加时）
         if superview == nil {
             containerView.addSubview(self)
             frame = containerView.bounds
             autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
-        // 设置约束
-        setupInitialLayout()
-        setupContainerConstraints()
+        // 设置约束（仅在首次显示时）
+        if containerConstraints.isEmpty {
+            setupInitialLayout()
+            setupContainerConstraints()
+        }
         
         // 调用显示回调
         willDisplayCallback?()
@@ -780,7 +820,7 @@ private extension TFYSwiftPopupView {
             completion?()
             self.isAnimating = false
             self.didDisplayCallback?()
-    }
+        }
     }
 }
 
@@ -856,22 +896,27 @@ extension TFYSwiftPopupView {
         }
         
         private func refreshBackgroundStyle() {
+            print("TFYSwiftPopupView: 刷新背景样式 - \(style)")
+            
             // 清除现有效果
-                effectView?.removeFromSuperview()
-                effectView = nil
+            effectView?.removeFromSuperview()
+            effectView = nil
             gradientLayer?.removeFromSuperlayer()
             gradientLayer = nil
             
             switch style {
             case .solidColor:
+                print("TFYSwiftPopupView: 设置纯色背景")
                 backgroundColor = color
                 
             case .blur:
+                print("TFYSwiftPopupView: 设置模糊背景")
                 effectView = UIVisualEffectView(effect: UIBlurEffect(style: blurEffectStyle))
                 effectView?.frame = bounds
                 insertSubview(effectView!, at: 0)
                 
             case .gradient:
+                print("TFYSwiftPopupView: 设置渐变背景")
                 gradientLayer = CAGradientLayer()
                 gradientLayer?.frame = bounds
                 gradientLayer?.colors = gradientColors.map { $0.cgColor }
@@ -881,6 +926,7 @@ extension TFYSwiftPopupView {
                 layer.insertSublayer(gradientLayer!, at: 0)
                 
             case .custom(let customization):
+                print("TFYSwiftPopupView: 设置自定义背景")
                 customization(self)
             }
         }
@@ -962,28 +1008,45 @@ open class TFYSwiftBaseAnimator: TFYSwiftPopupViewAnimator {
     }
     
     open func display(contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView, animated: Bool, completion: @escaping () -> ()) {
+        print("TFYSwiftBaseAnimator: 开始执行显示动画 - animated: \(animated)")
+        
         if animated {
             if let dampingRatio = displaySpringDampingRatio,
                let velocity = displaySpringVelocity {
+                print("TFYSwiftBaseAnimator: 使用弹簧动画 - damping: \(dampingRatio), velocity: \(velocity)")
                 UIView.animate(
                     withDuration: displayDuration,
                     delay: 0,
                     usingSpringWithDamping: dampingRatio,
                     initialSpringVelocity: velocity,
                     options: displayAnimationOptions,
-                    animations: { self.displayAnimationBlock?() },
-                    completion: { _ in completion() }
+                    animations: { 
+                        print("TFYSwiftBaseAnimator: 执行显示动画块")
+                        self.displayAnimationBlock?() 
+                    },
+                    completion: { _ in 
+                        print("TFYSwiftBaseAnimator: 显示动画完成")
+                        completion() 
+                    }
                 )
             } else {
+                print("TFYSwiftBaseAnimator: 使用普通动画 - duration: \(displayDuration)")
                 UIView.animate(
                     withDuration: displayDuration,
                     delay: 0,
                     options: displayAnimationOptions,
-                    animations: { self.displayAnimationBlock?() },
-                    completion: { _ in completion() }
+                    animations: { 
+                        print("TFYSwiftBaseAnimator: 执行显示动画块")
+                        self.displayAnimationBlock?() 
+                    },
+                    completion: { _ in 
+                        print("TFYSwiftBaseAnimator: 显示动画完成")
+                        completion() 
+                    }
                 )
             }
         } else {
+            print("TFYSwiftBaseAnimator: 无动画模式")
             displayAnimationBlock?()
             completion()
         }
@@ -1559,19 +1622,37 @@ extension TFYSwiftPopupView {
 open class TFYSwiftSpringAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        
+        print("TFYSwiftSpringAnimator: 设置弹簧动画")
+        
         contentView.alpha = 0
         backgroundView.alpha = 0
         contentView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        
+        print("TFYSwiftSpringAnimator: 初始缩放设置为 0.7")
+        
         displayAnimationBlock = {
+            print("TFYSwiftSpringAnimator: 执行显示动画")
             contentView.alpha = 1
             contentView.transform = .identity
             backgroundView.alpha = 1
         }
         dismissAnimationBlock = {
+            print("TFYSwiftSpringAnimator: 执行消失动画")
             contentView.alpha = 0
             contentView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
             backgroundView.alpha = 0
         }
+        
+        // 设置弹簧动画参数
+        displaySpringDampingRatio = 0.7
+        displaySpringVelocity = 0.5
+        dismissSpringDampingRatio = 0.8
+        dismissSpringVelocity = 0.3
+        displayDuration = 0.5
+        dismissDuration = 0.5
+        
+        print("TFYSwiftSpringAnimator: 弹簧动画参数设置完成")
     }
 }
 
@@ -1579,17 +1660,24 @@ open class TFYSwiftSpringAnimator: TFYSwiftBaseAnimator {
 open class TFYSwiftBounceAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
+        
+        print("TFYSwiftBounceAnimator: 设置弹性动画")
+        
         contentView.alpha = 0
         backgroundView.alpha = 0
         contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
+        print("TFYSwiftBounceAnimator: 初始缩放设置为 0.1")
+        
         displayAnimationBlock = {
+            print("TFYSwiftBounceAnimator: 执行显示动画")
             contentView.alpha = 1
             contentView.transform = .identity
             backgroundView.alpha = 1
         }
         
         dismissAnimationBlock = {
+            print("TFYSwiftBounceAnimator: 执行消失动画")
             contentView.alpha = 0
             contentView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             backgroundView.alpha = 0
@@ -1600,6 +1688,10 @@ open class TFYSwiftBounceAnimator: TFYSwiftBaseAnimator {
         displaySpringVelocity = 0.8
         dismissSpringDampingRatio = 0.8
         dismissSpringVelocity = 0.5
+        displayDuration = 0.6
+        dismissDuration = 0.6
+        
+        print("TFYSwiftBounceAnimator: 弹性动画参数设置完成")
     }
 }
 
@@ -1661,21 +1753,36 @@ open class TFYSwiftRotateAnimator: TFYSwiftBaseAnimator {
     open override func setup(popupView: TFYSwiftPopupView, contentView: UIView, backgroundView: TFYSwiftPopupView.BackgroundView) {
         super.setup(popupView: popupView, contentView: contentView, backgroundView: backgroundView)
         
+        print("TFYSwiftRotateAnimator: 设置旋转动画")
+        
         contentView.alpha = 0
         backgroundView.alpha = 0
-        contentView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+        // 设置初始旋转角度为 -180 度，这样会有明显的旋转效果
+        contentView.transform = CGAffineTransform(rotationAngle: -.pi)
+        
+        print("TFYSwiftRotateAnimator: 初始旋转角度设置为 -180 度")
         
         displayAnimationBlock = {
+            print("TFYSwiftRotateAnimator: 执行显示动画")
             contentView.alpha = 1
             contentView.transform = .identity
             backgroundView.alpha = 1
         }
         
         dismissAnimationBlock = {
+            print("TFYSwiftRotateAnimator: 执行消失动画")
             contentView.alpha = 0
-            contentView.transform = CGAffineTransform(rotationAngle: .pi * 2)
+            contentView.transform = CGAffineTransform(rotationAngle: .pi)
             backgroundView.alpha = 0
         }
+        
+        // 设置更长的动画时间以突出旋转效果
+        displayDuration = 0.8
+        dismissDuration = 0.8
+        displayAnimationOptions = .curveEaseInOut
+        dismissAnimationOptions = .curveEaseInOut
+        
+        print("TFYSwiftRotateAnimator: 动画时间设置为 0.8 秒")
     }
 }
 

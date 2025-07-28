@@ -494,7 +494,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            self.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            // 移除固定宽度约束，使用自适应宽度
+            // self.widthAnchor.constraint(equalToConstant: 200).isActive = true
             
         case .imageRightTextLeftFixedWidth:
             configuration.imagePlacement = .trailing
@@ -506,7 +507,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            // 移除固定宽度约束，使用自适应宽度
+            // self.widthAnchor.constraint(equalToConstant: 200).isActive = true
             
         case .imageBottomTextAboveFixedHeight:
             configuration.imagePlacement = .bottom
