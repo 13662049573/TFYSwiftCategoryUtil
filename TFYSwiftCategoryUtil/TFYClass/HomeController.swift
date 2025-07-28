@@ -68,6 +68,7 @@ class HomeController: UIViewController {
         setupStackView()
         addButtons()
         addCollectionViewDemoButton()
+        addCacheDemoButton()
     }
     
     private func setupScrollView() {
@@ -188,9 +189,30 @@ class HomeController: UIViewController {
         demoButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
+    private func addCacheDemoButton() {
+        let cacheButton = UIButton(type: .system)
+        cacheButton.setTitle("缓存功能演示", for: .normal)
+        cacheButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        cacheButton.backgroundColor = .systemGreen
+        cacheButton.setTitleColor(.white, for: .normal)
+        cacheButton.layer.cornerRadius = 12
+        cacheButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        cacheButton.addTarget(self, action: #selector(cacheDemoTapped), for: .touchUpInside)
+        
+        stackView.addArrangedSubview(cacheButton)
+        
+        cacheButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
     @objc private func collectionViewDemoTapped() {
         let demoVC = UICollectionViewAdaptiveDemoController()
         navigationController?.pushViewController(demoVC, animated: true)
+    }
+    
+    @objc private func cacheDemoTapped() {
+        let cacheVC = CacheDemoController()
+        navigationController?.pushViewController(cacheVC, animated: true)
     }
     
     private func setupDeviceAdaptation() {

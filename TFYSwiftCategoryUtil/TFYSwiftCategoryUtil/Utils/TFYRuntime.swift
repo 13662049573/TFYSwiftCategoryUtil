@@ -24,7 +24,7 @@ public func tfy_setRetainedAssociatedObject<T>(_ object: Any,
                                               _ value: T?, 
                                               _ policy: objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) {
     if let value = value {
-        objc_setAssociatedObject(object, key, value, policy)
+    objc_setAssociatedObject(object, key, value, policy)
     } else {
         objc_setAssociatedObject(object, key, nil, policy)
     }
