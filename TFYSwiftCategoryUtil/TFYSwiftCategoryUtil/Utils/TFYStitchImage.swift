@@ -722,17 +722,6 @@ public class TFYStitchImage: NSObject {
             
             xOffset += itemWidth + gap
         }
-        
-        // 调试信息
-        print("TFYStitchImage 横向布局调试:")
-        print("图片数量: \(images.count)")
-        print("容器尺寸: \(size)")
-        print("间距: \(gap)")
-        print("可用宽度: \(availableWidth)")
-        print("总间距: \(totalGaps)")
-        print("总图片宽度: \(totalImageWidth)")
-        print("每张图片宽度: \(totalImageWidth / CGFloat(images.count))")
-        print("生成的帧数量: \(frames.count)")
         return frames
     }
     
@@ -873,16 +862,6 @@ public class TFYStitchImage: NSObject {
             )
             frames.append(frame)
         }
-        
-        // 调试信息
-        print("TFYStitchImage 圆形布局调试:")
-        print("图片数量: \(images.count)")
-        print("容器尺寸: \(size)")
-        print("半径: \(radius)")
-        print("安全半径: \(safeRadius)")
-        print("最大图片尺寸: \(maxImageSize)")
-        print("生成的帧数量: \(frames.count)")
-        
         return frames
     }
     
@@ -925,15 +904,6 @@ public class TFYStitchImage: NSObject {
             currentRadius += radiusIncrement
             currentAngle += CGFloat.pi / 2 // 每次旋转90度
         }
-        
-        // 调试信息
-        print("TFYStitchImage 螺旋布局调试:")
-        print("图片数量: \(images.count)")
-        print("容器尺寸: \(size)")
-        print("最大安全半径: \(maxSafeRadius)")
-        print("最大图片尺寸: \(maxImageSize)")
-        print("生成的帧数量: \(frames.count)")
-        
         return frames
     }
     
@@ -989,14 +959,6 @@ public class TFYStitchImage: NSObject {
             
             frames.append(frame)
         }
-        
-        // 调试信息
-        print("TFYStitchImage 随机布局调试:")
-        print("图片数量: \(images.count)")
-        print("容器尺寸: \(size)")
-        print("最大图片尺寸: \(maxImageSize)")
-        print("生成的帧数量: \(frames.count)")
-        
         return frames
     }
 }
