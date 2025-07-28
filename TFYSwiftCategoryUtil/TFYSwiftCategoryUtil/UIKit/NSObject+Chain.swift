@@ -288,61 +288,6 @@ public extension NSObject {
     }
 }
 
-@objc public extension NSObject {
-    /// 初始化方法，用于设置KVC的Hook
-    class func initializeMethod() {
-        if self != NSObject.self {
-            return
-        }
-        
-        let onceToken = "Hook_\(NSStringFromClass(classForCoder()))"
-        DispatchQueue.tfy.once(token: onceToken) {
-            // Hook KVC相关方法
-            let kvcMethods = [
-                (#selector(self.setValue(_:forUndefinedKey:)), #selector(self.hook_setValue(_:forUndefinedKey:))),
-                (#selector(self.value(forUndefinedKey:)), #selector(self.hook_value(forUndefinedKey:))),
-                (#selector(self.setNilValueForKey(_:)), #selector(self.hook_setNilValueForKey(_:))),
-                (#selector(self.setValuesForKeys(_:)), #selector(self.hook_setValuesForKeys(_:)))
-            ]
-            
-            for (original, replacement) in kvcMethods {
-                _ = safeHookMethod(of: original, with: replacement, isClassMethod: false)
-            }
-        }
-    }
-    
-    /// Hook: setValue forUndefinedKey
-    private func hook_setValue(_ value: Any?, forUndefinedKey key: String) {
-        TFYUtils.Logger.log("setValue: forUndefinedKey: 未知键Key: \(key), 值: \(String(describing: value))")
-    }
-    
-    /// Hook: value forUndefinedKey
-    private func hook_value(forUndefinedKey key: String) -> Any? {
-        TFYUtils.Logger.log("valueForUndefinedKey: 未知键: \(key)")
-        return nil
-    }
-    
-    /// Hook: setNilValueForKey
-    private func hook_setNilValueForKey(_ key: String) {
-        TFYUtils.Logger.log("Invoke setNilValueForKey: 不能给非指针对象(如NSInteger)赋值 nil, 键: \(key)")
-        // 给一个非指针对象(如NSInteger)赋值 nil, 直接忽略
-    }
-    
-    /// Hook: setValuesForKeys
-    private func hook_setValuesForKeys(_ keyedValues: [String : Any]) {
-        for (key, value) in keyedValues {
-            TFYUtils.Logger.log("setValuesForKeys: 键: \(key), 值: \(value)")
-            
-            // 安全地设置值
-            if value is Int || value is CGFloat || value is Double {
-                self.setValue("\(value)", forKey: key)
-            } else {
-                self.setValue(value, forKey: key)
-            }
-        }
-    }
-}
-
 /// 安全的指针转换函数
 public func convertUnsafePointerToSwiftType<T>(_ value: UnsafeRawPointer) -> T {
     return value.assumingMemoryBound(to: T.self).pointee

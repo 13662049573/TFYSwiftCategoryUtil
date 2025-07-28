@@ -92,7 +92,7 @@ class ViewController: UIViewController {
         contentView.addSubview(label)
         
         // 设置标签的点击事件
-        label.changeColorWithTextColor(textColor: .orange, texts: linkDic.keys.sorted())
+        label.changeTextColor(.orange, for: linkDic.keys.sorted())
         label.addGestureTap { reco in
             reco.didTapLabelAttributedText(self.linkDic) { text, url in
                 TFYUtils.Logger.log("\(text), \(url ?? "_")")
