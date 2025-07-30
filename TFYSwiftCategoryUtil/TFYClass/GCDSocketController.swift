@@ -334,6 +334,7 @@ class GCDSocketController: UIViewController {
             animated: true
         ) {
             print("简单测试弹窗显示完成")
+            TFYSwiftPopupView.dismissAll()
         }
         
         currentPopupView = popup
