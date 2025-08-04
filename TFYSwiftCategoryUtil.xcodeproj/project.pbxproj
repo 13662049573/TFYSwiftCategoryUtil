@@ -135,6 +135,8 @@
 		848337222E323B22007D163E /* TFYRuntimeChainSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */; };
 		848337262E331BD7007D163E /* TFYSwiftCacheKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848337232E331BD7007D163E /* TFYSwiftCacheKit.swift */; };
 		848339202E371130007D163E /* CacheDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483391F2E371130007D163E /* CacheDemoController.swift */; };
+		84B8C39A2E40AA7D00E1D6E8 /* TFYWindowCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8C3992E40AA7D00E1D6E8 /* TFYWindowCleaner.swift */; };
+		84B8C39C2E40AA8700E1D6E8 /* WindowCleanerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8C39B2E40AA8700E1D6E8 /* WindowCleanerDemoController.swift */; };
 		84DDF37D2E2A668D007405F5 /* content.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DDF37C2E2A668D007405F5 /* content.json */; };
 		84DDF3802E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF37F2E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift */; };
 		84DDF3812E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF37E2E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift */; };
@@ -322,6 +324,8 @@
 		848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRuntimeChainSystem.swift; sourceTree = "<group>"; };
 		848337232E331BD7007D163E /* TFYSwiftCacheKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftCacheKit.swift; sourceTree = "<group>"; };
 		8483391F2E371130007D163E /* CacheDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheDemoController.swift; sourceTree = "<group>"; };
+		84B8C3992E40AA7D00E1D6E8 /* TFYWindowCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYWindowCleaner.swift; sourceTree = "<group>"; };
+		84B8C39B2E40AA8700E1D6E8 /* WindowCleanerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCleanerDemoController.swift; sourceTree = "<group>"; };
 		84DDF37C2E2A668D007405F5 /* content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = content.json; sourceTree = "<group>"; };
 		84DDF37E2E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingFlowLayoutDemoController.swift; sourceTree = "<group>"; };
 		84DDF37F2E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdaptiveDemoController.swift; sourceTree = "<group>"; };
@@ -469,6 +473,7 @@
 		3612E13926475B6700476696 /* TFYClass */ = {
 			isa = PBXGroup;
 			children = (
+				84B8C39B2E40AA8700E1D6E8 /* WindowCleanerDemoController.swift */,
 				8483391F2E371130007D163E /* CacheDemoController.swift */,
 				84DDF3842E2B1D36007405F5 /* BatchUpdatesDemoController.swift */,
 				84DDF3852E2B1D36007405F5 /* GridLayoutDemoController.swift */,
@@ -582,6 +587,7 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				84B8C3992E40AA7D00E1D6E8 /* TFYWindowCleaner.swift */,
 				848337232E331BD7007D163E /* TFYSwiftCacheKit.swift */,
 				84449D7A2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift */,
 				362CAE082BCE958F00792DB3 /* TFYNetstatManager.swift */,
@@ -850,6 +856,7 @@
 				84449D852E13B81700659E34 /* AdaptiveDemoController.swift in Sources */,
 				3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */,
 				84449D7B2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift in Sources */,
+				84B8C39C2E40AA8700E1D6E8 /* WindowCleanerDemoController.swift in Sources */,
 				362CAE092BCE958F00792DB3 /* TFYNetstatManager.swift in Sources */,
 				36FA19852941D6290099BB35 /* CLLocationCoordinate2D.swift in Sources */,
 				36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */,
@@ -929,6 +936,7 @@
 				36DAFEDB2787FF9D00D05EE1 /* UINavigationItem+Chain.swift in Sources */,
 				3654781F2830937E00E4DE22 /* WKOperatorLayout.swift in Sources */,
 				36DAFEE92787FF9D00D05EE1 /* UIScrollView+Chain.swift in Sources */,
+				84B8C39A2E40AA7D00E1D6E8 /* TFYWindowCleaner.swift in Sources */,
 				36547813283091B100E4DE22 /* WKEncoderValueContainer.swift in Sources */,
 				368367B426495EB40024939A /* UIRotationGestureRecognizer+ITools.swift in Sources */,
 				36547811283091B100E4DE22 /* WKScriptHandlerParamsDecoder.swift in Sources */,

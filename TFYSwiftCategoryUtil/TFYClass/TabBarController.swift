@@ -41,7 +41,15 @@ class TabBarController: UITabBarController {
         )
         let adaptiveNav = UINavigationController(rootViewController: adaptiveVC)
         
-        viewControllers = [homeNav, viewNav, socketNav, adaptiveNav]
+        let windowCleanerVC = WindowCleanerDemoController()
+        windowCleanerVC.tabBarItem = UITabBarItem(
+            title: "清理", 
+            image: UIImage(systemName: "trash.circle"), 
+            selectedImage: UIImage(systemName: "trash.circle.fill")
+        )
+        let windowCleanerNav = UINavigationController(rootViewController: windowCleanerVC)
+        
+        viewControllers = [homeNav, viewNav, socketNav, adaptiveNav, windowCleanerNav]
     }
     
     private func customizeAppearance() {
