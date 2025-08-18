@@ -139,21 +139,12 @@ class GCDSocketController: UIViewController {
         addButton(title: "自定义底部弹出框", action: #selector(showCustomBottomSheet))
         addButton(title: "全屏底部弹出框", action: #selector(showFullScreenBottomSheet))
         
-        // 5. 实用方法
-        addSection(title: "🛠️ 实用方法")
-        addButton(title: "警告弹窗", action: #selector(showAlert))
-        addButton(title: "确认弹窗", action: #selector(showConfirm))
-        addButton(title: "加载弹窗", action: #selector(showLoading))
-        addButton(title: "成功提示", action: #selector(showSuccess))
-        addButton(title: "错误提示", action: #selector(showError))
-        
         // 6. 高级功能
         addSection(title: "⚡ 高级功能")
         addButton(title: "键盘适配弹窗", action: #selector(showKeyboardPopup))
         addButton(title: "主题弹窗", action: #selector(showThemePopup))
         addButton(title: "手势弹窗", action: #selector(showGesturePopup))
         addButton(title: "代理弹窗", action: #selector(showDelegatePopup))
-        addButton(title: "多弹窗管理", action: #selector(showMultiplePopups))
         
         // 7. 背景效果
         addSection(title: "🎨 背景效果")
@@ -172,7 +163,6 @@ class GCDSocketController: UIViewController {
         // 9. 清理功能
         addSection(title: "🧹 清理功能")
         addButton(title: "关闭所有弹窗", action: #selector(dismissAllPopups))
-        addButton(title: "显示弹窗数量", action: #selector(showPopupCount))
     }
     
     // MARK: - Helper Methods
@@ -240,8 +230,8 @@ class GCDSocketController: UIViewController {
         
         // 添加容器配置
         var containerConfig = ContainerConfiguration()
-        containerConfig.width = .fixed(300)
-        containerConfig.height = .automatic
+        containerConfig.width = .fixed(304.adap)
+        containerConfig.height = .fixed(204.adap)
         containerConfig.cornerRadius = 12
         containerConfig.shadowEnabled = true
         containerConfig.shadowColor = .black
@@ -282,7 +272,7 @@ class GCDSocketController: UIViewController {
         // 容器配置
         var containerConfig = ContainerConfiguration()
         containerConfig.width = .fixed(320)
-        containerConfig.height = .automatic
+        containerConfig.height = .fixed(250)
         containerConfig.cornerRadius = 16
         containerConfig.shadowEnabled = true
         containerConfig.shadowColor = .black
@@ -548,8 +538,9 @@ class GCDSocketController: UIViewController {
     
     // MARK: - 底部弹出框展示
     @objc private func showSimpleBottomSheet() {
-        let customView = createCustomView(title: "底部弹出框", message: "这是一个简单的底部弹出框示例")
+        let customView = createCustomView(title: "底部弹出框", message: "这是一个简单的底部弹出框示例\n\n手势功能：默认关闭")
         
+        // 使用默认配置（手势关闭）
         currentPopupView = TFYSwiftPopupView.showBottomSheet(
             contentView: customView,
             animated: true
@@ -560,16 +551,13 @@ class GCDSocketController: UIViewController {
         let customView = createComplexCustomView()
         
         var config = TFYSwiftBottomSheetAnimator.Configuration()
-        config.defaultHeight = 400
-        config.minimumHeight = 150
-        config.maximumHeight = 600
-        config.allowsFullScreen = true
-        config.snapToDefaultThreshold = 80
-        config.springDamping = 0.8
-        config.springVelocity = 0.4
-        config.animationDuration = 0.35
-        config.dismissThreshold = 60
-        
+        config.defaultHeight = UIScreen.main.bounds.height * 0.7
+        config.minimumHeight = UIScreen.main.bounds.height * 0.7
+        config.maximumHeight = UIScreen.main.bounds.height * 0.7
+        config.allowsFullScreen = false
+        config.snapToDefaultThreshold = 0
+        config.enableGestures = true // 启用手势功能
+       
         currentPopupView = TFYSwiftPopupView.showBottomSheet(
             contentView: customView,
             configuration: config,
@@ -578,12 +566,13 @@ class GCDSocketController: UIViewController {
     }
     
     @objc private func showFullScreenBottomSheet() {
-        let customView = createComplexCustomView()
+        let customView = createGestureControlView()
         
         var config = TFYSwiftBottomSheetAnimator.Configuration()
         config.defaultHeight = 300
         config.maximumHeight = UIScreen.main.bounds.height
         config.allowsFullScreen = true
+        config.enableGestures = false // 初始状态关闭手势
         
         currentPopupView = TFYSwiftPopupView.showBottomSheet(
             contentView: customView,
@@ -591,65 +580,7 @@ class GCDSocketController: UIViewController {
             animated: true
         )
     }
-    
-    // MARK: - 实用方法展示
-    @objc private func showAlert() {
-        _ = TFYSwiftPopupView.showAlert(
-            title: "提示",
-            message: "这是一个警告弹窗示例，点击确定按钮关闭。",
-            buttonTitle: "知道了",
-            animated: true
-        ) {
-            print("警告弹窗已关闭")
-        }
-    }
-    
-    @objc private func showConfirm() {
-        _ = TFYSwiftPopupView.showConfirm(
-            title: "确认操作",
-            message: "确定要执行这个操作吗？",
-            confirmTitle: "确定",
-            cancelTitle: "取消",
-            animated: true,
-            onConfirm: {
-                print("用户确认了操作")
-                TFYSwiftPopupView.showSuccess(message: "操作已确认！")
-            },
-            onCancel: {
-                print("用户取消了操作")
-                TFYSwiftPopupView.showError(message: "操作已取消")
-            }
-        )
-    }
-    
-    @objc private func showLoading() {
-        loadingPopupView = TFYSwiftPopupView.showLoading(
-            message: "正在加载数据...",
-            animated: true
-        )
-        
-        // 3秒后自动关闭
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.loadingPopupView?.dismiss(animated: true)
-        }
-    }
-    
-    @objc private func showSuccess() {
-        _ = TFYSwiftPopupView.showSuccess(
-            message: "操作成功完成！",
-            duration: 2.0,
-            animated: true
-        )
-    }
-    
-    @objc private func showError() {
-        _ = TFYSwiftPopupView.showError(
-            message: "操作失败，请重试",
-            duration: 3.0,
-            animated: true
-        )
-    }
-    
+
     // MARK: - 高级功能展示
     @objc private func showKeyboardPopup() {
         let customView = createKeyboardTestView()
@@ -711,33 +642,6 @@ class GCDSocketController: UIViewController {
         )
         
         popupView.delegate = self
-    }
-    
-    @objc private func showMultiplePopups() {
-        // 显示多个弹窗
-        for i in 1...3 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.5) {
-                let customView = self.createCustomView(
-                    title: "弹窗 \(i)",
-                    message: "这是第 \(i) 个弹窗"
-                )
-                
-                _ = TFYSwiftPopupView.show(
-                    contentView: customView,
-                    animated: true
-                )
-            }
-        }
-        
-        // 显示当前弹窗数量
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let count = TFYSwiftPopupView.currentPopupCount
-            _ = TFYSwiftPopupView.showAlert(
-                title: "弹窗数量",
-                message: "当前显示弹窗数量: \(count)",
-                buttonTitle: "知道了"
-            )
-        }
     }
     
     // MARK: - 背景效果展示
@@ -842,7 +746,7 @@ class GCDSocketController: UIViewController {
     @objc private func showFixedSizeLayout() {
         let customView = createCustomView(title: "固定尺寸", message: "使用固定尺寸的弹窗")
         
-        let animator = TFYSwiftBaseAnimator(layout: .center(.init(width: 300, height: 200)))
+        let animator = TFYSwiftBaseAnimator(layout: .center(.init(width: UIScreen.width - 70.adap, height: 204.adap)))
         
         currentPopupView = TFYSwiftPopupView.show(
             contentView: customView,
@@ -856,15 +760,6 @@ class GCDSocketController: UIViewController {
         TFYSwiftPopupView.dismissAll(animated: true) {
             print("所有弹窗已关闭")
         }
-    }
-    
-    @objc private func showPopupCount() {
-        let count = TFYSwiftPopupView.currentPopupCount
-        _ = TFYSwiftPopupView.showAlert(
-            title: "弹窗统计",
-            message: "当前显示弹窗数量: \(count)",
-            buttonTitle: "知道了"
-        )
     }
     
     // MARK: - Helper Methods
@@ -1013,6 +908,108 @@ class GCDSocketController: UIViewController {
         return containerView
     }
     
+    private func createGestureControlView() -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .systemBackground
+        containerView.layer.cornerRadius = 12
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(stackView)
+        
+        // 标题
+        let titleLabel = UILabel()
+        titleLabel.text = "手势控制示例"
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .label
+        stackView.addArrangedSubview(titleLabel)
+        
+        // 说明文本
+        let descLabel = UILabel()
+        descLabel.text = "演示如何动态控制底部弹出框的手势功能"
+        descLabel.font = UIFont.systemFont(ofSize: 16)
+        descLabel.textAlignment = .center
+        descLabel.textColor = .secondaryLabel
+        descLabel.numberOfLines = 0
+        stackView.addArrangedSubview(descLabel)
+        
+        // 状态显示
+        let statusLabel = UILabel()
+        statusLabel.text = "当前手势状态：关闭"
+        statusLabel.font = UIFont.systemFont(ofSize: 16)
+        statusLabel.textAlignment = .center
+        statusLabel.textColor = .label
+        statusLabel.tag = 100 // 用于后续更新
+        stackView.addArrangedSubview(statusLabel)
+        
+        // 按钮容器
+        let buttonContainer = UIStackView()
+        buttonContainer.axis = .horizontal
+        buttonContainer.distribution = .fillEqually
+        buttonContainer.spacing = 16
+        buttonContainer.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(buttonContainer)
+        
+        // 启用手势按钮
+        let enableButton = UIButton(type: .system)
+        enableButton.setTitle("启用手势", for: .normal)
+        enableButton.backgroundColor = .systemBlue
+        enableButton.setTitleColor(.white, for: .normal)
+        enableButton.layer.cornerRadius = 8
+        enableButton.addAction(UIAction { [weak self] _ in
+            self?.currentPopupView?.enableBottomSheetGestures()
+            statusLabel.text = "当前手势状态：启用"
+            statusLabel.textColor = .systemGreen
+        }, for: .touchUpInside)
+        buttonContainer.addArrangedSubview(enableButton)
+        
+        // 禁用手势按钮
+        let disableButton = UIButton(type: .system)
+        disableButton.setTitle("禁用手势", for: .normal)
+        disableButton.backgroundColor = .systemRed
+        disableButton.setTitleColor(.white, for: .normal)
+        disableButton.layer.cornerRadius = 8
+        disableButton.addAction(UIAction { [weak self] _ in
+            self?.currentPopupView?.disableBottomSheetGestures()
+            statusLabel.text = "当前手势状态：关闭"
+            statusLabel.textColor = .systemRed
+        }, for: .touchUpInside)
+        buttonContainer.addArrangedSubview(disableButton)
+        
+        // 检查状态按钮
+        let checkButton = UIButton(type: .system)
+        checkButton.setTitle("检查状态", for: .normal)
+        checkButton.backgroundColor = .systemGray
+        checkButton.setTitleColor(.white, for: .normal)
+        checkButton.layer.cornerRadius = 8
+        checkButton.addAction(UIAction { [weak self] _ in
+            guard let isEnabled = self?.currentPopupView?.isBottomSheetGesturesEnabled else { return }
+            statusLabel.text = "当前手势状态：\(isEnabled ? "启用" : "关闭")"
+            statusLabel.textColor = isEnabled ? .systemGreen : .systemRed
+        }, for: .touchUpInside)
+        stackView.addArrangedSubview(checkButton)
+        
+        // 设置约束
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
+            
+            buttonContainer.heightAnchor.constraint(equalToConstant: 44),
+            checkButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300)
+        ])
+        
+        return containerView
+    }
+    
     private func createKeyboardTestView() -> UIView {
         let containerView = UIView()
         containerView.backgroundColor = .systemBackground
@@ -1129,7 +1126,6 @@ class GCDSocketController: UIViewController {
         if let popupView = sender.findPopupView() {
             popupView.dismiss(animated: true)
         }
-        TFYSwiftPopupView.showSuccess(message: "操作已确认！")
     }
 }
 
@@ -1173,19 +1169,4 @@ extension GCDSocketController: TFYSwiftPopupViewDelegate {
         print("用户拖拽关闭了弹窗")
     }
 }
-
-// MARK: - UIView Extension
-private extension UIView {
-    func findPopupView() -> TFYSwiftPopupView? {
-        var currentView: UIView? = self
-        while currentView != nil {
-            if let popupView = currentView as? TFYSwiftPopupView {
-                return popupView
-            }
-            currentView = currentView?.superview
-        }
-        return nil
-    }
-}
-
 
