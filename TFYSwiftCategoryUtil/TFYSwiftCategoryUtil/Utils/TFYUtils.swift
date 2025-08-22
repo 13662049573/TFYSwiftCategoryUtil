@@ -2927,6 +2927,127 @@ public extension TFYUtils {
     }
 }
 
+// MARK: - 每日执行限制工具
+
+public extension TFYUtils {
+    /// 每日执行限制管理器
+    enum DailyExecutionLimit {
+        private static let userDefaults = UserDefaults.standard
+        private static let maxExecutionsPerDay = 2
+
+        /// 检查是否可以执行操作
+        /// - Parameter key: 操作标识符，用于区分不同的操作
+        /// - Returns: 如果可以执行返回true，否则返回false
+        public static func canExecute(for key: String) -> Bool {
+            let today = Date().formatted(date: .complete, time: .omitted)
+            let executionKey = "daily_execution_\(key)_\(today)"
+            let countKey = "daily_count_\(key)_\(today)"
+
+            // 获取今天的执行次数
+            let currentCount = userDefaults.integer(forKey: countKey)
+
+            // 如果已经达到限制，返回false
+            if currentCount >= maxExecutionsPerDay {
+                return false
+            }
+
+            // 检查是否在短时间内重复调用（防止误操作）
+            let executionTimes = userDefaults.array(forKey: executionKey) as? [Date] ?? []
+            if let lastExecutionTime = executionTimes.last {
+                let timeInterval = Date().timeIntervalSince(lastExecutionTime)
+                // 如果距离上次执行不到1秒，认为是重复调用，不增加计数
+                if timeInterval < 1.0 {
+                    return false
+                }
+            }
+
+            // 增加执行次数
+            userDefaults.set(currentCount + 1, forKey: countKey)
+
+            // 记录执行时间
+            var newExecutionTimes = executionTimes
+            newExecutionTimes.append(Date())
+            userDefaults.set(newExecutionTimes, forKey: executionKey)
+
+            return true
+        }
+
+        /// 获取今天的剩余执行次数
+        /// - Parameter key: 操作标识符
+        /// - Returns: 剩余执行次数
+        public static func remainingExecutions(for key: String) -> Int {
+            let today = Date().formatted(date: .complete, time: .omitted)
+            let countKey = "daily_count_\(key)_\(today)"
+            let currentCount = userDefaults.integer(forKey: countKey)
+            return max(0, maxExecutionsPerDay - currentCount)
+        }
+
+        /// 获取今天的执行次数
+        /// - Parameter key: 操作标识符
+        /// - Returns: 今天的执行次数
+        public static func todayExecutionCount(for key: String) -> Int {
+            let today = Date().formatted(date: .complete, time: .omitted)
+            let countKey = "daily_count_\(key)_\(today)"
+            return userDefaults.integer(forKey: countKey)
+        }
+
+        /// 获取今天的执行时间列表
+        /// - Parameter key: 操作标识符
+        /// - Returns: 执行时间数组
+        public static func todayExecutionTimes(for key: String) -> [Date] {
+            let today = Date().formatted(date: .complete, time: .omitted)
+            let executionKey = "daily_execution_\(key)_\(today)"
+            return userDefaults.array(forKey: executionKey) as? [Date] ?? []
+        }
+
+        /// 重置今天的执行次数（用于测试或特殊情况）
+        /// - Parameter key: 操作标识符
+        public static func resetTodayExecution(for key: String) {
+            let today = Date().formatted(date: .complete, time: .omitted)
+            let executionKey = "daily_execution_\(key)_\(today)"
+            let countKey = "daily_count_\(key)_\(today)"
+
+            userDefaults.removeObject(forKey: executionKey)
+            userDefaults.removeObject(forKey: countKey)
+        }
+
+        /// 清理过期的执行记录（建议在应用启动时调用）
+        public static func cleanupExpiredRecords() {
+            let calendar = Calendar.current
+            let today = Date()
+
+            // 获取所有相关的UserDefaults键
+            let allKeys = userDefaults.dictionaryRepresentation().keys
+            let executionKeys = allKeys.filter { $0.hasPrefix("daily_execution_") || $0.hasPrefix("daily_count_") }
+
+            for key in executionKeys {
+                // 尝试从键名中提取日期
+                let components = key.components(separatedBy: "_")
+                if components.count >= 3 {
+                    let dateString = components.dropFirst(2).joined(separator: "_")
+                    if let recordDate = parseDate(from: dateString) {
+                        // 检查记录日期是否在今天或之前
+                        if calendar.compare(recordDate, to: today, toGranularity: .day) == .orderedAscending {
+                            // 如果记录日期在今天之前，删除它
+                            userDefaults.removeObject(forKey: key)
+                        }
+                    }
+                }
+            }
+        }
+
+        /// 解析日期字符串
+        /// - Parameter dateString: 日期字符串
+        /// - Returns: 解析后的日期，如果解析失败返回nil
+        private static func parseDate(from dateString: String) -> Date? {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter.date(from: dateString)
+        }
+    }
+}
+
+
 // 扩展 UINavigationController 支持带 completion 的 pop 方法
 extension UINavigationController {
     func popToViewController(
