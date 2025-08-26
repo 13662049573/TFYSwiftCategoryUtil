@@ -214,38 +214,33 @@ extension UIButton {
         applyModernConfiguration(type: type, space: space)
     }
     
-    // MARK: - iOS 15+ 实现
     @available(iOS 15.0, *)
     private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat) {
         var configuration = UIButton.Configuration.plain()
-        
-        // 强制清除背景配置（关键修正）
-        configuration.background = {
-            var background = UIBackgroundConfiguration.clear()
-            background.backgroundColor = .clear
-            background.strokeColor = .clear
-            background.visualEffect = nil
-            return background
-        }()
-        
+
+        // 保留现有背景图片，不清除背景配置
+        if let backgroundImage = backgroundImage(for: .normal) {
+            configuration.background.image = backgroundImage
+        }
+
         // 1. 获取当前文本属性
-        let buttonFont = self.titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
-        let buttonColor = self.titleColor(for: .normal) ?? .black
-        
+        let buttonFont = titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
+        let buttonColor = titleColor(for: .normal) ?? .black
+
         // 2. 正确创建 AttributeContainer
         var attributeContainer = AttributeContainer()
         attributeContainer.font = buttonFont
         attributeContainer.foregroundColor = buttonColor
-        
+
         // 3. 创建带属性的标题
-        if let title = self.title(for: .normal) {
+        if let title = title(for: .normal) {
             configuration.attributedTitle = AttributedString(title, attributes: attributeContainer)
         }
-        
+
         // 4. 配置基础属性
         configuration.imagePadding = space
         configuration.titleLineBreakMode = .byWordWrapping
-        
+
         // 根据类型设置布局
         switch type {
         case .centerImageTop:
@@ -257,7 +252,7 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            
+
         case .centerImageLeft:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .center
@@ -267,7 +262,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            
+
         case .centerImageRight:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .center
@@ -277,7 +272,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .centerImageBottom:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .center
@@ -287,7 +282,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .leftImageLeft:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .leading
@@ -297,8 +292,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            self.contentHorizontalAlignment = .left
-            
+            contentHorizontalAlignment = .left
+
         case .leftImageRight:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .leading
@@ -308,8 +303,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            self.contentHorizontalAlignment = .left
-            
+            contentHorizontalAlignment = .left
+
         case .rightImageLeft:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .trailing
@@ -319,8 +314,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .right
-            
+            contentHorizontalAlignment = .right
+
         case .rightImageRight:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .trailing
@@ -330,8 +325,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .right
-            
+            contentHorizontalAlignment = .right
+
         case .centerImageTopFixedSpace:
             configuration.imagePlacement = .top
             configuration.titleAlignment = .center
@@ -342,7 +337,7 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            
+
         case .centerImageLeftFixedSpace:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .center
@@ -353,7 +348,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            
+
         case .centerImageRightFixedSpace:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .center
@@ -364,7 +359,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .centerImageBottomFixedSpace:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .center
@@ -375,7 +370,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .topImageTop:
             configuration.imagePlacement = .top
             configuration.titleAlignment = .leading
@@ -385,8 +380,8 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .center
-            
+            contentHorizontalAlignment = .center
+
         case .topImageBottom:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .leading
@@ -396,8 +391,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .center
-            
+            contentHorizontalAlignment = .center
+
         case .bottomImageTop:
             configuration.imagePlacement = .top
             configuration.titleAlignment = .trailing
@@ -407,8 +402,8 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .center
-            
+            contentHorizontalAlignment = .center
+
         case .bottomImageBottom:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .trailing
@@ -418,8 +413,8 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.contentHorizontalAlignment = .center
-            
+            contentHorizontalAlignment = .center
+
         case .centerImageTopTextBelow:
             configuration.imagePlacement = .top
             configuration.titleAlignment = .center
@@ -430,7 +425,7 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            
+
         case .centerImageLeftTextRight:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .leading
@@ -441,7 +436,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
-            
+
         case .centerImageRightTextLeft:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .trailing
@@ -452,7 +447,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .centerImageBottomTextAbove:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .center
@@ -463,15 +458,15 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            
+
         case .imageOnly:
-            configuration.image = self.image(for: .normal)
+            configuration.image = image(for: .normal)
             configuration.title = nil
-            
+
         case .textOnly:
             configuration.image = nil
-            configuration.title = self.title(for: .normal)
-            
+            configuration.title = title(for: .normal)
+
         case .imageTopTextBelowFixedHeight:
             configuration.imagePlacement = .top
             configuration.titleAlignment = .center
@@ -482,8 +477,8 @@ extension UIButton {
                 bottom: space,
                 trailing: 0
             )
-            self.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            
+            heightAnchor.constraint(equalToConstant: 100).isActive = true
+
         case .imageLeftTextRightFixedWidth:
             configuration.imagePlacement = .leading
             configuration.titleAlignment = .leading
@@ -494,6 +489,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: space
             )
+
         case .imageRightTextLeftFixedWidth:
             configuration.imagePlacement = .trailing
             configuration.titleAlignment = .trailing
@@ -504,6 +500,7 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
+
         case .imageBottomTextAboveFixedHeight:
             configuration.imagePlacement = .bottom
             configuration.titleAlignment = .center
@@ -514,25 +511,28 @@ extension UIButton {
                 bottom: 0,
                 trailing: 0
             )
-            self.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            heightAnchor.constraint(equalToConstant: 100).isActive = true
         }
-        
+
         // 4. 应用配置
         self.configuration = configuration
-        
+
         // 修正配置更新处理器
-        self.configurationUpdateHandler = { button in
+        configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
-            // 强制保持背景透明
+            // 保持背景图片，只清除背景颜色和描边颜色
+            if let backgroundImage = button.backgroundImage(for: .normal) {
+                updatedConfig?.background.image = backgroundImage
+            }
             updatedConfig?.background.backgroundColor = .clear
             updatedConfig?.background.strokeColor = .clear
             let newFont = button.titleLabel?.font ?? buttonFont
             let newColor = button.titleColor(for: .normal) ?? buttonColor
-            
+
             var newAttributes = AttributeContainer()
             newAttributes.font = newFont
             newAttributes.foregroundColor = newColor
-            
+
             if let title = button.title(for: .normal) {
                 updatedConfig?.attributedTitle = AttributedString(title, attributes: newAttributes)
             }
