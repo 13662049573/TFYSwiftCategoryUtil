@@ -19,7 +19,7 @@ class HomeController: UIViewController {
         setupDeviceAdaptation()
     }
     
-    private let types: [UIButton.ButtonImageDirection] = [
+    private let types: [ButtonImageDirection] = [
         // 基础布局模式
         .centerImageTop,          // 图片在上方居中
         .centerImageLeft,         // 图片在左侧居中
@@ -121,7 +121,7 @@ class HomeController: UIViewController {
         }
     }
     
-    private func createButton(for direction: UIButton.ButtonImageDirection, at index: Int) -> UIButton {
+    private func createButton(for direction: ButtonImageDirection, at index: Int) -> UIButton {
         let btn = UIButton(type: .custom)
         let title = getButtonTitle(for: direction)
         
@@ -146,7 +146,7 @@ class HomeController: UIViewController {
         return btn
     }
     
-    private func getButtonTitle(for direction: UIButton.ButtonImageDirection) -> String {
+    private func getButtonTitle(for direction: ButtonImageDirection) -> String {
         switch direction {
         case .centerImageTop, .centerImageLeft, .centerImageRight, .centerImageBottom,
              .leftImageLeft, .leftImageRight, .rightImageLeft, .rightImageRight,

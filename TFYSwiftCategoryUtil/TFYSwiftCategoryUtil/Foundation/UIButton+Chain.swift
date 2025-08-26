@@ -9,6 +9,45 @@
 
 import UIKit
 
+/// 按钮图片方向枚举
+public enum ButtonImageDirection: Int {
+    // 基础模式
+    case centerImageTop = 1
+    case centerImageLeft = 2
+    case centerImageRight = 3
+    case centerImageBottom = 4
+    case leftImageLeft = 5
+    case leftImageRight = 6
+    case rightImageLeft = 7
+    case rightImageRight = 8
+    
+    // 固定间距模式
+    case centerImageTopFixedSpace = 9
+    case centerImageLeftFixedSpace = 10
+    case centerImageRightFixedSpace = 11
+    case centerImageBottomFixedSpace = 12
+    
+    // 顶部/底部对齐模式
+    case topImageTop = 13
+    case topImageBottom = 14
+    case bottomImageTop = 15
+    case bottomImageBottom = 16
+    
+    // 新增模式
+    case centerImageTopTextBelow = 17  // 图片在上，文字在下，文字换行
+    case centerImageLeftTextRight = 18 // 图片在左，文字在右，文字换行
+    case centerImageRightTextLeft = 19 // 图片在右，文字在左，文字换行
+    case centerImageBottomTextAbove = 20 // 图片在下，文字在上，文字换行
+    
+    // 更多新增模式
+    case imageOnly = 21 // 仅显示图片
+    case textOnly = 22 // 仅显示文字
+    case imageTopTextBelowFixedHeight = 23 // 图片在上，文字在下，固定高度
+    case imageLeftTextRightFixedWidth = 24 // 图片在左，文字在右，固定宽度
+    case imageRightTextLeftFixedWidth = 25 // 图片在右，文字在左，固定宽度
+    case imageBottomTextAboveFixedHeight = 26 // 图片在下，文字在上，固定高度
+}
+
 /// 按钮链式编程扩展
 public extension TFY where Base: UIButton {
     
@@ -151,7 +190,7 @@ public extension TFY where Base: UIButton {
     
     /// 设置图片方向和间距
     @discardableResult
-    func imageDirection(_ direction: UIButton.ButtonImageDirection, _ space: CGFloat) -> Self {
+    func imageDirection(_ direction: ButtonImageDirection, _ space: CGFloat) -> Self {
         base.imageDirection(direction, max(0, space))
         return self
     }
@@ -166,44 +205,8 @@ public extension TFY where Base: UIButton {
 }
 
 extension UIButton {
-    /// 按钮图片方向枚举
-    public enum ButtonImageDirection: Int {
-        // 基础模式
-        case centerImageTop = 1
-        case centerImageLeft = 2
-        case centerImageRight = 3
-        case centerImageBottom = 4
-        case leftImageLeft = 5
-        case leftImageRight = 6
-        case rightImageLeft = 7
-        case rightImageRight = 8
-        
-        // 固定间距模式
-        case centerImageTopFixedSpace = 9
-        case centerImageLeftFixedSpace = 10
-        case centerImageRightFixedSpace = 11
-        case centerImageBottomFixedSpace = 12
-        
-        // 顶部/底部对齐模式
-        case topImageTop = 13
-        case topImageBottom = 14
-        case bottomImageTop = 15
-        case bottomImageBottom = 16
-        
-        // 新增模式
-        case centerImageTopTextBelow = 17  // 图片在上，文字在下，文字换行
-        case centerImageLeftTextRight = 18 // 图片在左，文字在右，文字换行
-        case centerImageRightTextLeft = 19 // 图片在右，文字在左，文字换行
-        case centerImageBottomTextAbove = 20 // 图片在下，文字在上，文字换行
-        
-        // 更多新增模式
-        case imageOnly = 21 // 仅显示图片
-        case textOnly = 22 // 仅显示文字
-        case imageTopTextBelowFixedHeight = 23 // 图片在上，文字在下，固定高度
-        case imageLeftTextRightFixedWidth = 24 // 图片在左，文字在右，固定宽度
-        case imageRightTextLeftFixedWidth = 25 // 图片在右，文字在左，固定宽度
-        case imageBottomTextAboveFixedHeight = 26 // 图片在下，文字在上，固定高度
-    }
+    
+    // MARK: - Public Methods
     
     /// 设置图片和文字的相对位置
     /// - Parameters:
@@ -211,333 +214,497 @@ extension UIButton {
     ///   - space: 图片和文字之间的间距
     @available(iOS 15.0, *)
     public func imageDirection(_ type: ButtonImageDirection, _ space: CGFloat) {
-        applyModernConfiguration(type: type, space: space)
+        applyModernConfiguration(type: type, space: space, contentInsets: .zero)
+    }
+    
+    /// 设置图片和文字的相对位置（自定义内容边距）
+    /// - Parameters:
+    ///   - type: 图片位置类型
+    ///   - space: 图片和文字之间的间距
+    ///   - contentInsets: 自定义内容边距
+    @available(iOS 15.0, *)
+    public func imageDirectionCustomize(_ type: ButtonImageDirection, _ space: CGFloat, _ contentInsets: NSDirectionalEdgeInsets) {
+        applyModernConfiguration(type: type, space: space, contentInsets: contentInsets)
+    }
+    
+    // MARK: - Private Methods
+    
+    @available(iOS 15.0, *)
+    private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        var configuration = createBaseConfiguration(space: space)
+        
+        // 配置布局
+        configureLayout(for: type, space: space, contentInsets: contentInsets, in: &configuration)
+        
+        // 应用配置
+        self.configuration = configuration
+        
+        // 设置配置更新处理器
+        setupConfigurationUpdateHandler(buttonFont: configuration.attributedTitle?.font ?? UIFont.systemFont(ofSize: 14),
+                                     buttonColor: configuration.attributedTitle?.foregroundColor ?? .black)
     }
     
     @available(iOS 15.0, *)
-    private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat) {
+    private func createBaseConfiguration(space: CGFloat) -> UIButton.Configuration {
         var configuration = UIButton.Configuration.plain()
-
-        // 保留现有背景图片，不清除背景配置
+        
+        // 保留现有背景图片
         if let backgroundImage = backgroundImage(for: .normal) {
             configuration.background.image = backgroundImage
         }
-
-        // 1. 获取当前文本属性
-        let buttonFont = titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
-        let buttonColor = titleColor(for: .normal) ?? .black
-
-        // 2. 正确创建 AttributeContainer
-        var attributeContainer = AttributeContainer()
-        attributeContainer.font = buttonFont
-        attributeContainer.foregroundColor = buttonColor
-
-        // 3. 创建带属性的标题
-        if let title = title(for: .normal) {
-            configuration.attributedTitle = AttributedString(title, attributes: attributeContainer)
-        }
-
-        // 4. 配置基础属性
+        
+        // 配置基础属性
         configuration.imagePadding = space
         configuration.titleLineBreakMode = .byWordWrapping
-
-        // 根据类型设置布局
+        
+        // 配置标题
+        if let title = title(for: .normal) {
+            let buttonFont = titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
+            let buttonColor = titleColor(for: .normal) ?? .black
+            
+            var attributeContainer = AttributeContainer()
+            attributeContainer.font = buttonFont
+            attributeContainer.foregroundColor = buttonColor
+            
+            configuration.attributedTitle = AttributedString(title, attributes: attributeContainer)
+        }
+        
+        return configuration
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureLayout(for type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets, in configuration: inout UIButton.Configuration) {
         switch type {
         case .centerImageTop:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .center
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-
+            configureCenterImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageLeft:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .center
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-
+            configureCenterImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageRight:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .center
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureCenterImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageBottom:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .center
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-
-        case .leftImageLeft:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .leading
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-            contentHorizontalAlignment = .left
-
+            configureCenterImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
+                case .leftImageLeft:
+            configureLeftImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .leftImageRight:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .leading
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-            contentHorizontalAlignment = .left
-
+            configureLeftImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .rightImageLeft:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .trailing
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .right
-
+            configureRightImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .rightImageRight:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .trailing
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .right
-
+            configureRightImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageTopFixedSpace:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .center
-            configuration.imagePadding = space
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-
+            configureCenterImageTopFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageLeftFixedSpace:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .center
-            configuration.imagePadding = space
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-
+            configureCenterImageLeftFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageRightFixedSpace:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .center
-            configuration.imagePadding = space
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureCenterImageRightFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageBottomFixedSpace:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .center
-            configuration.imagePadding = space
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureCenterImageBottomFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .topImageTop:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .leading
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .center
-
+            configureTopImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .topImageBottom:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .leading
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .center
-
+            configureTopImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .bottomImageTop:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .trailing
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .center
-
+            configureBottomImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .bottomImageBottom:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .trailing
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-            contentHorizontalAlignment = .center
-
+            configureBottomImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageTopTextBelow:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .center
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-
+            configureCenterImageTopTextBelow(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageLeftTextRight:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .leading
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-
+            configureCenterImageLeftTextRight(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageRightTextLeft:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .trailing
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureCenterImageRightTextLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .centerImageBottomTextAbove:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .center
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureCenterImageBottomTextAbove(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .imageOnly:
-            configuration.image = image(for: .normal)
-            configuration.title = nil
-
+            configureImageOnly(configuration: &configuration)
+            
         case .textOnly:
-            configuration.image = nil
-            configuration.title = title(for: .normal)
-
+            configureTextOnly(configuration: &configuration)
+            
         case .imageTopTextBelowFixedHeight:
-            configuration.imagePlacement = .top
-            configuration.titleAlignment = .center
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: space,
-                trailing: 0
-            )
-            heightAnchor.constraint(equalToConstant: 100).isActive = true
-
+            configureImageTopTextBelowFixedHeight(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .imageLeftTextRightFixedWidth:
-            configuration.imagePlacement = .leading
-            configuration.titleAlignment = .leading
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: space
-            )
-
+            configureImageLeftTextRightFixedWidth(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .imageRightTextLeftFixedWidth:
-            configuration.imagePlacement = .trailing
-            configuration.titleAlignment = .trailing
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: space,
-                bottom: 0,
-                trailing: 0
-            )
-
+            configureImageRightTextLeftFixedWidth(configuration: &configuration, space: space, contentInsets: contentInsets)
+            
         case .imageBottomTextAboveFixedHeight:
-            configuration.imagePlacement = .bottom
-            configuration.titleAlignment = .center
-            configuration.titleLineBreakMode = .byWordWrapping
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: space,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-            heightAnchor.constraint(equalToConstant: 100).isActive = true
+            configureImageBottomTextAboveFixedHeight(configuration: &configuration, space: space, contentInsets: contentInsets)
         }
-
-        // 4. 应用配置
-        self.configuration = configuration
-
-        // 修正配置更新处理器
+    }
+    
+    @available(iOS 15.0, *)
+    private func setupConfigurationUpdateHandler(buttonFont: UIFont, buttonColor: UIColor) {
         configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
+            
             // 保持背景图片，只清除背景颜色和描边颜色
             if let backgroundImage = button.backgroundImage(for: .normal) {
                 updatedConfig?.background.image = backgroundImage
             }
             updatedConfig?.background.backgroundColor = .clear
             updatedConfig?.background.strokeColor = .clear
+            
+            // 更新字体和颜色
             let newFont = button.titleLabel?.font ?? buttonFont
             let newColor = button.titleColor(for: .normal) ?? buttonColor
-
+            
             var newAttributes = AttributeContainer()
             newAttributes.font = newFont
             newAttributes.foregroundColor = newColor
-
+            
             if let title = button.title(for: .normal) {
                 updatedConfig?.attributedTitle = AttributedString(title, attributes: newAttributes)
             }
+            
             button.configuration = updatedConfig
         }
+    }
+    
+    // MARK: - Configuration Helper Methods
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .center
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .center
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .center
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .center
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureLeftImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .leading
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+        contentHorizontalAlignment = .left
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureLeftImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .leading
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+        contentHorizontalAlignment = .left
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureRightImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .trailing
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .right
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureRightImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .trailing
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .right
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageTopFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .center
+        configuration.imagePadding = space
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageLeftFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .center
+        configuration.imagePadding = space
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageRightFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .center
+        configuration.imagePadding = space
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageBottomFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .center
+        configuration.imagePadding = space
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureTopImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .leading
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .center
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureTopImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .leading
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .center
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureBottomImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .trailing
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .center
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureBottomImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .trailing
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        contentHorizontalAlignment = .center
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageTopTextBelow(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageLeftTextRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .leading
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageRightTextLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .trailing
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureCenterImageBottomTextAbove(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureImageOnly(configuration: inout UIButton.Configuration) {
+        configuration.image = image(for: .normal)
+        configuration.title = nil
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureTextOnly(configuration: inout UIButton.Configuration) {
+        configuration.image = nil
+        configuration.title = title(for: .normal)
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureImageTopTextBelowFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+        heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureImageLeftTextRightFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .leading
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureImageRightTextLeftFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .trailing
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+    }
+    
+    @available(iOS 15.0, *)
+    private func configureImageBottomTextAboveFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byWordWrapping
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
 
