@@ -2930,33 +2930,77 @@ public extension TFYUtils {
 // MARK: - 每日执行限制工具
 
 public extension TFYUtils {
-    /// 每日执行限制管理器
-    enum DailyExecutionLimit {
+    /// 执行限制管理器 - 支持每日、每周、每月等不同时间周期
+    enum ExecutionLimit {
+        /// 时间周期类型
+        public enum TimePeriod {
+            case daily
+            case weekly
+            case monthly
+            case yearly
+            case custom(TimeInterval)
+
+            /// 所有预定义的时间周期（不包含custom）
+            public static var predefinedCases: [TimePeriod] {
+                [.daily, .weekly, .monthly, .yearly]
+            }
+
+            var description: String {
+                switch self {
+                case .daily: return "daily"
+                case .weekly: return "weekly"
+                case .monthly: return "monthly"
+                case .yearly: return "yearly"
+                case .custom: return "custom"
+                }
+            }
+        }
+
+        /// 限制配置
+        public struct LimitConfig {
+            let maxExecutions: Int
+            let timePeriod: TimePeriod
+            let minIntervalBetweenExecutions: TimeInterval
+            let allowOverflow: Bool
+
+            public init(
+                maxExecutions: Int,
+                timePeriod: TimePeriod = .daily,
+                minIntervalBetweenExecutions: TimeInterval = 1.0,
+                allowOverflow: Bool = false
+            ) {
+                self.maxExecutions = maxExecutions
+                self.timePeriod = timePeriod
+                self.minIntervalBetweenExecutions = minIntervalBetweenExecutions
+                self.allowOverflow = allowOverflow
+            }
+        }
+
         private static let userDefaults = UserDefaults.standard
-        private static let maxExecutionsPerDay = 2
 
         /// 检查是否可以执行操作
-        /// - Parameter key: 操作标识符，用于区分不同的操作
+        /// - Parameters:
+        ///   - key: 操作标识符
+        ///   - config: 限制配置
         /// - Returns: 如果可以执行返回true，否则返回false
-        public static func canExecute(for key: String) -> Bool {
-            let today = Date().formatted(date: .complete, time: .omitted)
-            let executionKey = "daily_execution_\(key)_\(today)"
-            let countKey = "daily_count_\(key)_\(today)"
+        public static func canExecute(for key: String, with config: LimitConfig) -> Bool {
+            let currentTime = Date()
+            let countKey = getCountKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+            let executionKey = getExecutionKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
 
-            // 获取今天的执行次数
+            // 获取当前周期的执行次数
             let currentCount = userDefaults.integer(forKey: countKey)
 
-            // 如果已经达到限制，返回false
-            if currentCount >= maxExecutionsPerDay {
+            // 如果已经达到限制且不允许溢出，返回false
+            if currentCount >= config.maxExecutions && !config.allowOverflow {
                 return false
             }
 
-            // 检查是否在短时间内重复调用（防止误操作）
+            // 检查是否在最小时间间隔内重复调用
             let executionTimes = userDefaults.array(forKey: executionKey) as? [Date] ?? []
             if let lastExecutionTime = executionTimes.last {
-                let timeInterval = Date().timeIntervalSince(lastExecutionTime)
-                // 如果距离上次执行不到1秒，认为是重复调用，不增加计数
-                if timeInterval < 1.0 {
+                let timeInterval = currentTime.timeIntervalSince(lastExecutionTime)
+                if timeInterval < config.minIntervalBetweenExecutions {
                     return false
                 }
             }
@@ -2966,83 +3010,179 @@ public extension TFYUtils {
 
             // 记录执行时间
             var newExecutionTimes = executionTimes
-            newExecutionTimes.append(Date())
+            newExecutionTimes.append(currentTime)
             userDefaults.set(newExecutionTimes, forKey: executionKey)
 
             return true
+        }
+
+        /// 获取当前周期的剩余执行次数
+        /// - Parameters:
+        ///   - key: 操作标识符
+        ///   - config: 限制配置
+        /// - Returns: 剩余执行次数
+        public static func remainingExecutions(for key: String, with config: LimitConfig) -> Int {
+            let currentTime = Date()
+            let countKey = getCountKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+            let currentCount = userDefaults.integer(forKey: countKey)
+            return max(0, config.maxExecutions - currentCount)
+        }
+
+        /// 获取当前周期的执行次数
+        /// - Parameters:
+        ///   - key: 操作标识符
+        ///   - config: 限制配置
+        /// - Returns: 当前周期的执行次数
+        public static func currentExecutionCount(for key: String, with config: LimitConfig) -> Int {
+            let currentTime = Date()
+            let countKey = getCountKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+            return userDefaults.integer(forKey: countKey)
+        }
+
+        /// 获取当前周期的执行时间列表
+        /// - Parameters:
+        ///   - key: 操作标识符
+        ///   - config: 限制配置
+        /// - Returns: 执行时间数组
+        public static func currentExecutionTimes(for key: String, with config: LimitConfig) -> [Date] {
+            let currentTime = Date()
+            let executionKey = getExecutionKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+            return userDefaults.array(forKey: executionKey) as? [Date] ?? []
+        }
+
+        /// 重置当前周期的执行次数
+        /// - Parameters:
+        ///   - key: 操作标识符
+        ///   - config: 限制配置
+        public static func resetCurrentExecution(for key: String, with config: LimitConfig) {
+            let currentTime = Date()
+            let executionKey = getExecutionKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+            let countKey = getCountKey(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
+
+            userDefaults.removeObject(forKey: executionKey)
+            userDefaults.removeObject(forKey: countKey)
+        }
+
+        /// 清理过期的执行记录
+        public static func cleanupExpiredRecords() {
+            let allKeys = userDefaults.dictionaryRepresentation().keys
+            let executionKeys = allKeys.filter { $0.hasPrefix("execution_limit_") || $0.hasPrefix("execution_count_") }
+
+            for key in executionKeys {
+                if let recordDate = extractDateFromKey(key) {
+                    let calendar = Calendar.current
+                    let today = Date()
+
+                    // 检查记录日期是否在今天或之前
+                    if calendar.compare(recordDate, to: today, toGranularity: .day) == .orderedAscending {
+                        userDefaults.removeObject(forKey: key)
+                    }
+                }
+            }
+        }
+
+        // MARK: - 私有辅助方法
+
+        private static func getPeriodKey(for key: String, timePeriod: TimePeriod, currentTime: Date) -> String {
+            let periodString = getPeriodString(for: timePeriod, currentTime: currentTime)
+            return "execution_period_\(key)_\(periodString)"
+        }
+
+        private static func getCountKey(for key: String, timePeriod: TimePeriod, currentTime: Date) -> String {
+            let periodString = getPeriodString(for: timePeriod, currentTime: currentTime)
+            return "execution_count_\(key)_\(periodString)"
+        }
+
+        private static func getExecutionKey(for key: String, timePeriod: TimePeriod, currentTime: Date) -> String {
+            let periodString = getPeriodString(for: timePeriod, currentTime: currentTime)
+            return "execution_times_\(key)_\(periodString)"
+        }
+
+        private static func getPeriodString(for timePeriod: TimePeriod, currentTime: Date) -> String {
+            let formatter = DateFormatter()
+
+            switch timePeriod {
+            case .daily:
+                formatter.dateFormat = "yyyy-MM-dd"
+            case .weekly:
+                formatter.dateFormat = "yyyy-'W'ww"
+            case .monthly:
+                formatter.dateFormat = "yyyy-MM"
+            case .yearly:
+                formatter.dateFormat = "yyyy"
+            case .custom:
+                formatter.dateFormat = "yyyy-MM-dd-HH"
+            }
+
+            return formatter.string(from: currentTime)
+        }
+
+        private static func extractDateFromKey(_ key: String) -> Date? {
+            let components = key.components(separatedBy: "_")
+            guard components.count >= 3 else { return nil }
+
+            let dateString = components.dropFirst(2).joined(separator: "_")
+            let formatter = DateFormatter()
+
+            // 尝试不同的日期格式
+            let formats = ["yyyy-MM-dd", "yyyy-'W'ww", "yyyy-MM", "yyyy", "yyyy-MM-dd-HH"]
+
+            for format in formats {
+                formatter.dateFormat = format
+                if let date = formatter.date(from: dateString) {
+                    return date
+                }
+            }
+
+            return nil
+        }
+    }
+
+    /// 每日执行限制管理器 - 向后兼容的便捷方法
+    enum DailyExecutionLimit {
+        private static let defaultConfig = ExecutionLimit.LimitConfig(
+            maxExecutions: 2,
+            timePeriod: .daily,
+            minIntervalBetweenExecutions: 1.0
+        )
+
+        /// 检查是否可以执行操作
+        /// - Parameter key: 操作标识符
+        /// - Returns: 如果可以执行返回true，否则返回false
+        public static func canExecute(for key: String) -> Bool {
+            ExecutionLimit.canExecute(for: key, with: defaultConfig)
         }
 
         /// 获取今天的剩余执行次数
         /// - Parameter key: 操作标识符
         /// - Returns: 剩余执行次数
         public static func remainingExecutions(for key: String) -> Int {
-            let today = Date().formatted(date: .complete, time: .omitted)
-            let countKey = "daily_count_\(key)_\(today)"
-            let currentCount = userDefaults.integer(forKey: countKey)
-            return max(0, maxExecutionsPerDay - currentCount)
+            ExecutionLimit.remainingExecutions(for: key, with: defaultConfig)
         }
 
         /// 获取今天的执行次数
         /// - Parameter key: 操作标识符
         /// - Returns: 今天的执行次数
         public static func todayExecutionCount(for key: String) -> Int {
-            let today = Date().formatted(date: .complete, time: .omitted)
-            let countKey = "daily_count_\(key)_\(today)"
-            return userDefaults.integer(forKey: countKey)
+            ExecutionLimit.currentExecutionCount(for: key, with: defaultConfig)
         }
 
         /// 获取今天的执行时间列表
         /// - Parameter key: 操作标识符
         /// - Returns: 执行时间数组
         public static func todayExecutionTimes(for key: String) -> [Date] {
-            let today = Date().formatted(date: .complete, time: .omitted)
-            let executionKey = "daily_execution_\(key)_\(today)"
-            return userDefaults.array(forKey: executionKey) as? [Date] ?? []
+            ExecutionLimit.currentExecutionTimes(for: key, with: defaultConfig)
         }
 
-        /// 重置今天的执行次数（用于测试或特殊情况）
+        /// 重置今天的执行次数
         /// - Parameter key: 操作标识符
         public static func resetTodayExecution(for key: String) {
-            let today = Date().formatted(date: .complete, time: .omitted)
-            let executionKey = "daily_execution_\(key)_\(today)"
-            let countKey = "daily_count_\(key)_\(today)"
-
-            userDefaults.removeObject(forKey: executionKey)
-            userDefaults.removeObject(forKey: countKey)
+            ExecutionLimit.resetCurrentExecution(for: key, with: defaultConfig)
         }
 
-        /// 清理过期的执行记录（建议在应用启动时调用）
+        /// 清理过期的执行记录
         public static func cleanupExpiredRecords() {
-            let calendar = Calendar.current
-            let today = Date()
-
-            // 获取所有相关的UserDefaults键
-            let allKeys = userDefaults.dictionaryRepresentation().keys
-            let executionKeys = allKeys.filter { $0.hasPrefix("daily_execution_") || $0.hasPrefix("daily_count_") }
-
-            for key in executionKeys {
-                // 尝试从键名中提取日期
-                let components = key.components(separatedBy: "_")
-                if components.count >= 3 {
-                    let dateString = components.dropFirst(2).joined(separator: "_")
-                    if let recordDate = parseDate(from: dateString) {
-                        // 检查记录日期是否在今天或之前
-                        if calendar.compare(recordDate, to: today, toGranularity: .day) == .orderedAscending {
-                            // 如果记录日期在今天之前，删除它
-                            userDefaults.removeObject(forKey: key)
-                        }
-                    }
-                }
-            }
-        }
-
-        /// 解析日期字符串
-        /// - Parameter dateString: 日期字符串
-        /// - Returns: 解析后的日期，如果解析失败返回nil
-        private static func parseDate(from dateString: String) -> Date? {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            return formatter.date(from: dateString)
+            ExecutionLimit.cleanupExpiredRecords()
         }
     }
 }
