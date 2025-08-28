@@ -723,6 +723,150 @@ public extension TFY where Base: UIView {
         base.accessibilityIdentifier = identifier
         return self
     }
+    
+    /// 为当前视图添加/更新渐变背景层，自动识别并跟随`bounds`变化
+    @discardableResult
+    func setGradientBackground(_ direction: UIColor.GradientChangeDirection,
+                               colors: [UIColor],
+                               locations: [NSNumber]? = nil,
+                               cornerRadius: CGFloat = 0,
+                               name: String = "zs_gradient") -> Self {
+        base.tfy_setGradientBackground(direction: direction, colors: colors,locations: locations,cornerRadius: cornerRadius,name: name)
+        return self
+    }
+    
+    /// 移除指定名称的渐变层
+    @discardableResult
+    func removeGradientBackground(name: String = "zs_gradient") -> Self {
+        base.tfy_removeGradientBackground(name: name)
+        return self
+    }
+}
+
+// MARK: - UIView Gradient Extension (auto-size)
+
+private var zsGradientLayerKey: UInt8 = 0
+private var zsGradientNamesKey: UInt8 = 0
+private var zsDidSwizzleLayoutKey: UInt8 = 0
+
+extension UIView {
+    /// 为当前视图添加/更新渐变背景层，自动识别并跟随`bounds`变化
+    /// - Parameters:
+    ///   - direction: 渐变方向
+    ///   - colors: 颜色列表（至少两个）
+    ///   - locations: 可选的颜色位置（0...1），数量需与colors一致
+    ///   - cornerRadius: 可选圆角
+    ///   - name: 渐变层标识，用于同一视图多个渐变层场景
+    public func tfy_setGradientBackground(
+        direction: UIColor.GradientChangeDirection,
+        colors: [UIColor],
+        locations: [NSNumber]? = nil,
+        cornerRadius: CGFloat = 0,
+        name: String = "zs_gradient"
+    ) {
+        guard colors.count >= 2 else { return }
+
+        UIView.tfy_swizzleLayoutSubviewsIfNeeded()
+
+        let cgColors = colors.map { $0.cgColor }
+        let gradientLayer: CAGradientLayer
+        if let existing = tfy_gradientLayer(named: name) {
+            gradientLayer = existing
+        } else {
+            gradientLayer = CAGradientLayer()
+            gradientLayer.name = name
+            layer.insertSublayer(gradientLayer, at: 0)
+            tfy_storeGradientLayer(gradientLayer, named: name)
+        }
+
+        // 配置方向
+        switch direction {
+        case .level:
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        case .vertical:
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        case .upwardDiagonal:
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
+        case .downDiagonal:
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        }
+
+        gradientLayer.colors = cgColors
+        if let locations = locations, locations.count == cgColors.count { gradientLayer.locations = locations }
+        gradientLayer.cornerRadius = cornerRadius
+        gradientLayer.masksToBounds = cornerRadius > 0
+        gradientLayer.frame = bounds
+        gradientLayer.needsDisplayOnBoundsChange = true
+    }
+
+    /// 移除指定名称的渐变层
+    public func tfy_removeGradientBackground(name: String = "zs_gradient") {
+        guard let layer = tfy_gradientLayer(named: name) else { return }
+        layer.removeFromSuperlayer()
+        tfy_removeStoredGradient(named: name)
+    }
+
+    // MARK: - Swizzle layoutSubviews 以自动更新渐变层大小
+
+    private static func tfy_swizzleLayoutSubviewsIfNeeded() {
+        let already = objc_getAssociatedObject(UIView.self, &zsDidSwizzleLayoutKey) as? Bool ?? false
+        guard !already else { return }
+        objc_setAssociatedObject(UIView.self, &zsDidSwizzleLayoutKey, true, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        let originalSelector = #selector(UIView.layoutSubviews)
+        let swizzledSelector = #selector(UIView.tfy_layoutSubviews)
+
+        guard let originalMethod = class_getInstanceMethod(UIView.self, originalSelector),
+              let swizzledMethod = class_getInstanceMethod(UIView.self, swizzledSelector) else { return }
+
+        method_exchangeImplementations(originalMethod, swizzledMethod)
+    }
+
+    @objc private func tfy_layoutSubviews() {
+        // 调用原本的layoutSubviews（已交换实现）
+        tfy_layoutSubviews()
+
+        // 更新所有存储的渐变图层frame
+        guard let names = objc_getAssociatedObject(self, &zsGradientNamesKey) as? Set<String>, !names.isEmpty else { return }
+        for name in names {
+            if let gl = tfy_gradientLayer(named: name) {
+                gl.frame = bounds
+            }
+        }
+    }
+
+    // MARK: - 存取关联对象
+
+    private func tfy_storeGradientLayer(_ layer: CAGradientLayer, named name: String) {
+        // 存图层
+        var dict = objc_getAssociatedObject(self, &zsGradientLayerKey) as? [String: CAGradientLayer] ?? [:]
+        dict[name] = layer
+        objc_setAssociatedObject(self, &zsGradientLayerKey, dict, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        // 存名称集合
+        var names = objc_getAssociatedObject(self, &zsGradientNamesKey) as? Set<String> ?? Set<String>()
+        names.insert(name)
+        objc_setAssociatedObject(self, &zsGradientNamesKey, names, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    private func tfy_gradientLayer(named name: String) -> CAGradientLayer? {
+        let dict = objc_getAssociatedObject(self, &zsGradientLayerKey) as? [String: CAGradientLayer]
+        return dict?[name]
+    }
+
+    private func tfy_removeStoredGradient(named name: String) {
+        var dict = objc_getAssociatedObject(self, &zsGradientLayerKey) as? [String: CAGradientLayer] ?? [:]
+        dict.removeValue(forKey: name)
+        objc_setAssociatedObject(self, &zsGradientLayerKey, dict, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        var names = objc_getAssociatedObject(self, &zsGradientNamesKey) as? Set<String> ?? Set<String>()
+        names.remove(name)
+        objc_setAssociatedObject(self, &zsGradientNamesKey, names, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
 }
 
 public extension UIView {

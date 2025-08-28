@@ -101,6 +101,7 @@ class AdaptiveDemoController: UIViewController {
         cardView.layer.shadowOffset = CGSize(width: 0, height: 2.adap)
         cardView.layer.shadowRadius = 4.adap
         cardView.layer.shadowOpacity = 0.1
+        cardView.tfy_setGradientBackground(direction: UIColor.GradientChangeDirection(rawValue: (index+1)) ?? .level, colors: [.tfy.random,.tfy.random],cornerRadius: 12.adap)
         cardView.translatesAutoresizingMaskIntoConstraints = false
         
         let titleLabel = UILabel()
