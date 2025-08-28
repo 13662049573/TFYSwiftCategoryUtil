@@ -801,6 +801,15 @@ extension UIView {
         gradientLayer.masksToBounds = cornerRadius > 0
         gradientLayer.frame = bounds
         gradientLayer.needsDisplayOnBoundsChange = true
+
+        // 若在未布局完成时调用（如未加入层级或AutoLayout尚未生效），确保下一轮主队列刷新后同步frame
+        if bounds.isEmpty || bounds.equalTo(.zero) {
+            setNeedsLayout()
+            DispatchQueue.main.async { [weak self, weak gradientLayer] in
+                guard let self = self, let gl = gradientLayer else { return }
+                gl.frame = self.bounds
+            }
+        }
     }
 
     /// 移除指定名称的渐变层

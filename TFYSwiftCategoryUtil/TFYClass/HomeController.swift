@@ -177,13 +177,13 @@ class HomeController: UIViewController {
         let demoButton = UIButton(type: .system)
         demoButton.setTitle("UICollectionView自适应演示", for: .normal)
         demoButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        demoButton.backgroundColor = .systemBlue
+        //demoButton.backgroundColor = .systemBlue
         demoButton.setTitleColor(.white, for: .normal)
         demoButton.layer.cornerRadius = 12
         demoButton.translatesAutoresizingMaskIntoConstraints = false
         
         demoButton.addTarget(self, action: #selector(collectionViewDemoTapped), for: .touchUpInside)
-        
+        demoButton.tfy_setGradientBackground(direction: .level, colors: [.red,.yellow,.black],cornerRadius: 12)
         stackView.addArrangedSubview(demoButton)
         
         demoButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -199,7 +199,7 @@ class HomeController: UIViewController {
         cacheButton.translatesAutoresizingMaskIntoConstraints = false
         
         cacheButton.addTarget(self, action: #selector(cacheDemoTapped), for: .touchUpInside)
-        
+        cacheButton.tfy_setGradientBackground(direction: .vertical, colors: [.blue,.orange,.purple],cornerRadius: 12)
         stackView.addArrangedSubview(cacheButton)
         
         cacheButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
