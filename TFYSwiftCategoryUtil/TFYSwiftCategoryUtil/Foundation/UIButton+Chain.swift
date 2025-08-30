@@ -715,6 +715,12 @@ public extension UIButton {
         static var activityIndicatorViewKey = UnsafeRawPointer(bitPattern: "activityIndicatorViewKey".hashValue)!
         static var activityIndicatorEnabledKey = UnsafeRawPointer(bitPattern: "activityIndicatorEnabledKey".hashValue)!
         static var activityIndicatorColorKey = UnsafeRawPointer(bitPattern: "activityIndicatorColorKey".hashValue)!
+        /// 定义关联键，用于存储URL相关信息
+        static let kTimerKey = UnsafeRawPointer(bitPattern: "timerKey".hashValue)!
+        static let kTimeKey = UnsafeRawPointer(bitPattern: "timeKey".hashValue)!
+        static let kStartTitleKey = UnsafeRawPointer(bitPattern: "startTitleKey".hashValue)!
+        static let kEndTitleKey = UnsafeRawPointer(bitPattern: "endTitleKey".hashValue)!
+        static let kIsRunningKey = UnsafeRawPointer(bitPattern: "isRunningKey".hashValue)!
     }
     
     /// 活动指示器视图
@@ -903,44 +909,196 @@ public extension UIButton {
         
         objc_setAssociatedObject(self, (possibleKey), wrapper, .OBJC_ASSOCIATION_RETAIN)
     }
+    // MARK: - 计时器状态属性
     
+    /// 计时器是否正在运行
+    private var isTimerRunning: Bool {
+        get {
+            objc_getAssociatedObject(self, AssociatedKeys.kIsRunningKey) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, AssociatedKeys.kIsRunningKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    /// 当前剩余时间
+    private var currentTime: Int {
+        get {
+            objc_getAssociatedObject(self, AssociatedKeys.kTimeKey) as? Int ?? 0
+        }
+        set {
+            objc_setAssociatedObject(self, AssociatedKeys.kTimeKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    /// 开始标题
+    private var startTitle: String {
+        get {
+            objc_getAssociatedObject(self, AssociatedKeys.kStartTitleKey) as? String ?? "剩余"
+        }
+        set {
+            objc_setAssociatedObject(self, AssociatedKeys.kStartTitleKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    /// 结束标题
+    private var endTitle: String {
+        get {
+            objc_getAssociatedObject(self, AssociatedKeys.kEndTitleKey) as? String ?? "重新获取"
+        }
+        set {
+            objc_setAssociatedObject(self, AssociatedKeys.kEndTitleKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
     /// 验证码倒计时显示
-    /// - Parameter interval: 倒计时时间（秒）
-    func timerStart(_ interval: Int = 60, title: String) {
+    /// - Parameters:
+    ///   - interval: 倒计时时间（秒）
+    ///   - startTitle: 倒计时前缀
+    ///   - endTitle: 结束时标题
+    ///   - completion: 倒计时完成回调
+    func timerStart(
+        _ interval: Int = 60,
+        startTitle: String = "剩余",
+        endTitle: String = "重新获取",
+        completion: (() -> Void)? = nil
+    ) {
         // 防止重复启动计时器
-        if objc_getAssociatedObject(self, "timerKey") != nil {
+        if isTimerRunning {
             return
         }
         
-        var time = interval
-        let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: .global())
+        // 验证参数
+        guard interval > 0 else {
+            print("⚠️ 倒计时时间必须大于0")
+            return
+        }
         
+        // 保存参数
+        self.startTitle = startTitle
+        self.endTitle = endTitle
+        currentTime = interval
+        isTimerRunning = true
+        
+        // 使用主队列，避免UI更新问题
+        let codeTimer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
+
         // 保存计时器引用，防止内存泄漏
-        objc_setAssociatedObject(self, "timerKey", codeTimer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        
-        codeTimer.schedule(deadline: .now(), repeating: .milliseconds(1000))
-        codeTimer.setEventHandler {
-            time -= 1
-            DispatchQueue.main.async {
-                self.isEnabled = time <= 0
-                if time > 0 {
-                    self.setTitle("剩余\(time)s", for: .normal)
-                    return
-                }
+        objc_setAssociatedObject(self, AssociatedKeys.kTimerKey, codeTimer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        // 立即设置初始状态
+        isEnabled = false
+        setTitle("\(startTitle)\(currentTime)s", for: .normal)
+
+        codeTimer.schedule(deadline: .now(), repeating: 1.0)
+        codeTimer.setEventHandler { [weak self] in
+            guard let strongSelf = self else {
                 codeTimer.cancel()
-                self.setTitle(title, for: .normal)
-                // 清理计时器引用
-                objc_setAssociatedObject(self, "timerKey", nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return
+            }
+            
+            strongSelf.currentTime -= 1
+            
+            if strongSelf.currentTime > 0 {
+                strongSelf.setTitle("\(strongSelf.startTitle)\(strongSelf.currentTime)s", for: .normal)
+                strongSelf.isEnabled = false
+            } else {
+                strongSelf.timerStop()
+                strongSelf.setTitle(strongSelf.endTitle, for: .normal)
+                strongSelf.isEnabled = true
+                completion?()
             }
         }
         codeTimer.resume()
     }
-    
+
     /// 停止倒计时
     func timerStop() {
-        if let timer = objc_getAssociatedObject(self, "timerKey") as? DispatchSourceTimer {
+        guard isTimerRunning else { return }
+        
+        if let timer = objc_getAssociatedObject(self, AssociatedKeys.kTimerKey) as? DispatchSourceTimer {
             timer.cancel()
-            objc_setAssociatedObject(self, "timerKey", nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AssociatedKeys.kTimerKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
+        
+        // 清理所有关联对象
+        objc_setAssociatedObject(self, AssociatedKeys.kTimeKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, AssociatedKeys.kStartTitleKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, AssociatedKeys.kEndTitleKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, AssociatedKeys.kIsRunningKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        
+        isTimerRunning = false
+    }
+    
+    /// 暂停倒计时
+    func timerPause() {
+        guard isTimerRunning else { return }
+        
+        if let timer = objc_getAssociatedObject(self, AssociatedKeys.kTimerKey) as? DispatchSourceTimer {
+            timer.suspend()
+        }
+    }
+    
+    /// 恢复倒计时
+    func timerResume() {
+        guard isTimerRunning else { return }
+        
+        if let timer = objc_getAssociatedObject(self, AssociatedKeys.kTimerKey) as? DispatchSourceTimer {
+            timer.resume()
+        }
+    }
+    
+    /// 重置倒计时到指定时间
+    /// - Parameter interval: 新的倒计时时间
+    func timerReset(_ interval: Int) {
+        guard interval > 0 else { return }
+        
+        timerStop()
+        timerStart(interval, startTitle: startTitle, endTitle: endTitle)
+    }
+    
+    /// 获取剩余时间
+    var remainingTime: Int {
+        return currentTime
+    }
+    
+    /// 检查计时器状态
+    var timerStatus: TimerStatus {
+        if isTimerRunning {
+            return .running(remainingTime: currentTime)
+        } else {
+            return .stopped
+        }
+    }
+}
+
+
+public enum TimerStatus {
+    case running(remainingTime: Int)
+    case stopped
+}
+
+public extension UIButton {
+    /// 快速启动验证码倒计时
+    /// - Parameters:
+    ///   - seconds: 倒计时秒数
+    ///   - completion: 完成回调
+    func startVerificationCodeTimer(seconds: Int = 60, completion: (() -> Void)? = nil) {
+        timerStart(seconds, startTitle: "剩余", endTitle: "重新获取", completion: completion)
+    }
+    
+    /// 启动自定义倒计时
+    /// - Parameters:
+    ///   - seconds: 倒计时秒数
+    ///   - format: 时间格式，支持 %d 占位符
+    ///   - completion: 完成回调
+    func startCustomTimer(
+        seconds: Int,
+        format: String = "剩余%d秒",
+        completion: (() -> Void)? = nil
+    ) {
+        let startTitle = String(format: format, seconds)
+        let endTitle = "完成"
+        timerStart(seconds, startTitle: startTitle, endTitle: endTitle, completion: completion)
     }
 }
