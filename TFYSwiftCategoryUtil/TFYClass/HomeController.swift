@@ -183,7 +183,7 @@ class HomeController: UIViewController {
         demoButton.translatesAutoresizingMaskIntoConstraints = false
         
         demoButton.addTarget(self, action: #selector(collectionViewDemoTapped), for: .touchUpInside)
-        demoButton.tfy_setGradientBackground(direction: .level, colors: [.red,.yellow,.black],cornerRadius: 12)
+        demoButton.tfy_setGradientBackground(direction: .level, colors: [.tfy.random,.tfy.random,.tfy.random],cornerRadius: 12)
         stackView.addArrangedSubview(demoButton)
         
         demoButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -199,7 +199,7 @@ class HomeController: UIViewController {
         cacheButton.translatesAutoresizingMaskIntoConstraints = false
         
         cacheButton.addTarget(self, action: #selector(cacheDemoTapped), for: .touchUpInside)
-        cacheButton.tfy_setGradientBackground(direction: .vertical, colors: [.blue,.orange,.purple],cornerRadius: 12)
+        cacheButton.tfy_setGradientBackground(direction: .vertical, colors: [.tfy.random,.tfy.random,.tfy.random],cornerRadius: 12)
         stackView.addArrangedSubview(cacheButton)
         
         cacheButton.heightAnchor.constraint(equalToConstant: 60).isActive = true

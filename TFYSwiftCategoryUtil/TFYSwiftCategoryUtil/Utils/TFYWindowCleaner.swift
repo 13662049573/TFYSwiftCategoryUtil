@@ -186,6 +186,10 @@ public class CleanBuilder {
 // MARK: - 主导航工具类
 public class TFYWindowCleaner {
     
+    // MARK: - 私有属性
+    private static var isCleaning = false
+    private static let cleaningQueue = DispatchQueue(label: "com.tfy.windowcleaner", qos: .userInitiated)
+    
     // MARK: - 公共API
     
     /// 清理所有window
@@ -268,6 +272,17 @@ public class TFYWindowCleaner {
         performClean(on: currentWindow, config: config)
     }
     
+    /// 取消当前清理操作
+    public static func cancelCleaning() {
+        isCleaning = false
+        print("TFYWindowCleaner: 清理操作已取消")
+    }
+    
+    /// 检查是否正在清理
+    public static var isCurrentlyCleaning: Bool {
+        return isCleaning
+    }
+    
     // MARK: - 私有方法
     
     /// 获取所有window
@@ -315,17 +330,7 @@ public class TFYWindowCleaner {
     
     /// 判断是否为背景视图
     private static func isBackgroundView(_ view: UIView) -> Bool {
-        // 检查视图的特征来判断是否为背景视图
-        let frame = view.frame
-        let windowFrame = view.window?.frame ?? .zero
-        
-        // 背景视图通常覆盖整个屏幕
-        if frame.size.width >= windowFrame.size.width * 0.9 &&
-           frame.size.height >= windowFrame.size.height * 0.9 {
-            return true
-        }
-        
-        // 检查视图的用途标签
+        // 检查视图的用途标签（优先级最高，性能最好）
         if view.tag == 1001 || view.tag == 1002 { // 常见的背景视图标签
             return true
         }
@@ -336,22 +341,18 @@ public class TFYWindowCleaner {
             return true
         }
         
-        return false
+        // 检查视图的特征来判断是否为背景视图（性能较低，最后检查）
+        let frame = view.frame
+        let windowFrame = view.window?.frame ?? .zero
+        
+        // 背景视图通常覆盖整个屏幕
+        return frame.size.width >= windowFrame.size.width * 0.9 &&
+               frame.size.height >= windowFrame.size.height * 0.9
     }
     
     /// 判断是否为覆盖视图
     private static func isOverlayView(_ view: UIView) -> Bool {
-        // 检查视图的特征来判断是否为覆盖视图
-        let frame = view.frame
-        let windowFrame = view.window?.frame ?? .zero
-        
-        // 覆盖视图通常覆盖部分或全部屏幕
-        if frame.size.width >= windowFrame.size.width * 0.8 ||
-           frame.size.height >= windowFrame.size.height * 0.8 {
-            return true
-        }
-        
-        // 检查视图的用途标签
+        // 检查视图的用途标签（优先级最高，性能最好）
         if view.tag == 2001 || view.tag == 2002 { // 常见的覆盖视图标签
             return true
         }
@@ -362,16 +363,49 @@ public class TFYWindowCleaner {
             return true
         }
         
-        return false
+        // 检查视图的特征来判断是否为覆盖视图（性能较低，最后检查）
+        let frame = view.frame
+        let windowFrame = view.window?.frame ?? .zero
+        
+        // 覆盖视图通常覆盖部分或全部屏幕
+        return frame.size.width >= windowFrame.size.width * 0.8 ||
+               frame.size.height >= windowFrame.size.height * 0.8
     }
     
     /// 判断是否为背景或覆盖视图
     private static func isBackgroundOrOverlayView(_ view: UIView) -> Bool {
-        return isBackgroundView(view) || isOverlayView(view)
+        // 先检查标签，性能最好
+        if view.tag == 1001 || view.tag == 1002 || view.tag == 2001 || view.tag == 2002 {
+            return true
+        }
+        
+        // 再检查类名
+        let className = NSStringFromClass(type(of: view))
+        if className.contains("Background") || className.contains("BG") ||
+           className.contains("Overlay") || className.contains("Modal") || className.contains("Popup") {
+            return true
+        }
+        
+        // 最后检查尺寸特征
+        let frame = view.frame
+        let windowFrame = view.window?.frame ?? .zero
+        
+        return frame.size.width >= windowFrame.size.width * 0.8 ||
+               frame.size.height >= windowFrame.size.height * 0.8
     }
     
     /// 执行清理操作
     private static func performClean(on window: UIWindow, config: CleanConfig) {
+        // 检查是否正在清理
+        guard !isCleaning else {
+            print("TFYWindowCleaner: 清理操作正在进行中，请稍后再试")
+            config.completion?()
+            return
+        }
+        
+        // 设置清理状态
+        isCleaning = true
+        
         DispatchQueue.main.async {
             // 解析清理类型
             let cleanTypes = parseCleanTypes(config.cleanTypes)
@@ -405,8 +439,9 @@ public class TFYWindowCleaner {
                 cleanRootController(on: window, animated: config.animated, duration: config.animationDuration)
             }
             
-            // 执行完成回调
+            // 执行完成回调并重置状态
             DispatchQueue.main.asyncAfter(deadline: .now() + config.animationDuration) {
+                isCleaning = false
                 config.completion?()
             }
         }
@@ -553,6 +588,17 @@ public class TFYWindowCleaner {
     
     /// 清理模态控制器
     private static func cleanModalControllers(on window: UIWindow, animated: Bool, duration: TimeInterval) {
+        cleanModalControllersRecursively(on: window, animated: animated, duration: duration, currentDepth: 0, maxDepth: 10)
+    }
+    
+    /// 递归清理模态控制器（带深度控制）
+    private static func cleanModalControllersRecursively(on window: UIWindow, animated: Bool, duration: TimeInterval, currentDepth: Int, maxDepth: Int) {
+        // 防止递归过深
+        guard currentDepth < maxDepth else {
+            print("TFYWindowCleaner: 模态控制器清理达到最大递归深度: \(maxDepth)")
+            return
+        }
+        
         var currentVC = window.rootViewController
         
         // 找到最顶层的模态控制器
@@ -564,7 +610,7 @@ public class TFYWindowCleaner {
         if let topVC = currentVC, topVC != window.rootViewController {
             topVC.dismiss(animated: animated) {
                 // 递归清理，确保所有模态控制器都被关闭
-                cleanModalControllers(on: window, animated: animated, duration: duration)
+                cleanModalControllersRecursively(on: window, animated: animated, duration: duration, currentDepth: currentDepth + 1, maxDepth: maxDepth)
             }
         }
     }
@@ -679,7 +725,7 @@ public class TFYWindowCleaner {
         DispatchQueue.main.async {
             // 查找并清理指定类型的控制器
             if let rootVC = window.rootViewController {
-                cleanControllersRecursively(rootVC, ofType: controllerType, animated: config.animated)
+                cleanControllersRecursively(rootVC, ofType: controllerType, animated: config.animated, currentDepth: 0, maxDepth: 10)
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + config.animationDuration) {
@@ -688,8 +734,14 @@ public class TFYWindowCleaner {
         }
     }
     
-    /// 递归清理控制器
-    private static func cleanControllersRecursively<T: UIViewController>(_ viewController: UIViewController, ofType controllerType: T.Type, animated: Bool) {
+    /// 递归清理控制器（带深度控制）
+    private static func cleanControllersRecursively<T: UIViewController>(_ viewController: UIViewController, ofType controllerType: T.Type, animated: Bool, currentDepth: Int, maxDepth: Int) {
+        // 防止递归过深
+        guard currentDepth < maxDepth else {
+            print("TFYWindowCleaner: 控制器清理达到最大递归深度: \(maxDepth)")
+            return
+        }
+        
         // 检查当前控制器
         if viewController.isKind(of: controllerType) {
             // 如果是模态控制器，关闭它
@@ -707,17 +759,17 @@ public class TFYWindowCleaner {
         // 递归检查子控制器
         if let navController = viewController as? UINavigationController {
             for childVC in navController.viewControllers {
-                cleanControllersRecursively(childVC, ofType: controllerType, animated: animated)
+                cleanControllersRecursively(childVC, ofType: controllerType, animated: animated, currentDepth: currentDepth + 1, maxDepth: maxDepth)
             }
         } else if let tabController = viewController as? UITabBarController {
             for childVC in tabController.viewControllers ?? [] {
-                cleanControllersRecursively(childVC, ofType: controllerType, animated: animated)
+                cleanControllersRecursively(childVC, ofType: controllerType, animated: animated, currentDepth: currentDepth + 1, maxDepth: maxDepth)
             }
         }
         
         // 检查模态控制器
         if let presentedVC = viewController.presentedViewController {
-            cleanControllersRecursively(presentedVC, ofType: controllerType, animated: animated)
+            cleanControllersRecursively(presentedVC, ofType: controllerType, animated: animated, currentDepth: currentDepth + 1, maxDepth: maxDepth)
         }
     }
 }
@@ -734,8 +786,6 @@ public extension UIWindow {
     /// 深度清理当前window
     /// - Returns: 清理构建器
     func deepClean() -> CleanBuilder {
-        var config = CleanConfig()
-        config.cleanTypes = [.all]
         return CleanBuilder(window: self).withCleanTypes([.all])
     }
     
@@ -762,5 +812,117 @@ public extension UIApplication {
     /// - Returns: 清理构建器
     func cleanCurrentWindow() -> CleanBuilder {
         return TFYWindowCleaner.cleanCurrentWindow()
+    }
+}
+
+// MARK: - 错误处理扩展
+public extension TFYWindowCleaner {
+    
+    /// 安全清理window（带错误处理）
+    /// - Parameters:
+    ///   - window: 要清理的window
+    ///   - config: 清理配置
+    ///   - errorHandler: 错误处理回调
+    static func safeCleanWindow(_ window: UIWindow, config: CleanConfig = CleanConfig(), errorHandler: @escaping (Error) -> Void) {
+        DispatchQueue.main.async {
+            do {
+                // 验证window状态
+                guard window.isKeyWindow || window.isHidden == false else {
+                    throw CleanError.invalidWindowState
+                }
+                
+                // 执行清理
+                performClean(on: window, config: config)
+                
+            } catch {
+                errorHandler(error)
+            }
+        }
+    }
+    
+    /// 批量安全清理windows
+    /// - Parameters:
+    ///   - windows: 要清理的windows数组
+    ///   - config: 清理配置
+    ///   - progressHandler: 进度回调
+    ///   - completion: 完成回调
+    ///   - errorHandler: 错误处理回调
+    static func safeCleanWindows(_ windows: [UIWindow], config: CleanConfig = CleanConfig(), progressHandler: @escaping (Int, Int) -> Void, completion: @escaping () -> Void, errorHandler: @escaping (Error) -> Void) {
+        DispatchQueue.main.async {
+            let totalCount = windows.count
+            var completedCount = 0
+            var hasError = false
+            
+            for (_, window) in windows.enumerated() {
+                guard !hasError else { break }
+                
+                do {
+                    // 验证window状态
+                    guard window.isKeyWindow || window.isHidden == false else {
+                        throw CleanError.invalidWindowState
+                    }
+                    
+                    // 执行清理
+                    performClean(on: window, config: config)
+                    completedCount += 1
+                    
+                    // 报告进度
+                    progressHandler(completedCount, totalCount)
+                    
+                } catch {
+                    hasError = true
+                    errorHandler(error)
+                }
+            }
+            
+            if !hasError {
+                completion()
+            }
+        }
+    }
+}
+
+// MARK: - 清理错误类型
+public enum CleanError: Error, LocalizedError {
+    case invalidWindowState
+    case recursionDepthExceeded
+    case operationCancelled
+    case unknownError
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidWindowState:
+            return "无效的window状态"
+        case .recursionDepthExceeded:
+            return "递归深度超出限制"
+        case .operationCancelled:
+            return "操作被取消"
+        case .unknownError:
+            return "未知错误"
+        }
+    }
+}
+
+// MARK: - 性能监控扩展
+public extension TFYWindowCleaner {
+    
+    /// 带性能监控的清理
+    /// - Parameters:
+    ///   - window: 要清理的window
+    ///   - config: 清理配置
+    ///   - performanceHandler: 性能监控回调
+    static func cleanWithPerformanceMonitoring(_ window: UIWindow, config: CleanConfig = CleanConfig(), performanceHandler: @escaping (TimeInterval, Int) -> Void) {
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
+        DispatchQueue.main.async {
+            // 执行清理
+            performClean(on: window, config: config)
+            
+            let endTime = CFAbsoluteTimeGetCurrent()
+            let duration = endTime - startTime
+            let subviewCount = window.subviews.count
+            
+            performanceHandler(duration, subviewCount)
+        }
     }
 } 

@@ -12,6 +12,8 @@
 //  - 展示链式调用和配置选项
 //  - 展示动画清理效果
 //  - 展示内存清理和重置功能
+//  - 展示错误处理和性能监控
+//  - 展示批量清理和状态管理
 //
 
 import UIKit
@@ -23,6 +25,7 @@ class WindowCleanerDemoController: UIViewController {
     private let contentView = UIView()
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let statusLabel = UILabel()
     
     // MARK: - 按钮数组
     private var buttons: [UIButton] = []
@@ -30,12 +33,21 @@ class WindowCleanerDemoController: UIViewController {
     // MARK: - 测试视图
     private var testViews: [UIView] = []
     
+    // MARK: - 定时器
+    private var statusUpdateTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupNavigationBar()
         createDemoButtons()
         addTestViews()
+        startStatusUpdates()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopStatusUpdates()
     }
     
     // MARK: - UI设置
@@ -77,7 +89,7 @@ class WindowCleanerDemoController: UIViewController {
         ])
         
         // 设置描述
-        descriptionLabel.text = "演示TFYWindowCleaner的各种功能，包括清理子视图、模态控制器、导航栈等"
+        descriptionLabel.text = "演示TFYWindowCleaner的各种功能，包括清理子视图、模态控制器、导航栈、错误处理、性能监控等"
         descriptionLabel.font = .systemFont(ofSize: 16)
         descriptionLabel.textAlignment = .center
         descriptionLabel.textColor = .secondaryLabel
@@ -89,6 +101,23 @@ class WindowCleanerDemoController: UIViewController {
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
+        
+        // 设置状态标签
+        statusLabel.text = "状态: 准备就绪"
+        statusLabel.font = .systemFont(ofSize: 14)
+        statusLabel.textAlignment = .center
+        statusLabel.textColor = .systemGreen
+        statusLabel.backgroundColor = .systemGray6
+        statusLabel.layer.cornerRadius = 6
+        statusLabel.layer.masksToBounds = true
+        contentView.addSubview(statusLabel)
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            statusLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 15),
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            statusLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
     }
     
     private func setupNavigationBar() {
@@ -99,6 +128,24 @@ class WindowCleanerDemoController: UIViewController {
             target: self,
             action: #selector(addMoreTestViews)
         )
+    }
+    
+    // MARK: - 状态更新
+    private func startStatusUpdates() {
+        statusUpdateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.updateStatus()
+        }
+    }
+    
+    private func stopStatusUpdates() {
+        statusUpdateTimer?.invalidate()
+        statusUpdateTimer = nil
+    }
+    
+    private func updateStatus() {
+        let isCleaning = TFYWindowCleaner.isCurrentlyCleaning
+        statusLabel.text = isCleaning ? "状态: 正在清理..." : "状态: 准备就绪"
+        statusLabel.textColor = isCleaning ? .systemOrange : .systemGreen
     }
     
     // MARK: - 创建演示按钮
@@ -113,7 +160,12 @@ class WindowCleanerDemoController: UIViewController {
             "7. 深度清理",
             "8. 重置Window",
             "9. 动画清理演示",
-            "10. 内存清理演示"
+            "10. 内存清理演示",
+            "11. 安全清理（带错误处理）",
+            "12. 批量清理Windows",
+            "13. 性能监控清理",
+            "14. 取消清理操作",
+            "15. 清理特定类型控制器"
         ]
         
         var lastButton: UIButton?
@@ -132,7 +184,7 @@ class WindowCleanerDemoController: UIViewController {
             if let lastButton = lastButton {
                 button.topAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 15).isActive = true
             } else {
-                button.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 30).isActive = true
+                button.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 30).isActive = true
             }
             
             lastButton = button
@@ -243,6 +295,16 @@ class WindowCleanerDemoController: UIViewController {
             demonstrateAnimatedClean()
         case 9:
             demonstrateMemoryClean()
+        case 10:
+            demonstrateSafeClean()
+        case 11:
+            demonstrateBatchClean()
+        case 12:
+            demonstratePerformanceMonitoringClean()
+        case 13:
+            demonstrateCancelCleaning()
+        case 14:
+            demonstrateCleanSpecificControllers()
         default:
             break
         }
@@ -300,8 +362,6 @@ class WindowCleanerDemoController: UIViewController {
             .execute()
     }
     
-
-    
     /// 演示清理模态控制器
     private func demonstrateCleanModalControllers() {
         // 先添加一个模态控制器
@@ -319,8 +379,6 @@ class WindowCleanerDemoController: UIViewController {
             }
         }
     }
-    
-
     
     /// 演示深度清理
     private func demonstrateDeepClean() {
@@ -347,8 +405,6 @@ class WindowCleanerDemoController: UIViewController {
             TFYWindowCleaner.resetWindow(window, to: newRootVC, config: config)
         }
     }
-    
-
     
     /// 演示动画清理
     private func demonstrateAnimatedClean() {
@@ -377,7 +433,82 @@ class WindowCleanerDemoController: UIViewController {
         }
     }
     
+    /// 演示安全清理（带错误处理）
+    private func demonstrateSafeClean() {
+        if let window = getCurrentWindow() {
+            TFYWindowCleaner.safeCleanWindow(window, errorHandler: { error in
+                self.showAlert(title: "清理错误", message: "清理过程中发生错误: \(error.localizedDescription)")
+            })
+        }
+    }
+    
+    /// 演示批量清理Windows
+    private func demonstrateBatchClean() {
+        let windows = getAllWindows()
+        
+        TFYWindowCleaner.safeCleanWindows(
+            windows,
+            progressHandler: { completed, total in
+                print("批量清理进度: \(completed)/\(total)")
+            },
+            completion: {
+                self.showAlert(title: "批量清理完成", message: "已成功清理 \(windows.count) 个Window")
+            },
+            errorHandler: { error in
+                self.showAlert(title: "批量清理错误", message: "批量清理过程中发生错误: \(error.localizedDescription)")
+            }
+        )
+    }
+    
+    /// 演示性能监控清理
+    private func demonstratePerformanceMonitoringClean() {
+        if let window = getCurrentWindow() {
+            TFYWindowCleaner.cleanWithPerformanceMonitoring(window) { duration, subviewCount in
+                let message = String(format: "清理耗时: %.3f秒\n清理前子视图数量: %d", duration, subviewCount)
+                self.showAlert(title: "性能监控结果", message: message)
+            }
+        }
+    }
+    
+    /// 演示取消清理操作
+    private func demonstrateCancelCleaning() {
+        if TFYWindowCleaner.isCurrentlyCleaning {
+            TFYWindowCleaner.cancelCleaning()
+            showAlert(title: "操作已取消", message: "清理操作已被取消")
+        } else {
+            showAlert(title: "无需取消", message: "当前没有正在进行的清理操作")
+        }
+    }
+    
+    /// 演示清理特定类型控制器
+    private func demonstrateCleanSpecificControllers() {
+        if let window = getCurrentWindow() {
+            // 先添加一个测试控制器
+            let testVC = TestViewController()
+            window.rootViewController = testVC
+            
+            // 延迟后清理特定类型的控制器
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                var config = CleanConfig()
+                config.completion = {
+                    self.showAlert(title: "特定控制器清理完成", message: "已清理所有TestViewController类型的控制器")
+                }
+                TFYWindowCleaner.cleanControllers(window, ofType: TestViewController.self, config: config)
+            }
+        }
+    }
+    
     // MARK: - 辅助方法
+    
+    private func getAllWindows() -> [UIWindow] {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+        } else {
+            return UIApplication.shared.windows
+        }
+    }
     
     private func createTestModalController() -> UIViewController {
         let vc = UIViewController()
