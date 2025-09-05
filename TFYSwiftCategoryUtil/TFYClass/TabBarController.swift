@@ -41,7 +41,7 @@ class TabBarController: UITabBarController {
         )
         let adaptiveNav = UINavigationController(rootViewController: adaptiveVC)
         
-        let windowCleanerVC = WindowCleanerDemoController()
+        let windowCleanerVC = MultilingualClickTestController()
         windowCleanerVC.tabBarItem = UITabBarItem(
             title: "清理", 
             image: UIImage(systemName: "trash.circle"), 

@@ -334,9 +334,9 @@ public extension UILabel {
         guard !text.isEmpty else { return }
 
         let targetAttributedString = attributedString ?? NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
-        let options: NSString.CompareOptions = [.caseInsensitive, .backwards, .diacriticInsensitive, .widthInsensitive]
-        let textRange = NSString(string: self.text ?? "").range(of: text, options: options)
 
+        let textRange = findTextRangeInString(text, in: self.text ?? "")
+        
         if textRange.location != NSNotFound {
             targetAttributedString.addAttribute(key, value: value, range: textRange)
         }
@@ -344,5 +344,29 @@ public extension UILabel {
         if attributedString == nil {
             attributedText = targetAttributedString
         }
+    }
+    
+    private func findTextRangeInString(_ searchText: String, in fullText: String) -> NSRange {
+        // 首先尝试精确匹配
+        let exactRange = (fullText as NSString).range(of: searchText)
+        if exactRange.location != NSNotFound {
+            return exactRange
+        }
+        
+        // 如果精确匹配失败，尝试忽略大小写和变音符号
+        let searchOptions: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive, .widthInsensitive]
+        let insensitiveRange = (fullText as NSString).range(of: searchText, options: searchOptions)
+        if insensitiveRange.location != NSNotFound {
+            return insensitiveRange
+        }
+        
+        // 对于阿拉伯语等RTL语言，尝试反向搜索
+        let reverseOptions: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive, .widthInsensitive, .backwards]
+        let reverseRange = (fullText as NSString).range(of: searchText, options: reverseOptions)
+        if reverseRange.location != NSNotFound {
+            return reverseRange
+        }
+        
+        return NSRange(location: NSNotFound, length: 0)
     }
 }
