@@ -419,6 +419,7 @@ class MultilingualClickTestController: UIViewController {
                 self?.handleClickResult(language: language, key: key, value: value)
             }
             .clickHighlight(color: .systemBlue.withAlphaComponent(0.3), duration: 0.2)
+            .debugMode()
     }
     
     

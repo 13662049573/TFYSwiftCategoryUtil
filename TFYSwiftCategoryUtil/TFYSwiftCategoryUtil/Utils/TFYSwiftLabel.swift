@@ -90,45 +90,6 @@ public enum TFYSwiftLabelError: Error, LocalizedError {
     }
 }
 
-/// 支持多语言点击检测的独立Label类
-///
-/// 这是一个功能强大的UILabel子类，支持多语言文本的点击检测和高亮显示。
-/// 它提供了智能的文本匹配算法、缓存机制、性能监控等高级功能。
-///
-/// ## 主要特性
-/// - **多语言支持**: 支持中文、英文、阿拉伯语、泰语、韩语、日语、俄语、法语、德语等
-/// - **智能匹配**: 提供精确匹配、忽略大小写匹配、部分匹配和智能匹配策略
-/// - **RTL支持**: 完全支持从右到左的语言显示和点击检测
-/// - **高亮效果**: 支持背景色、文字颜色、下划线和边框等多种高亮样式
-/// - **链式调用**: 提供便捷的链式调用API，代码简洁易读
-/// - **性能优化**: 内置智能缓存机制，提升性能
-/// - **内存管理**: 自动处理内存警告，优化内存使用
-/// - **调试支持**: 内置调试模式，便于开发和测试
-/// - **性能监控**: 提供性能统计和监控功能
-///
-/// ## 使用示例
-/// ```swift
-/// let label = TFYSwiftLabel()
-/// label.text = "点击这里查看详情"
-/// try label.setClickableTexts(
-///     ["点击这里": "detail_url"],
-///     textColors: [.systemBlue],
-///     callback: { text, link in
-///         print("点击了: \(text), 链接: \(link ?? "")")
-///     }
-/// )
-/// ```
-///
-/// ## 性能优化
-/// - 使用智能缓存减少重复计算
-/// - 内存警告时自动清理缓存
-/// - 支持性能监控和统计
-/// - 优化的文本匹配算法
-///
-/// ## 注意事项
-/// - 确保在设置可点击文本前设置text属性
-/// - 颜色数组长度应与可点击文本数量匹配
-/// - 建议在不需要时及时清理可点击文本以释放内存
 public class TFYSwiftLabel: UILabel {
     
     // MARK: - 常量定义
@@ -163,10 +124,10 @@ public class TFYSwiftLabel: UILabel {
     public var isClickDetectionEnabled: Bool = true
     
     /// 点击高亮样式
-    public var highlightStyle: TFYSwiftLabelHighlightStyle = .backgroundColor(UIColor.systemBlue.withAlphaComponent(Self.defaultHighlightAlpha))
+    public var highlightStyle: TFYSwiftLabelHighlightStyle = .backgroundColor(UIColor.systemBlue.withAlphaComponent(0.3))
     
     /// 点击高亮持续时间
-    public var clickHighlightDuration: TimeInterval = Self.defaultHighlightDuration
+    public var clickHighlightDuration: TimeInterval = 0.2
     
     /// 文本匹配策略
     public var matchStrategy: TFYSwiftLabelMatchStrategy = .smart
@@ -297,7 +258,7 @@ public class TFYSwiftLabel: UILabel {
     /// - Parameters:
     ///   - color: 高亮颜色
     ///   - duration: 高亮持续时间
-    public func setClickHighlight(color: UIColor, duration: TimeInterval = Self.defaultHighlightDuration) {
+    public func setClickHighlight(color: UIColor, duration: TimeInterval = 0.2) {
         highlightStyle = .backgroundColor(color)
         clickHighlightDuration = duration
     }
@@ -306,7 +267,7 @@ public class TFYSwiftLabel: UILabel {
     /// - Parameters:
     ///   - style: 高亮样式
     ///   - duration: 高亮持续时间
-    public func setClickHighlight(style: TFYSwiftLabelHighlightStyle, duration: TimeInterval = Self.defaultHighlightDuration) {
+    public func setClickHighlight(style: TFYSwiftLabelHighlightStyle, duration: TimeInterval = 0.2) {
         highlightStyle = style
         clickHighlightDuration = duration
     }
@@ -387,6 +348,10 @@ public class TFYSwiftLabel: UILabel {
         cachedAttributedString = attributedString
         
         isUpdatingAttributedText = false
+        
+        if debugMode {
+            print("📝 富文本已更新，文本长度: \(text.count)")
+        }
     }
     
     /// 查找文本在字符串中的所有范围
@@ -477,7 +442,7 @@ public class TFYSwiftLabel: UILabel {
     ///   - ranges: 匹配范围数组
     private func updateTextMatchCache(key: String, fullText: String, ranges: [NSRange]) {
         // 检查缓存大小，如果超过限制则清理
-        if textMatchCache.count >= Self.maxCacheSize {
+        if textMatchCache.count >= 100 {
             // 清理最旧的缓存项（简单的FIFO策略）
             let oldestKey = textMatchCache.keys.first
             if let oldestKey = oldestKey {
@@ -561,7 +526,7 @@ public class TFYSwiftLabel: UILabel {
         
         // 设置基础属性
         let range = NSRange(location: 0, length: text.count)
-        attributedString.addAttribute(.font, value: font ?? UIFont.systemFont(ofSize: Self.defaultFontSize), range: range)
+        attributedString.addAttribute(.font, value: font ?? UIFont.systemFont(ofSize: 16.0), range: range)
         attributedString.addAttribute(.foregroundColor, value: textColor ?? .label, range: range)
         
         // 应用文本颜色
@@ -666,7 +631,19 @@ public class TFYSwiftLabel: UILabel {
     private func restoreOriginalAttributes(to attributedString: NSMutableAttributedString, 
                                         originalAttributes: [String: [NSRange: Any]], 
                                         ranges: [NSRange]) {
-        for range in ranges {
+        // 验证范围有效性
+        let textLength = attributedString.length
+        let validRanges = ranges.filter { range in
+            range.location != NSNotFound && 
+            range.location >= 0 && 
+            range.location + range.length <= textLength
+        }
+        
+        if debugMode {
+            print("🔄 开始恢复属性，有效范围数量: \(validRanges.count)/\(ranges.count)")
+        }
+        
+        for range in validRanges {
             // 恢复背景色
             if let backgroundColorMap = originalAttributes["backgroundColor"],
                let originalColor = backgroundColorMap[range] as? UIColor {
@@ -799,8 +776,16 @@ public class TFYSwiftLabel: UILabel {
         textContainer.size = bounds.size
         layoutManager.ensureLayout(for: textContainer)
         
-        // 计算点击位置的字符索引
-        let characterIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        // 计算点击位置的字符索引 - 改进版本
+        var characterIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        // 如果字符索引无效，尝试使用字形索引
+        if characterIndex == NSNotFound {
+            let glyphIndex = layoutManager.glyphIndex(for: location, in: textContainer, fractionOfDistanceThroughGlyph: nil)
+            if glyphIndex != NSNotFound {
+                characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
+            }
+        }
         
         // 确保字符索引在有效范围内
         let safeCharacterIndex = min(max(characterIndex, 0), text.count - 1)
@@ -824,6 +809,7 @@ public class TFYSwiftLabel: UILabel {
             }
         }
         
+        // 使用改进的点击检测方法
         if characterIndex != NSNotFound {
             // 检查点击位置是否在可点击文本范围内
             for (clickableText, link) in clickableTexts {
@@ -842,12 +828,255 @@ public class TFYSwiftLabel: UILabel {
                     return (clickableText, link)
                 }
             }
-        } else {
+        }
+        
+        // 如果字符索引方法失败，使用备用方法：检查点击位置是否在文本范围内
+        if characterIndex == NSNotFound || !isClickInAnyTextRange(location: location, layoutManager: layoutManager, textContainer: textContainer) {
             if debugMode {
-                print("❌ 无法计算字符索引")
+                print("❌ 无法计算字符索引或点击位置不在文本范围内")
+            }
+            return nil
+        }
+        
+        // 备用检测方法：使用文本范围检查
+        if let result = detectClickedTextByRange(location: location, layoutManager: layoutManager, textContainer: textContainer) {
+            return result
+        }
+        
+        return nil
+    }
+    
+    /// 检查点击位置是否在任何文本范围内
+    private func isClickInAnyTextRange(location: CGPoint, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> Bool {
+        let glyphRange = layoutManager.glyphRange(for: textContainer)
+        if glyphRange.location != NSNotFound && glyphRange.length > 0 {
+            let boundingRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+            return boundingRect.contains(location)
+        }
+        return false
+    }
+    
+    /// 备用检测方法：使用文本范围检查
+    private func detectClickedTextByRange(location: CGPoint, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> (String, String?)? {
+        guard let text = text, !text.isEmpty else { return nil }
+        
+        // 遍历所有可点击文本，检查点击位置是否在其范围内
+        for (clickableText, link) in clickableTexts {
+            let ranges = findTextRangesWithCache(clickableText, in: text, exactMatch: true)
+            
+            for range in ranges {
+                // 获取文本范围的边界矩形
+                let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+                if glyphRange.location != NSNotFound && glyphRange.length > 0 {
+                    let boundingRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+                    
+                    if debugMode {
+                        print("🔍 备用检测 - 文本: '\(clickableText)', 范围: \(range), 边界: \(boundingRect)")
+                        print("🎯 点击位置: \(location), 边界包含: \(boundingRect.contains(location))")
+                    }
+                    
+                    // 使用更宽松的点击检测，考虑文本的点击区域
+                    if isClickInTextRange(location: location, boundingRect: boundingRect, text: clickableText) {
+                        if debugMode {
+                            print("✅ 备用检测成功 - 找到匹配的点击文本: '\(clickableText)'")
+                        }
+                        return (clickableText, link)
+                    }
+                }
             }
         }
         
+        // 如果精确匹配失败，尝试智能匹配
+        if let result = detectClickedTextBySmartMatch(location: location, layoutManager: layoutManager, textContainer: textContainer) {
+            return result
+        }
+        
+        // 最后尝试：使用多语言兼容的检测方法
+        return detectClickedTextByMultilingualSupport(location: location, layoutManager: layoutManager, textContainer: textContainer)
+    }
+    
+    /// 检查点击位置是否在文本范围内（改进版本）
+    private func isClickInTextRange(location: CGPoint, boundingRect: CGRect, text: String) -> Bool {
+        // 添加点击容错区域
+        let clickTolerance: CGFloat = 10.0
+        let expandedRect = boundingRect.insetBy(dx: -clickTolerance, dy: -clickTolerance)
+        
+        // 检查点击位置是否在扩展的矩形内
+        let isInExpandedRect = expandedRect.contains(location)
+        
+        if debugMode {
+            print("🎯 点击检测 - 文本: '\(text)'")
+            print("📐 原始边界: \(boundingRect)")
+            print("📐 扩展边界: \(expandedRect)")
+            print("📍 点击位置: \(location)")
+            print("✅ 在扩展边界内: \(isInExpandedRect)")
+        }
+        
+        return isInExpandedRect
+    }
+    
+    /// 智能匹配检测方法
+    private func detectClickedTextBySmartMatch(location: CGPoint, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> (String, String?)? {
+        guard let text = text, !text.isEmpty else { return nil }
+        
+        // 获取点击位置附近的文本
+        let characterIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        if characterIndex == NSNotFound { return nil }
+        
+        if debugMode {
+            print("🔍 智能匹配 - 点击位置: \(location), 字符索引: \(characterIndex)")
+        }
+        
+        // 方法1: 在点击位置附近搜索可点击文本
+        let searchRadius = 100 // 增加搜索半径
+        let searchStart = max(0, characterIndex - searchRadius)
+        let searchLength = min(searchRadius * 2, text.count - searchStart)
+        let searchRange = NSRange(location: searchStart, length: searchLength)
+        
+        if debugMode {
+            print("🔍 智能匹配 - 搜索范围: \(searchRange)")
+        }
+        
+        for (clickableText, link) in clickableTexts {
+            // 在搜索范围内查找文本
+            let foundRange = (text as NSString).range(of: clickableText, options: [], range: searchRange)
+            if foundRange.location != NSNotFound {
+                // 检查点击位置是否在找到的范围内
+                if NSLocationInRange(characterIndex, foundRange) {
+                    if debugMode {
+                        print("✅ 智能匹配成功 - 找到匹配的点击文本: '\(clickableText)'")
+                    }
+                    return (clickableText, link)
+                }
+            }
+        }
+        
+        // 方法2: 使用距离最近的文本
+        return findNearestClickableText(location: location, layoutManager: layoutManager, textContainer: textContainer)
+    }
+    
+    /// 查找距离点击位置最近的可点击文本
+    private func findNearestClickableText(location: CGPoint, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> (String, String?)? {
+        guard let text = text, !text.isEmpty else { return nil }
+        
+        var nearestText: String?
+        var nearestLink: String?
+        var minDistance: CGFloat = CGFloat.greatestFiniteMagnitude
+        
+        for (clickableText, link) in clickableTexts {
+            let ranges = findTextRangesWithCache(clickableText, in: text, exactMatch: true)
+            
+            for range in ranges {
+                let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+                if glyphRange.location != NSNotFound && glyphRange.length > 0 {
+                    let boundingRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+                    
+                    // 计算点击位置到文本中心的距离
+                    let textCenter = CGPoint(x: boundingRect.midX, y: boundingRect.midY)
+                    let distance = sqrt(pow(location.x - textCenter.x, 2) + pow(location.y - textCenter.y, 2))
+                    
+                    if debugMode {
+                        print("🔍 距离检测 - 文本: '\(clickableText)', 中心: \(textCenter), 距离: \(distance)")
+                    }
+                    
+                    // 如果距离小于阈值，认为是有效点击
+                    let maxDistance: CGFloat = 50.0
+                    if distance < maxDistance && distance < minDistance {
+                        minDistance = distance
+                        nearestText = clickableText
+                        nearestLink = link
+                    }
+                }
+            }
+        }
+        
+        if let nearestText = nearestText {
+            if debugMode {
+                print("✅ 距离匹配成功 - 最近文本: '\(nearestText)', 距离: \(minDistance)")
+            }
+            return (nearestText, nearestLink)
+        }
+        
+        if debugMode {
+            print("❌ 智能匹配失败 - 未找到匹配的文本")
+        }
+        return nil
+    }
+    
+    /// 多语言兼容的点击检测方法
+    private func detectClickedTextByMultilingualSupport(location: CGPoint, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> (String, String?)? {
+        guard let text = text, !text.isEmpty else { return nil }
+        
+        if debugMode {
+            print("🌍 多语言检测 - 点击位置: \(location)")
+        }
+        
+        // 获取点击位置的行信息
+        let characterIndex = layoutManager.characterIndex(for: location, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        if characterIndex == NSNotFound { return nil }
+        
+        // 获取点击位置所在的行
+        let lineRange = layoutManager.lineFragmentRect(forGlyphAt: characterIndex, effectiveRange: nil)
+        
+        if debugMode {
+            print("📏 点击行范围: \(lineRange)")
+        }
+        
+        // 在该行中查找可点击文本
+        for (clickableText, link) in clickableTexts {
+            let ranges = findTextRangesWithCache(clickableText, in: text, exactMatch: true)
+            
+            for range in ranges {
+                // 检查文本是否在点击行附近
+                if range.location <= characterIndex && characterIndex <= range.location + range.length {
+                    if debugMode {
+                        print("✅ 多语言检测成功 - 找到匹配的点击文本: '\(clickableText)'")
+                    }
+                    return (clickableText, link)
+                }
+            }
+        }
+        
+        // 如果行内检测失败，使用更宽松的检测
+        return detectClickedTextByLooseMatch(location: location, characterIndex: characterIndex, layoutManager: layoutManager, textContainer: textContainer)
+    }
+    
+    /// 宽松匹配检测方法
+    private func detectClickedTextByLooseMatch(location: CGPoint, characterIndex: Int, layoutManager: NSLayoutManager, textContainer: NSTextContainer) -> (String, String?)? {
+        guard let text = text, !text.isEmpty else { return nil }
+        
+        if debugMode {
+            print("🔍 宽松匹配 - 字符索引: \(characterIndex)")
+        }
+        
+        // 在点击位置前后搜索可点击文本
+        let searchRadius = 200 // 更大的搜索半径
+        let searchStart = max(0, characterIndex - searchRadius)
+        let searchLength = min(searchRadius * 2, text.count - searchStart)
+        let searchRange = NSRange(location: searchStart, length: searchLength)
+        
+        for (clickableText, link) in clickableTexts {
+            let foundRange = (text as NSString).range(of: clickableText, options: [], range: searchRange)
+            if foundRange.location != NSNotFound {
+                // 检查点击位置是否在文本范围内或附近
+                let textStart = foundRange.location
+                let textEnd = foundRange.location + foundRange.length
+                let clickPosition = characterIndex
+                
+                // 允许一定的容错范围
+                let tolerance = 20
+                if clickPosition >= textStart - tolerance && clickPosition <= textEnd + tolerance {
+                    if debugMode {
+                        print("✅ 宽松匹配成功 - 找到匹配的点击文本: '\(clickableText)'")
+                    }
+                    return (clickableText, link)
+                }
+            }
+        }
+        
+        if debugMode {
+            print("❌ 宽松匹配失败 - 未找到匹配的文本")
+        }
         return nil
     }
     
@@ -966,7 +1195,7 @@ public class TFYSwiftLabel: UILabel {
         // 如果只有一个词，直接匹配
         if words.count == 1 {
             let word = words[0]
-            if word.count > Self.minWordLength { // 至少指定长度的字符
+            if word.count > 2 { // 至少指定长度的字符
                 let wordRange = (fullText as NSString).range(of: word, options: partialOptions, range: searchRange)
                 if wordRange.location != NSNotFound {
                     return wordRange
@@ -981,7 +1210,7 @@ public class TFYSwiftLabel: UILabel {
         
         for i in 0..<words.count {
             let word = words[i]
-            if word.count <= Self.minWordLength { continue } // 跳过过短的词
+            if word.count <= 2 { continue } // 跳过过短的词
             
             let wordRange = (fullText as NSString).range(of: word, options: partialOptions, range: searchRange)
             if wordRange.location != NSNotFound {
@@ -991,7 +1220,7 @@ public class TFYSwiftLabel: UILabel {
                 
                 for j in (i+1)..<words.count {
                     let nextWord = words[j]
-                    if nextWord.count <= Self.minWordLength { continue }
+                    if nextWord.count <= 2 { continue }
                     
                     // 在当前位置附近查找下一个词
                     let searchStart = currentRange.location + currentRange.length
@@ -1003,7 +1232,7 @@ public class TFYSwiftLabel: UILabel {
                         let actualLocation = searchStart + nextWordRange.location
                         let distance = actualLocation - (currentRange.location + currentRange.length)
                         
-                        if distance <= Self.maxMatchDistance { // 在指定距离内认为是连续的
+                        if distance <= 50 { // 在指定距离内认为是连续的
                             matchedWords += 1
                             currentRange = NSRange(location: currentRange.location, 
                                                 length: actualLocation + nextWordRange.length - currentRange.location)
@@ -1031,7 +1260,7 @@ public class TFYSwiftLabel: UILabel {
         // 5. 最后尝试：匹配最重要的词（通常是第一个或最长的词）
         let importantWords = words.sorted { $0.count > $1.count }
         for word in importantWords {
-            if word.count > Self.minImportantWordLength {
+            if word.count > 3 {
                 let wordRange = (fullText as NSString).range(of: word, options: partialOptions, range: searchRange)
                 if wordRange.location != NSNotFound {
                     return wordRange
@@ -1052,20 +1281,24 @@ public class TFYSwiftLabel: UILabel {
         let attributedString = NSMutableAttributedString(attributedString: self.attributedText ?? NSAttributedString(string: text))
         
         // 应用高亮效果
-        let originalAttributes = applyHighlightEffect(to: attributedString, for: clickedText, style: highlightStyle)
+        let _ = applyHighlightEffect(to: attributedString, for: clickedText, style: highlightStyle)
         
         // 更新显示
         self.attributedText = attributedString
         
-        // 延迟恢复
+        // 延迟恢复 - 直接重新创建富文本，这样更可靠
         DispatchQueue.main.asyncAfter(deadline: .now() + clickHighlightDuration) { [weak self] in
             guard let self = self else { return }
             
-            // 恢复原始属性
-            let ranges = self.findTextRangesWithCache(clickedText, in: text, exactMatch: true)
-            self.restoreOriginalAttributes(to: attributedString, originalAttributes: originalAttributes, ranges: ranges)
+            // 重新获取当前文本，确保一致性
+            guard let currentText = self.text, !currentText.isEmpty else { return }
             
-            self.attributedText = attributedString
+            // 直接重新创建富文本，这样会自动恢复原始样式
+            self.updateAttributedText()
+            
+            if self.debugMode {
+                print("🔄 高亮效果已恢复")
+            }
         }
     }
     
@@ -1097,14 +1330,14 @@ public extension TFYSwiftLabel {
     
     /// 便捷设置方法 - 点击高亮样式（颜色）
     @discardableResult
-    func clickHighlight(color: UIColor, duration: TimeInterval = Self.defaultHighlightDuration) -> Self {
+    func clickHighlight(color: UIColor, duration: TimeInterval = 0.2) -> Self {
         setClickHighlight(color: color, duration: duration)
         return self
     }
     
     /// 便捷设置方法 - 点击高亮样式（样式）
     @discardableResult
-    func clickHighlight(style: TFYSwiftLabelHighlightStyle, duration: TimeInterval = Self.defaultHighlightDuration) -> Self {
+    func clickHighlight(style: TFYSwiftLabelHighlightStyle, duration: TimeInterval = 0.2) -> Self {
         setClickHighlight(style: style, duration: duration)
         return self
     }
@@ -1135,8 +1368,8 @@ public extension TFYSwiftLabel {
     func reset() -> Self {
         clearTextLabelColors()
         isClickDetectionEnabled = true
-        highlightStyle = .backgroundColor(UIColor.systemBlue.withAlphaComponent(Self.defaultHighlightAlpha))
-        clickHighlightDuration = Self.defaultHighlightDuration
+        highlightStyle = .backgroundColor(UIColor.systemBlue.withAlphaComponent(0.3))
+        clickHighlightDuration = 0.2
         matchStrategy = .smart
         debugMode = false
         isPerformanceMonitoringEnabled = false
@@ -1152,13 +1385,13 @@ public extension TFYSwiftLabel {
     }
     
     /// 便捷设置方法 - 获取性能统计
-    func getPerformanceStats() -> (matchCount: Int, cacheHitCount: Int, cacheHitRate: Double) {
+    func getPerformanceStatistics() -> (matchCount: Int, cacheHitCount: Int, cacheHitRate: Double) {
         return getPerformanceStats()
     }
     
     /// 便捷设置方法 - 重置性能统计
     @discardableResult
-    func resetPerformanceStats() -> Self {
+    func resetPerformanceStatistics() -> Self {
         resetPerformanceStats()
         return self
     }
