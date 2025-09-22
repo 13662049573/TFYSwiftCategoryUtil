@@ -137,7 +137,7 @@
 		848339202E371130007D163E /* CacheDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483391F2E371130007D163E /* CacheDemoController.swift */; };
 		8490B3BA2E6A7A0600AA58B2 /* MultilingualClickTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8490B3B92E6A7A0600AA58B2 /* MultilingualClickTestController.swift */; };
 		8490B3BC2E6A929E00AA58B2 /* TFYSwiftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8490B3BB2E6A929E00AA58B2 /* TFYSwiftLabel.swift */; };
-		84D04FEA2E79786800FE72D2 /* TFYExecutionLimitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D04FE92E79785D00FE72D2 /* TFYExecutionLimitManager.swift */; };
+		84D04FEA2E79786800FE72D2 /* TFYLimitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D04FE92E79785D00FE72D2 /* TFYLimitManager.swift */; };
 		84DDF37D2E2A668D007405F5 /* content.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DDF37C2E2A668D007405F5 /* content.json */; };
 		84DDF3802E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF37F2E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift */; };
 		84DDF3812E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DDF37E2E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift */; };
@@ -327,7 +327,7 @@
 		8483391F2E371130007D163E /* CacheDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheDemoController.swift; sourceTree = "<group>"; };
 		8490B3B92E6A7A0600AA58B2 /* MultilingualClickTestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilingualClickTestController.swift; sourceTree = "<group>"; };
 		8490B3BB2E6A929E00AA58B2 /* TFYSwiftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftLabel.swift; sourceTree = "<group>"; };
-		84D04FE92E79785D00FE72D2 /* TFYExecutionLimitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYExecutionLimitManager.swift; sourceTree = "<group>"; };
+		84D04FE92E79785D00FE72D2 /* TFYLimitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYLimitManager.swift; sourceTree = "<group>"; };
 		84DDF37C2E2A668D007405F5 /* content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = content.json; sourceTree = "<group>"; };
 		84DDF37E2E2A6CD8007405F5 /* AutoSizingFlowLayoutDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingFlowLayoutDemoController.swift; sourceTree = "<group>"; };
 		84DDF37F2E2A6CD8007405F5 /* UICollectionViewAdaptiveDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdaptiveDemoController.swift; sourceTree = "<group>"; };
@@ -589,7 +589,7 @@
 		3612E15226475C4100476696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				84D04FE92E79785D00FE72D2 /* TFYExecutionLimitManager.swift */,
+				84D04FE92E79785D00FE72D2 /* TFYLimitManager.swift */,
 				8490B3BB2E6A929E00AA58B2 /* TFYSwiftLabel.swift */,
 				848337232E331BD7007D163E /* TFYSwiftCacheKit.swift */,
 				84449D7A2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift */,
@@ -970,7 +970,7 @@
 				3654780F283091B100E4DE22 /* WKEncoderUnkeyedContainer.swift in Sources */,
 				84DDF3832E2A6E87007405F5 /* CompositionalLayoutDemoController.swift in Sources */,
 				36FA19882941D6290099BB35 /* LocationPublisher.swift in Sources */,
-				84D04FEA2E79786800FE72D2 /* TFYExecutionLimitManager.swift in Sources */,
+				84D04FEA2E79786800FE72D2 /* TFYLimitManager.swift in Sources */,
 				36F283022834D87600460789 /* FileManager+Chain.swift in Sources */,
 				36DAFEF02787FF9D00D05EE1 /* UILabel+Chain.swift in Sources */,
 				36F2830C2834DC2D00460789 /* NumberFormatter+Chain.swift in Sources */,
