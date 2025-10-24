@@ -1,6 +1,7 @@
 import Foundation
 
 // 提取自 ZSUtils.swift 的执行限制管理工具，独立文件便于维护与复用
+// 提取自 ZSLimitManager.swift 的执行限制管理工具，独立文件便于维护与复用
 // 文件内统一的存储键前缀，集中管理，避免硬编码分散（fileprivate 以便同文件内多个 extension 访问）
 fileprivate enum ExecutionStorageKeyPrefix {
     static let count = "execution_count_"
@@ -19,6 +20,7 @@ fileprivate enum ExecutionShared {
 
 /// 执行限制管理器 - 支持每日、每周、每月等不同时间周期
 public enum TFYLimitManager {
+        private static let serviceName = Bundle.main.bundleIdentifier ?? "com.zs.shortplay"
         /// 时间周期类型（简化版）
         public enum TimePeriod {
             case everyDays(Int)  // 每N天（通用）
@@ -49,8 +51,6 @@ public enum TFYLimitManager {
             }
         }
 
-        private static let userDefaults = UserDefaults.standard
-
         /// 检查是否可以执行操作（检查并更新记录）
         public static func canExecute(for key: String, with config: LimitConfig) -> Bool {
             let currentTime = Date()
@@ -59,7 +59,7 @@ public enum TFYLimitManager {
             ExecutionShared.queue.sync {
                 if canExecuteUnified(for: key, with: config, currentTime: currentTime) {
                     let (countKey, executionKey, lastExecutionKey) = getStorageKeys(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
-                    let currentCount = userDefaults.integer(forKey: countKey)
+                    let currentCount = (try? TFYUtils.Keychain.readInt(service: serviceName, account: countKey)) ?? 0
                     updateExecutionRecord(countKey: countKey, executionKey: executionKey, lastExecutionKey: lastExecutionKey, currentTime: currentTime, currentCount: currentCount)
                     result = true
                 }
@@ -69,20 +69,27 @@ public enum TFYLimitManager {
 
         /// 清理过期的执行记录
         public static func cleanupExpiredRecords() {
-            let allKeys = userDefaults.dictionaryRepresentation().keys
-            let executionKeys = allKeys.filter { $0.hasPrefix(ExecutionStorageKeyPrefix.times) || $0.hasPrefix(ExecutionStorageKeyPrefix.count) }
-
-            let today = Date()
-            let currentDaily = ExecutionShared.dailyFormatter.string(from: today)
-
-            for key in executionKeys {
-                guard let underscoreIndex = key.lastIndex(of: "_") else { continue }
-                let periodString = String(key[key.index(after: underscoreIndex)...])
-
-                // 只处理 yyyy-MM-dd 格式
-                if periodString.count == 10 && periodString != currentDaily {
-                    userDefaults.removeObject(forKey: key)
+            do {
+                let allItems = try TFYUtils.Keychain.getAllItems()
+                let executionKeys = allItems.compactMap { (item: [String: Any]) -> String? in
+                    guard let account = item[kSecAttrAccount as String] as? String else { return nil }
+                    return account.hasPrefix(ExecutionStorageKeyPrefix.times) || account.hasPrefix(ExecutionStorageKeyPrefix.count) ? account : nil
                 }
+
+                let today = Date()
+                let currentDaily = ExecutionShared.dailyFormatter.string(from: today)
+
+                for key in executionKeys {
+                    guard let underscoreIndex = key.lastIndex(of: "_") else { continue }
+                    let periodString = String(key[key.index(after: underscoreIndex)...])
+
+                    // 只处理 yyyy-MM-dd 格式
+                    if periodString.count == 10 && periodString != currentDaily {
+                        try? TFYUtils.Keychain.delete(service: serviceName, account: key)
+                    }
+                }
+            } catch {
+                // 忽略清理错误，避免影响主流程
             }
         }
 
@@ -121,7 +128,7 @@ public enum TFYLimitManager {
             let (countKey, _, lastExecutionKey) = getStorageKeys(for: key, timePeriod: config.timePeriod, currentTime: currentTime)
             
             // 获取当前执行次数
-            let currentCount = userDefaults.integer(forKey: countKey)
+            let currentCount = (try? TFYUtils.Keychain.readInt(service: serviceName, account: countKey)) ?? 0
             
             // 检查是否已经达到最大执行次数
             if currentCount >= config.maxExecutions && !config.allowOverflow {
@@ -157,7 +164,7 @@ public enum TFYLimitManager {
         
         /// 检查每N天的时间间隔
         private static func checkEveryDaysInterval(lastExecutionKey: String, currentTime: Date, days: Int, config: LimitConfig) -> Bool {
-            guard let lastTime = userDefaults.object(forKey: lastExecutionKey) as? Date else { return true }
+            guard let lastTime = try? TFYUtils.Keychain.readDate(service: serviceName, account: lastExecutionKey) else { return true }
             
             let calendar = ExecutionShared.calendar
             
@@ -184,18 +191,18 @@ public enum TFYLimitManager {
         /// 更新执行记录
         private static func updateExecutionRecord(countKey: String, executionKey: String, lastExecutionKey: String, currentTime: Date, currentCount: Int) {
             // 增加执行次数
-            userDefaults.set(currentCount + 1, forKey: countKey)
+            try? TFYUtils.Keychain.saveInt(currentCount + 1, service: serviceName, account: countKey)
             
             // 记录执行时间（限制数组增长，最多保留最近 50 条）
-            var executionTimes = userDefaults.array(forKey: executionKey) as? [Date] ?? []
+            var executionTimes: [Date] = (try? TFYUtils.Keychain.readObjectArray(Date.self, service: serviceName, account: executionKey)) ?? []
             executionTimes.append(currentTime)
             if executionTimes.count > 50 {
                 executionTimes.removeFirst(executionTimes.count - 50)
             }
-            userDefaults.set(executionTimes, forKey: executionKey)
+            try? TFYUtils.Keychain.saveObjectArray(executionTimes, service: serviceName, account: executionKey)
             
             // 更新最后执行时间（用于every系列）
-            userDefaults.set(currentTime, forKey: lastExecutionKey)
+            try? TFYUtils.Keychain.saveDate(currentTime, service: serviceName, account: lastExecutionKey)
         }
         
         /// 获取存储键
@@ -231,8 +238,7 @@ public enum TFYLimitManager {
 
 // MARK: - 便捷方法（兼容 ZSUtils 接口）
 extension TFYLimitManager {
-    
-    
+
     /// 清理指定key的所有记录
     public static func cleanupRecords(for key: String) {
         resetExecutionRecord(for: key)
@@ -307,39 +313,53 @@ extension TFYLimitManager {
         let currentTime = Date()
         let periodString = TFYLimitManager.getPeriodString(for: config.timePeriod, currentTime: currentTime)
         let countKey = "\(ExecutionStorageKeyPrefix.count)\(key)_\(periodString)"
-        let currentCount = UserDefaults.standard.integer(forKey: countKey)
+        let currentCount = (try? TFYUtils.Keychain.readInt(service: serviceName, account: countKey)) ?? 0
         return max(0, config.maxExecutions - currentCount)
     }
     
     /// 获取上次执行时间
     public static func getLastExecutionTime(for key: String) -> Date? {
         let lastExecutionKey = "\(ExecutionStorageKeyPrefix.last)\(key)"
-        return UserDefaults.standard.object(forKey: lastExecutionKey) as? Date
+        return try? TFYUtils.Keychain.readDate(service: serviceName, account: lastExecutionKey)
     }
     
     /// 重置指定key的执行记录
     public static func resetExecutionRecord(for key: String) {
         let lastExecutionKey = "\(ExecutionStorageKeyPrefix.last)\(key)"
-        UserDefaults.standard.removeObject(forKey: lastExecutionKey)
+        try? TFYUtils.Keychain.delete(service: serviceName, account: lastExecutionKey)
+        
         // 清理所有相关的计数记录
-        let allKeys = UserDefaults.standard.dictionaryRepresentation().keys
-        let relatedKeys = allKeys.filter { $0.contains(key) && ($0.hasPrefix(ExecutionStorageKeyPrefix.count) || $0.hasPrefix(ExecutionStorageKeyPrefix.times)) }
-        for relatedKey in relatedKeys {
-            UserDefaults.standard.removeObject(forKey: relatedKey)
+        do {
+            let allItems = try TFYUtils.Keychain.getAllItems()
+            let relatedKeys = allItems.compactMap { (item: [String: Any]) -> String? in
+                guard let account = item[kSecAttrAccount as String] as? String else { return nil }
+                return account.contains(key) && (account.hasPrefix(ExecutionStorageKeyPrefix.count) || account.hasPrefix(ExecutionStorageKeyPrefix.times)) ? account : nil
+            }
+            
+            for relatedKey in relatedKeys {
+                try? TFYUtils.Keychain.delete(service: serviceName, account: relatedKey)
+            }
+        } catch {
+            // 忽略错误
         }
     }
     
     /// 清理所有执行记录（重置整个系统）
     public static func cleanupAllExecutionRecords() {
-        let allKeys = UserDefaults.standard.dictionaryRepresentation().keys
-        let executionKeys = allKeys.filter {
-            $0.hasPrefix(ExecutionStorageKeyPrefix.count) ||
-            $0.hasPrefix(ExecutionStorageKeyPrefix.times) ||
-            $0.hasPrefix(ExecutionStorageKeyPrefix.last)
-        }
-        
-        for key in executionKeys {
-            UserDefaults.standard.removeObject(forKey: key)
+        do {
+            let allItems = try TFYUtils.Keychain.getAllItems()
+            let executionKeys = allItems.compactMap { (item: [String: Any]) -> String? in
+                guard let account = item[kSecAttrAccount as String] as? String else { return nil }
+                return account.hasPrefix(ExecutionStorageKeyPrefix.count) ||
+                       account.hasPrefix(ExecutionStorageKeyPrefix.times) ||
+                       account.hasPrefix(ExecutionStorageKeyPrefix.last) ? account : nil
+            }
+            
+            for key in executionKeys {
+                try? TFYUtils.Keychain.delete(service: serviceName, account: key)
+            }
+        } catch {
+            // 忽略错误
         }
     }
 }
@@ -358,37 +378,37 @@ extension TFYLimitManager {
 // ===== 核心API（统一执行限制管理） =====
 //
 // 1) 执行限制检查（检查并更新记录）
-// let canExecute = TFYLimitManager.canExecute(key: key, days: 1, maxExecutions: 1)        // 每1天1次
-// let canExecute = TFYLimitManager.canExecute(key: key, days: 2, maxExecutions: 1)        // 每2天1次
-// let canExecute = TFYLimitManager.canExecute(key: key, days: 7, maxExecutions: 3)        // 每7天3次
-// let canExecute = TFYLimitManager.canExecute(key: key, days: 30, maxExecutions: 10)      // 每30天10次
-// let canExecute = TFYLimitManager.canExecute(key: key, days: 365, maxExecutions: 20)     // 每365天20次
+// let canExecute = ZSLimitManager.canExecute(key: key, days: 1, maxExecutions: 1)        // 每1天1次
+// let canExecute = ZSLimitManager.canExecute(key: key, days: 2, maxExecutions: 1)        // 每2天1次
+// let canExecute = ZSLimitManager.canExecute(key: key, days: 7, maxExecutions: 3)        // 每7天3次
+// let canExecute = ZSLimitManager.canExecute(key: key, days: 30, maxExecutions: 10)      // 每30天10次
+// let canExecute = ZSLimitManager.canExecute(key: key, days: 365, maxExecutions: 20)     // 每365天20次
 //
 // 2) 只读检查（不更新记录，用于UI显示状态）
-// let canExecute = TFYLimitManager.canExecuteReadOnly(key: key, days: 1, maxExecutions: 1)
-// let canExecute = TFYLimitManager.canExecuteReadOnly(key: vipKey, days: 1, maxExecutions: 1)
+// let canExecute = ZSLimitManager.canExecuteReadOnly(key: key, days: 1, maxExecutions: 1)
+// let canExecute = ZSLimitManager.canExecuteReadOnly(key: vipKey, days: 1, maxExecutions: 1)
 //
 // 3) 获取剩余执行次数
-// let remaining = TFYLimitManager.remainingExecutions(key: key, days: 1, maxExecutions: 1)
-// let remaining = TFYLimitManager.remainingExecutions(key: vipKey, days: 1, maxExecutions: 1)
+// let remaining = ZSLimitManager.remainingExecutions(key: key, days: 1, maxExecutions: 1)
+// let remaining = ZSLimitManager.remainingExecutions(key: vipKey, days: 1, maxExecutions: 1)
 //
 // ===== 数据管理功能 =====
 //
 // 4) 清理过期记录（建议在应用启动时调用）
-// TFYLimitManager.cleanupExpiredRecords()
+// ZSLimitManager.cleanupExpiredRecords()
 //
 // 5) 清理指定key的所有记录
-// TFYLimitManager.resetExecutionRecord(for: "vip_welfare_pop")
-// TFYLimitManager.resetExecutionRecord(for: "daily_checkin")
+// ZSLimitManager.resetExecutionRecord(for: "vip_welfare_pop")
+// ZSLimitManager.resetExecutionRecord(for: "daily_checkin")
 //
 // 6) 批量清理多个key的记录
-// TFYLimitManager.cleanupRecords(for: ["vip_welfare_pop", "daily_checkin", "weekly_task"])
+// ZSLimitManager.cleanupRecords(for: ["vip_welfare_pop", "daily_checkin", "weekly_task"])
 //
 // 7) 清理所有执行记录（重置整个系统）
-// TFYLimitManager.cleanupAllExecutionRecords()
+// ZSLimitManager.cleanupAllExecutionRecords()
 //
 // 8) 获取上次执行时间
-// if let lastTime = TFYLimitManager.getLastExecutionTime(for: "vip_welfare_pop") {
+// if let lastTime = ZSLimitManager.getLastExecutionTime(for: "vip_welfare_pop") {
 //     print("上次执行时间: \(lastTime)")
 // }
 //
