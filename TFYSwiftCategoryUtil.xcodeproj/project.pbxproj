@@ -130,6 +130,7 @@
 		3D68BB332D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */; };
 		3D68BB702D6322E500A244A7 /* CustomViewTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */; };
 		3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */; };
+		84230E0F2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */; };
 		84449D7B2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84449D7A2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift */; };
 		84449D852E13B81700659E34 /* AdaptiveDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84449D842E13B81700659E34 /* AdaptiveDemoController.swift */; };
 		848337222E323B22007D163E /* TFYRuntimeChainSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */; };
@@ -320,6 +321,7 @@
 		3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftGridFlowLayout.swift; sourceTree = "<group>"; };
 		3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewTipsView.swift; sourceTree = "<group>"; };
 		3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Chain.swift"; sourceTree = "<group>"; };
+		84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftRTLAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		84449D7A2E129A1D00659E34 /* TFYSwiftAdaptiveKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftAdaptiveKit.swift; sourceTree = "<group>"; };
 		84449D842E13B81700659E34 /* AdaptiveDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveDemoController.swift; sourceTree = "<group>"; };
 		848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRuntimeChainSystem.swift; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 				369A65752891263C00CF71BB /* TFYStitchImage.swift */,
 				3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */,
 				848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */,
+				84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -764,7 +767,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1640;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					1804738B2CF6DC960026BF20 = {
 						CreatedOnToolsVersion = 16.1;
@@ -905,6 +908,7 @@
 				848337262E331BD7007D163E /* TFYSwiftCacheKit.swift in Sources */,
 				36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */,
 				36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */,
+				84230E0F2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift in Sources */,
 				3D68BB332D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
@@ -1160,6 +1164,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1217,6 +1222,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;

@@ -720,8 +720,10 @@ public extension TFYSwiftCacheKit {
         var result: Result<T, TFYCacheError>!
         
         // 始终在后台队列执行，避免死锁
+        // 使用 nonisolated(unsafe) 捕获类型，因为 T.Type 是元类型，不包含可变状态，线程安全
+        nonisolated(unsafe) let capturedType = type
         DispatchQueue.global(qos: .userInitiated).async {
-            self.getCache(type, forKey: key) { res in
+            self.getCache(capturedType, forKey: key) { res in
                 result = res
                 semaphore.signal()
             }
