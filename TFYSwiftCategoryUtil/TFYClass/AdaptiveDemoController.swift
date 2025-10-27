@@ -34,7 +34,7 @@ class AdaptiveDemoController: UIViewController {
     
     // MARK: - Setup Methods
     private func setupUI() {
-        title = "适配演示"
+    
         view.backgroundColor = .systemBackground
         
         setupScrollView()

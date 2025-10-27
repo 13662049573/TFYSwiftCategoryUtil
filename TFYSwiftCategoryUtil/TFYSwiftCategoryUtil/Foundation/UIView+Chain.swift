@@ -1268,5 +1268,11 @@ public extension Array where Element : UIView {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: constant).isActive = true
     }
+    
+    func getTabBarPlatterViews(_ viewStr:String) -> [UIView] {
+        return self.subviews.filter { view in
+            String(describing: type(of: view)).contains(viewStr)
+        }
+    }
 
 }

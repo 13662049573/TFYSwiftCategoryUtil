@@ -291,7 +291,6 @@ class MultilingualClickTestController: UIViewController {
     /// 设置用户界面
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        title = "多语言点击测试"
         
         // 设置导航栏
         setupNavigationBar()

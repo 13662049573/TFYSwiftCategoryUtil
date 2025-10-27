@@ -60,7 +60,7 @@ class HomeController: UIViewController {
     ]
 
     private func setupUI() {
-        title = "首页"
+        
         view.backgroundColor = .systemBackground
         
         setupScrollView()

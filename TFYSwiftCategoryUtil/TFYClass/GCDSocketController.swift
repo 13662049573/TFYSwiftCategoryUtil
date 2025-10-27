@@ -103,7 +103,7 @@ class GCDSocketController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = "TFYSwiftPopupView 功能展示"
+    
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
