@@ -36,32 +36,62 @@ public extension TFYSwiftRTLAlignedFlowLayoutDelegate {
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, footerHeightFor section: Int, width: CGFloat) -> CGFloat? { nil }
 }
 
+// MARK: - Main Layout Class
 public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
+    
+    // MARK: - Constants
+    
+    /// 用于浮点数比较的最小差值阈值（避免精度问题）
+    private static let floatComparisonThreshold: CGFloat = 0.1
+    /// 宽度匹配的误差范围
+    private static let widthMatchTolerance: CGFloat = 0.5
+    /// Header 视图的 zIndex
+    private static let headerZIndex: Int = 1000
+    /// Footer 视图的 zIndex
+    private static let footerZIndex: Int = 500
+    
+    // MARK: - Enums
+    
     public enum HorizontalAlignment { case leading, center, trailing }
     public enum LayoutMode { case flow, waterfall }
     
+    // MARK: - Properties
+    
+    /// 缓存的布局属性
     private var cachedAttributes = [UICollectionViewLayoutAttributes]()
+    /// 上次的内容尺寸（用于检测变化）
     private var lastContentSize = CGSize.zero
-    private var lastCollectionViewWidth: CGFloat = 0 // 新增：跟踪宽度变化
+    /// 上次的集合视图宽度（用于检测旋转等变化）
+    private var lastCollectionViewWidth: CGFloat = 0
     
     // 瀑布流相关属性
+    /// 当前各列的高度
     private var columnHeights: [CGFloat] = []
-    public private(set) var columnCount: Int = 2 // 默认2列，可通过初始化参数或delegate修改
-    private var itemHeights: [IndexPath: (height: CGFloat, width: CGFloat)] = [:] // 缓存高度和对应的宽度
-    private var waterfallSections: Set<Int> = [] // 支持瀑布流的section集合
+    /// 默认列数（可通过初始化参数或delegate修改）
+    public private(set) var columnCount: Int = 2
+    /// 缓存的item高度和对应的宽度
+    private var itemHeights: [IndexPath: (height: CGFloat, width: CGFloat)] = [:]
+    /// 启用瀑布流的section集合
+    private var waterfallSections: Set<Int> = []
     
+    /// 水平对齐方式
     private(set) var horizontalAlignment: HorizontalAlignment
+    /// 集合视图宽度（会在prepare中同步）
     private(set) var collectionViewWidth: CGFloat
+    /// 是否为RTL布局
     private(set) var isRTL: Bool = false
+    /// 布局模式
     private(set) var layoutMode: LayoutMode = .flow
     
-    // 可选 delegate
+    /// 自定义delegate（用于按section配置布局）
     public weak var sectionDelegate: TFYSwiftRTLAlignedFlowLayoutDelegate?
 
+    // MARK: - Initialization
+    
     public init(horizontalAlignment: HorizontalAlignment = .leading,
                 collectionViewWidth: CGFloat = UIScreen.main.bounds.width,
                 layoutMode: LayoutMode = .flow,
-                columnCount: Int = 2) { // 默认2列，适合大多数场景
+                columnCount: Int = 2) {
         self.horizontalAlignment = horizontalAlignment
         self.collectionViewWidth = collectionViewWidth
         self.layoutMode = layoutMode
@@ -73,10 +103,14 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // 新增：宽度变化时重新布局（如旋转屏幕）
+    // MARK: - Layout Lifecycle
+    
     override public func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        let oldWidth = collectionView?.bounds.width ?? 0
-        return newBounds.width != oldWidth || super.shouldInvalidateLayout(forBoundsChange: newBounds)
+        // 宽度变化时重新布局（如旋转屏幕）
+        guard let collectionView = collectionView else {
+            return super.shouldInvalidateLayout(forBoundsChange: newBounds)
+        }
+        return newBounds.width != collectionView.bounds.width || super.shouldInvalidateLayout(forBoundsChange: newBounds)
     }
     
     override public func prepare() {
@@ -86,11 +120,12 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         // 同步当前宽度，避免使用初始化时的固定宽度
         collectionViewWidth = collectionView.bounds.width
         
+        // 检测RTL布局
         isRTL = UIView.userInterfaceLayoutDirection(
             for: collectionView.semanticContentAttribute
         ) == .rightToLeft
         
-        // 避免与重写的 collectionViewContentSize 相互依赖，使用父类尺寸进行变化判断
+        // 判断是否需要更新布局
         let baseContentSize = super.collectionViewContentSize
         let currentWidth = collectionView.bounds.width
         let needUpdate = cachedAttributes.isEmpty
@@ -98,44 +133,33 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             || lastContentSize != baseContentSize
         
         if needUpdate {
-            // 总是使用混合布局，支持每组独立配置
             prepareMixedLayout()
             lastContentSize = baseContentSize
             lastCollectionViewWidth = currentWidth
         }
     }
     
-    private func arrangeAllItems() {
-        var currentRow = [UICollectionViewLayoutAttributes]()
-        var currentY: CGFloat = -1
-        
-        for attribute in cachedAttributes where attribute.representedElementCategory == .cell {
-            // 优化：用微小差值判断换行（避免浮点数精度问题）
-            if abs(attribute.frame.origin.y - currentY) > 0.1 {
-                arrangeRow(currentRow)
-                currentRow.removeAll()
-                currentY = attribute.frame.origin.y
-            }
-            currentRow.append(attribute)
-        }
-        if !currentRow.isEmpty {
-            arrangeRow(currentRow)
-        }
-    }
+    // MARK: - Private Layout Methods
     
-    private func arrangeRow(_ attributes: [UICollectionViewLayoutAttributes]) {
+    /// 对一行中的 items 进行水平对齐与 RTL 处理
+    /// - Parameters:
+    ///   - attributes: 需要排列的布局属性数组
+    ///   - sectionInset: section 的内边距
+    ///   - interitemSpacing: item 间距
+    private func arrangeRow(_ attributes: [UICollectionViewLayoutAttributes],
+                           sectionInset: UIEdgeInsets,
+                           interitemSpacing: CGFloat) {
         guard !attributes.isEmpty else { return }
         
-        let totalWidth = attributes.reduce(0) { $0 + $1.frame.width } +
-                        minimumInteritemSpacing * CGFloat(attributes.count - 1)
+        // 计算总宽度
+        let totalWidth = attributes.reduce(0) { $0 + $1.frame.width } + interitemSpacing * CGFloat(attributes.count - 1)
         
+        // 根据对齐方式和RTL设置计算起始x坐标
         var xOffset: CGFloat
         switch (horizontalAlignment, isRTL) {
         case (.leading, false):
-            // LTR-leading：从左侧内边距开始，不考虑总宽度（确保依次排列）
             xOffset = sectionInset.left
         case (.leading, true):
-            // RTL-leading：从右侧内边距开始（右侧 = 总宽度 - 右内边距）
             xOffset = collectionViewWidth - sectionInset.right
         case (.center, _):
             xOffset = (collectionViewWidth - totalWidth) / 2
@@ -145,47 +169,42 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             xOffset = sectionInset.left
         }
         
-        // 关键修复：按数据原始顺序（indexPath.item）排序，避免受系统布局影响
-        // RTL时反转顺序（确保第0个item在最右）
+        // 按 indexPath.item 排序，确保顺序正确
         let sortedAttributes = attributes.sorted { $0.indexPath.item < $1.indexPath.item }
-        let finalAttributes = sortedAttributes
         
-        // 排列单元格：LTR累加x，RTL递减x（确保依次紧凑排列）
-        for attribute in finalAttributes {
+        // 依次设置每个 item 的 x 坐标
+        for attribute in sortedAttributes {
             let itemWidth = attribute.frame.width
             // RTL时x是右侧边缘，需要减去宽度得到左边缘
             attribute.frame.origin.x = isRTL ? (xOffset - itemWidth) : xOffset
-            // 更新偏移：LTR向右，RTL向左
-            xOffset += isRTL ? -(itemWidth + minimumInteritemSpacing) : (itemWidth + minimumInteritemSpacing)
-        }
-    }
-
-    // 基于指定的 section 参数对一行进行水平对齐与 RTL 处理
-    private func arrangeRow(_ attributes: [UICollectionViewLayoutAttributes], sectionInset: UIEdgeInsets, interitemSpacing: CGFloat) {
-        guard !attributes.isEmpty else { return }
-        let totalWidth = attributes.reduce(0) { $0 + $1.frame.width } + interitemSpacing * CGFloat(attributes.count - 1)
-        var xOffset: CGFloat
-        switch (horizontalAlignment, isRTL) {
-        case (.leading, false):
-            xOffset = sectionInset.left
-        case (.leading, true):
-            xOffset = collectionViewWidth - sectionInset.right
-        case (.center, _):
-            xOffset = (collectionViewWidth - totalWidth) / 2
-        case (.trailing, false):
-            xOffset = collectionViewWidth - totalWidth - sectionInset.right
-        case (.trailing, true):
-            xOffset = sectionInset.left
-        }
-        let sortedAttributes = attributes.sorted { $0.indexPath.item < $1.indexPath.item }
-        for attribute in sortedAttributes {
-            let itemWidth = attribute.frame.width
-            attribute.frame.origin.x = isRTL ? (xOffset - itemWidth) : xOffset
+            // 更新偏移：LTR向右累加，RTL向左递减
             xOffset += isRTL ? -(itemWidth + interitemSpacing) : (itemWidth + interitemSpacing)
         }
     }
     
-    // 补充：返回缓存的布局属性（优化性能）
+    /// 计算指定 section 的列数
+    /// - Parameters:
+    ///   - section: section 索引
+    ///   - availableWidth: 可用宽度
+    ///   - interitemSpacing: item 间距
+    /// - Returns: 列数
+    private func calculateColumnCount(for section: Int,
+                                     availableWidth: CGFloat,
+                                     interitemSpacing: CGFloat) -> Int {
+        // 优先级：delegate.columns > delegate.minimumItemWidth > 全局 columnCount
+        if let cols = sectionDelegate?.layout(self, columnsFor: section, availableWidth: availableWidth), cols > 0 {
+            return cols
+        }
+        
+        if let minW = sectionDelegate?.layout(self, minimumItemWidthFor: section, availableWidth: availableWidth), minW > 0 {
+            return max(1, Int(floor((availableWidth + interitemSpacing) / (minW + interitemSpacing))))
+        }
+        
+        return max(1, columnCount)
+    }
+    
+    // MARK: - Override Methods
+    
     override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return cachedAttributes.filter { rect.intersects($0.frame) }
     }
@@ -200,8 +219,15 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         return cachedAttributes.first { $0.indexPath == indexPath }
     }
     
-    // MARK: - 瀑布流布局方法
+    override public var collectionViewContentSize: CGSize {
+        guard let collectionView = collectionView else { return .zero }
+        let maxHeight = cachedAttributes.map { $0.frame.maxY }.max() ?? 0
+        return CGSize(width: collectionView.bounds.width, height: maxHeight)
+    }
     
+    // MARK: - Mixed Layout (Flow + Waterfall)
+    
+    /// 准备混合布局（支持每个 section 独立配置流式或瀑布流）
     private func prepareMixedLayout() {
         guard let collectionView = collectionView else { return }
         
@@ -209,16 +235,29 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         
         let totalSections = collectionView.numberOfSections
         var yOffset: CGFloat = 0
-        // 仅计算一次系统流式布局的基础属性，避免在每个 section 内重复计算
-        let baseAttributesAllSections: [UICollectionViewLayoutAttributes] = (
-            super.layoutAttributesForElements(
-                in: CGRect(origin: .zero, size: super.collectionViewContentSize)
-            )?.compactMap { $0.copy() as? UICollectionViewLayoutAttributes }
-        ) ?? []
+        
+        // 判断是否需要计算系统流式布局（仅当有非瀑布流 section 时）
+        let needsSystemLayout = (0..<totalSections).contains { section in
+            let isWaterfall = layoutMode == .waterfall ||
+                             waterfallSections.contains(section) ||
+                             (sectionDelegate?.layout(self, isWaterfallFor: section) ?? false)
+            return !isWaterfall
+        }
+        
+        // 按需计算系统流式布局的基础属性（性能优化）
+        let baseAttributesAllSections: [UICollectionViewLayoutAttributes]
+        if needsSystemLayout {
+            baseAttributesAllSections = (
+                super.layoutAttributesForElements(
+                    in: CGRect(origin: .zero, size: super.collectionViewContentSize)
+                )?.compactMap { $0.copy() as? UICollectionViewLayoutAttributes }
+            ) ?? []
+        } else {
+            baseAttributesAllSections = []
+        }
         
         for section in 0..<totalSections {
             let availableWidth = collectionView.bounds.width
-            let delegate = sectionDelegate
             let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout
             
             // 读取每组配置（优先级：系统代理 > 自定义delegate > 默认值）
@@ -226,54 +265,54 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                 if let systemInset = systemDelegate?.collectionView?(collectionView, layout: self, insetForSectionAt: section) {
                     return systemInset
                 }
-                return delegate?.layout(self, sectionInsetFor: section) ?? sectionInset
+                return sectionDelegate?.layout(self, sectionInsetFor: section) ?? sectionInset
             }()
             
             let interitem: CGFloat = {
                 if let systemSpacing = systemDelegate?.collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: section) {
                     return systemSpacing
                 }
-                return delegate?.layout(self, interitemSpacingFor: section) ?? minimumInteritemSpacing
+                return sectionDelegate?.layout(self, interitemSpacingFor: section) ?? minimumInteritemSpacing
             }()
             
-            let linespacing: CGFloat = {
+            let lineSpacing: CGFloat = {
                 if let systemSpacing = systemDelegate?.collectionView?(collectionView, layout: self, minimumLineSpacingForSectionAt: section) {
                     return systemSpacing
                 }
-                return delegate?.layout(self, lineSpacingFor: section) ?? minimumLineSpacing
+                return sectionDelegate?.layout(self, lineSpacingFor: section) ?? minimumLineSpacing
             }()
             
             // 优先使用系统代理设置的高度，如果没有则使用自定义delegate
             let headerH: CGFloat = {
-                // 首先检查系统代理是否提供了header尺寸
                 if let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
                    let headerSize = systemDelegate.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section),
                    headerSize.height > 0 {
                     return headerSize.height
                 }
-                // 如果系统代理没有设置，则使用自定义delegate
-                return delegate?.layout(self, headerHeightFor: section, width: availableWidth) ?? 0
+                return sectionDelegate?.layout(self, headerHeightFor: section, width: availableWidth) ?? 0
             }()
             
             let footerH: CGFloat = {
-                // 首先检查系统代理是否提供了footer尺寸
                 if let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
                    let footerSize = systemDelegate.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section),
                    footerSize.height > 0 {
                     return footerSize.height
                 }
-                // 如果系统代理没有设置，则使用自定义delegate
-                return delegate?.layout(self, footerHeightFor: section, width: availableWidth) ?? 0
+                return sectionDelegate?.layout(self, footerHeightFor: section, width: availableWidth) ?? 0
             }()
+            
             let isWaterfallSection: Bool = {
                 if layoutMode == .waterfall || waterfallSections.contains(section) { return true }
-                return delegate?.layout(self, isWaterfallFor: section) ?? false
+                return sectionDelegate?.layout(self, isWaterfallFor: section) ?? false
             }()
 
             // Header（如有）：创建补充视图属性并堆叠
             if headerH > 0 {
                 let headerIndex = IndexPath(item: 0, section: section)
-                let headerAttr = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: headerIndex)
+                let headerAttr = UICollectionViewLayoutAttributes(
+                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                    with: headerIndex
+                )
                 
                 // 优先使用系统代理设置的宽度，否则使用可用宽度减去inset
                 let headerWidth: CGFloat = {
@@ -286,22 +325,38 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                 }()
                 
                 headerAttr.frame = CGRect(x: sectionInsetValue.left, y: yOffset, width: max(0, headerWidth), height: headerH)
-                headerAttr.zIndex = 1000 // 确保 header 在 cell 之上
+                headerAttr.zIndex = Self.headerZIndex
                 cachedAttributes.append(headerAttr)
                 yOffset = headerAttr.frame.maxY
             }
 
             if isWaterfallSection {
                 // 瀑布流：从当前 yOffset 开始排布
-                yOffset = prepareWaterfallLayoutForSection(section, startY: yOffset, sectionInset: sectionInsetValue, interitemSpacing: interitem, lineSpacing: linespacing)
+                yOffset = prepareWaterfallLayoutForSection(
+                    section,
+                    startY: yOffset,
+                    sectionInset: sectionInsetValue,
+                    interitemSpacing: interitem,
+                    lineSpacing: lineSpacing
+                )
             } else {
                 // 普通流式：使用系统计算的属性，但需要将该 section 的所有 frame 下移到当前 yOffset 之后，并按行进行水平对齐
-                let sectionAttrs = baseAttributesAllSections.filter { $0.representedElementCategory == .cell && $0.indexPath.section == section }
+                let sectionAttrs = baseAttributesAllSections.filter {
+                    $0.representedElementCategory == .cell && $0.indexPath.section == section
+                }
                 guard !sectionAttrs.isEmpty else {
                     // 如果没有找到系统计算的属性，手动创建流式布局
-                    yOffset = prepareFlowLayoutForSection(section, startY: yOffset, sectionInset: sectionInsetValue, interitemSpacing: interitem, lineSpacing: linespacing)
+                    yOffset = prepareFlowLayoutForSection(
+                        section,
+                        startY: yOffset,
+                        sectionInset: sectionInsetValue,
+                        interitemSpacing: interitem,
+                        lineSpacing: lineSpacing
+                    )
                     continue
                 }
+                
+                // 调整 section 内所有 item 的 y 坐标
                 let minY = sectionAttrs.map { $0.frame.minY }.min() ?? 0
                 let delta = (yOffset + sectionInsetValue.top) - minY
                 var maxY: CGFloat = yOffset
@@ -309,11 +364,15 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                     attr.frame = attr.frame.offsetBy(dx: 0, dy: delta)
                     maxY = max(maxY, attr.frame.maxY)
                 }
+                
                 // 按行分组并进行水平对齐
                 let sorted = sectionAttrs.sorted { (a, b) in
-                    if abs(a.frame.minY - b.frame.minY) > 0.1 { return a.frame.minY < b.frame.minY }
+                    if abs(a.frame.minY - b.frame.minY) > Self.floatComparisonThreshold {
+                        return a.frame.minY < b.frame.minY
+                    }
                     return a.indexPath.item < b.indexPath.item
                 }
+                
                 var currentRow: [UICollectionViewLayoutAttributes] = []
                 var currentYForRow: CGFloat = -1
                 for attr in sorted {
@@ -321,7 +380,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                         currentRow.append(attr)
                         currentYForRow = attr.frame.minY
                     } else {
-                        if abs(attr.frame.minY - currentYForRow) <= 0.1 {
+                        if abs(attr.frame.minY - currentYForRow) <= Self.floatComparisonThreshold {
                             currentRow.append(attr)
                         } else {
                             arrangeRow(currentRow, sectionInset: sectionInsetValue, interitemSpacing: interitem)
@@ -341,7 +400,10 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             // Footer（如有）：创建补充视图属性并堆叠
             if footerH > 0 {
                 let footerIndex = IndexPath(item: 0, section: section)
-                let footerAttr = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: footerIndex)
+                let footerAttr = UICollectionViewLayoutAttributes(
+                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                    with: footerIndex
+                )
                 
                 // 优先使用系统代理设置的宽度，否则使用可用宽度减去inset
                 let footerWidth: CGFloat = {
@@ -354,35 +416,54 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                 }()
                 
                 footerAttr.frame = CGRect(x: sectionInsetValue.left, y: yOffset, width: max(0, footerWidth), height: footerH)
-                footerAttr.zIndex = 500 // 确保 footer 在 cell 之上
+                footerAttr.zIndex = Self.footerZIndex
                 cachedAttributes.append(footerAttr)
                 yOffset = footerAttr.frame.maxY
             }
         }
     }
     
-    private func prepareFlowLayoutForSection(_ section: Int, startY: CGFloat, sectionInset: UIEdgeInsets, interitemSpacing: CGFloat, lineSpacing: CGFloat) -> CGFloat {
+    /// 为指定 section 准备流式布局（当系统布局不可用时手动创建）
+    /// - Parameters:
+    ///   - section: section 索引
+    ///   - startY: 起始 y 坐标
+    ///   - sectionInset: section 内边距
+    ///   - interitemSpacing: item 间距
+    ///   - lineSpacing: 行间距
+    /// - Returns: 布局结束后的 y 坐标
+    private func prepareFlowLayoutForSection(_ section: Int,
+                                            startY: CGFloat,
+                                            sectionInset: UIEdgeInsets,
+                                            interitemSpacing: CGFloat,
+                                            lineSpacing: CGFloat) -> CGFloat {
         guard let collectionView = collectionView else { return startY }
+        
         let numberOfItems = collectionView.numberOfItems(inSection: section)
         if numberOfItems == 0 {
             return startY + sectionInset.top + sectionInset.bottom
         }
+        
         let availableWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
         var currentY = startY + sectionInset.top
         var currentX = sectionInset.left
         var currentRowAttributes: [UICollectionViewLayoutAttributes] = []
         var lastItemHeightInRow: CGFloat = 0
+        
         for item in 0..<numberOfItems {
             let indexPath = IndexPath(item: item, section: section)
             let size = getItemSize(for: indexPath, availableWidth: availableWidth)
             let itemWidth = size.width
             let itemHeight = size.height
-            if currentRowAttributes.isEmpty == false && currentX + itemWidth > collectionView.bounds.width - sectionInset.right + 0.5 {
+            
+            // 检查是否需要换行（允许0.5像素误差）
+            if !currentRowAttributes.isEmpty &&
+               currentX + itemWidth > collectionView.bounds.width - sectionInset.right + Self.widthMatchTolerance {
                 arrangeRow(currentRowAttributes, sectionInset: sectionInset, interitemSpacing: interitemSpacing)
                 currentRowAttributes.removeAll()
                 currentX = sectionInset.left
                 currentY += lastItemHeightInRow + lineSpacing
             }
+            
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = CGRect(x: currentX, y: currentY, width: itemWidth, height: itemHeight)
             cachedAttributes.append(attributes)
@@ -390,12 +471,24 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             lastItemHeightInRow = itemHeight
             currentX += itemWidth + interitemSpacing
         }
+        
         if !currentRowAttributes.isEmpty {
             arrangeRow(currentRowAttributes, sectionInset: sectionInset, interitemSpacing: interitemSpacing)
         }
-        return (cachedAttributes.filter { $0.representedElementCategory == .cell && $0.indexPath.section == section }.map { $0.frame.maxY }.max() ?? (currentY)) + sectionInset.bottom
+        
+        let maxY = cachedAttributes
+            .filter { $0.representedElementCategory == .cell && $0.indexPath.section == section }
+            .map { $0.frame.maxY }
+            .max() ?? currentY
+        
+        return maxY + sectionInset.bottom
     }
     
+    /// 获取 item 的尺寸（优先从 delegate 获取，否则使用默认值）
+    /// - Parameters:
+    ///   - indexPath: item 的 indexPath
+    ///   - availableWidth: 可用宽度
+    /// - Returns: item 尺寸
     private func getItemSize(for indexPath: IndexPath, availableWidth: CGFloat) -> CGSize {
         // 优先从 delegate 获取尺寸
         if let delegate = collectionView?.delegate as? UICollectionViewDelegateFlowLayout,
@@ -409,22 +502,30 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         return CGSize(width: defaultWidth, height: defaultHeight)
     }
     
+    // MARK: - Waterfall Layout
+    
+    /// 为指定 section 准备瀑布流布局
+    /// - Parameters:
+    ///   - section: section 索引
+    ///   - startY: 起始 y 坐标
+    ///   - sectionInset: section 内边距
+    ///   - interitemSpacing: item 间距
+    ///   - lineSpacing: 行间距
+    /// - Returns: 布局结束后的 y 坐标
     @discardableResult
-    private func prepareWaterfallLayoutForSection(_ section: Int, startY: CGFloat, sectionInset: UIEdgeInsets, interitemSpacing: CGFloat, lineSpacing: CGFloat) -> CGFloat {
+    private func prepareWaterfallLayoutForSection(_ section: Int,
+                                                 startY: CGFloat,
+                                                 sectionInset: UIEdgeInsets,
+                                                 interitemSpacing: CGFloat,
+                                                 lineSpacing: CGFloat) -> CGFloat {
         guard let collectionView = collectionView else { return startY }
         
-        // 重置列高度，从 startY 开始
         let availableWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
-        // 列数：优先 delegate.columns，再按最小宽度自适应，否则用全局列数
-        let columns: Int = {
-            if let cols = sectionDelegate?.layout(self, columnsFor: section, availableWidth: availableWidth), cols > 0 {
-                return cols
-            }
-            if let minW = sectionDelegate?.layout(self, minimumItemWidthFor: section, availableWidth: availableWidth), minW > 0 {
-                return max(1, Int( floor( (availableWidth + interitemSpacing) / (minW + interitemSpacing) ) ))
-            }
-            return max(1, columnCount)
-        }()
+        
+        // 使用提取的方法计算列数
+        let columns = calculateColumnCount(for: section, availableWidth: availableWidth, interitemSpacing: interitemSpacing)
+        
+        // 重置列高度，从 startY + sectionInset.top 开始
         columnHeights = Array(repeating: startY + sectionInset.top, count: columns)
         
         let itemWidth = (availableWidth - CGFloat(columns - 1) * interitemSpacing) / CGFloat(columns)
@@ -445,7 +546,12 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             let shortestColumnIndex = findShortestColumn()
             
             // 计算位置
-            let x = calculateXPosition(for: shortestColumnIndex, itemWidth: itemWidth, sectionInset: sectionInset, interitemSpacing: interitemSpacing)
+            let x = calculateXPosition(
+                for: shortestColumnIndex,
+                itemWidth: itemWidth,
+                sectionInset: sectionInset,
+                interitemSpacing: interitemSpacing
+            )
             let y = columnHeights[shortestColumnIndex]
             
             attributes.frame = CGRect(x: x, y: y, width: itemWidth, height: itemHeight)
@@ -455,52 +561,24 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             
             cachedAttributes.append(attributes)
         }
+        
         // 本 section 的结束 y，去掉最后一次多加的行间距
         let endY = (columnHeights.max() ?? (startY + sectionInset.top)) - lineSpacing + sectionInset.bottom
         return endY
     }
     
-    private func prepareWaterfallLayout() {
-        guard let collectionView = collectionView else { return }
-        
-        cachedAttributes.removeAll()
-        columnHeights = Array(repeating: sectionInset.top, count: columnCount)
-        
-        let availableWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
-        let itemWidth = (availableWidth - CGFloat(columnCount - 1) * minimumInteritemSpacing) / CGFloat(columnCount)
-        
-        let numberOfItems = collectionView.numberOfItems(inSection: 0)
-        
-        for item in 0..<numberOfItems {
-            let indexPath = IndexPath(item: item, section: 0)
-            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            
-            // 获取item高度（如果已缓存则使用缓存，否则使用默认高度）
-            let itemHeight = getItemHeight(for: indexPath, itemWidth: itemWidth)
-            
-            // 找到最短的列
-            let shortestColumnIndex = findShortestColumn()
-            
-            // 计算位置
-            let x = calculateXPosition(for: shortestColumnIndex, itemWidth: itemWidth)
-            let y = columnHeights[shortestColumnIndex]
-            
-            attributes.frame = CGRect(x: x, y: y, width: itemWidth, height: itemHeight)
-            
-            // 更新列高度
-            columnHeights[shortestColumnIndex] += itemHeight + minimumLineSpacing
-            
-            cachedAttributes.append(attributes)
-        }
-    }
-    
+    /// 获取 item 的高度（带缓存机制）
+    /// - Parameters:
+    ///   - indexPath: item 的 indexPath
+    ///   - itemWidth: item 的宽度
+    /// - Returns: item 高度
     private func getItemHeight(for indexPath: IndexPath, itemWidth: CGFloat) -> CGFloat {
-        // 检查是否已缓存高度，且宽度匹配（允许0.5像素误差）
-        if let cached = itemHeights[indexPath], abs(cached.width - itemWidth) < 0.5 {
+        // 检查是否已缓存高度，且宽度匹配（避免宽度变化后高度失效）
+        if let cached = itemHeights[indexPath], abs(cached.width - itemWidth) < Self.widthMatchTolerance {
             return cached.height
         }
         
-        // 尝试从delegate获取高度
+        // 尝试从 delegate 获取高度
         if let delegate = collectionView?.delegate as? UICollectionViewDelegateFlowLayout,
            let size = delegate.collectionView?(collectionView!, layout: self, sizeForItemAt: indexPath) {
             let height = size.height
@@ -510,12 +588,16 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         }
         
         // 使用合理的默认高度（基于宽度比例）
-        let defaultHeight = itemWidth * 1.2 // 1.2:1 的宽高比，更符合常见设计
+        let defaultHeight = itemWidth * 1.2 // 1.2:1 的宽高比
         itemHeights[indexPath] = (height: defaultHeight, width: itemWidth)
         return defaultHeight
     }
     
+    /// 找到瀑布流中最短的列
+    /// - Returns: 最短列的索引
     private func findShortestColumn() -> Int {
+        guard !columnHeights.isEmpty else { return 0 }
+        
         var shortestIndex = 0
         var shortestHeight = columnHeights[0]
         
@@ -529,7 +611,17 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         return shortestIndex
     }
     
-    private func calculateXPosition(for columnIndex: Int, itemWidth: CGFloat, sectionInset: UIEdgeInsets? = nil, interitemSpacing: CGFloat? = nil) -> CGFloat {
+    /// 计算瀑布流中指定列的 x 坐标
+    /// - Parameters:
+    ///   - columnIndex: 列索引
+    ///   - itemWidth: item 宽度
+    ///   - sectionInset: section 内边距（可选，默认使用全局设置）
+    ///   - interitemSpacing: item 间距（可选，默认使用全局设置）
+    /// - Returns: x 坐标
+    private func calculateXPosition(for columnIndex: Int,
+                                    itemWidth: CGFloat,
+                                    sectionInset: UIEdgeInsets? = nil,
+                                    interitemSpacing: CGFloat? = nil) -> CGFloat {
         let inset = sectionInset ?? self.sectionInset
         let spacing = interitemSpacing ?? self.minimumInteritemSpacing
         let baseX = inset.left + CGFloat(columnIndex) * (itemWidth + spacing)
@@ -542,59 +634,73 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         return baseX
     }
     
-    // MARK: - 公共接口方法
+    // MARK: - Public API
     
     /// 设置布局模式
-    public func setLayoutMode(_ mode: LayoutMode, columnCount: Int = 2) { // 默认2列
+    /// - Parameters:
+    ///   - mode: 布局模式（flow 或 waterfall）
+    ///   - columnCount: 瀑布流列数（默认2列）
+    public func setLayoutMode(_ mode: LayoutMode, columnCount: Int = 2) {
         self.layoutMode = mode
         self.columnCount = max(1, columnCount)
         invalidateLayout()
     }
     
-    /// 为指定section启用瀑布流布局
+    /// 为指定 section 启用瀑布流布局
+    /// - Parameter section: section 索引
     public func enableWaterfallForSection(_ section: Int) {
         waterfallSections.insert(section)
         invalidateLayout()
     }
     
-    /// 为指定section禁用瀑布流布局
+    /// 为指定 section 禁用瀑布流布局
+    /// - Parameter section: section 索引
     public func disableWaterfallForSection(_ section: Int) {
         waterfallSections.remove(section)
         invalidateLayout()
     }
     
-    /// 为多个section启用瀑布流布局
+    /// 为多个 section 启用瀑布流布局
+    /// - Parameter sections: section 索引数组
     public func enableWaterfallForSections(_ sections: [Int]) {
         waterfallSections.formUnion(sections)
         invalidateLayout()
     }
     
-    /// 清除所有瀑布流section设置
+    /// 清除所有瀑布流 section 设置
     public func clearWaterfallSections() {
         waterfallSections.removeAll()
         invalidateLayout()
     }
     
-    /// 检查指定section是否使用瀑布流布局
+    /// 检查指定 section 是否使用瀑布流布局
+    /// - Parameter section: section 索引
+    /// - Returns: 是否启用瀑布流
     public func isWaterfallEnabledForSection(_ section: Int) -> Bool {
         return waterfallSections.contains(section) || layoutMode == .waterfall
     }
     
-    /// 清除item高度缓存（当item高度可能变化时调用）
+    /// 清除 item 高度缓存（当 item 高度可能变化或列数/宽度变化时调用）
     public func clearItemHeightCache() {
         itemHeights.removeAll()
         invalidateLayout()
     }
     
-    /// 为特定indexPath设置item高度和宽度
+    /// 为特定 indexPath 设置 item 高度和宽度
+    /// - Parameters:
+    ///   - height: item 高度
+    ///   - indexPath: item 的 indexPath
+    ///   - width: item 宽度
     public func setItemHeight(_ height: CGFloat, for indexPath: IndexPath, width: CGFloat) {
         itemHeights[indexPath] = (height: height, width: width)
     }
     
-    /// 为特定indexPath设置item高度（使用当前计算的宽度）
+    /// 为特定 indexPath 设置 item 高度（自动计算宽度）
+    /// - Parameters:
+    ///   - height: item 高度
+    ///   - indexPath: item 的 indexPath
     @available(*, deprecated, message: "请使用 setItemHeight(_:for:width:) 方法以确保高度与宽度匹配")
     public func setItemHeight(_ height: CGFloat, for indexPath: IndexPath) {
-        // 尝试计算当前的 itemWidth
         guard let collectionView = collectionView else { return }
         let section = indexPath.section
         let availableWidth = collectionView.bounds.width
@@ -603,27 +709,11 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         let interitem = sectionDelegate?.layout(self, interitemSpacingFor: section) ?? minimumInteritemSpacing
         let contentWidth = availableWidth - sectionInsetValue.left - sectionInsetValue.right
         
-        let columns: Int = {
-            if let cols = sectionDelegate?.layout(self, columnsFor: section, availableWidth: availableWidth), cols > 0 {
-                return cols
-            }
-            if let minW = sectionDelegate?.layout(self, minimumItemWidthFor: section, availableWidth: availableWidth), minW > 0 {
-                return max(1, Int(floor((contentWidth + interitem) / (minW + interitem))))
-            }
-            return max(1, columnCount)
-        }()
-        
+        // 使用提取的方法计算列数
+        let columns = calculateColumnCount(for: section, availableWidth: availableWidth, interitemSpacing: interitem)
         let itemWidth = (contentWidth - CGFloat(columns - 1) * interitem) / CGFloat(columns)
-        itemHeights[indexPath] = (height: height, width: itemWidth)
-    }
-    
-    override public var collectionViewContentSize: CGSize {
-        guard let collectionView = collectionView else { return .zero }
         
-        // 总是使用缓存属性计算内容尺寸
-        let maxHeight = cachedAttributes.map { $0.frame.maxY }.max() ?? 0
-        // 注意：各 section 的底部间距和 Footer 已在布局阶段计入 frame，避免重复累加额外的 bottom inset
-        return CGSize(width: collectionView.bounds.width, height: maxHeight)
+        itemHeights[indexPath] = (height: height, width: itemWidth)
     }
 }
 
