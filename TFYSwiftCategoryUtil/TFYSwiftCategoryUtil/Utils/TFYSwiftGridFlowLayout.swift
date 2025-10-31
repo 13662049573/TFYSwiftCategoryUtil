@@ -134,6 +134,12 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         // 如果rowsCount为1，使用水平滚动；否则使用垂直瀑布流
         return rowsCount == 1 ? .horizontal : .vertical
     }
+    
+    /// 是否为RTL布局（从右到左）
+    private var isRTL: Bool {
+        guard let collectionView = collectionView else { return false }
+        return UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
+    }
 
     // MARK: - 布局计算
 
@@ -226,53 +232,104 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
     // MARK: - 水平布局（单行多列横向滚动）
     
     private func prepareSectionLayoutHorizontal(section: Int, collectionView: UICollectionView) {
-        // Header处理（水平布局的Header显示在左侧）
-        let headerIndexPath = IndexPath(item: 0, section: section)
-        if let headerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerIndexPath),
-           headerAttributes.frame.width > 0
-        {
-            cache.append(headerAttributes)
-            contentWidth = headerAttributes.frame.maxX
-        }
-
         let sectionInset = getSectionInset(for: section)
-        let interitemSpacing = getInteritemSpacing(for: section)
         
-        // 计算item高度（单行模式下，高度为容器高度减去上下边距）
-        let availableHeight = collectionView.bounds.height - sectionInset.top - sectionInset.bottom
-        guard availableHeight > 0 else {
-            print("⚠️ TFYSwiftGridFlowLayout: Item高度计算结果<=0，请检查边距设置，section=\(section)")
-            return
-        }
-        
-        let itemHeight = availableHeight
-        
-        // 初始化行宽度（单行模式）
-        if section >= sectionRowWidths.count {
-            sectionRowWidths.append([contentWidth + sectionInset.left])
-        }
-
-        let itemsCount = collectionView.numberOfItems(inSection: section)
-        for item in 0 ..< itemsCount {
-            let indexPath = IndexPath(item: item, section: section)
-            if let attributes = layoutAttributesForItemHorizontal(at: indexPath,
-                                                          itemHeight: itemHeight,
-                                                          sectionInset: sectionInset,
-                                                          interitemSpacing: interitemSpacing)
+        // RTL模式下需要调整处理顺序：Footer -> Items -> Header
+        if isRTL {
+            // RTL模式：Footer在左边（items之前）
+            let footerIndexPath = IndexPath(item: 0, section: section)
+            if let footerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerIndexPath),
+               footerAttributes.frame.width > 0
             {
-                cache.append(attributes)
+                cache.append(footerAttributes)
+                contentWidth = footerAttributes.frame.maxX
+            } else {
+                contentWidth = section == 0 ? 0 : contentWidth + sectionInset.left
             }
-        }
-
-        // Footer处理（水平布局的Footer显示在右侧）
-        let footerIndexPath = IndexPath(item: 0, section: section)
-        if let footerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerIndexPath),
-           footerAttributes.frame.width > 0
-        {
-            cache.append(footerAttributes)
-            contentWidth = footerAttributes.frame.maxX
+            
+            // Items处理
+            let interitemSpacing = getInteritemSpacing(for: section)
+            let availableHeight = collectionView.bounds.height - sectionInset.top - sectionInset.bottom
+            guard availableHeight > 0 else {
+                print("⚠️ TFYSwiftGridFlowLayout: Item高度计算结果<=0，请检查边距设置，section=\(section)")
+                return
+            }
+            
+            let itemHeight = availableHeight
+            
+            // 初始化行宽度（RTL模式：从Footer结束位置开始）
+            if section >= sectionRowWidths.count {
+                sectionRowWidths.append([contentWidth + sectionInset.left])
+            }
+            
+            let itemsCount = collectionView.numberOfItems(inSection: section)
+            for item in 0 ..< itemsCount {
+                let indexPath = IndexPath(item: item, section: section)
+                if let attributes = layoutAttributesForItemHorizontal(at: indexPath,
+                                                              itemHeight: itemHeight,
+                                                              sectionInset: sectionInset,
+                                                              interitemSpacing: interitemSpacing)
+                {
+                    cache.append(attributes)
+                }
+            }
+            
+            // Header处理（RTL模式：Header在右边，items之后）
+            let headerIndexPath = IndexPath(item: 0, section: section)
+            if let headerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerIndexPath),
+               headerAttributes.frame.width > 0
+            {
+                cache.append(headerAttributes)
+                contentWidth = headerAttributes.frame.maxX
+            } else {
+                contentWidth = (sectionRowWidths[safe: section]?.first ?? contentWidth) + sectionInset.right
+            }
         } else {
-            contentWidth = (sectionRowWidths[safe: section]?.first ?? contentWidth) + sectionInset.right
+            // LTR模式：Header -> Items -> Footer
+            let headerIndexPath = IndexPath(item: 0, section: section)
+            if let headerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerIndexPath),
+               headerAttributes.frame.width > 0
+            {
+                cache.append(headerAttributes)
+                contentWidth = headerAttributes.frame.maxX
+            }
+
+            let interitemSpacing = getInteritemSpacing(for: section)
+            let availableHeight = collectionView.bounds.height - sectionInset.top - sectionInset.bottom
+            guard availableHeight > 0 else {
+                print("⚠️ TFYSwiftGridFlowLayout: Item高度计算结果<=0，请检查边距设置，section=\(section)")
+                return
+            }
+            
+            let itemHeight = availableHeight
+            
+            // 初始化行宽度（单行模式）
+            if section >= sectionRowWidths.count {
+                sectionRowWidths.append([contentWidth + sectionInset.left])
+            }
+
+            let itemsCount = collectionView.numberOfItems(inSection: section)
+            for item in 0 ..< itemsCount {
+                let indexPath = IndexPath(item: item, section: section)
+                if let attributes = layoutAttributesForItemHorizontal(at: indexPath,
+                                                              itemHeight: itemHeight,
+                                                              sectionInset: sectionInset,
+                                                              interitemSpacing: interitemSpacing)
+                {
+                    cache.append(attributes)
+                }
+            }
+
+            // Footer处理（水平布局的Footer显示在右侧）
+            let footerIndexPath = IndexPath(item: 0, section: section)
+            if let footerAttributes = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerIndexPath),
+               footerAttributes.frame.width > 0
+            {
+                cache.append(footerAttributes)
+                contentWidth = footerAttributes.frame.maxX
+            } else {
+                contentWidth = (sectionRowWidths[safe: section]?.first ?? contentWidth) + sectionInset.right
+            }
         }
     }
 
@@ -347,6 +404,8 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             return nil
         }
 
+        // 垂直布局的Header/Footer通常是全宽的，x坐标始终从左边开始
+        // RTL模式下，宽度计算已经考虑了边距，所以x坐标保持sectionInset.left即可
         attributes.frame = CGRect(
             x: sectionInset.left,
             y: yPosition,
@@ -380,14 +439,29 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             if size == .zero {
                 size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section) ?? .zero
             }
-            xPosition = section == 0 ? contentWidth : contentWidth + sectionInset.left
+            if isRTL {
+                // RTL模式：Header在右边（items之后）
+                // 在prepareSectionLayoutHorizontal中，Header在Items之后处理
+                let itemsEndX = (sectionRowWidths[safe: section]?.first ?? contentWidth) + sectionInset.right
+                xPosition = itemsEndX
+            } else {
+                // LTR模式：Header在左边（items之前）
+                xPosition = section == 0 ? contentWidth : contentWidth + sectionInset.left
+            }
 
         case UICollectionView.elementKindSectionFooter:
             size = footerReferenceSize
             if size == .zero {
                 size = gridDelegate?.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section) ?? .zero
             }
-            xPosition = (sectionRowWidths[safe: section]?.first ?? 0) + sectionInset.right
+            if isRTL {
+                // RTL模式：Footer在左边（items之前）
+                // 在prepareSectionLayoutHorizontal中，Footer在Items之前处理
+                xPosition = section == 0 ? 0 : contentWidth + sectionInset.left
+            } else {
+                // LTR模式：Footer在右边（items之后）
+                xPosition = (sectionRowWidths[safe: section]?.first ?? 0) + sectionInset.right
+            }
 
         default:
             return nil
@@ -412,9 +486,22 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
 
         // 更新全局内容宽度
         if elementKind == UICollectionView.elementKindSectionHeader {
-            contentWidth = attributes.frame.maxX
+            if isRTL {
+                // RTL模式：Header在右边，contentWidth增加
+                contentWidth = attributes.frame.maxX
+            } else {
+                // LTR模式：Header在左边，contentWidth增加
+                contentWidth = attributes.frame.maxX
+            }
         } else if elementKind == UICollectionView.elementKindSectionFooter {
-            contentWidth = attributes.frame.maxX
+            if isRTL {
+                // RTL模式：Footer在左边，contentWidth不变（Footer已经在左边了）
+                // 但如果Footer宽度较大，需要更新
+                contentWidth = max(contentWidth, attributes.frame.maxX)
+            } else {
+                // LTR模式：Footer在右边，contentWidth增加
+                contentWidth = attributes.frame.maxX
+            }
         }
 
         return attributes
@@ -447,8 +534,17 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
                 finalItemHeight = min(itemHeight, maxHeight)
             }
             
-            // 计算 x 坐标：左边距 + 列索引 * (item宽度 + 列间距)
-            let x = sectionInset.left + CGFloat(column) * (itemWidth + interitemSpacing)
+            // 计算 x 坐标：RTL模式下需要镜像列顺序
+            let x: CGFloat
+            if isRTL {
+                // RTL模式：从右边开始，列顺序反转
+                let rtlColumn = columnsCount - 1 - column
+                let availableWidth = (collectionView?.bounds.width ?? 0) - sectionInset.left - sectionInset.right
+                x = sectionInset.left + CGFloat(rtlColumn) * (itemWidth + interitemSpacing)
+            } else {
+                // LTR模式：从左边开始
+                x = sectionInset.left + CGFloat(column) * (itemWidth + interitemSpacing)
+            }
             
             // 计算 y 坐标：使用初始高度 + 行索引 * (item高度 + 行间距)
             // 使用 columnHeights[0] 作为section的起始高度
@@ -477,7 +573,14 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
                 return nil
             }
 
-            let x = sectionInset.left + CGFloat(minColumn) * (itemWidth + interitemSpacing)
+            // RTL模式下需要镜像列索引
+            let x: CGFloat
+            if isRTL {
+                let rtlColumn = columnsCount - 1 - minColumn
+                x = sectionInset.left + CGFloat(rtlColumn) * (itemWidth + interitemSpacing)
+            } else {
+                x = sectionInset.left + CGFloat(minColumn) * (itemWidth + interitemSpacing)
+            }
             let y = minHeight
 
             var itemHeight = calculateItemHeight(at: indexPath, itemWidth: itemWidth)
@@ -507,9 +610,6 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         var currentWidth = sectionRowWidths[indexPath.section][0]
         
-        let x = currentWidth
-        let y = sectionInset.top
-        
         var itemWidth = calculateItemWidth(at: indexPath, itemHeight: itemHeight)
         
         // 应用最大宽度限制
@@ -517,9 +617,49 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
             itemWidth = min(itemWidth, maxWidth)
         }
         
+        let y = sectionInset.top
+        
+        // RTL模式下需要镜像items的位置
+        let x: CGFloat
+        if isRTL {
+            // RTL模式：从右边开始排列，item 0在最右边
+            // 需要先计算当前位置右边的所有items的总宽度
+            guard let collectionView = collectionView else { return nil }
+            let itemsCount = collectionView.numberOfItems(inSection: indexPath.section)
+            
+            // 计算当前item右边所有items的总宽度
+            var itemsWidthAfter: CGFloat = 0
+            for i in (indexPath.item + 1)..<itemsCount {
+                let tempIndexPath = IndexPath(item: i, section: indexPath.section)
+                var tempWidth = calculateItemWidth(at: tempIndexPath, itemHeight: itemHeight)
+                if let maxWidth = maxItemWidth {
+                    tempWidth = min(tempWidth, maxWidth)
+                }
+                itemsWidthAfter += tempWidth + interitemSpacing
+            }
+            
+            // 从右边开始计算：Footer结束位置 + sectionInset.left + 右边items宽度
+            // RTL模式下，Footer在左边，items从Footer右边开始排列
+            let startX = currentWidth + sectionInset.left
+            x = startX + itemsWidthAfter
+        } else {
+            // LTR模式：从左到右排列
+            x = currentWidth
+            currentWidth = x + itemWidth + interitemSpacing
+            sectionRowWidths[indexPath.section][0] = currentWidth
+        }
+        
         attributes.frame = CGRect(x: x, y: y, width: itemWidth, height: itemHeight)
-        currentWidth = x + itemWidth + interitemSpacing
-        sectionRowWidths[indexPath.section][0] = currentWidth
+        
+        // RTL模式下需要更新总宽度（使用最右边的item位置）
+        if isRTL {
+            guard let collectionView = collectionView else { return attributes }
+            let itemsCount = collectionView.numberOfItems(inSection: indexPath.section)
+            if indexPath.item == 0 {
+                // 第一个item（最右边），更新总宽度
+                sectionRowWidths[indexPath.section][0] = x + itemWidth + sectionInset.right
+            }
+        }
         
         return attributes
     }
@@ -643,6 +783,7 @@ public class TFYSwiftGridFlowLayout: UICollectionViewFlowLayout {
         var debugInfo = """
         === TFYSwiftGridFlowLayout 调试信息 ===
         布局模式: \(layoutMode == .horizontal ? "水平滚动" : "垂直瀑布流")
+        RTL布局: \(isRTL ? "是" : "否")
         列数: \(columnsCount)
         行数: \(rowsCount) (1=单行水平滚动, >1或0=多行垂直滚动)
         行间距: \(rowSpacing)
