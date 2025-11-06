@@ -85,6 +85,11 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     
     /// 自定义delegate（用于按section配置布局）
     public weak var sectionDelegate: TFYSwiftRTLAlignedFlowLayoutDelegate?
+    
+    /// 当系统代理设置了header/footer宽度时，是否限制宽度不超过可用宽度减去inset
+    /// 默认值为 true，保持原有行为（限制宽度）
+    /// 设置为 false 时，完全使用系统代理设置的宽度，不减去inset
+    public var shouldLimitHeaderFooterWidthByInset: Bool = false
 
     // MARK: - Initialization
     
@@ -319,12 +324,17 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                     if let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
                        let headerSize = systemDelegate.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section),
                        headerSize.width > 0 {
-                        return min(headerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                        // 根据开关决定是否限制宽度
+                        if shouldLimitHeaderFooterWidthByInset {
+                            return min(headerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                        } else {
+                            return headerSize.width
+                        }
                     }
                     return availableWidth - sectionInsetValue.left - sectionInsetValue.right
                 }()
                 
-                headerAttr.frame = CGRect(x: sectionInsetValue.left, y: yOffset, width: max(0, headerWidth), height: headerH)
+                headerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? sectionInsetValue.left : 0, y: yOffset, width: max(0, headerWidth), height: headerH)
                 headerAttr.zIndex = Self.headerZIndex
                 cachedAttributes.append(headerAttr)
                 yOffset = headerAttr.frame.maxY
@@ -410,12 +420,17 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                     if let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
                        let footerSize = systemDelegate.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: section),
                        footerSize.width > 0 {
-                        return min(footerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                        // 根据开关决定是否限制宽度
+                        if shouldLimitHeaderFooterWidthByInset {
+                            return min(footerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                        } else {
+                            return footerSize.width
+                        }
                     }
                     return availableWidth - sectionInsetValue.left - sectionInsetValue.right
                 }()
                 
-                footerAttr.frame = CGRect(x: sectionInsetValue.left, y: yOffset, width: max(0, footerWidth), height: footerH)
+                footerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? sectionInsetValue.left : 0, y: yOffset, width: max(0, footerWidth), height: footerH)
                 footerAttr.zIndex = Self.footerZIndex
                 cachedAttributes.append(footerAttr)
                 yOffset = footerAttr.frame.maxY
@@ -879,6 +894,21 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
 // 则会使用 TFYSwiftRTLAlignedFlowLayoutDelegate 的设置
 ```
 
+11. Header/Footer宽度控制开关：
+```swift
+let layout = TFYSwiftRTLAlignedFlowLayout()
+
+// 默认行为（true）：当系统代理设置了header/footer宽度时，会限制宽度不超过可用宽度减去inset
+layout.shouldLimitHeaderFooterWidthByInset = true
+
+// 设置为false：完全使用系统代理设置的宽度，不减去inset
+layout.shouldLimitHeaderFooterWidthByInset = false
+
+// 例如：如果系统代理返回 CGSize(width: 400, height: 50)，可用宽度为375，inset为(left: 16, right: 16)
+// shouldLimitHeaderFooterWidthByInset = true: 实际宽度为 min(400, 375-16-16) = 343
+// shouldLimitHeaderFooterWidthByInset = false: 实际宽度为 400（可能超出屏幕边界）
+```
+
 注意事项：
 - 瀑布流模式下，建议在delegate中提供准确的item高度
 - **高度缓存机制**：高度与对应的itemWidth一起缓存，宽度变化时会自动重新计算高度，避免高度显示异常
@@ -889,6 +919,7 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
 - 混合布局可以创建更丰富的视觉效果
 - **Header/Footer 尺寸优先级**：系统代理 > TFYSwiftRTLAlignedFlowLayoutDelegate > 默认值
 - 用户可以通过系统代理完全控制 header/footer 的显示和尺寸
+- **Header/Footer 宽度控制**：默认情况下，即使系统代理设置了宽度，也会限制为可用宽度减去inset。可通过 `shouldLimitHeaderFooterWidthByInset` 开关控制此行为。设置为 `false` 时，完全使用系统代理设置的宽度（可能超出屏幕边界）
 - **建议使用新的 setItemHeight(_:for:width:) 方法**手动设置高度时同时提供宽度，确保高度与宽度匹配
 
 */
