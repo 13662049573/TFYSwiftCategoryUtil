@@ -127,7 +127,6 @@
 		36FA19882941D6290099BB35 /* LocationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA194A2941D6290099BB35 /* LocationPublisher.swift */; };
 		36FA199F2941E1930099BB35 /* UIScreen+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */; };
 		36FA19A12942C8D40099BB35 /* UISearchBar+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */; };
-		3D68BB332D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */; };
 		3D68BB702D6322E500A244A7 /* CustomViewTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */; };
 		3DAFBE022CCC7E3C00BD829A /* WKWebView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */; };
 		84230E0F2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */; };
@@ -318,7 +317,6 @@
 		36FA194A2941D6290099BB35 /* LocationPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPublisher.swift; sourceTree = "<group>"; };
 		36FA199E2941E1930099BB35 /* UIScreen+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Chain.swift"; sourceTree = "<group>"; };
 		36FA19A02942C8D40099BB35 /* UISearchBar+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Chain.swift"; sourceTree = "<group>"; };
-		3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftGridFlowLayout.swift; sourceTree = "<group>"; };
 		3D68BB6F2D6322E400A244A7 /* CustomViewTipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewTipsView.swift; sourceTree = "<group>"; };
 		3DAFBE012CCC7E3C00BD829A /* WKWebView+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Chain.swift"; sourceTree = "<group>"; };
 		84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftRTLAlignedFlowLayout.swift; sourceTree = "<group>"; };
@@ -604,7 +602,6 @@
 				36D110432834C3ED0068E67E /* TFYRegexHelper.swift */,
 				36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */,
 				369A65752891263C00CF71BB /* TFYStitchImage.swift */,
-				3D68BB322D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift */,
 				848337212E323B22007D163E /* TFYRuntimeChainSystem.swift */,
 				84230E0E2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift */,
 			);
@@ -909,7 +906,6 @@
 				36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */,
 				36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */,
 				84230E0F2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift in Sources */,
-				3D68BB332D5F36F300A244A7 /* TFYSwiftGridFlowLayout.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
 				36DAFEEC2787FF9D00D05EE1 /* UISwitch+Chain.swift in Sources */,
 				36DAFEEE2787FF9D00D05EE1 /* UITextView+Chain.swift in Sources */,
