@@ -3,7 +3,7 @@
 //  TFYSwiftCategoryUtil
 //
 //  Created by 田风有 on 2021/5/10.
-//  优化：参数安全性检查、注释补全、健壮性提升、性能优化
+//  优化：参数安全性检查、注释补全、健壮性提升、性能优化、代码复用
 //
 
 import UIKit
@@ -86,8 +86,7 @@ public extension UILabel {
     ///   - font: 目标字体
     ///   - text: 要应用字体的文本
     func changeFont(_ font: UIFont, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.font, value: font, for: text)
+        applyAttribute(.font, value: font, for: text)
     }
 
     /// 改变字间距
@@ -101,8 +100,7 @@ public extension UILabel {
     ///   - kern: 字间距值
     ///   - text: 要应用字间距的文本
     func changeKern(_ kern: CGFloat, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.kern, value: kern, for: text)
+        applyAttribute(.kern, value: kern, for: text)
     }
 
     /// 改变行间距
@@ -117,8 +115,9 @@ public extension UILabel {
     /// 改变段落样式
     /// - Parameter paragraphStyle: 段落样式
     func changeParagraphStyle(_ paragraphStyle: NSParagraphStyle) {
-        let attributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
-        let textLength = NSString(string: text ?? "").length
+        guard let currentText = text, !currentText.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: currentText))
+        let textLength = attributedString.length
         if textLength > 0 {
             attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: textLength))
         }
@@ -147,11 +146,10 @@ public extension UILabel {
     ///   - color: 目标颜色
     ///   - texts: 要应用颜色的文本数组
     func changeTextColor(_ color: UIColor, for texts: [String]) {
-        guard !texts.isEmpty else { return }
-        let attributedString = NSMutableAttributedString(string: text ?? "")
-        for textStr in texts {
-            guard !textStr.isEmpty else { continue }
-            addAttribute(.foregroundColor, value: color, for: textStr, in: attributedString)
+        guard !texts.isEmpty, let currentText = text, !currentText.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(string: currentText)
+        for textStr in texts where !textStr.isEmpty {
+            addAttributeToAllOccurrences(.foregroundColor, value: color, for: textStr, in: attributedString)
         }
         attributedText = attributedString
     }
@@ -161,12 +159,23 @@ public extension UILabel {
     ///   - colors: 颜色数组
     ///   - texts: 文本数组，数量必须与颜色数组相同
     func changeTextColors(_ colors: [UIColor], for texts: [String]) {
-        guard colors.count == texts.count, !colors.isEmpty else { return }
-        let attributedString = NSMutableAttributedString(string: text ?? "")
-        for (index, color) in colors.enumerated() {
-            guard index < texts.count, !texts[index].isEmpty else { continue }
-            addAttribute(.foregroundColor, value: color, for: texts[index], in: attributedString)
+        guard colors.count == texts.count, !colors.isEmpty, let currentText = text, !currentText.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(string: currentText)
+        let nsString = currentText as NSString
+        
+        var searchStartLocation = 0
+        
+        for (index, color) in colors.enumerated() where index < texts.count && !texts[index].isEmpty {
+            let searchText = texts[index]
+            let searchRange = NSRange(location: searchStartLocation, length: nsString.length - searchStartLocation)
+            let foundRange = nsString.range(of: searchText, options: [], range: searchRange)
+            
+            if foundRange.location != NSNotFound {
+                attributedString.addAttribute(.foregroundColor, value: color, range: foundRange)
+                searchStartLocation = foundRange.location + foundRange.length
+            }
         }
+        
         attributedText = attributedString
     }
 
@@ -181,8 +190,7 @@ public extension UILabel {
     ///   - color: 目标背景颜色
     ///   - text: 要应用背景颜色的文本
     func changeBackgroundColor(_ color: UIColor, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.backgroundColor, value: color, for: text)
+        applyAttribute(.backgroundColor, value: color, for: text)
     }
 
     // MARK: - Text Effects
@@ -198,8 +206,7 @@ public extension UILabel {
     ///   - ligature: 连笔字设置
     ///   - text: 要应用连笔字的文本
     func changeLigature(_ ligature: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.ligature, value: ligature, for: text)
+        applyAttribute(.ligature, value: ligature, for: text)
     }
 
     /// 改变删除线样式
@@ -213,8 +220,7 @@ public extension UILabel {
     ///   - style: 删除线样式
     ///   - text: 要应用删除线的文本
     func changeStrikethroughStyle(_ style: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.strikethroughStyle, value: style, for: text)
+        applyAttribute(.strikethroughStyle, value: style, for: text)
     }
 
     /// 改变删除线颜色
@@ -228,8 +234,7 @@ public extension UILabel {
     ///   - color: 删除线颜色
     ///   - text: 要应用删除线颜色的文本
     func changeStrikethroughColor(_ color: UIColor, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.strikethroughColor, value: color, for: text)
+        applyAttribute(.strikethroughColor, value: color, for: text)
     }
 
     /// 改变下划线样式
@@ -243,8 +248,7 @@ public extension UILabel {
     ///   - style: 下划线样式
     ///   - text: 要应用下划线的文本
     func changeUnderlineStyle(_ style: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.underlineStyle, value: style, for: text)
+        applyAttribute(.underlineStyle, value: style, for: text)
     }
 
     /// 改变下划线颜色
@@ -258,8 +262,7 @@ public extension UILabel {
     ///   - color: 下划线颜色
     ///   - text: 要应用下划线颜色的文本
     func changeUnderlineColor(_ color: UIColor, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.underlineColor, value: color, for: text)
+        applyAttribute(.underlineColor, value: color, for: text)
     }
 
     // MARK: - Stroke Settings
@@ -275,8 +278,7 @@ public extension UILabel {
     ///   - color: 描边颜色
     ///   - text: 要应用描边颜色的文本
     func changeStrokeColor(_ color: UIColor, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.strokeColor, value: color, for: text)
+        applyAttribute(.strokeColor, value: color, for: text)
     }
 
     /// 改变描边宽度
@@ -290,8 +292,7 @@ public extension UILabel {
     ///   - width: 描边宽度
     ///   - text: 要应用描边宽度的文本
     func changeStrokeWidth(_ width: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.strokeWidth, value: width, for: text)
+        applyAttribute(.strokeWidth, value: width, for: text)
     }
 
     // MARK: - Advanced Effects
@@ -307,8 +308,7 @@ public extension UILabel {
     ///   - shadow: 阴影对象
     ///   - text: 要应用阴影的文本
     func changeShadow(_ shadow: NSShadow, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.shadow, value: shadow, for: text)
+        applyAttribute(.shadow, value: shadow, for: text)
     }
 
     /// 改变文本效果
@@ -322,8 +322,8 @@ public extension UILabel {
     ///   - effect: 文本效果字符串
     ///   - text: 要应用文本效果的文本
     func changeTextEffect(_ effect: String, for text: String) {
-        guard !text.isEmpty, !effect.isEmpty else { return }
-        addAttribute(.textEffect, value: effect, for: text)
+        guard !effect.isEmpty else { return }
+        applyAttribute(.textEffect, value: effect, for: text)
     }
 
     /// 改变文本附件
@@ -337,8 +337,7 @@ public extension UILabel {
     ///   - attachment: 文本附件
     ///   - text: 要应用附件的文本
     func changeAttachment(_ attachment: NSTextAttachment, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.attachment, value: attachment, for: text)
+        applyAttribute(.attachment, value: attachment, for: text)
     }
 
     /// 改变链接
@@ -352,8 +351,8 @@ public extension UILabel {
     ///   - link: 链接地址
     ///   - text: 要应用链接的文本
     func changeLink(_ link: String, for text: String) {
-        guard !text.isEmpty, !link.isEmpty else { return }
-        addAttribute(.link, value: link, for: text)
+        guard !link.isEmpty else { return }
+        applyAttribute(.link, value: link, for: text)
     }
 
     // MARK: - Text Transformations
@@ -369,8 +368,7 @@ public extension UILabel {
     ///   - offset: 基准线偏移值
     ///   - text: 要应用基准线偏移的文本
     func changeBaselineOffset(_ offset: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.baselineOffset, value: offset, for: text)
+        applyAttribute(.baselineOffset, value: offset, for: text)
     }
 
     /// 改变倾斜
@@ -384,8 +382,7 @@ public extension UILabel {
     ///   - obliqueness: 倾斜值
     ///   - text: 要应用倾斜的文本
     func changeObliqueness(_ obliqueness: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.obliqueness, value: obliqueness, for: text)
+        applyAttribute(.obliqueness, value: obliqueness, for: text)
     }
 
     /// 改变字粗细
@@ -399,8 +396,7 @@ public extension UILabel {
     ///   - expansion: 字粗细值
     ///   - text: 要应用字粗细的文本
     func changeExpansion(_ expansion: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.expansion, value: expansion, for: text)
+        applyAttribute(.expansion, value: expansion, for: text)
     }
 
     /// 改变书写方向
@@ -408,8 +404,8 @@ public extension UILabel {
     ///   - direction: 书写方向数组
     ///   - text: 要应用书写方向的文本
     func changeWritingDirection(_ direction: [Any], for text: String) {
-        guard !text.isEmpty, !direction.isEmpty else { return }
-        addAttribute(.writingDirection, value: direction, for: text)
+        guard !direction.isEmpty else { return }
+        applyAttribute(.writingDirection, value: direction, for: text)
     }
 
     /// 改变垂直字形
@@ -417,15 +413,15 @@ public extension UILabel {
     ///   - form: 垂直字形值
     ///   - text: 要应用垂直字形的文本
     func changeVerticalGlyphForm(_ form: NSNumber, for text: String) {
-        guard !text.isEmpty else { return }
-        addAttribute(.verticalGlyphForm, value: form, for: text)
+        applyAttribute(.verticalGlyphForm, value: form, for: text)
     }
 
     /// 改变字间距（CoreText）
     /// - Parameter kern: 字间距值
     func changeCTKern(_ kern: NSNumber) {
-        let attributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
-        let textLength = NSString(string: text ?? "").length
+        guard let currentText = text, !currentText.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: currentText))
+        let textLength = attributedString.length
         if textLength > 1 {
             attributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key, value: kern, range: NSRange(location: 0, length: textLength - 1))
         }
@@ -488,16 +484,7 @@ public extension UILabel {
         var attributeBuilder = AttributeBuilder()
         
         switch style {
-        case .title(let font, let color):
-            attributeBuilder.add(.font, value: font)
-            attributeBuilder.add(.foregroundColor, value: color)
-        case .subtitle(let font, let color):
-            attributeBuilder.add(.font, value: font)
-            attributeBuilder.add(.foregroundColor, value: color)
-        case .body(let font, let color):
-            attributeBuilder.add(.font, value: font)
-            attributeBuilder.add(.foregroundColor, value: color)
-        case .caption(let font, let color):
+        case .title(let font, let color), .subtitle(let font, let color), .body(let font, let color), .caption(let font, let color):
             attributeBuilder.add(.font, value: font)
             attributeBuilder.add(.foregroundColor, value: color)
         case .custom(let attributes):
@@ -517,10 +504,10 @@ public extension UILabel {
     ///   - attributes: 属性字典
     ///   - text: 目标文本
     func setAttributes(_ attributes: [NSAttributedString.Key: Any], for text: String) {
-        guard !text.isEmpty, !attributes.isEmpty else { return }
+        guard !text.isEmpty, !attributes.isEmpty, let currentText = self.text, !currentText.isEmpty else { return }
         
-        let targetAttributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
-        let textRange = findTextRangeInString(text, in: self.text ?? "")
+        let targetAttributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: currentText))
+        let textRange = findTextRangeInString(text, in: currentText)
         
         if textRange.location != NSNotFound {
             targetAttributedString.addAttributes(attributes, range: textRange)
@@ -548,14 +535,14 @@ public extension UILabel {
     ///   - attributes: 属性字典
     ///   - texts: 文本数组
     func setAttributes(_ attributes: [NSAttributedString.Key: Any], for texts: [String]) {
-        guard !texts.isEmpty, !attributes.isEmpty else { return }
+        guard !texts.isEmpty, !attributes.isEmpty, let currentText = self.text, !currentText.isEmpty else { return }
         
-        let targetAttributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
+        let targetAttributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: currentText))
         var hasChanges = false
         
         for text in texts {
             guard !text.isEmpty else { continue }
-            let textRange = findTextRangeInString(text, in: self.text ?? "")
+            let textRange = findTextRangeInString(text, in: currentText)
             if textRange.location != NSNotFound {
                 targetAttributedString.addAttributes(attributes, range: textRange)
                 hasChanges = true
@@ -569,24 +556,48 @@ public extension UILabel {
 
     // MARK: - Private Helper Methods
 
-    /// 添加属性到指定文本（优化版本）
+    /// 统一的属性应用方法（核心优化：减少重复代码）
     /// - Parameters:
     ///   - key: 属性键
     ///   - value: 属性值
     ///   - text: 目标文本
-    ///   - attributedString: 可选的属性字符串，如果为nil则使用当前attributedText
-    private func addAttribute(_ key: NSAttributedString.Key, value: Any, for text: String, in attributedString: NSMutableAttributedString? = nil) {
-        guard !text.isEmpty else { return }
-
-        let targetAttributedString = attributedString ?? NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString())
-        let textRange = findTextRangeInString(text, in: self.text ?? "")
+    private func applyAttribute(_ key: NSAttributedString.Key, value: Any, for text: String) {
+        guard !text.isEmpty, let currentText = self.text, !currentText.isEmpty else { return }
+        
+        let targetAttributedString = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: currentText))
+        let textRange = findTextRangeInString(text, in: currentText)
         
         if textRange.location != NSNotFound {
             targetAttributedString.addAttribute(key, value: value, range: textRange)
-        }
-
-        if attributedString == nil {
             attributedText = targetAttributedString
+        }
+    }
+    
+    /// 添加属性到所有匹配的文本
+    /// - Parameters:
+    ///   - key: 属性键
+    ///   - value: 属性值
+    ///   - text: 目标文本
+    ///   - attributedString: 属性字符串
+    private func addAttributeToAllOccurrences(_ key: NSAttributedString.Key, value: Any, for text: String, in attributedString: NSMutableAttributedString) {
+        guard !text.isEmpty else { return }
+        
+        let nsString = attributedString.string as NSString
+        guard nsString.length > 0 else { return }
+        
+        var searchRange = NSRange(location: 0, length: nsString.length)
+        
+        while searchRange.location < nsString.length {
+            let foundRange = nsString.range(of: text, options: [], range: searchRange)
+            if foundRange.location == NSNotFound {
+                break
+            }
+            
+            attributedString.addAttribute(key, value: value, range: foundRange)
+            
+            // 移动搜索范围到找到的文本之后
+            searchRange.location = foundRange.location + foundRange.length
+            searchRange.length = nsString.length - searchRange.location
         }
     }
     

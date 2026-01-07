@@ -142,7 +142,6 @@ class HomeController: UIViewController {
         // 添加点击事件
         btn.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         btn.tag = index
-        
         return btn
     }
     
