@@ -367,6 +367,7 @@ extension UIButton {
             updatedConfig?.background.backgroundColor = .clear
             updatedConfig?.background.strokeColor = .clear
             
+            updatedConfig?.background.cornerRadius = button.layer.cornerRadius
             // 更新字体和颜色
             let newFont = button.titleLabel?.font ?? buttonFont
             let newColor = button.titleColor(for: .normal) ?? buttonColor

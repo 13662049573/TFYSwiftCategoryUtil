@@ -224,6 +224,23 @@ class MultilingualClickTestController: UIViewController {
         return label
     }()
     
+    lazy var coninLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "1000 Coins + 1000 Bonus"
+        label.numberOfLines = 0
+        label.textColor = .systemBlue
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
+        label.layer.cornerRadius = 12
+        label.layer.masksToBounds = true
+        label.textAlignment = .center
+        label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.systemBlue.withAlphaComponent(0.3).cgColor
+        
+        return label
+    }()
+    
     lazy var controlStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -291,7 +308,6 @@ class MultilingualClickTestController: UIViewController {
     /// 设置用户界面
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        title = "多语言点击测试"
         
         // 设置导航栏
         setupNavigationBar()
@@ -345,6 +361,8 @@ class MultilingualClickTestController: UIViewController {
         
         // 添加结果标签
         contentStackView.addArrangedSubview(resultLabel)
+        contentStackView.addArrangedSubview(coninLabel)
+        coninLabel.changeTextColor(.red, for: ["1000","1000"])
     }
     
     /// 设置约束
@@ -374,6 +392,7 @@ class MultilingualClickTestController: UIViewController {
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
+       
     }
     
     // MARK: - 多语言点击测试设置

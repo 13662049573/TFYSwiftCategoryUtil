@@ -83,7 +83,6 @@ class ViewController: UIViewController {
     // MARK: - UI设置
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        title = "TFYStitchImage 功能展示"
         
         // 设置滚动视图
         scrollView.translatesAutoresizingMaskIntoConstraints = false

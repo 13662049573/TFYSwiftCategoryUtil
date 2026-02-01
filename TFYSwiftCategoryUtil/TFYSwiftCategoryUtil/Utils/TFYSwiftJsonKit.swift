@@ -783,8 +783,10 @@ public class TFYSwiftJsonKit: NSObject {
         queue: DispatchQueue = .global(qos: .userInitiated),
         completion: @escaping (Result<T, TFYJsonError>) -> Void
     ) {
+        // 使用 nonisolated(unsafe) 捕获类型，因为 T.Type 是元类型，不包含可变状态，线程安全
+        nonisolated(unsafe) let capturedType = type
         queue.async {
-            let result = decode(type, from: data, config: config)
+            let result = decode(capturedType, from: data, config: config)
             DispatchQueue.main.async {
                 completion(result)
             }

@@ -60,7 +60,7 @@ class HomeController: UIViewController {
     ]
 
     private func setupUI() {
-        title = "首页"
+        
         view.backgroundColor = .systemBackground
         
         setupScrollView()
@@ -142,7 +142,6 @@ class HomeController: UIViewController {
         // 添加点击事件
         btn.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         btn.tag = index
-        
         return btn
     }
     
