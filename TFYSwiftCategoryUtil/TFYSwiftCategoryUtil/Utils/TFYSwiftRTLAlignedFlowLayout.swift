@@ -1,6 +1,6 @@
 //
 //  TFYSwiftRTLAlignedFlowLayout.swift
-//  ZSShortPlay
+//  TFYSwiftShortPlay
 //
 //  Created by cchen on 2025/9/29.
 //
@@ -23,6 +23,20 @@ public protocol TFYSwiftRTLAlignedFlowLayoutDelegate: AnyObject {
     // Header/Footer 尺寸（仅高度，宽度为集合视图宽度减去 inset）
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, headerHeightFor section: Int, width: CGFloat) -> CGFloat?
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, footerHeightFor section: Int, width: CGFloat) -> CGFloat?
+    // 每组是否使用「有框」insetGrouped 样式（由 layout 绘制整组圆角背景，可单独控制）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedFor section: Int) -> Bool?
+    // 有框样式下，组相对 collectionView 的外边距（默认左右 16，上下 12）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGroupInsetsFor section: Int) -> UIEdgeInsets?
+    // 有框样式下，组的圆角半径（默认 10）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedCornerRadiusFor section: Int) -> CGFloat?
+    // 有框样式下，组的背景色（返回 nil 则使用 layout.sectionGroupedBackgroundColor）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBackgroundColorFor section: Int) -> UIColor?
+    // 有框样式下，组的边框宽度（返回 nil 则使用 layout.sectionGroupedBorderWidth，0 表示无边框）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderWidthFor section: Int) -> CGFloat?
+    // 有框样式下，组的边框颜色（返回 nil 则使用 layout.sectionGroupedBorderColor 或按 section 的 sectionGroupedBorderColors）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderColorFor section: Int) -> UIColor?
+    // 有框样式下，圆角容器包含的范围（默认 .full：组头+内容+组尾；.itemsOnly：仅内容区，不含组头组尾）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedContentModeFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.InsetGroupedContentMode?
 }
 
 public extension TFYSwiftRTLAlignedFlowLayoutDelegate {
@@ -34,6 +48,13 @@ public extension TFYSwiftRTLAlignedFlowLayoutDelegate {
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, sectionInsetFor section: Int) -> UIEdgeInsets? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, headerHeightFor section: Int, width: CGFloat) -> CGFloat? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, footerHeightFor section: Int, width: CGFloat) -> CGFloat? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedFor section: Int) -> Bool? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGroupInsetsFor section: Int) -> UIEdgeInsets? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedCornerRadiusFor section: Int) -> CGFloat? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBackgroundColorFor section: Int) -> UIColor? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderWidthFor section: Int) -> CGFloat? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderColorFor section: Int) -> UIColor? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedContentModeFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.InsetGroupedContentMode? { nil }
 }
 
 // MARK: - Main Layout Class
@@ -49,11 +70,44 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     private static let headerZIndex: Int = 1000
     /// Footer 视图的 zIndex
     private static let footerZIndex: Int = 500
+    /// 有框（insetGrouped）背景 Decoration 的 kind
+    public static let sectionBackgroundDecorationKind = "TFYSwiftRTLAlignedFlowLayout.SectionBackground"
+    /// 有框样式默认组外边距（与 UITableView insetGrouped 接近）
+    private static let defaultInsetGroupedInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    /// 有框样式默认圆角
+    private static let defaultInsetGroupedCornerRadius: CGFloat = 10
+    
+    /// 有框（insetGrouped）样式的全局默认组背景色；未在 delegate 或 sectionGroupedBackgroundColors 中指定时使用
+    public var sectionGroupedBackgroundColor: UIColor = .secondarySystemGroupedBackground
+    
+    /// 有框样式中「每个分组独立」的背景色：key 为 section 索引，value 为该组的背景色。优先级高于 sectionGroupedBackgroundColor，低于 delegate 的 insetGroupedBackgroundColorFor
+    public var sectionGroupedBackgroundColors: [Int: UIColor] = [:]
+    
+    /// 相邻两个有框（insetGrouped）组之间的垂直间隙，避免圆角组贴在一起。默认 12pt
+    public var spacingBetweenGroupedSections: CGFloat = 12
+    
+    /// 有框样式的边框宽度，0 表示无边框。可由 delegate 的 insetGroupedBorderWidthFor 按 section 覆盖
+    public var sectionGroupedBorderWidth: CGFloat = 0
+    /// 有框样式的默认边框颜色；未在 delegate 或 sectionGroupedBorderColors 中指定时使用，nil 表示使用系统分隔色
+    public var sectionGroupedBorderColor: UIColor?
+    /// 有框样式中按 section 的边框颜色，优先级高于 sectionGroupedBorderColor，低于 delegate 的 insetGroupedBorderColorFor
+    public var sectionGroupedBorderColors: [Int: UIColor] = [:]
+    
+    /// 有框样式下圆角容器的默认包含范围；未在 delegate 的 insetGroupedContentModeFor 中指定时使用
+    public var defaultInsetGroupedContentMode: InsetGroupedContentMode = .full
     
     // MARK: - Enums
     
     public enum HorizontalAlignment { case leading, center, trailing }
     public enum LayoutMode { case flow, waterfall }
+    
+    /// 有框（insetGrouped）圆角容器的包含范围，可按 section 独立控制
+    public enum InsetGroupedContentMode {
+        /// 圆角容器包含：组头 + 内容区 + 组尾（与原有行为一致）
+        case full
+        /// 圆角容器仅包含内容区（不包含组头、组尾）；无组头组尾时与 full 效果相同
+        case itemsOnly
+    }
     
     // MARK: - Properties
     
@@ -63,6 +117,8 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     private var lastContentSize = CGSize.zero
     /// 上次的集合视图宽度（用于检测旋转等变化）
     private var lastCollectionViewWidth: CGFloat = 0
+    /// 上次的item数量（用于检测数据变化）
+    private var lastItemCounts: [Int: Int] = [:]
     
     // 瀑布流相关属性
     /// 当前各列的高度
@@ -102,10 +158,48 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         self.layoutMode = layoutMode
         self.columnCount = max(1, columnCount)
         super.init()
+        register(SectionBackgroundDecorationView.self, forDecorationViewOfKind: Self.sectionBackgroundDecorationKind)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    /// 解析某 section 的有框背景色：delegate > sectionGroupedBackgroundColors[section] > sectionGroupedBackgroundColor
+    private func resolvedGroupedBackgroundColor(for section: Int) -> UIColor {
+        if let c = sectionDelegate?.layout(self, insetGroupedBackgroundColorFor: section) { return c }
+        if let c = sectionGroupedBackgroundColors[section] { return c }
+        return sectionGroupedBackgroundColor
+    }
+    
+    private func resolvedGroupedBorderWidth(for section: Int) -> CGFloat {
+        sectionDelegate?.layout(self, insetGroupedBorderWidthFor: section) ?? sectionGroupedBorderWidth
+    }
+    
+    private func resolvedGroupedBorderColor(for section: Int) -> UIColor? {
+        if let c = sectionDelegate?.layout(self, insetGroupedBorderColorFor: section) { return c }
+        if let c = sectionGroupedBorderColors[section] { return c }
+        return sectionGroupedBorderColor
+    }
+    
+    /// 返回某 section 的圆角容器包含范围：delegate > defaultInsetGroupedContentMode
+    private func resolvedInsetGroupedContentMode(for section: Int) -> InsetGroupedContentMode {
+        sectionDelegate?.layout(self, insetGroupedContentModeFor: section) ?? defaultInsetGroupedContentMode
+    }
+    
+    /// 返回某 section 的「有效」内边距：若该 section 启用有框（insetGrouped）则为基础 sectionInset + 组外边距，否则为基础 sectionInset。
+    /// 用于与系统 UICollectionViewDelegateFlowLayout 的 insetForSectionAt / sizeForItemAt 保持一致，避免 cell 宽度按小 inset 算导致溢出。
+    public func effectiveSectionInset(for section: Int) -> UIEdgeInsets {
+        let base = sectionDelegate?.layout(self, sectionInsetFor: section) ?? sectionInset
+        let useInsetGrouped = sectionDelegate?.layout(self, insetGroupedFor: section) ?? false
+        guard useInsetGrouped else { return base }
+        let groupInsets = sectionDelegate?.layout(self, insetGroupedGroupInsetsFor: section) ?? Self.defaultInsetGroupedInsets
+        return UIEdgeInsets(
+            top: base.top + groupInsets.top,
+            left: base.left + groupInsets.left,
+            bottom: base.bottom + groupInsets.bottom,
+            right: base.right + groupInsets.right
+        )
     }
     
     // MARK: - Layout Lifecycle
@@ -130,21 +224,90 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             for: collectionView.semanticContentAttribute
         ) == .rightToLeft
         
+        // 检测数据变化：比较每个section的item数量
+        let totalSections = collectionView.numberOfSections
+        var currentItemCounts: [Int: Int] = [:]
+        var hasDataChanged = false
+        
+        for section in 0..<totalSections {
+            let itemCount = collectionView.numberOfItems(inSection: section)
+            currentItemCounts[section] = itemCount
+            if let lastCount = lastItemCounts[section], lastCount != itemCount {
+                hasDataChanged = true
+            } else if lastItemCounts[section] == nil && itemCount > 0 {
+                hasDataChanged = true
+            }
+        }
+        
+        // 检查是否有section数量变化
+        if lastItemCounts.count != currentItemCounts.count {
+            hasDataChanged = true
+        }
+        
         // 判断是否需要更新布局
         let baseContentSize = super.collectionViewContentSize
         let currentWidth = collectionView.bounds.width
         let needUpdate = cachedAttributes.isEmpty
             || lastCollectionViewWidth != currentWidth
             || lastContentSize != baseContentSize
+            || hasDataChanged
         
         if needUpdate {
+            // 清理无效的itemHeights缓存（只保留当前有效的indexPath）
+            if hasDataChanged {
+                cleanupInvalidItemHeightCache(totalSections: totalSections, collectionView: collectionView)
+                // 数据变化时，清空所有瀑布流section的缓存，强制重新计算高度
+                clearWaterfallSectionCaches(totalSections: totalSections, collectionView: collectionView)
+            }
+            
+            // 清空缓存的布局属性，强制重新计算
+            cachedAttributes.removeAll()
+            
             prepareMixedLayout()
             lastContentSize = baseContentSize
             lastCollectionViewWidth = currentWidth
+            lastItemCounts = currentItemCounts
         }
     }
     
     // MARK: - Private Layout Methods
+    
+    /// 清理无效的item高度缓存（移除不存在的indexPath）
+    /// - Parameters:
+    ///   - totalSections: section总数
+    ///   - collectionView: 集合视图
+    private func cleanupInvalidItemHeightCache(totalSections: Int, collectionView: UICollectionView) {
+        let validIndexPaths = Set((0..<totalSections).flatMap { section in
+            (0..<collectionView.numberOfItems(inSection: section)).map { item in
+                IndexPath(item: item, section: section)
+            }
+        })
+        
+        // 移除无效的缓存
+        itemHeights = itemHeights.filter { validIndexPaths.contains($0.key) }
+    }
+    
+    /// 清空所有瀑布流section的item高度缓存，强制重新计算
+    /// - Parameters:
+    ///   - totalSections: section总数
+    ///   - collectionView: 集合视图
+    private func clearWaterfallSectionCaches(totalSections: Int, collectionView: UICollectionView) {
+        for section in 0..<totalSections {
+            let isWaterfall = layoutMode == .waterfall ||
+                             waterfallSections.contains(section) ||
+                             (sectionDelegate?.layout(self, isWaterfallFor: section) ?? false)
+            
+            if isWaterfall {
+                // 清空该section的所有item缓存
+                let sectionIndexPaths = (0..<collectionView.numberOfItems(inSection: section)).map { item in
+                    IndexPath(item: item, section: section)
+                }
+                for indexPath in sectionIndexPaths {
+                    itemHeights.removeValue(forKey: indexPath)
+                }
+            }
+        }
+    }
     
     /// 对一行中的 items 进行水平对齐与 RTL 处理
     /// - Parameters:
@@ -224,6 +387,13 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         return cachedAttributes.first { $0.indexPath == indexPath }
     }
     
+    override public func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        guard elementKind == Self.sectionBackgroundDecorationKind else { return nil }
+        return cachedAttributes.first {
+            $0.representedElementKind == elementKind && $0.indexPath == indexPath
+        }
+    }
+    
     override public var collectionViewContentSize: CGSize {
         guard let collectionView = collectionView else { return .zero }
         let maxHeight = cachedAttributes.map { $0.frame.maxY }.max() ?? 0
@@ -236,7 +406,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     private func prepareMixedLayout() {
         guard let collectionView = collectionView else { return }
         
-        cachedAttributes.removeAll()
+        // 注意：cachedAttributes 已经在 prepare() 中清空，这里不需要再次清空
         
         let totalSections = collectionView.numberOfSections
         var yOffset: CGFloat = 0
@@ -265,13 +435,31 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             let availableWidth = collectionView.bounds.width
             let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout
             
-            // 读取每组配置（优先级：系统代理 > 自定义delegate > 默认值）
-            let sectionInsetValue: UIEdgeInsets = {
-                if let systemInset = systemDelegate?.collectionView?(collectionView, layout: self, insetForSectionAt: section) {
-                    return systemInset
-                }
-                return sectionDelegate?.layout(self, sectionInsetFor: section) ?? sectionInset
-            }()
+            // 基础内边距（自定义 delegate 或 layout 默认值）
+            let baseSectionInset: UIEdgeInsets = sectionDelegate?.layout(self, sectionInsetFor: section) ?? sectionInset
+            
+            // 有框（insetGrouped）样式：由 layout 在 section 级别绘制整组圆角背景，可单独控制
+            let useInsetGrouped = sectionDelegate?.layout(self, insetGroupedFor: section) ?? false
+            let groupInsets: UIEdgeInsets = useInsetGrouped
+                ? (sectionDelegate?.layout(self, insetGroupedGroupInsetsFor: section) ?? Self.defaultInsetGroupedInsets)
+                : .zero
+            let sectionMinY = yOffset
+            var itemsStartY: CGFloat = yOffset
+            var itemsEndY: CGFloat = yOffset
+            
+            // 有效内边距：无有框时沿用原有逻辑（优先系统 delegate 的 insetForSectionAt），有框时仅用 base + groupInsets 避免重复累加
+            let effectiveSectionInset: UIEdgeInsets
+            if useInsetGrouped {
+                effectiveSectionInset = UIEdgeInsets(
+                    top: baseSectionInset.top + groupInsets.top,
+                    left: baseSectionInset.left + groupInsets.left,
+                    bottom: baseSectionInset.bottom + groupInsets.bottom,
+                    right: baseSectionInset.right + groupInsets.right
+                )
+            } else {
+                // 未设置圆角/有框时：与改动前一致，优先使用系统代理 insetForSectionAt，否则 baseSectionInset
+                effectiveSectionInset = systemDelegate?.collectionView?(collectionView, layout: self, insetForSectionAt: section) ?? baseSectionInset
+            }
             
             let interitem: CGFloat = {
                 if let systemSpacing = systemDelegate?.collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: section) {
@@ -326,29 +514,31 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                        headerSize.width > 0 {
                         // 根据开关决定是否限制宽度
                         if shouldLimitHeaderFooterWidthByInset {
-                            return min(headerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                            return min(headerSize.width, availableWidth - effectiveSectionInset.left - effectiveSectionInset.right)
                         } else {
                             return headerSize.width
                         }
                     }
-                    return availableWidth - sectionInsetValue.left - sectionInsetValue.right
+                    return availableWidth - effectiveSectionInset.left - effectiveSectionInset.right
                 }()
                 
-                headerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? sectionInsetValue.left : 0, y: yOffset, width: max(0, headerWidth), height: headerH)
+                headerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? effectiveSectionInset.left : 0, y: yOffset, width: max(0, headerWidth), height: headerH)
                 headerAttr.zIndex = Self.headerZIndex
                 cachedAttributes.append(headerAttr)
                 yOffset = headerAttr.frame.maxY
             }
+            itemsStartY = yOffset
 
             if isWaterfallSection {
                 // 瀑布流：从当前 yOffset 开始排布
                 yOffset = prepareWaterfallLayoutForSection(
                     section,
                     startY: yOffset,
-                    sectionInset: sectionInsetValue,
+                    sectionInset: effectiveSectionInset,
                     interitemSpacing: interitem,
                     lineSpacing: lineSpacing
                 )
+                itemsEndY = yOffset
             } else {
                 // 普通流式：使用系统计算的属性，但需要将该 section 的所有 frame 下移到当前 yOffset 之后，并按行进行水平对齐
                 let sectionAttrs = baseAttributesAllSections.filter {
@@ -359,16 +549,38 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                     yOffset = prepareFlowLayoutForSection(
                         section,
                         startY: yOffset,
-                        sectionInset: sectionInsetValue,
+                        sectionInset: effectiveSectionInset,
                         interitemSpacing: interitem,
                         lineSpacing: lineSpacing
                     )
+                    itemsEndY = yOffset
+                    if useInsetGrouped {
+                        let attrs = SectionBackgroundLayoutAttributes(forDecorationViewOfKind: Self.sectionBackgroundDecorationKind, with: IndexPath(item: 0, section: section))
+                        let contentMode = resolvedInsetGroupedContentMode(for: section)
+                        let (decY, decH): (CGFloat, CGFloat) = contentMode == .itemsOnly
+                            ? (itemsStartY, itemsEndY - itemsStartY)
+                            : (sectionMinY, yOffset - sectionMinY)
+                        attrs.frame = CGRect(x: groupInsets.left, y: decY, width: collectionView.bounds.width - groupInsets.left - groupInsets.right, height: decH)
+                        attrs.zIndex = -1
+                        attrs.cornerRadius = sectionDelegate?.layout(self, insetGroupedCornerRadiusFor: section) ?? Self.defaultInsetGroupedCornerRadius
+                        attrs.backgroundColor = resolvedGroupedBackgroundColor(for: section)
+                        attrs.borderWidth = resolvedGroupedBorderWidth(for: section)
+                        attrs.borderColor = resolvedGroupedBorderColor(for: section)
+                        cachedAttributes.append(attrs)
+                    }
+                    // 相邻两个有框组之间的间隙（与主分支一致）
+                    if useInsetGrouped && spacingBetweenGroupedSections > 0 && section + 1 < totalSections {
+                        let nextInsetGrouped = sectionDelegate?.layout(self, insetGroupedFor: section + 1) ?? false
+                        if nextInsetGrouped {
+                            yOffset += spacingBetweenGroupedSections
+                        }
+                    }
                     continue
                 }
                 
                 // 调整 section 内所有 item 的 y 坐标
                 let minY = sectionAttrs.map { $0.frame.minY }.min() ?? 0
-                let delta = (yOffset + sectionInsetValue.top) - minY
+                let delta = (yOffset + effectiveSectionInset.top) - minY
                 var maxY: CGFloat = yOffset
                 for attr in sectionAttrs {
                     attr.frame = attr.frame.offsetBy(dx: 0, dy: delta)
@@ -393,7 +605,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                         if abs(attr.frame.minY - currentYForRow) <= Self.floatComparisonThreshold {
                             currentRow.append(attr)
                         } else {
-                            arrangeRow(currentRow, sectionInset: sectionInsetValue, interitemSpacing: interitem)
+                            arrangeRow(currentRow, sectionInset: effectiveSectionInset, interitemSpacing: interitem)
                             currentRow.removeAll()
                             currentRow.append(attr)
                             currentYForRow = attr.frame.minY
@@ -401,10 +613,11 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                     }
                 }
                 if !currentRow.isEmpty {
-                    arrangeRow(currentRow, sectionInset: sectionInsetValue, interitemSpacing: interitem)
+                    arrangeRow(currentRow, sectionInset: effectiveSectionInset, interitemSpacing: interitem)
                 }
                 cachedAttributes.append(contentsOf: sectionAttrs)
-                yOffset = maxY + sectionInsetValue.bottom
+                yOffset = maxY + effectiveSectionInset.bottom
+                itemsEndY = yOffset
             }
 
             // Footer（如有）：创建补充视图属性并堆叠
@@ -422,18 +635,42 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                        footerSize.width > 0 {
                         // 根据开关决定是否限制宽度
                         if shouldLimitHeaderFooterWidthByInset {
-                            return min(footerSize.width, availableWidth - sectionInsetValue.left - sectionInsetValue.right)
+                            return min(footerSize.width, availableWidth - effectiveSectionInset.left - effectiveSectionInset.right)
                         } else {
                             return footerSize.width
                         }
                     }
-                    return availableWidth - sectionInsetValue.left - sectionInsetValue.right
+                    return availableWidth - effectiveSectionInset.left - effectiveSectionInset.right
                 }()
                 
-                footerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? sectionInsetValue.left : 0, y: yOffset, width: max(0, footerWidth), height: footerH)
+                footerAttr.frame = CGRect(x: shouldLimitHeaderFooterWidthByInset ? effectiveSectionInset.left : 0, y: yOffset, width: max(0, footerWidth), height: footerH)
                 footerAttr.zIndex = Self.footerZIndex
                 cachedAttributes.append(footerAttr)
                 yOffset = footerAttr.frame.maxY
+            }
+            
+            // 有框样式：为该 section 添加圆角背景 Decoration（可按 contentMode 控制包含范围：整组或仅内容区）
+            if useInsetGrouped {
+                let attrs = SectionBackgroundLayoutAttributes(forDecorationViewOfKind: Self.sectionBackgroundDecorationKind, with: IndexPath(item: 0, section: section))
+                let contentMode = resolvedInsetGroupedContentMode(for: section)
+                let (decY, decH): (CGFloat, CGFloat) = contentMode == .itemsOnly
+                    ? (itemsStartY, itemsEndY - itemsStartY)
+                    : (sectionMinY, yOffset - sectionMinY)
+                attrs.frame = CGRect(x: groupInsets.left, y: decY, width: collectionView.bounds.width - groupInsets.left - groupInsets.right, height: decH)
+                attrs.zIndex = -1
+                attrs.cornerRadius = sectionDelegate?.layout(self, insetGroupedCornerRadiusFor: section) ?? Self.defaultInsetGroupedCornerRadius
+                attrs.backgroundColor = resolvedGroupedBackgroundColor(for: section)
+                attrs.borderWidth = resolvedGroupedBorderWidth(for: section)
+                attrs.borderColor = resolvedGroupedBorderColor(for: section)
+                cachedAttributes.append(attrs)
+            }
+            
+            // 相邻两个有框组之间的间隙：仅当当前组与下一组均为有框时添加，避免圆角贴在一起
+            if useInsetGrouped && spacingBetweenGroupedSections > 0 && section + 1 < totalSections {
+                let nextInsetGrouped = sectionDelegate?.layout(self, insetGroupedFor: section + 1) ?? false
+                if nextInsetGrouped {
+                    yOffset += spacingBetweenGroupedSections
+                }
             }
         }
     }
@@ -588,15 +825,34 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     ///   - itemWidth: item 的宽度
     /// - Returns: item 高度
     private func getItemHeight(for indexPath: IndexPath, itemWidth: CGFloat) -> CGFloat {
+        // 验证indexPath是否有效
+        guard let collectionView = collectionView,
+              indexPath.section >= 0,
+              indexPath.section < collectionView.numberOfSections,
+              indexPath.item >= 0,
+              indexPath.item < collectionView.numberOfItems(inSection: indexPath.section) else {
+            // indexPath无效，使用默认高度
+            let defaultHeight = itemWidth * 1.2
+            return defaultHeight
+        }
+        
         // 检查是否已缓存高度，且宽度匹配（避免宽度变化后高度失效）
+        // 注意：宽度匹配的容差检查很重要，确保宽度变化时重新计算高度
         if let cached = itemHeights[indexPath], abs(cached.width - itemWidth) < Self.widthMatchTolerance {
             return cached.height
         }
         
-        // 尝试从 delegate 获取高度
-        if let delegate = collectionView?.delegate as? UICollectionViewDelegateFlowLayout,
-           let size = delegate.collectionView?(collectionView!, layout: self, sizeForItemAt: indexPath) {
+        // 尝试从 delegate 获取高度（这是最准确的高度来源）
+        if let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
+           let size = delegate.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) {
             let height = size.height
+            // 确保高度有效
+            guard height > 0 else {
+                // 如果delegate返回无效高度，使用默认值
+                let defaultHeight = itemWidth * 1.2
+                itemHeights[indexPath] = (height: defaultHeight, width: itemWidth)
+                return defaultHeight
+            }
             // 缓存高度和对应的宽度
             itemHeights[indexPath] = (height: height, width: itemWidth)
             return height
@@ -698,6 +954,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     /// 清除 item 高度缓存（当 item 高度可能变化或列数/宽度变化时调用）
     public func clearItemHeightCache() {
         itemHeights.removeAll()
+        lastItemCounts.removeAll()
         invalidateLayout()
     }
     
@@ -729,6 +986,62 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         let itemWidth = (contentWidth - CGFloat(columns - 1) * interitem) / CGFloat(columns)
         
         itemHeights[indexPath] = (height: height, width: itemWidth)
+    }
+}
+
+// MARK: - InsetGrouped 有框样式：Section 背景 Decoration
+
+/// 用于有框样式的 Decoration 布局属性，携带圆角半径、背景色与边框（可由 layout 或 delegate 控制）
+public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttributes {
+    public var cornerRadius: CGFloat = 10
+    public var backgroundColor: UIColor = .secondarySystemGroupedBackground
+    /// 边框宽度，0 表示无边框
+    public var borderWidth: CGFloat = 0
+    /// 边框颜色，nil 时若 borderWidth > 0 则使用系统分隔色
+    public var borderColor: UIColor?
+    
+    override public func copy(with zone: NSZone? = nil) -> Any {
+        let copy = super.copy(with: zone) as! SectionBackgroundLayoutAttributes
+        copy.cornerRadius = cornerRadius
+        copy.backgroundColor = backgroundColor
+        copy.borderWidth = borderWidth
+        copy.borderColor = borderColor
+        return copy
+    }
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? SectionBackgroundLayoutAttributes else { return false }
+        let colorEqual = (borderColor == nil && other.borderColor == nil) || (borderColor?.isEqual(other.borderColor) == true)
+        return super.isEqual(other) && cornerRadius == other.cornerRadius && backgroundColor.isEqual(other.backgroundColor)
+            && borderWidth == other.borderWidth && colorEqual
+    }
+}
+
+/// 有框（insetGrouped）样式的 section 背景视图，由 layout 在 section 级别添加，无需在 cell 上做样式
+public final class SectionBackgroundDecorationView: UICollectionReusableView {
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .secondarySystemGroupedBackground
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override public func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        if let attrs = layoutAttributes as? SectionBackgroundLayoutAttributes {
+            layer.cornerRadius = attrs.cornerRadius
+            backgroundColor = attrs.backgroundColor
+            layer.borderWidth = attrs.borderWidth
+            if attrs.borderWidth > 0 {
+                layer.borderColor = (attrs.borderColor ?? .separator).cgColor
+            } else {
+                layer.borderColor = nil
+            }
+        }
     }
 }
 
@@ -862,6 +1175,11 @@ class MyViewController: UIViewController, TFYSwiftRTLAlignedFlowLayoutDelegate {
         // 注意：如果用户通过系统代理设置了footer尺寸，系统代理的设置有更高优先级
         return section % 2 == 0 ? 20 : 30
     }
+    
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedContentModeFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.InsetGroupedContentMode? {
+        // 圆角容器包含范围：.full = 组头+内容+组尾，.itemsOnly = 仅内容区（无组头组尾时也可开启圆角）
+        return section == 0 ? .itemsOnly : .full
+    }
 }
 ```
 
@@ -921,6 +1239,7 @@ layout.shouldLimitHeaderFooterWidthByInset = false
 - 用户可以通过系统代理完全控制 header/footer 的显示和尺寸
 - **Header/Footer 宽度控制**：默认情况下，即使系统代理设置了宽度，也会限制为可用宽度减去inset。可通过 `shouldLimitHeaderFooterWidthByInset` 开关控制此行为。设置为 `false` 时，完全使用系统代理设置的宽度（可能超出屏幕边界）
 - **建议使用新的 setItemHeight(_:for:width:) 方法**手动设置高度时同时提供宽度，确保高度与宽度匹配
+- **圆角容器包含范围**：通过 `insetGroupedContentModeFor` 或 `defaultInsetGroupedContentMode` 控制。`.full` 包组头+内容+组尾；`.itemsOnly` 仅包内容区（组头、组尾都不存在时也可开启圆角，每个 section 独立控制）
 
 */
 
