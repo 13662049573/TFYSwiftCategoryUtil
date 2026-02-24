@@ -35,6 +35,10 @@ public protocol TFYSwiftRTLAlignedFlowLayoutDelegate: AnyObject {
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderWidthFor section: Int) -> CGFloat?
     // 有框样式下，组的边框颜色（返回 nil 则使用 layout.sectionGroupedBorderColor 或按 section 的 sectionGroupedBorderColors）
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderColorFor section: Int) -> UIColor?
+    // 有框样式下，组的边框渐变色数组（返回非空且 count >= 2 时使用渐变边框，覆盖纯色边框）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientColorsFor section: Int) -> [UIColor]?
+    // 有框样式下，边框渐变方向（仅在边框渐变有效时使用，默认与 defaultGradientDirection 一致）
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientDirectionFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.GradientDirection?
     // 有框样式下，圆角容器包含的范围：
     //   .full = 组头+内容+组尾；.itemsOnly = 仅内容区；
     //   .headerAndItems = 组头+内容（不含组尾）；.itemsAndFooter = 内容+组尾（不含组头）
@@ -60,6 +64,8 @@ public extension TFYSwiftRTLAlignedFlowLayoutDelegate {
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBackgroundColorFor section: Int) -> UIColor? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderWidthFor section: Int) -> CGFloat? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderColorFor section: Int) -> UIColor? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientColorsFor section: Int) -> [UIColor]? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientDirectionFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.GradientDirection? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedContentModeFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.InsetGroupedContentMode? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGradientColorsFor section: Int) -> [UIColor]? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGradientDirectionFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.GradientDirection? { nil }
@@ -107,6 +113,8 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     public var sectionGroupedBorderColor: UIColor?
     /// 有框样式中按 section 的边框颜色，优先级高于 sectionGroupedBorderColor，低于 delegate 的 insetGroupedBorderColorFor
     public var sectionGroupedBorderColors: [Int: UIColor] = [:]
+    /// 有框样式中按 section 的边框渐变色数组；非空且 count >= 2 时使用渐变边框，优先级低于 delegate 的 insetGroupedBorderGradientColorsFor
+    public var sectionGroupedBorderGradientColors: [Int: [UIColor]] = [:]
     
     /// 有框样式下圆角容器的默认包含范围；未在 delegate 的 insetGroupedContentModeFor 中指定时使用
     public var defaultInsetGroupedContentMode: InsetGroupedContentMode = .full
@@ -123,7 +131,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     
     public enum HorizontalAlignment { case leading, center, trailing }
     public enum LayoutMode { case flow, waterfall }
-    
+
     /// 有框（insetGrouped）圆角容器的包含范围，可按 section 独立控制
     public enum InsetGroupedContentMode {
         /// 圆角容器包含：组头 + 内容区 + 组尾（与原有行为一致）
@@ -235,6 +243,19 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         if let c = sectionDelegate?.layout(self, insetGroupedBorderColorFor: section) { return c }
         if let c = sectionGroupedBorderColors[section] { return c }
         return sectionGroupedBorderColor
+    }
+    
+    /// 返回某 section 的边框渐变颜色数组：delegate > sectionGroupedBorderGradientColors[section] > nil
+    private func resolvedGroupedBorderGradientColors(for section: Int) -> [UIColor]? {
+        if let colors = sectionDelegate?.layout(self, insetGroupedBorderGradientColorsFor: section) {
+            return colors
+        }
+        return sectionGroupedBorderGradientColors[section]
+    }
+    
+    /// 返回某 section 的边框渐变方向：delegate > defaultGradientDirection
+    private func resolvedGroupedBorderGradientDirection(for section: Int) -> GradientDirection {
+        sectionDelegate?.layout(self, insetGroupedBorderGradientDirectionFor: section) ?? defaultGradientDirection
     }
     
     /// 返回某 section 的圆角容器包含范围：delegate > defaultInsetGroupedContentMode
@@ -597,6 +618,8 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         attrs.backgroundColor = resolvedGroupedBackgroundColor(for: section)
         attrs.borderWidth = resolvedGroupedBorderWidth(for: section)
         attrs.borderColor = resolvedGroupedBorderColor(for: section)
+        attrs.borderGradientColors = resolvedGroupedBorderGradientColors(for: section)
+        attrs.borderGradientDirection = resolvedGroupedBorderGradientDirection(for: section)
         attrs.gradientColors = resolvedGradientColors(for: section)
         attrs.gradientDirection = resolvedGradientDirection(for: section)
         return attrs
@@ -628,7 +651,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         let boundsWidth = collectionView.bounds.width
         let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout
         var yOffset: CGFloat = 0
-        
+
         // 判断是否有非瀑布流 section，决定是否需要获取系统布局
         let needsSystemLayout = (0..<totalSections).contains { !isSectionWaterfall($0) }
         
@@ -688,7 +711,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                 )
                 itemsEndY = yOffset
             }
-            
+
             // Footer
             if config.footerHeight > 0 {
                 let footerAttr = createSupplementaryViewAttributes(
@@ -727,7 +750,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
                 yOffset: &yOffset
             )
         }
-        
+
         // 缓存最大 Y 值，供 collectionViewContentSize 直接使用
         cachedMaxY = yOffset
     }
@@ -747,18 +770,16 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         let sectionAttrs = baseAttributes.filter {
             $0.representedElementCategory == .cell && $0.indexPath.section == section
         }
-        
+        // 系统属性不可用时，使用手动流式布局
         guard !sectionAttrs.isEmpty else {
-            // 系统属性不可用时，手动创建流式布局
             return prepareFlowLayoutForSection(
                 section,
                 startY: startY,
-                sectionInset: config.effectiveSectionInset,
-                interitemSpacing: config.interitemSpacing,
-                lineSpacing: config.lineSpacing
+                config: config,
+                collectionView: collectionView
             )
         }
-        
+
         // 调整 section 内所有 item 的 y 坐标
         let minY = sectionAttrs.reduce(CGFloat.greatestFiniteMagnitude) { min($0, $1.frame.minY) }
         let delta = (startY + config.effectiveSectionInset.top) - minY
@@ -809,17 +830,33 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     /// 为指定 section 准备流式布局（当系统布局不可用时手动创建）
     /// - Returns: 布局结束后的 y 坐标
     private func prepareFlowLayoutForSection(_ section: Int,
-                                            startY: CGFloat,
-                                            sectionInset: UIEdgeInsets,
-                                            interitemSpacing: CGFloat,
-                                            lineSpacing: CGFloat) -> CGFloat {
-        guard let collectionView = collectionView else { return startY }
-        
+                                             startY: CGFloat,
+                                             config: SectionConfig,
+                                             collectionView: UICollectionView) -> CGFloat {
+        prepareFlowLayoutVerticalAxis(
+            section: section,
+            startY: startY,
+            sectionInset: config.effectiveSectionInset,
+            interitemSpacing: config.interitemSpacing,
+            lineSpacing: config.lineSpacing,
+            collectionView: collectionView
+        )
+    }
+
+    /// 纵向布局（行优先）：先填满一行再下一行
+    private func prepareFlowLayoutVerticalAxis(
+        section: Int,
+        startY: CGFloat,
+        sectionInset: UIEdgeInsets,
+        interitemSpacing: CGFloat,
+        lineSpacing: CGFloat,
+        collectionView: UICollectionView
+    ) -> CGFloat {
         let numberOfItems = collectionView.numberOfItems(inSection: section)
         if numberOfItems == 0 {
             return startY + sectionInset.top + sectionInset.bottom
         }
-        
+
         let availableWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right
         let rightBoundary = collectionView.bounds.width - sectionInset.right + Self.widthMatchTolerance
         var currentY = startY + sectionInset.top
@@ -827,38 +864,37 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         var currentRowAttributes: [UICollectionViewLayoutAttributes] = []
         var lastItemHeightInRow: CGFloat = 0
         var sectionMaxY = currentY
-        
+
         for item in 0..<numberOfItems {
             let indexPath = IndexPath(item: item, section: section)
             let size = getItemSize(for: indexPath, availableWidth: availableWidth)
-            
-            // 检查是否需要换行
+
             if !currentRowAttributes.isEmpty && currentX + size.width > rightBoundary {
                 arrangeRow(currentRowAttributes, sectionInset: sectionInset, interitemSpacing: interitemSpacing)
                 currentRowAttributes.removeAll(keepingCapacity: true)
                 currentX = sectionInset.left
                 currentY += lastItemHeightInRow + lineSpacing
             }
-            
+
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = CGRect(x: currentX, y: currentY, width: size.width, height: size.height)
             cachedAttributes.append(attributes)
             currentRowAttributes.append(attributes)
-            
+
             let bottomY = currentY + size.height
             if bottomY > sectionMaxY { sectionMaxY = bottomY }
-            
+
             lastItemHeightInRow = size.height
             currentX += size.width + interitemSpacing
         }
-        
+
         if !currentRowAttributes.isEmpty {
             arrangeRow(currentRowAttributes, sectionInset: sectionInset, interitemSpacing: interitemSpacing)
         }
-        
+
         return sectionMaxY + sectionInset.bottom
     }
-    
+
     /// 获取 item 的尺寸（优先从 delegate 获取，否则使用默认值）
     private func getItemSize(for indexPath: IndexPath, availableWidth: CGFloat) -> CGSize {
         if let delegate = collectionView?.delegate as? UICollectionViewDelegateFlowLayout,
@@ -1035,6 +1071,10 @@ public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttr
     public var borderWidth: CGFloat = 0
     /// 边框颜色，nil 时若 borderWidth > 0 则使用系统分隔色
     public var borderColor: UIColor?
+    /// 边框渐变颜色数组（可选，非空且 count >= 2 时使用渐变边框，覆盖纯色边框）
+    public var borderGradientColors: [UIColor]?
+    /// 边框渐变方向（仅在 borderGradientColors 有效时使用）
+    public var borderGradientDirection: TFYSwiftRTLAlignedFlowLayout.GradientDirection = .vertical
     /// 渐变颜色数组（可选，nil 或少于两种颜色则不使用渐变）
     public var gradientColors: [UIColor]?
     /// 渐变方向（仅在 gradientColors 有效时使用）
@@ -1046,6 +1086,8 @@ public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttr
         copy.backgroundColor = backgroundColor
         copy.borderWidth = borderWidth
         copy.borderColor = borderColor
+        copy.borderGradientColors = borderGradientColors
+        copy.borderGradientDirection = borderGradientDirection
         copy.gradientColors = gradientColors
         copy.gradientDirection = gradientDirection
         return copy
@@ -1054,6 +1096,12 @@ public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttr
     override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? SectionBackgroundLayoutAttributes else { return false }
         let colorEqual = (borderColor == nil && other.borderColor == nil) || (borderColor?.isEqual(other.borderColor) == true)
+        let borderGradientEqual: Bool
+        if let g1 = borderGradientColors, let g2 = other.borderGradientColors {
+            borderGradientEqual = g1.elementsEqual(g2, by: { $0.isEqual($1) }) && borderGradientDirection == other.borderGradientDirection
+        } else {
+            borderGradientEqual = (borderGradientColors == nil && other.borderGradientColors == nil)
+        }
         let gradientEqual: Bool
         if let g1 = gradientColors, let g2 = other.gradientColors {
             gradientEqual = g1.elementsEqual(g2, by: { $0.isEqual($1) })
@@ -1065,6 +1113,7 @@ public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttr
             && backgroundColor.isEqual(other.backgroundColor)
             && borderWidth == other.borderWidth
             && colorEqual
+            && borderGradientEqual
             && gradientEqual
     }
 }
@@ -1072,6 +1121,8 @@ public final class SectionBackgroundLayoutAttributes: UICollectionViewLayoutAttr
 /// 有框（insetGrouped）样式的 section 背景视图，由 layout 在 section 级别添加，无需在 cell 上做样式
 public final class SectionBackgroundDecorationView: UICollectionReusableView {
     private var gradientLayer: CAGradientLayer?
+    private var borderGradientLayer: CAGradientLayer?
+    private var borderGradientMaskLayer: CAShapeLayer?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -1089,8 +1140,19 @@ public final class SectionBackgroundDecorationView: UICollectionReusableView {
         guard let attrs = layoutAttributes as? SectionBackgroundLayoutAttributes else { return }
         
         layer.cornerRadius = attrs.cornerRadius
-        layer.borderWidth = attrs.borderWidth
-        layer.borderColor = attrs.borderWidth > 0 ? (attrs.borderColor ?? .separator).cgColor : nil
+        
+        let useBorderGradient = attrs.borderWidth > 0
+            && (attrs.borderGradientColors?.count ?? 0) >= 2
+        
+        if useBorderGradient {
+            layer.borderWidth = 0
+            layer.borderColor = nil
+            applyBorderGradient(attrs: attrs)
+        } else {
+            removeBorderGradient()
+            layer.borderWidth = attrs.borderWidth
+            layer.borderColor = attrs.borderWidth > 0 ? (attrs.borderColor ?? .separator).cgColor : nil
+        }
         
         // 渐变背景优先；若未配置渐变，则退回纯色背景
         if let colors = attrs.gradientColors, colors.count >= 2 {
@@ -1118,6 +1180,54 @@ public final class SectionBackgroundDecorationView: UICollectionReusableView {
             gradientLayer = nil
             backgroundColor = attrs.backgroundColor
         }
+    }
+    
+    /// 使用环形 path 作为 mask，在边框区域绘制渐变
+    private func applyBorderGradient(attrs: SectionBackgroundLayoutAttributes) {
+        guard let colors = attrs.borderGradientColors, colors.count >= 2 else { return }
+        let borderWidth = attrs.borderWidth
+        let cornerRadius = attrs.cornerRadius
+        let rect = bounds
+        
+        let gradient: CAGradientLayer
+        if let existing = borderGradientLayer {
+            gradient = existing
+        } else {
+            gradient = CAGradientLayer()
+            borderGradientLayer = gradient
+            borderGradientMaskLayer = CAShapeLayer()
+            gradient.mask = borderGradientMaskLayer
+            layer.addSublayer(gradient)
+        }
+        
+        gradient.frame = rect
+        gradient.colors = colors.map { $0.cgColor }
+        switch attrs.borderGradientDirection {
+        case .vertical:
+            gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
+        case .horizontal:
+            gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        }
+        
+        let outerPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+        let innerRect = rect.insetBy(dx: borderWidth, dy: borderWidth)
+        let innerRadius = max(0, cornerRadius - borderWidth)
+        let innerPath = UIBezierPath(roundedRect: innerRect, cornerRadius: innerRadius)
+        outerPath.append(innerPath)
+        outerPath.usesEvenOddFillRule = true
+        
+        guard let maskLayer = borderGradientMaskLayer else { return }
+        maskLayer.path = outerPath.cgPath
+        maskLayer.fillRule = .evenOdd
+        maskLayer.frame = rect
+    }
+    
+    private func removeBorderGradient() {
+        borderGradientLayer?.removeFromSuperlayer()
+        borderGradientLayer = nil
+        borderGradientMaskLayer = nil
     }
 }
 
