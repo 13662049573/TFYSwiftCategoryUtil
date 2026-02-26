@@ -87,7 +87,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     /// 有框（insetGrouped）背景 Decoration 的 kind
     public static let sectionBackgroundDecorationKind = "TFYSwiftRTLAlignedFlowLayout.SectionBackground"
     /// 有框样式默认组外边距（与 UITableView insetGrouped 接近）
-    private static let defaultInsetGroupedInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    private static let defaultInsetGroupedInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     /// 有框样式默认圆角
     private static let defaultInsetGroupedCornerRadius: CGFloat = 10
     /// 默认高宽比（当无法获取 item 高度时使用）
@@ -105,7 +105,7 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     public var sectionGroupedGradientColors: [Int: [UIColor]] = [:]
     
     /// 相邻两个有框（insetGrouped）组之间的垂直间隙，避免圆角组贴在一起。默认 12pt
-    public var spacingBetweenGroupedSections: CGFloat = 12
+    public var spacingBetweenGroupedSections: CGFloat = 10
     
     /// 有框样式的边框宽度，0 表示无边框。可由 delegate 的 insetGroupedBorderWidthFor 按 section 覆盖
     public var sectionGroupedBorderWidth: CGFloat = 0
@@ -356,9 +356,11 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     
     override public func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         guard let collectionView = collectionView else {
-            return super.shouldInvalidateLayout(forBoundsChange: newBounds)
+            return false
         }
-        return newBounds.width != collectionView.bounds.width || super.shouldInvalidateLayout(forBoundsChange: newBounds)
+        // 仅在 size 变化（如旋转、布局尺寸变更）时重新计算布局；
+        // 纯滚动（bounds.origin 改变）不触发布局失效，避免 Decoration 视图在滚动过程中频繁重建导致闪烁。
+        return newBounds.size != collectionView.bounds.size
     }
     
     override public func prepare() {
@@ -1139,6 +1141,10 @@ public final class SectionBackgroundDecorationView: UICollectionReusableView {
         super.apply(layoutAttributes)
         guard let attrs = layoutAttributes as? SectionBackgroundLayoutAttributes else { return }
         
+        // 关闭隐式动画，避免在滚动或频繁 apply 布局属性时出现闪烁
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        
         layer.cornerRadius = attrs.cornerRadius
         
         let useBorderGradient = attrs.borderWidth > 0
@@ -1180,6 +1186,8 @@ public final class SectionBackgroundDecorationView: UICollectionReusableView {
             gradientLayer = nil
             backgroundColor = attrs.backgroundColor
         }
+        
+        CATransaction.commit()
     }
     
     /// 使用环形 path 作为 mask，在边框区域绘制渐变
