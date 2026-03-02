@@ -10,6 +10,14 @@ import UIKit
 
 // MARK: - Delegate
 public protocol TFYSwiftRTLAlignedFlowLayoutDelegate: AnyObject {
+    // 全局 Header 视图（类似 UITableView.tableHeaderView），返回 nil 表示不使用全局 Header
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderViewIn collectionView: UICollectionView) -> UIView?
+    // 全局 Header 高度（类似 UITableView.tableHeaderView），返回 nil 表示不使用全局 Header
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderHeightIn collectionView: UICollectionView) -> CGFloat?
+    // 全局 Footer 视图（类似 UITableView.tableFooterView），返回 nil 表示不使用全局 Footer
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterViewIn collectionView: UICollectionView) -> UIView?
+    // 全局 Footer 高度（类似 UITableView.tableFooterView），返回 nil 表示不使用全局 Footer
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterHeightIn collectionView: UICollectionView) -> CGFloat?
     // 每组是否为瀑布流（优先级：全局layoutMode/enableWaterfall > delegate）
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, isWaterfallFor section: Int) -> Bool?
     // 每组列数（若返回 nil 且提供了 minimumItemWidth，将按最小宽度自适应列数）
@@ -50,6 +58,10 @@ public protocol TFYSwiftRTLAlignedFlowLayoutDelegate: AnyObject {
 }
 
 public extension TFYSwiftRTLAlignedFlowLayoutDelegate {
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderViewIn collectionView: UICollectionView) -> UIView? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderHeightIn collectionView: UICollectionView) -> CGFloat? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterViewIn collectionView: UICollectionView) -> UIView? { nil }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterHeightIn collectionView: UICollectionView) -> CGFloat? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, isWaterfallFor section: Int) -> Bool? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, columnsFor section: Int, availableWidth: CGFloat) -> Int? { nil }
     func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, minimumItemWidthFor section: Int, availableWidth: CGFloat) -> CGFloat? { nil }
@@ -126,6 +138,32 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
     /// 默认值为 false，完全使用系统代理设置的宽度，不减去inset
     /// 设置为 true 时，限制宽度不超过可用宽度减去inset
     public var shouldLimitHeaderFooterWidthByInset: Bool = false
+    
+    /// 内部缓存的全局 Header 高度（类似 UITableView.tableHeaderView），由自定义代理提供。
+    /// 仅影响布局的起始 Y 偏移，不会干扰各 section 的 Header/Footer 逻辑。
+    private var globalHeaderHeight: CGFloat = 0 {
+        didSet {
+            if abs(oldValue - globalHeaderHeight) > Self.floatComparisonThreshold {
+                invalidateLayout()
+            }
+        }
+    }
+    
+    /// 内部缓存的全局 Header 视图（类似 UITableView.tableHeaderView），由自定义代理提供。
+    private var collectionHeaderView: UIView?
+    
+    /// 内部缓存的全局 Footer 高度（类似 UITableView.tableFooterView），由自定义代理提供。
+    /// 仅影响内容总高度，不会干扰各 section 的 Footer 逻辑。
+    private var globalFooterHeight: CGFloat = 0 {
+        didSet {
+            if abs(oldValue - globalFooterHeight) > Self.floatComparisonThreshold {
+                invalidateLayout()
+            }
+        }
+    }
+    
+    /// 内部缓存的全局 Footer 视图（类似 UITableView.tableFooterView），由自定义代理提供。
+    private var collectionFooterView: UIView?
     
     // MARK: - Enums
     
@@ -373,6 +411,34 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             for: collectionView.semanticContentAttribute
         ) == .rightToLeft
         
+        // 根据自定义代理更新全局 Header / Footer（tableHeaderView / tableFooterView 风格）
+        let desiredGlobalHeaderHeight = max(0, sectionDelegate?.layout(self, collectionHeaderHeightIn: collectionView) ?? 0)
+        let headerFromDelegate = sectionDelegate?.layout(self, collectionHeaderViewIn: collectionView)
+        
+        if headerFromDelegate !== collectionHeaderView {
+            collectionHeaderView?.removeFromSuperview()
+            collectionHeaderView = headerFromDelegate
+        }
+        
+        if let headerView = collectionHeaderView {
+            let width = collectionView.bounds.width
+            headerView.frame = CGRect(x: 0, y: 0, width: width, height: desiredGlobalHeaderHeight)
+            if headerView.superview !== collectionView {
+                collectionView.addSubview(headerView)
+            }
+            collectionView.bringSubviewToFront(headerView)
+        }
+        
+        globalHeaderHeight = desiredGlobalHeaderHeight
+        
+        let desiredGlobalFooterHeight = max(0, sectionDelegate?.layout(self, collectionFooterHeightIn: collectionView) ?? 0)
+        let footerFromDelegate = sectionDelegate?.layout(self, collectionFooterViewIn: collectionView)
+        
+        if footerFromDelegate !== collectionFooterView {
+            collectionFooterView?.removeFromSuperview()
+            collectionFooterView = footerFromDelegate
+        }
+        
         // 检测数据变化
         let totalSections = collectionView.numberOfSections
         var currentItemCounts = [Int: Int](minimumCapacity: totalSections)
@@ -405,6 +471,19 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
             cachedMaxY = 0
             
             prepareMixedLayout()
+            
+            // 在所有 section 内容之后布局全局 Footer
+            if let footerView = collectionFooterView, desiredGlobalFooterHeight > 0 {
+                let width = collectionView.bounds.width
+                footerView.frame = CGRect(x: 0, y: cachedMaxY, width: width, height: desiredGlobalFooterHeight)
+                if footerView.superview !== collectionView {
+                    collectionView.addSubview(footerView)
+                }
+                collectionView.bringSubviewToFront(footerView)
+                cachedMaxY += desiredGlobalFooterHeight
+            }
+            globalFooterHeight = desiredGlobalFooterHeight
+            
             lastContentSize = baseContentSize
             lastCollectionViewWidth = currentWidth
             lastItemCounts = currentItemCounts
@@ -652,7 +731,8 @@ public class TFYSwiftRTLAlignedFlowLayout: UICollectionViewFlowLayout {
         
         let boundsWidth = collectionView.bounds.width
         let systemDelegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout
-        var yOffset: CGFloat = 0
+        // 预留全局 Header 区域（类似 UITableView.tableHeaderView）
+        var yOffset: CGFloat = globalHeaderHeight
 
         // 判断是否有非瀑布流 section，决定是否需要获取系统布局
         let needsSystemLayout = (0..<totalSections).contains { !isSectionWaterfall($0) }
