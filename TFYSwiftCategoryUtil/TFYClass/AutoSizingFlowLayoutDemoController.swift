@@ -2,27 +2,29 @@
 //  AutoSizingFlowLayoutDemoController.swift
 //  TFYSwiftCategoryUtil
 //
-//  Created by TFYSwift on 2025/1/24.
-//  FlowLayout自适应演示
+//  TFYSwiftRTLAlignedFlowLayout 全能力演示
 //
 
 import UIKit
 
-// MARK: - 数据模型
-struct FlowLayoutItem {
+private struct RTLItem {
     let title: String
-    let description: String
-    let imageName: String
-    let height: CGFloat
+    let detail: String
+    let color: UIColor
 }
 
-// MARK: - 自适应Cell
-class AutoSizingFlowLayoutCell: UICollectionViewCell {
-    
-    private let imageView = UIImageView()
+private struct RTLSection {
+    let title: String
+    let desc: String
+    var items: [RTLItem]
+}
+
+private final class RTLDemoCell: UICollectionViewCell {
+    static let reuseID = "RTLDemoCell"
+    private let card = UIView()
+    private let dot = UIView()
     private let titleLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    private let containerView = UIView()
+    private let detailLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,277 +37,326 @@ class AutoSizingFlowLayoutCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        backgroundColor = .systemBackground
-        layer.cornerRadius = 12.adap
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.adap)
-        layer.shadowRadius = 4.adap
-        layer.shadowOpacity = 0.1
+        contentView.backgroundColor = .clear
+        card.backgroundColor = .secondarySystemBackground
+        card.layer.cornerRadius = 10.adap
+        card.layer.borderWidth = 0.5
+        card.layer.borderColor = UIColor.separator.cgColor
+        card.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(card)
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(containerView)
+        dot.layer.cornerRadius = 5.adap
+        dot.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(dot)
         
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(imageView)
-        
-        titleLabel.font = .boldSystemFont(ofSize: 16.adap)
+        titleLabel.font = .boldSystemFont(ofSize: 14.adap)
         titleLabel.textColor = .label
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(titleLabel)
+        card.addSubview(titleLabel)
         
-        descriptionLabel.font = .systemFont(ofSize: 14.adap)
-        descriptionLabel.textColor = .secondaryLabel
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(descriptionLabel)
+        detailLabel.font = .systemFont(ofSize: 12.adap)
+        detailLabel.textColor = .secondaryLabel
+        detailLabel.numberOfLines = 0
+        detailLabel.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(detailLabel)
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.adap),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.adap),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.adap),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.adap),
+            card.topAnchor.constraint(equalTo: contentView.topAnchor),
+            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 120.adap),
+            dot.topAnchor.constraint(equalTo: card.topAnchor, constant: 10.adap),
+            dot.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 10.adap),
+            dot.widthAnchor.constraint(equalToConstant: 10.adap),
+            dot.heightAnchor.constraint(equalToConstant: 10.adap),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12.adap),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: card.topAnchor, constant: 8.adap),
+            titleLabel.leadingAnchor.constraint(equalTo: dot.trailingAnchor, constant: 8.adap),
+            titleLabel.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -10.adap),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.adap),
-            descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            detailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6.adap),
+            detailLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            detailLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            detailLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -10.adap)
         ])
     }
     
-    func configure(with item: FlowLayoutItem) {
+    func fill(_ item: RTLItem) {
         titleLabel.text = item.title
-        descriptionLabel.text = item.description
-        
-        // 使用系统图标作为占位符
-        let config = UIImage.SymbolConfiguration(pointSize: 40.adap, weight: .medium)
-        imageView.image = UIImage(systemName: "photo", withConfiguration: config)
-        imageView.tintColor = .systemBlue
-        imageView.backgroundColor = .systemGray6
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        setNeedsLayout()
-        layoutIfNeeded()
-        
-        let size = contentView.systemLayoutSizeFitting(
-            layoutAttributes.size,
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-        
-        var newFrame = layoutAttributes.frame
-        // 确保frame有效，避免CGRectNull或无效值
-        if size.width > 0 && size.height > 0 {
-            newFrame.size = size
-            layoutAttributes.frame = newFrame
-        }
-        
-        return layoutAttributes
+        detailLabel.text = item.detail
+        dot.backgroundColor = item.color
     }
 }
 
-// MARK: - 主控制器
-class AutoSizingFlowLayoutDemoController: UIViewController {
+private final class RTLHeaderFooterView: UICollectionReusableView {
+    static let headerID = "RTLHeader"
+    static let footerID = "RTLFooter"
     
-    // MARK: - Properties
-    private var collectionView: UICollectionView!
-    private var flowLayout: UICollectionViewFlowLayout!
+    private let titleLabel = UILabel()
+    private let descLabel = UILabel()
     
-    private var items: [FlowLayoutItem] = [
-        FlowLayoutItem(
-            title: "自适应布局",
-            description: "这是第一个项目，展示了UICollectionViewFlowLayout的自适应功能。内容会根据文字长度自动调整高度。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "短标题",
-            description: "短描述",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "这是一个很长的标题，用来测试自适应布局的效果",
-            description: "这是一个很长的描述文本，用来测试UICollectionViewFlowLayout的自适应功能。当文字内容很长时，Cell会自动调整高度来适应内容。这样可以确保所有的文字都能正确显示，不会被截断。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "性能优化",
-            description: "FlowLayout自适应布局在iOS 10+中得到了很好的性能优化，支持自动计算Cell高度。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "多行文本",
-            description: "支持多行文本显示，自动换行，高度自适应。这是FlowLayout的一个重要特性。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "动态内容",
-            description: "这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "响应式设计",
-            description: "支持不同屏幕尺寸，在不同设备上都能正确显示。",
-            imageName: "photo",
-            height: 120.adap
-        ),
-        FlowLayoutItem(
-            title: "用户体验",
-            description: "提供流畅的用户体验，滚动性能优秀。",
-            imageName: "photo",
-            height: 120.adap
-        )
-    ]
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        titleLabel.font = .boldSystemFont(ofSize: 15.adap)
+        titleLabel.textColor = .label
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+        
+        descLabel.font = .systemFont(ofSize: 12.adap)
+        descLabel.textColor = .secondaryLabel
+        descLabel.numberOfLines = 0
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(descLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 2.adap),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2.adap),
+            descLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4.adap),
+            descLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            descLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            descLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
     
-    // MARK: - Lifecycle
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    func fill(title: String, desc: String) {
+        titleLabel.text = title
+        descLabel.text = desc
+    }
+}
+
+final class AutoSizingFlowLayoutDemoController: UIViewController {
+    private enum SectionKind: Int, CaseIterable { case flowLeading, flowCenter, waterfall, groupedItemsOnly, groupedFull }
+    
+    private var alignment: TFYSwiftRTLAlignedFlowLayout.HorizontalAlignment = .leading
+    private var forceRTL = false
+    private var sections: [RTLSection] = []
+    
+    private lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: buildLayout())
+        view.backgroundColor = .systemGroupedBackground
+        view.delegate = self
+        view.dataSource = self
+        view.alwaysBounceVertical = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.register(RTLDemoCell.self, forCellWithReuseIdentifier: RTLDemoCell.reuseID)
+        view.register(RTLHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RTLHeaderFooterView.headerID)
+        view.register(RTLHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RTLHeaderFooterView.footerID)
+        return view
+    }()
+    
+    private lazy var globalHeader: UIView = makeBanner("TFYSwiftRTLAlignedFlowLayout", "全局 Header（tableHeaderView 风格）+ 分区流式/瀑布流 + insetGrouped 渐变边框。")
+    private lazy var globalFooter: UIView = makeBanner("Global Footer", "全局 Footer（tableFooterView 风格），用于展示布局收尾区域。")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        setupCollectionView()
-        setupNavigationBar()
-    }
-    
-    // MARK: - Setup Methods
-    private func setupUI() {
-        title = "FlowLayout自适应"
+        title = "RTLAligned 全面演示"
         view.backgroundColor = .systemBackground
-    }
-    
-    private func setupNavigationBar() {
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(
-                title: "添加",
-                style: .plain,
-                target: self,
-                action: #selector(addItem)
-            ),
-            UIBarButtonItem(
-                title: "刷新",
-                style: .plain,
-                target: self,
-                action: #selector(refreshLayout)
-            )
-        ]
-    }
-    
-    private func setupCollectionView() {
-        // 创建FlowLayout
-        flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumLineSpacing = 16.adap
-        flowLayout.minimumInteritemSpacing = 16.adap
-        flowLayout.sectionInset = UIEdgeInsets(top: 20.adap, left: 20.adap, bottom: 20.adap, right: 20.adap)
-        
-        // 设置预估尺寸，避免使用automaticSize导致的崩溃
-        flowLayout.estimatedItemSize = CGSize(width: 100.adap, height: 200.adap)
-        
-        // 创建CollectionView
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = .systemGroupedBackground
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // 注册Cell
-        collectionView.register(AutoSizingFlowLayoutCell.self, forCellWithReuseIdentifier: "Cell")
-        
+        buildData()
         view.addSubview(collectionView)
-        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(title: "对齐", style: .plain, target: self, action: #selector(toggleAlign)),
+            UIBarButtonItem(title: "RTL", style: .plain, target: self, action: #selector(toggleRTL)),
+            UIBarButtonItem(title: "刷新", style: .plain, target: self, action: #selector(reloadDemo))
+        ]
     }
     
-    // MARK: - Actions
-    @objc private func addItem() {
-        let newItem = FlowLayoutItem(
-            title: "新项目 \(items.count + 1)",
-            description: "这是一个新添加的项目，按泛滥了放哪了啦舒服了吧album巴黎发表了啊播放啦吧啦别发了罢了罢了吧啦发不发了啊吧类发布了罢了方便啦吧啦吧用来演示动态添加内容的效果。",
-            imageName: "photo",
-            height: 120.adap
-        )
-        
-        items.append(newItem)
-        
-        let indexPath = IndexPath(item: items.count - 1, section: 0)
-        collectionView.insertItems(at: [indexPath])
-        
-        // 滚动到新项目
-        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+    private func buildLayout() -> TFYSwiftRTLAlignedFlowLayout {
+        let layout = TFYSwiftRTLAlignedFlowLayout(horizontalAlignment: alignment, layoutMode: .flow, columnCount: 2)
+        layout.sectionDelegate = self
+        layout.minimumInteritemSpacing = 8.adap
+        layout.minimumLineSpacing = 10.adap
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 12.adap, bottom: 12.adap, right: 12.adap)
+        layout.sectionGroupedBackgroundColor = .secondarySystemGroupedBackground
+        layout.sectionGroupedBorderWidth = 1
+        layout.sectionGroupedBorderColor = .separator
+        layout.spacingBetweenGroupedSections = 12.adap
+        layout.defaultGradientDirection = .vertical
+        layout.defaultInsetGroupedContentMode = .full
+        layout.shouldLimitHeaderFooterWidthByInset = true
+        layout.enableCacheHeightValidation = true
+        layout.enableWaterfallForSection(SectionKind.waterfall.rawValue)
+        return layout
     }
     
-    @objc private func refreshLayout() {
-        // 重新计算布局
-        flowLayout.invalidateLayout()
+    private func makeBanner(_ title: String, _ text: String) -> UIView {
+        let container = UIView()
+        let card = UIView()
+        card.backgroundColor = .secondarySystemBackground
+        card.layer.cornerRadius = 14.adap
+        card.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(card)
         
-        // 添加一些动画效果
-        UIView.animate(withDuration: 0.3) {
-            self.collectionView.reloadData()
+        let t = UILabel()
+        t.text = title
+        t.font = .boldSystemFont(ofSize: 20.adap)
+        t.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(t)
+        
+        let d = UILabel()
+        d.text = text
+        d.numberOfLines = 0
+        d.font = .systemFont(ofSize: 13.adap)
+        d.textColor = .secondaryLabel
+        d.translatesAutoresizingMaskIntoConstraints = false
+        card.addSubview(d)
+        
+        NSLayoutConstraint.activate([
+            card.topAnchor.constraint(equalTo: container.topAnchor, constant: 12.adap),
+            card.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16.adap),
+            card.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16.adap),
+            card.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -8.adap),
+            t.topAnchor.constraint(equalTo: card.topAnchor, constant: 12.adap),
+            t.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 12.adap),
+            t.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -12.adap),
+            d.topAnchor.constraint(equalTo: t.bottomAnchor, constant: 8.adap),
+            d.leadingAnchor.constraint(equalTo: t.leadingAnchor),
+            d.trailingAnchor.constraint(equalTo: t.trailingAnchor),
+            d.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12.adap)
+        ])
+        return container
+    }
+    
+    private func applyLayout() {
+        let layout = buildLayout()
+        collectionView.setCollectionViewLayout(layout, animated: true)
+        collectionView.reloadData()
+    }
+    
+    @objc private func toggleAlign() {
+        switch alignment { case .leading: alignment = .center; case .center: alignment = .trailing; case .trailing: alignment = .leading }
+        applyLayout()
+    }
+    
+    @objc private func toggleRTL() {
+        forceRTL.toggle()
+        collectionView.semanticContentAttribute = forceRTL ? .forceRightToLeft : .forceLeftToRight
+        applyLayout()
+    }
+    
+    @objc private func reloadDemo() {
+        sections[SectionKind.waterfall.rawValue].items.shuffle()
+        collectionView.reloadData()
+    }
+    
+    private func buildData() {
+        sections = [
+            RTLSection(title: "Flow - Leading", desc: "默认流式 + leading/trailing/center 可切换，展示行对齐。", items: makeItems(prefix: "FlowA", count: 12)),
+            RTLSection(title: "Flow - Center", desc: "同样是流式，但 item 宽度更离散，便于观察行内居中。", items: makeItems(prefix: "FlowB", count: 10)),
+            RTLSection(title: "Waterfall", desc: "按 section 独立启用瀑布流，列数与高度由 delegate 提供。", items: makeItems(prefix: "Water", count: 20)),
+            RTLSection(title: "InsetGrouped ItemsOnly", desc: "圆角背景仅包裹内容区，不含组头/组尾。", items: makeItems(prefix: "GroupI", count: 8)),
+            RTLSection(title: "InsetGrouped Full + Gradient", desc: "全包裹 + 渐变背景 + 渐变边框 + 组间距。", items: makeItems(prefix: "GroupF", count: 9))
+        ]
+    }
+    
+    private func makeItems(prefix: String, count: Int) -> [RTLItem] {
+        (0..<count).map { idx in
+            let words = String(repeating: "文", count: (idx % 4 + 1) * 3)
+            return RTLItem(title: "\(prefix) #\(idx + 1)", detail: "内容 \(words) / \(idx % 2 == 0 ? "短文案" : "这是一段用于测试自动高度和换行的描述文本。")", color: UIColor(hue: CGFloat(idx) / CGFloat(max(count, 1)), saturation: 0.55, brightness: 0.9, alpha: 1))
         }
     }
 }
 
-// MARK: - UICollectionViewDataSource
 extension AutoSizingFlowLayoutDemoController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
-    }
-    
+    func numberOfSections(in collectionView: UICollectionView) -> Int { sections.count }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { sections[section].items.count }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! AutoSizingFlowLayoutCell
-        let item = items[indexPath.item]
-        cell.configure(with: item)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RTLDemoCell.reuseID, for: indexPath) as! RTLDemoCell
+        cell.fill(sections[indexPath.section].items[indexPath.item])
         return cell
     }
-}
-
-// MARK: - UICollectionViewDelegate
-extension AutoSizingFlowLayoutDemoController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = items[indexPath.item]
-        
-        let alert = UIAlertController(
-            title: item.title,
-            message: item.description,
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: "确定", style: .default))
-        present(alert, animated: true)
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let id = kind == UICollectionView.elementKindSectionHeader ? RTLHeaderFooterView.headerID : RTLHeaderFooterView.footerID
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as! RTLHeaderFooterView
+        if kind == UICollectionView.elementKindSectionHeader {
+            view.fill(title: sections[indexPath.section].title, desc: sections[indexPath.section].desc)
+        } else {
+            view.fill(title: "Section Footer", desc: "section \(indexPath.section + 1) footer")
+        }
+        return view
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
 extension AutoSizingFlowLayoutDemoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 计算宽度（两列布局）
-        let padding: CGFloat = 20.adap
-        let spacing: CGFloat = 16.adap
-        let availableWidth = max(collectionView.bounds.width - padding * 2 - spacing, 100.adap) // 确保最小宽度
-        let itemWidth = availableWidth / 2
+        guard let layout = collectionViewLayout as? TFYSwiftRTLAlignedFlowLayout else { return CGSize(width: 80, height: 80) }
+        let inset = layout.effectiveSectionInset(for: indexPath.section)
+        let section = SectionKind(rawValue: indexPath.section) ?? .flowLeading
+        let spacing = self.layout(layout, interitemSpacingFor: indexPath.section) ?? 8.adap
+        let available = max(120.adap, collectionView.bounds.width - inset.left - inset.right)
+        let item = sections[indexPath.section].items[indexPath.item]
         
-        // 使用预估高度而不是automaticSize.height
-        return CGSize(width: itemWidth, height: 200.adap) // 设置一个合理的预估高度
+        switch section {
+        case .flowLeading, .flowCenter:
+            let textW = (item.title as NSString).size(withAttributes: [.font: UIFont.boldSystemFont(ofSize: 14.adap)]).width
+            let width = min(max(90.adap, textW + 40.adap), available * 0.7)
+            let height = section == .flowLeading ? 86.adap : 98.adap
+            return CGSize(width: width, height: height)
+        case .waterfall:
+            let cols: CGFloat = 2
+            let width = floor((available - (cols - 1) * spacing) / cols)
+            let base = 90.adap + CGFloat(indexPath.item % 5) * 22.adap
+            return CGSize(width: width, height: base)
+        case .groupedItemsOnly, .groupedFull:
+            let cols: CGFloat = 2
+            let width = floor((available - (cols - 1) * spacing) / cols)
+            return CGSize(width: width, height: 106.adap)
+        }
     }
-} 
+}
+
+extension AutoSizingFlowLayoutDemoController: TFYSwiftRTLAlignedFlowLayoutDelegate {
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderViewIn collectionView: UICollectionView) -> UIView? { globalHeader }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionHeaderHeightIn collectionView: UICollectionView) -> CGFloat? { 132.adap }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterViewIn collectionView: UICollectionView) -> UIView? { globalFooter }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, collectionFooterHeightIn collectionView: UICollectionView) -> CGFloat? { 72.adap }
+    
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, isWaterfallFor section: Int) -> Bool? {
+        section == SectionKind.waterfall.rawValue
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, columnsFor section: Int, availableWidth: CGFloat) -> Int? {
+        section == SectionKind.waterfall.rawValue ? 2 : nil
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, interitemSpacingFor section: Int) -> CGFloat? { 8.adap }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, lineSpacingFor section: Int) -> CGFloat? { 10.adap }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, sectionInsetFor section: Int) -> UIEdgeInsets? {
+        UIEdgeInsets(top: 6.adap, left: 12.adap, bottom: 12.adap, right: 12.adap)
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, headerHeightFor section: Int, width: CGFloat) -> CGFloat? { 48.adap }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, footerHeightFor section: Int, width: CGFloat) -> CGFloat? { 24.adap }
+    
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedFor section: Int) -> Bool? {
+        section == SectionKind.groupedItemsOnly.rawValue || section == SectionKind.groupedFull.rawValue
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedContentModeFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.InsetGroupedContentMode? {
+        section == SectionKind.groupedItemsOnly.rawValue ? .itemsOnly : .full
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGroupInsetsFor section: Int) -> UIEdgeInsets? {
+        UIEdgeInsets(top: 10.adap, left: 14.adap, bottom: 10.adap, right: 14.adap)
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedCornerRadiusFor section: Int) -> CGFloat? { 14.adap }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedGradientColorsFor section: Int) -> [UIColor]? {
+        section == SectionKind.groupedFull.rawValue ? [.systemIndigo.withAlphaComponent(0.16), .systemTeal.withAlphaComponent(0.16)] : nil
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderWidthFor section: Int) -> CGFloat? {
+        section == SectionKind.groupedFull.rawValue ? 1.2 : 0.8
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientColorsFor section: Int) -> [UIColor]? {
+        section == SectionKind.groupedFull.rawValue ? [.systemPurple, .systemBlue] : nil
+    }
+    func layout(_ layout: TFYSwiftRTLAlignedFlowLayout, insetGroupedBorderGradientDirectionFor section: Int) -> TFYSwiftRTLAlignedFlowLayout.GradientDirection? {
+        section == SectionKind.groupedFull.rawValue ? .horizontal : .vertical
+    }
+}
+
