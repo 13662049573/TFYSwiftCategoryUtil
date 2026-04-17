@@ -218,7 +218,10 @@ public extension TFYAsynce {
         _ block: @escaping TFYSwiftBlock
     ) -> TFYSwiftBlock {
         var workItem: DispatchWorkItem?
+        let lock = NSLock()
         return {
+            lock.lock()
+            defer { lock.unlock() }
             workItem?.cancel()
             workItem = asyncDelay(delay, qos: qos, block)
         }
@@ -231,12 +234,17 @@ public extension TFYAsynce {
         _ block: @escaping TFYSwiftBlock
     ) -> TFYSwiftBlock {
         var lastExecutionTime: TimeInterval = 0
+        let lock = NSLock()
         return {
             let currentTime = Date().timeIntervalSinceReferenceDate
+            var shouldExecute = false
+            lock.lock()
             if currentTime - lastExecutionTime >= interval {
                 lastExecutionTime = currentTime
-                async(qos: qos, block)
+                shouldExecute = true
             }
+            lock.unlock()
+            if shouldExecute { async(qos: qos, block) }
         }
     }
 }

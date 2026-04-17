@@ -251,21 +251,12 @@ public extension TFY where Base: NSAttributedString {
     /// - Returns: range数组
     private func getStringRangeArray(with textArray: Array<String>) -> Array<NSRange> {
         var rangeArray = Array<NSRange>()
-        // 遍历
         for str in textArray {
-            if base.string.contains(str) {
-                let subStrArr = base.string.components(separatedBy: str)
-                var subStrIndex = 0
-                for i in 0 ..< (subStrArr.count - 1) {
-                    let subDivisionStr = subStrArr[i]
-                    if i == 0 {
-                        subStrIndex += (subDivisionStr.lengthOfBytes(using: .unicode) / 2)
-                    } else {
-                        subStrIndex += (subDivisionStr.lengthOfBytes(using: .unicode) / 2 + str.lengthOfBytes(using: .unicode) / 2)
-                    }
-                    let newRange = NSRange(location: subStrIndex, length: str.count)
-                    rangeArray.append(newRange)
-                }
+            guard !str.isEmpty else { continue }
+            var searchRange = base.string.startIndex..<base.string.endIndex
+            while let foundRange = base.string.range(of: str, options: [], range: searchRange) {
+                rangeArray.append(NSRange(foundRange, in: base.string))
+                searchRange = foundRange.upperBound..<base.string.endIndex
             }
         }
         return rangeArray
@@ -277,16 +268,11 @@ public extension TFY where Base: NSAttributedString {
     /// - Returns: 图片
     private func loadImage(imageName: String) -> UIImage? {
         if imageName.hasPrefix("http://") || imageName.hasPrefix("https://") {
-            let imageURL = URL(string: imageName)
-            var imageData: Data? = nil
-            do {
-                imageData = try Data(contentsOf: imageURL!)
-                return UIImage(data: imageData!)!
-            } catch {
-                return nil
-            }
+            guard let imageURL = URL(string: imageName),
+                  let imageData = try? Data(contentsOf: imageURL) else { return nil }
+            return UIImage(data: imageData)
         }
-        return UIImage(named: imageName)!
+        return UIImage(named: imageName)
     }
 }
 

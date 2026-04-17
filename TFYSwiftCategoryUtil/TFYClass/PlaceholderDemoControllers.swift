@@ -425,11 +425,15 @@ extension PrefetchingDemoController: UICollectionViewDataSource, UICollectionVie
     
     // MARK: - UICollectionViewDataSourcePrefetching
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+#if DEBUG
         print("预取项目: \(indexPaths.map { $0.item })")
+#endif
     }
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+#if DEBUG
         print("取消预取项目: \(indexPaths.map { $0.item })")
+#endif
     }
 }
 

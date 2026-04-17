@@ -128,9 +128,11 @@ open class WKWebController: UIViewController {
         }
         handlerJavaScript += "};\n"
         handlerJavaScript += handlers.map { $0.javaScript }.joined(separator: "\n")
+#if DEBUG
         print("--------------------handlerJavaScript----------------------")
         print(handlerJavaScript)
         print("--------------------handlerJavaScript----------------------")
+#endif
 
         let handlerUserScript = WKUserScript(source: handlerJavaScript, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         userContent.addUserScript(handlerUserScript)

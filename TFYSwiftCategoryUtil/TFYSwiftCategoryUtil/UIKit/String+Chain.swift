@@ -12,6 +12,19 @@ import CommonCrypto
 
 extension String: TFYCompatible {}
 
+private enum TFYStringChainFormatterPool {
+    private static let formatterKey = "com.tfy.string.chain.number.formatter"
+    
+    static func numberFormatter() -> NumberFormatter {
+        if let cached = Thread.current.threadDictionary[formatterKey] as? NumberFormatter {
+            return cached
+        }
+        let formatter = NumberFormatter()
+        Thread.current.threadDictionary[formatterKey] = formatter
+        return formatter
+    }
+}
+
 public extension TFY where Base == String {
     /// - Returns:  md5 加密 (deprecated, use sha256 instead)
     @available(*, deprecated, message: "MD5 is cryptographically broken. Use sha256 instead.")
@@ -843,7 +856,7 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     /// 字符串转 Int
     /// - Returns: Int
     func toInt() -> Int? {
-        if let num = NumberFormatter().number(from: base as! String) {
+        if let num = TFYStringChainFormatterPool.numberFormatter().number(from: base as! String) {
             return num.intValue
         } else {
             return nil
@@ -854,7 +867,7 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     /// 字符串转 Double
     /// - Returns: Double
     func toDouble() -> Double? {
-        if let num = NumberFormatter().number(from: base as! String) {
+        if let num = TFYStringChainFormatterPool.numberFormatter().number(from: base as! String) {
             return num.doubleValue
         } else {
             return nil
@@ -865,7 +878,7 @@ public extension TFY where Base: ExpressibleByStringLiteral {
     /// 字符串转 Float
     /// - Returns: Float
     func toFloat() -> Float? {
-        if let num = NumberFormatter().number(from: base as! String) {
+        if let num = TFYStringChainFormatterPool.numberFormatter().number(from: base as! String) {
             return num.floatValue
         } else {
             return nil
@@ -1173,8 +1186,10 @@ extension TFY where Base: ExpressibleByStringLiteral {
     /// 检查字符串是否包含 Emoji 表情
     /// - Returns: bool
     public func includesEmoji() -> Bool {
-        for i in 0...length {
-            let c: unichar = ((base as! String) as NSString).character(at: i)
+        guard length > 0 else { return false }
+        let nsString = (base as! String) as NSString
+        for i in 0..<length {
+            let c: unichar = nsString.character(at: i)
             if (0xD800 <= c && c <= 0xDBFF) || (0xDC00 <= c && c <= 0xDFFF) {
                 return true
             }

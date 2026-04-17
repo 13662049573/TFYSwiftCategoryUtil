@@ -141,6 +141,11 @@ public enum TFYUtils {
             public static var asyncWrite: Bool = true
         }
         private static let logQueue = DispatchQueue(label: "com.tfy.logger.queue")
+        private static let fileNameDateFormatter: Foundation.DateFormatter = {
+            let formatter = Foundation.DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
         /// 分级日志记录（支持异步写入）
         public static func log(
             _ items: Any...,
@@ -186,14 +191,14 @@ public enum TFYUtils {
                 do {
                     try fileManager.createDirectory(atPath: logDir, withIntermediateDirectories: true)
                 } catch {
+#if DEBUG
                     print("Failed to create log directory: \(error)")
+#endif
                     return
                 }
             }
             // 按日期分文件
-            let formatter = Foundation.DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let filename = "app_\(formatter.string(from: Date())).log"
+            let filename = "app_\(fileNameDateFormatter.string(from: Date())).log"
             let filePath = (logDir as NSString).appendingPathComponent(filename)
             // 写入文件
             if let data = (content + "\n").data(using: .utf8) {
@@ -207,7 +212,9 @@ public enum TFYUtils {
                     do {
                         try data.write(to: URL(fileURLWithPath: filePath))
                     } catch {
+#if DEBUG
                         print("Failed to write log file: \(error)")
+#endif
                     }
                 }
             }
@@ -3093,11 +3100,13 @@ public extension TFYUtils {
             locale: Locale? = nil,
             timeZone: TimeZone? = nil
         ) -> String {
-            let formatter = getFormatter(format: format)
-            if let locale = locale {
-                formatter.locale = locale
-            }
-            if let timeZone = timeZone {
+            let formatter: Foundation.DateFormatter
+            if locale == nil && timeZone == nil {
+                formatter = getFormatter(format: format)
+            } else {
+                formatter = Foundation.DateFormatter()
+                formatter.dateFormat = format
+                formatter.locale = locale ?? Locale(identifier: "zh_CN")
                 formatter.timeZone = timeZone
             }
             return formatter.string(from: date)
@@ -3110,11 +3119,13 @@ public extension TFYUtils {
             locale: Locale? = nil,
             timeZone: TimeZone? = nil
         ) -> Date? {
-            let formatter = getFormatter(format: format)
-            if let locale = locale {
-                formatter.locale = locale
-            }
-            if let timeZone = timeZone {
+            let formatter: Foundation.DateFormatter
+            if locale == nil && timeZone == nil {
+                formatter = getFormatter(format: format)
+            } else {
+                formatter = Foundation.DateFormatter()
+                formatter.dateFormat = format
+                formatter.locale = locale ?? Locale(identifier: "zh_CN")
                 formatter.timeZone = timeZone
             }
             return formatter.date(from: string)
@@ -3255,10 +3266,7 @@ public extension TFYUtils {
         
         /// 获取星期几名称
         public static func weekdayName(for date: Date, short: Bool = false) -> String {
-            let formatter = Foundation.DateFormatter()
-            formatter.locale = Locale(identifier: "zh_CN")
-            formatter.dateFormat = short ? "E" : "EEEE"
-            return formatter.string(from: date)
+            return getFormatter(format: short ? "E" : "EEEE").string(from: date)
         }
         
         /// 判断是否为工作日
@@ -3275,10 +3283,7 @@ public extension TFYUtils {
         
         /// 获取月份名称
         public static func monthName(for date: Date, short: Bool = false) -> String {
-            let formatter = Foundation.DateFormatter()
-            formatter.locale = Locale(identifier: "zh_CN")
-            formatter.dateFormat = short ? "M" : "MMMM"
-            return formatter.string(from: date)
+            return getFormatter(format: short ? "M" : "MMMM").string(from: date)
         }
         
         /// 获取季度

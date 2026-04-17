@@ -471,7 +471,9 @@ public class TFYRuntimeUtils {
             object.setValue(value, forKey: key)
             return true
         } else {
+#if DEBUG
             print("TFYRuntimeUtils: 属性 '\(key)' 不支持KVC，跳过设置。对象类型: \(type(of: object))")
+#endif
             return false
         }
     }
@@ -577,7 +579,9 @@ public class TFYRuntimeUtils {
     /// - Returns: 获取的值
     public static func safeGetValue(forKey key: String, in object: NSObject) -> Any? {
         guard hasProperty(key, in: object) else {
+#if DEBUG
             print("TFYRuntimeUtils: 属性 '\(key)' 不存在于对象 \(type(of: object))")
+#endif
             return nil
         }
         
@@ -957,9 +961,12 @@ public struct TFYChain<T: NSObject>: TFYChainableProtocol, TFYChainErrorHandling
     @discardableResult
     public func delay(_ delay: TimeInterval, _ block: @escaping (T) -> Void) -> TFYChain<T> {
         // 对于NSObject，需要使用弱引用避免强引用循环
+        let shouldLogDebug = isDebugEnabled
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak base] in
             guard let strongBase = base else {
-                print("TFYChain: 延迟执行时对象已被释放")
+                if shouldLogDebug {
+                    print("TFYChain: 延迟执行时对象已被释放")
+                }
                 return
             }
             block(strongBase)
@@ -993,9 +1000,12 @@ public struct TFYChain<T: NSObject>: TFYChainableProtocol, TFYChainErrorHandling
     @discardableResult
     public func async(_ queue: DispatchQueue = .main, _ block: @escaping (T) -> Void) -> TFYChain<T> {
         // 对于NSObject，需要使用弱引用避免强引用循环
+        let shouldLogDebug = isDebugEnabled
         queue.async { [weak base] in
             guard let strongBase = base else {
-                print("TFYChain: 异步执行时对象已被释放")
+                if shouldLogDebug {
+                    print("TFYChain: 异步执行时对象已被释放")
+                }
                 return
             }
             block(strongBase)
@@ -1413,7 +1423,9 @@ extension TFYChain {
                     #elseif os(macOS)
                     button.title = title
                     #endif
-                    print("✅ PlatformButton title设置成功: \(title)")
+                    if chain.isDebugEnabled {
+                        print("✅ PlatformButton title设置成功: \(title)")
+                    }
                     return true
                 }
                 // 类型不匹配，继续尝试KVC
@@ -1424,7 +1436,9 @@ extension TFYChain {
                     #elseif os(macOS)
                     button.contentTintColor = color
                     #endif
-                    print("✅ PlatformButton titleColor设置成功")
+                    if chain.isDebugEnabled {
+                        print("✅ PlatformButton titleColor设置成功")
+                    }
                     return true
                 }
                 // 类型不匹配，继续尝试KVC
@@ -1435,7 +1449,9 @@ extension TFYChain {
                     #elseif os(macOS)
                     button.image = image
                     #endif
-                    print("✅ PlatformButton image设置成功")
+                    if chain.isDebugEnabled {
+                        print("✅ PlatformButton image设置成功")
+                    }
                     return true
                 }
                 // 类型不匹配，继续尝试KVC
@@ -1443,7 +1459,9 @@ extension TFYChain {
                 #if os(iOS)
                 if let image = value as? PlatformImage {
                     button.setBackgroundImage(image, for: .normal)
-                    print("✅ PlatformButton backgroundImage设置成功")
+                    if chain.isDebugEnabled {
+                        print("✅ PlatformButton backgroundImage设置成功")
+                    }
                     return true
                 }
                 #endif
@@ -1474,7 +1492,9 @@ extension TFYChain {
                 #elseif os(macOS)
                 label.stringValue = text
                 #endif
-                print("✅ PlatformLabel text设置成功: \(text)")
+                if chain.isDebugEnabled {
+                    print("✅ PlatformLabel text设置成功: \(text)")
+                }
                 return true
             }
         }
@@ -1487,7 +1507,9 @@ extension TFYChain {
                 #elseif os(macOS)
                 textField.stringValue = text
                 #endif
-                print("✅ PlatformTextField text设置成功: \(text)")
+                if chain.isDebugEnabled {
+                    print("✅ PlatformTextField text设置成功: \(text)")
+                }
                 return true
             }
         }
@@ -1500,7 +1522,9 @@ extension TFYChain {
                 #elseif os(macOS)
                 textView.string = text
                 #endif
-                print("✅ PlatformTextView text设置成功: \(text)")
+                if chain.isDebugEnabled {
+                    print("✅ PlatformTextView text设置成功: \(text)")
+                }
                 return true
             }
         }
@@ -1513,7 +1537,9 @@ extension TFYChain {
                 #elseif os(macOS)
                 textField.placeholderString = placeholder
                 #endif
-                print("✅ PlatformTextField placeholder设置成功: \(placeholder)")
+                if chain.isDebugEnabled {
+                    print("✅ PlatformTextField placeholder设置成功: \(placeholder)")
+                }
                 return true
             }
         }

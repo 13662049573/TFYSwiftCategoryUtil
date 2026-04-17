@@ -245,12 +245,14 @@ class ViewController: UIViewController {
             }
         }
         
+#if DEBUG
         print("TFYStitchImage 图片资源验证结果:")
         print("成功加载: \(loadedCount) 张图片")
         print("加载失败: \(failedCount) 张图片")
         if !failedImages.isEmpty {
             print("失败的图片: \(failedImages)")
         }
+#endif
     }
     
     // MARK: - 功能展示方法

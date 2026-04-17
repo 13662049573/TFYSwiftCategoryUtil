@@ -28,7 +28,29 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldAutocreateTestPlan = "NO">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3612E10F26475AEC00476696"
+               BuildableName = "TFYSwiftCategoryUtilTests.xctest"
+               BlueprintName = "TFYSwiftCategoryUtilTests"
+               ReferencedContainer = "container:TFYSwiftCategoryUtil.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3612E0F926475AEB00476696"
+            BuildableName = "TFYSwiftCategoryUtil.app"
+            BlueprintName = "TFYSwiftCategoryUtil"
+            ReferencedContainer = "container:TFYSwiftCategoryUtil.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

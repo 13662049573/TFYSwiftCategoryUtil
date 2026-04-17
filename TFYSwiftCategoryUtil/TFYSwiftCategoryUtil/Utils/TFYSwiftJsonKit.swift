@@ -132,6 +132,7 @@ public class TFYSwiftJsonKit: NSObject {
         return c
     }()
     private static let cacheQueue = DispatchQueue(label: "com.tfy.jsonkit.cache", attributes: .concurrent)
+    private static let formatterCache = NSCache<NSString, DateFormatter>()
     
     // MARK: - 编码方法 (对象 -> JSON)
     
@@ -181,7 +182,9 @@ public class TFYSwiftJsonKit: NSObject {
                                           from data: Data, 
                                           config: TFYJsonConfig = defaultConfig) -> Result<T, TFYJsonError> {
         guard !data.isEmpty else {
+#if DEBUG
             print("TFYSwiftJsonKit: decode 传入数据为空")
+#endif
             return .failure(.invalidData)
         }
         do {
@@ -400,8 +403,7 @@ public class TFYSwiftJsonKit: NSObject {
         var config = TFYJsonConfig()
         
         if let dateFormat = dateFormat {
-            let formatter = DateFormatter()
-            formatter.dateFormat = dateFormat
+            let formatter = cachedFormatter(for: dateFormat)
             config.dateEncodingStrategy = .formatted(formatter)
             config.dateDecodingStrategy = .formatted(formatter)
         }
@@ -409,6 +411,18 @@ public class TFYSwiftJsonKit: NSObject {
         config.keyEncodingStrategy = keyStrategy
         config.outputFormatting = outputFormatting
         return config
+    }
+    
+    private static func cachedFormatter(for dateFormat: String) -> DateFormatter {
+        let key = dateFormat as NSString
+        if let formatter = formatterCache.object(forKey: key) {
+            return formatter.copy() as? DateFormatter ?? formatter
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatterCache.setObject(formatter, forKey: key)
+        return formatter.copy() as? DateFormatter ?? formatter
     }
     
     // MARK: - 高级功能

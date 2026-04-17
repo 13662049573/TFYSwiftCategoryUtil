@@ -34,7 +34,7 @@ pod 'TFYSwiftCategoryUtil'
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/13662049573/TFYSwiftCategoryUtil.git", .upToNextMajor(from: "2.1.9.5"))
+    .package(url: "https://github.com/13662049573/TFYSwiftCategoryUtil.git", .upToNextMajor(from: "4.1.2"))
 ]
 ```
 

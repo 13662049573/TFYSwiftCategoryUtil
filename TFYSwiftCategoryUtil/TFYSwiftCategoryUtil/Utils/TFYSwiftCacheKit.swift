@@ -697,38 +697,45 @@ public extension TFYSwiftCacheKit {
 
 // MARK: - 便利扩展
 public extension TFYSwiftCacheKit {
+    private static var syncAccessError: TFYCacheError {
+        let error = NSError(
+            domain: "com.tfy.cache.sync",
+            code: 1,
+            userInfo: [NSLocalizedDescriptionKey: "禁止在主线程调用同步缓存接口，请改用异步接口"]
+        )
+        return .saveFailed(error)
+    }
+    
     /// 同步设置缓存（避免死锁）
     func setCacheSync<T: Codable>(_ value: T, forKey key: String) -> Result<Void, TFYCacheError> {
+        guard !Thread.isMainThread else {
+            return .failure(Self.syncAccessError)
+        }
         let semaphore = DispatchSemaphore(value: 0)
         var result: Result<Void, TFYCacheError>!
-        
-        // 始终在后台队列执行，避免死锁
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.setCache(value, forKey: key) { res in
-                result = res
-                semaphore.signal()
-            }
+
+        self.setCache(value, forKey: key) { res in
+            result = res
+            semaphore.signal()
         }
-        
+
         semaphore.wait()
         return result
     }
     
     /// 同步获取缓存（避免死锁）
     func getCacheSync<T: Codable>(_ type: T.Type, forKey key: String) -> Result<T, TFYCacheError> {
+        guard !Thread.isMainThread else {
+            return .failure(Self.syncAccessError)
+        }
         let semaphore = DispatchSemaphore(value: 0)
         var result: Result<T, TFYCacheError>!
-        
-        // 始终在后台队列执行，避免死锁
-        // 使用 nonisolated(unsafe) 捕获类型，因为 T.Type 是元类型，不包含可变状态，线程安全
-        nonisolated(unsafe) let capturedType = type
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.getCache(capturedType, forKey: key) { res in
-                result = res
-                semaphore.signal()
-            }
+
+        self.getCache(type, forKey: key) { res in
+            result = res
+            semaphore.signal()
         }
-        
+
         semaphore.wait()
         return result
     }

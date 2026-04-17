@@ -68,6 +68,21 @@ public enum TFYRegexDigitalType: String, CaseIterable {
 
 /// 正则表达式工具类
 public struct TFYRegexHelper {
+    private static let regexCache = NSCache<NSString, NSRegularExpression>()
+    
+    private static func cacheKey(pattern: String, options: NSRegularExpression.Options) -> NSString {
+        return "\(pattern)#\(options.rawValue)" as NSString
+    }
+    
+    private static func regex(for pattern: String, options: NSRegularExpression.Options) throws -> NSRegularExpression {
+        let key = cacheKey(pattern: pattern, options: options)
+        if let cached = regexCache.object(forKey: key) {
+            return cached
+        }
+        let compiled = try NSRegularExpression(pattern: pattern, options: options)
+        regexCache.setObject(compiled, forKey: key)
+        return compiled
+    }
     
     // MARK: - 基础匹配方法
     
@@ -83,9 +98,9 @@ public struct TFYRegexHelper {
         options: NSRegularExpression.Options = []
     ) -> Bool {
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: options)
-            let matches = regex.matches(in: input, range: NSRange(input.startIndex..., in: input))
-            return !matches.isEmpty
+            let regex = try regex(for: pattern, options: options)
+            let range = NSRange(input.startIndex..., in: input)
+            return regex.firstMatch(in: input, range: range) != nil
         } catch {
             print("TFYRegexHelper: 正则表达式错误 pattern=\(pattern), error=\(error)")
             return false
@@ -103,7 +118,7 @@ public struct TFYRegexHelper {
         pattern: String,
         options: NSRegularExpression.Options = []
     ) -> [NSRange] {
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else {
+        guard let regex = try? regex(for: pattern, options: options) else {
             return []
         }
         return regex.matches(in: input, range: NSRange(input.startIndex..., in: input))

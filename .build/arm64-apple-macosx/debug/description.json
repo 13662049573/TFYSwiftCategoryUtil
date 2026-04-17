@@ -1,0 +1,2548 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.xctest/Contents/MacOS/TFYSwiftCategoryUtilPackageTests",
+      "packagePath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil",
+      "productName" : "TFYSwiftCategoryUtilPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.TFYSwiftCategoryUtil-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/sources",
+      "importPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasFont.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasText.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/AuthorizationPublisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGPoint.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGRect.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocation.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationCoordinate2D.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/LocationPublisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Operators.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Publisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Subscriber.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/UserDefault.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarButtonItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIButton+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionViewFlowLayout+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIControl+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIDatePicker+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIGestureRecognizer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImage+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImageView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UILabel+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationBar+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIPickerView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIProgressView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIResponder+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScreen+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScrollView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISearchBar+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISegmentedControl+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISlider+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStackView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStepper+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStoryboard+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISwitch+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITabBarController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableViewCell+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextField+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/WKWebView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UILongPressGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPanGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPinchGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIRotationGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UISwipeGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UITapGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Array+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Bundle+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CAGradientLayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CALayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CATextLayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CLLocation+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Codable+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Data+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Date+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DateFormatter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Dictionary+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DispatchQueue+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/FileManager+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSAttributedString+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSMutableAttributedString+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSNumber+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSObject+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSRange+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NotificationCenter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NumberFormatter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/String+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Timer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIActivityIndicatorView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIAlertController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIApplication+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBarButtonItem+obj.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBezierPath+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIColor+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIDevice+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIFont+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIViewController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIWindow+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UserDefaults+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYAsynce.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYLimitManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYNetstatManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRegexHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntime.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntimeChainSystem.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYStitchImage.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftAdaptiveKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftCacheKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftJsonKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftLabel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftPopupView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftRTLAlignedFlowLayout.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYTimer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYUtils.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderKeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderUnkeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderValueContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderKeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderUnkeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderValueContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKOperatorLayout.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsEncoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TFYSwiftCategoryUtil",
+      "moduleOutputPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules/TFYSwiftCategoryUtil.swiftmodule",
+      "objects" : [
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasFont.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasText.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/AuthorizationPublisher.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGPoint.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGRect.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationCoordinate2D.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationManager.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/LocationPublisher.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Operators.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Publisher.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Subscriber.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefault.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarItem+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIButton+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionViewFlowLayout+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIControl+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDatePicker+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIGestureRecognizer+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImage+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImageView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILabel+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationBar+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationItem+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPickerView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIProgressView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIResponder+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScreen+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScrollView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISearchBar+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISegmentedControl+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISlider+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStackView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStepper+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStoryboard+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwitch+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITabBarController+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableViewCell+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextField+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILongPressGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPanGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPinchGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIRotationGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwipeGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITapGestureRecognizer+ITools.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Array+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Bundle+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CAGradientLayer+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CALayer+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CATextLayer+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Codable+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Data+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Date+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DateFormatter+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Dictionary+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DispatchQueue+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/FileManager+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSAttributedString+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSMutableAttributedString+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSNumber+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSObject+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSRange+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NotificationCenter+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NumberFormatter+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/String+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Timer+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIActivityIndicatorView+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIAlertController+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIApplication+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+obj.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBezierPath+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIColor+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDevice+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIFont+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIViewController+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIWindow+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefaults+Chain.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYAsynce.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYLimitManager.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYNetstatManager.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRegexHelper.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntime.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntimeChainSystem.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYStitchImage.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftAdaptiveKit.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftCacheKit.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftJsonKit.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftLabel.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftPopupView.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftRTLAlignedFlowLayout.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYTimer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYUtils.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderKeyedContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderUnkeyedContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderValueContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDelegate.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderKeyedContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderUnkeyedContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderValueContainer.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKOperatorLayout.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsDecoder.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsEncoder.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebController.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebHandler.swift.o",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebManager.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/include/TFYSwiftCategoryUtil-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g"
+      ],
+      "outputFileMapPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasFont.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasText.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/AuthorizationPublisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGPoint.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGRect.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationCoordinate2D.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/LocationPublisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Operators.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Publisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Subscriber.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefault.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIButton+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionViewFlowLayout+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIControl+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDatePicker+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIGestureRecognizer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImage+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImageView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILabel+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationBar+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPickerView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIProgressView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIResponder+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScreen+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScrollView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISearchBar+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISegmentedControl+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISlider+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStackView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStepper+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStoryboard+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwitch+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITabBarController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableViewCell+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextField+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILongPressGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPanGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPinchGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIRotationGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwipeGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITapGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Array+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Bundle+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CAGradientLayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CALayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CATextLayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Codable+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Data+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Date+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DateFormatter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Dictionary+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DispatchQueue+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/FileManager+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSAttributedString+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSMutableAttributedString+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSNumber+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSObject+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSRange+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NotificationCenter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NumberFormatter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/String+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Timer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIActivityIndicatorView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIAlertController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIApplication+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+obj.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBezierPath+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIColor+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDevice+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIFont+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIViewController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIWindow+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefaults+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYAsynce.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYLimitManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYNetstatManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRegexHelper.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntime.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntimeChainSystem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYStitchImage.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftAdaptiveKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftCacheKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftJsonKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftLabel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftPopupView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftRTLAlignedFlowLayout.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYTimer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYUtils.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderKeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderUnkeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderValueContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderKeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderUnkeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderValueContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKOperatorLayout.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsDecoder.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsEncoder.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebController.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules/TFYSwiftCategoryUtil.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasFont.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasText.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/AuthorizationPublisher.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGPoint.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGRect.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocation.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationCoordinate2D.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationManager.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/LocationPublisher.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Operators.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Publisher.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Subscriber.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/UserDefault.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarButtonItem+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarItem+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIButton+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionViewFlowLayout+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIControl+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIDatePicker+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIGestureRecognizer+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImage+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImageView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UILabel+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationBar+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationItem+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIPickerView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIProgressView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIResponder+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScreen+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScrollView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISearchBar+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISegmentedControl+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISlider+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStackView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStepper+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStoryboard+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISwitch+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITabBarController+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableViewCell+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextField+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/WKWebView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UILongPressGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPanGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPinchGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIRotationGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UISwipeGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UITapGestureRecognizer+ITools.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Array+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Bundle+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CAGradientLayer+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CALayer+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CATextLayer+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CLLocation+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Codable+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Data+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Date+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DateFormatter+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Dictionary+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DispatchQueue+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/FileManager+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSAttributedString+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSMutableAttributedString+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSNumber+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSObject+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSRange+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NotificationCenter+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NumberFormatter+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/String+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Timer+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIActivityIndicatorView+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIAlertController+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIApplication+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBarButtonItem+obj.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBezierPath+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIColor+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIDevice+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIFont+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIViewController+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIWindow+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UserDefaults+Chain.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYAsynce.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYLimitManager.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYNetstatManager.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRegexHelper.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntime.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntimeChainSystem.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYStitchImage.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftAdaptiveKit.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftCacheKit.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftJsonKit.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftLabel.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftPopupView.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftRTLAlignedFlowLayout.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYTimer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYUtils.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderKeyedContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderUnkeyedContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderValueContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDelegate.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderKeyedContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderUnkeyedContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderValueContainer.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKOperatorLayout.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsDecoder.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsEncoder.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebController.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebHandler.swift",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebManager.swift"
+      ],
+      "tempsPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.TFYSwiftCategoryUtilPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/sources",
+      "importPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules/TFYSwiftCategoryUtilPackageTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "TFYSwiftCategoryUtilPackageTests",
+      "moduleOutputPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules/TFYSwiftCategoryUtilPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/include/TFYSwiftCategoryUtilPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g"
+      ],
+      "outputFileMapPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules/TFYSwiftCategoryUtilPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "TFYSwiftCategoryUtil" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TFYSwiftCategoryUtil",
+      "-c",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasFont.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasText.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/AuthorizationPublisher.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGPoint.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGRect.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocation.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationCoordinate2D.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationManager.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/LocationPublisher.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Operators.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Publisher.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Subscriber.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/UserDefault.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarButtonItem+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarItem+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIButton+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionViewFlowLayout+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIControl+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIDatePicker+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIGestureRecognizer+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImage+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImageView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UILabel+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationBar+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationItem+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIPickerView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIProgressView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIResponder+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScreen+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScrollView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISearchBar+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISegmentedControl+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISlider+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStackView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStepper+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStoryboard+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISwitch+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITabBarController+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableViewCell+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextField+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/WKWebView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UILongPressGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPanGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPinchGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIRotationGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UISwipeGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UITapGestureRecognizer+ITools.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Array+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Bundle+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CAGradientLayer+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CALayer+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CATextLayer+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CLLocation+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Codable+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Data+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Date+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DateFormatter+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Dictionary+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DispatchQueue+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/FileManager+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSAttributedString+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSMutableAttributedString+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSNumber+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSObject+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSRange+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NotificationCenter+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NumberFormatter+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/String+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Timer+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIActivityIndicatorView+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIAlertController+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIApplication+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBarButtonItem+obj.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBezierPath+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIColor+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIDevice+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIFont+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIViewController+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIWindow+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UserDefaults+Chain.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYAsynce.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYLimitManager.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYNetstatManager.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRegexHelper.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntime.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntimeChainSystem.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYStitchImage.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftAdaptiveKit.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftCacheKit.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftJsonKit.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftLabel.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftPopupView.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftRTLAlignedFlowLayout.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYTimer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYUtils.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderKeyedContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderUnkeyedContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderValueContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDelegate.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderKeyedContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderUnkeyedContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderValueContainer.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKOperatorLayout.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsDecoder.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsEncoder.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebController.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebHandler.swift",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebManager.swift",
+      "-I",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/include/TFYSwiftCategoryUtil-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "TFYSwiftCategoryUtilPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "TFYSwiftCategoryUtilPackageTests",
+      "-c",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/include/TFYSwiftCategoryUtilPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "TFYSwiftCategoryUtil" : [
+
+    ],
+    "TFYSwiftCategoryUtilPackageTests" : [
+      "TFYSwiftCategoryUtilPackageTests",
+      "TFYSwiftCategoryUtil"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasFont.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Base/HasText.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/AuthorizationPublisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGPoint.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CGRect.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocation.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationCoordinate2D.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/CLLocationManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/LocationPublisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Operators.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Publisher.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/Subscriber.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/CoreUiit/UserDefault.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarButtonItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIBarItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIButton+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UICollectionViewFlowLayout+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIControl+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIDatePicker+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIGestureRecognizer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImage+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIImageView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UILabel+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationBar+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UINavigationItem+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIPickerView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIProgressView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIResponder+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScreen+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIScrollView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISearchBar+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISegmentedControl+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISlider+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStackView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStepper+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIStoryboard+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UISwitch+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITabBarController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITableViewCell+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextField+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UITextView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/UIView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Foundation/WKWebView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UILongPressGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPanGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIPinchGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UIRotationGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UISwipeGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Gesture/UITapGestureRecognizer+ITools.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Array+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Bundle+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CAGradientLayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CALayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CATextLayer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/CLLocation+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Codable+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Data+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Date+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DateFormatter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Dictionary+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/DispatchQueue+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/FileManager+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSAttributedString+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSMutableAttributedString+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSNumber+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSObject+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NSRange+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NotificationCenter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/NumberFormatter+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/String+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/Timer+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIActivityIndicatorView+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIAlertController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIApplication+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBarButtonItem+obj.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIBezierPath+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIColor+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIDevice+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIFont+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIViewController+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UIWindow+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/UIKit/UserDefaults+Chain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYAsynce.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYLimitManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYNetstatManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRegexHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntime.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYRuntimeChainSystem.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYStitchImage.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftAdaptiveKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftCacheKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftJsonKit.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftLabel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftPopupView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYSwiftRTLAlignedFlowLayout.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYTimer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/Utils/TFYUtils.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderKeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderUnkeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDecoderValueContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKDelegate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderKeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderUnkeyedContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKEncoderValueContainer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKOperatorLayout.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKScriptHandlerParamsEncoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebHandler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/TFYSwiftCategoryUtil/WKWeb/WKWebManager.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/sources"
+    },
+    "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/sources"
+    },
+    "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Array+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/AuthorizationPublisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Bundle+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CAGradientLayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CALayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CATextLayer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGPoint.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CGRect.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocation.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationCoordinate2D.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/CLLocationManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Codable+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Data+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Date+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DateFormatter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Dictionary+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/DispatchQueue+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/FileManager+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasFont.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/HasText.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/LocationPublisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSAttributedString+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSMutableAttributedString+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSNumber+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSObject+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NSRange+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NotificationCenter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/NumberFormatter+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Operators.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Publisher.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/String+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Subscriber.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYAsynce.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYLimitManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYNetstatManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRegexHelper.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntime.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYRuntimeChainSystem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYStitchImage.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftAdaptiveKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftCacheKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftJsonKit.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftLabel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftPopupView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYSwiftRTLAlignedFlowLayout.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYTimer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/TFYUtils.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/Timer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIActivityIndicatorView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIAlertController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIApplication+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarButtonItem+obj.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBarItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIBezierPath+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIButton+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UICollectionViewFlowLayout+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIColor+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIControl+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDatePicker+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIDevice+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIFont+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIGestureRecognizer+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImage+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIImageView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILabel+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UILongPressGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationBar+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UINavigationItem+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPanGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPickerView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIPinchGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIProgressView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIResponder+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIRotationGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScreen+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIScrollView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISearchBar+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISegmentedControl+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISlider+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStackView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStepper+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIStoryboard+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwipeGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UISwitch+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITabBarController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITableViewCell+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITapGestureRecognizer+ITools.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextField+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UITextView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIViewController+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UIWindow+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefault.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/UserDefaults+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderKeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderUnkeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDecoderValueContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKDelegate.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderKeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderUnkeyedContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKEncoderValueContainer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKOperatorLayout.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsDecoder.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKScriptHandlerParamsEncoder.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebController.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebHandler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtil.build/WKWebView+Chain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.build/runner.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/TFYSwiftCategoryUtilPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/tianfengyou/Desktop/github/TFYSwiftCategoryUtil/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

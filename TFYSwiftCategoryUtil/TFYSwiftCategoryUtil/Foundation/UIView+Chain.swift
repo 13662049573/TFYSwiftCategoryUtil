@@ -641,17 +641,19 @@ public extension TFY where Base: UIView {
     
     @discardableResult
     func remove(subview view:UIView) -> Self {
-        base.subviews
-            .filter{ $0 == view }
-            .forEach{ $0.removeFromSuperview() }
+        if view.superview === base {
+            view.removeFromSuperview()
+        }
         return self
     }
     
     @discardableResult
     func remove(subviews views:[UIView]) -> Self {
+        guard !views.isEmpty else { return self }
+        let targets = Set(views.map(ObjectIdentifier.init))
         base.subviews
-            .filter{ views.contains($0)}
-            .forEach{ $0.removeFromSuperview() }
+            .filter { targets.contains(ObjectIdentifier($0)) }
+            .forEach { $0.removeFromSuperview() }
         return self
     }
     
