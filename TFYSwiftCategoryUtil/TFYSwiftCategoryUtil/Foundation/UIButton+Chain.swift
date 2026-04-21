@@ -207,7 +207,7 @@ public extension TFY where Base: UIButton {
 extension UIButton {
     
     // MARK: - Public Methods
-    
+
     /// 设置图片和文字的相对位置
     /// - Parameters:
     ///   - type: 图片位置类型
@@ -217,6 +217,18 @@ extension UIButton {
         applyModernConfiguration(type: type, space: space, contentInsets: .zero)
     }
     
+    // 设置内容内边距
+    func setContentEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+        var config = self.configuration ?? UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: top,
+            leading: left,
+            bottom: bottom,
+            trailing: right
+        )
+        self.configuration = config
+    }
+
     /// 设置图片和文字的相对位置（自定义内容边距）
     /// - Parameters:
     ///   - type: 图片位置类型
@@ -226,166 +238,165 @@ extension UIButton {
     public func imageDirectionCustomize(_ type: ButtonImageDirection, _ space: CGFloat, _ contentInsets: NSDirectionalEdgeInsets) {
         applyModernConfiguration(type: type, space: space, contentInsets: contentInsets)
     }
-    
+
     // MARK: - Private Methods
-    
+
     @available(iOS 15.0, *)
     private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         var configuration = createBaseConfiguration(space: space)
-        
+
         // 配置布局
         configureLayout(for: type, space: space, contentInsets: contentInsets, in: &configuration)
-        
+
         // 应用配置
         self.configuration = configuration
-        
+
         // 设置配置更新处理器
         setupConfigurationUpdateHandler(buttonFont: configuration.attributedTitle?.font ?? UIFont.systemFont(ofSize: 14),
-                                     buttonColor: configuration.attributedTitle?.foregroundColor ?? .black)
+                                        buttonColor: configuration.attributedTitle?.foregroundColor ?? .black)
     }
-    
+
     @available(iOS 15.0, *)
     private func createBaseConfiguration(space: CGFloat) -> UIButton.Configuration {
         var configuration = UIButton.Configuration.plain()
-        
+
         // 保留现有背景图片
         if let backgroundImage = backgroundImage(for: .normal) {
             configuration.background.image = backgroundImage
         }
-        
+
         // 配置基础属性
         configuration.imagePadding = space
         configuration.titleLineBreakMode = .byWordWrapping
-        
+
         // 配置标题
         if let title = title(for: .normal) {
             let buttonFont = titleLabel?.font ?? UIFont.systemFont(ofSize: 14)
             let buttonColor = titleColor(for: .normal) ?? .black
-            
+
             var attributeContainer = AttributeContainer()
             attributeContainer.font = buttonFont
             attributeContainer.foregroundColor = buttonColor
-            
             configuration.attributedTitle = AttributedString(title, attributes: attributeContainer)
         }
-        
+
         return configuration
     }
-    
+
     @available(iOS 15.0, *)
     private func configureLayout(for type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets, in configuration: inout UIButton.Configuration) {
         switch type {
         case .centerImageTop:
             configureCenterImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageLeft:
             configureCenterImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageRight:
             configureCenterImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageBottom:
             configureCenterImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
-                case .leftImageLeft:
+
+        case .leftImageLeft:
             configureLeftImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .leftImageRight:
             configureLeftImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .rightImageLeft:
             configureRightImageLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .rightImageRight:
             configureRightImageRight(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageTopFixedSpace:
             configureCenterImageTopFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageLeftFixedSpace:
             configureCenterImageLeftFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageRightFixedSpace:
             configureCenterImageRightFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageBottomFixedSpace:
             configureCenterImageBottomFixedSpace(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .topImageTop:
             configureTopImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .topImageBottom:
             configureTopImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .bottomImageTop:
             configureBottomImageTop(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .bottomImageBottom:
             configureBottomImageBottom(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageTopTextBelow:
             configureCenterImageTopTextBelow(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageLeftTextRight:
             configureCenterImageLeftTextRight(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageRightTextLeft:
             configureCenterImageRightTextLeft(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .centerImageBottomTextAbove:
             configureCenterImageBottomTextAbove(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .imageOnly:
             configureImageOnly(configuration: &configuration)
-            
+
         case .textOnly:
             configureTextOnly(configuration: &configuration)
-            
+
         case .imageTopTextBelowFixedHeight:
             configureImageTopTextBelowFixedHeight(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .imageLeftTextRightFixedWidth:
             configureImageLeftTextRightFixedWidth(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .imageRightTextLeftFixedWidth:
             configureImageRightTextLeftFixedWidth(configuration: &configuration, space: space, contentInsets: contentInsets)
-            
+
         case .imageBottomTextAboveFixedHeight:
             configureImageBottomTextAboveFixedHeight(configuration: &configuration, space: space, contentInsets: contentInsets)
         }
     }
-    
+
     @available(iOS 15.0, *)
     private func setupConfigurationUpdateHandler(buttonFont: UIFont, buttonColor: UIColor) {
         configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
-            
+
             // 保持背景图片，只清除背景颜色和描边颜色
             if let backgroundImage = button.backgroundImage(for: .normal) {
                 updatedConfig?.background.image = backgroundImage
             }
             updatedConfig?.background.backgroundColor = .clear
             updatedConfig?.background.strokeColor = .clear
-            
+
             updatedConfig?.background.cornerRadius = button.layer.cornerRadius
             // 更新字体和颜色
             let newFont = button.titleLabel?.font ?? buttonFont
             let newColor = button.titleColor(for: .normal) ?? buttonColor
-            
+
             var newAttributes = AttributeContainer()
             newAttributes.font = newFont
             newAttributes.foregroundColor = newColor
-            
+
             if let title = button.title(for: .normal) {
                 updatedConfig?.attributedTitle = AttributedString(title, attributes: newAttributes)
             }
-            
+
             button.configuration = updatedConfig
         }
     }
-    
+
     // MARK: - Configuration Helper Methods
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -397,7 +408,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -409,7 +420,7 @@ extension UIButton {
             trailing: space
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -421,7 +432,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -433,7 +444,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureLeftImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -444,9 +455,9 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: space
         )
-        contentHorizontalAlignment = .left
+        contentHorizontalAlignment = .leading
     }
-    
+
     @available(iOS 15.0, *)
     private func configureLeftImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -457,9 +468,9 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: space
         )
-        contentHorizontalAlignment = .left
+        contentHorizontalAlignment = .leading
     }
-    
+
     @available(iOS 15.0, *)
     private func configureRightImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -470,9 +481,9 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
-        contentHorizontalAlignment = .right
+        contentHorizontalAlignment = .trailing
     }
-    
+
     @available(iOS 15.0, *)
     private func configureRightImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -483,9 +494,9 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
-        contentHorizontalAlignment = .right
+        contentHorizontalAlignment = .trailing
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageTopFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -498,7 +509,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageLeftFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -511,7 +522,7 @@ extension UIButton {
             trailing: space
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageRightFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -524,7 +535,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageBottomFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -537,7 +548,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureTopImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -550,7 +561,7 @@ extension UIButton {
         )
         contentHorizontalAlignment = .center
     }
-    
+
     @available(iOS 15.0, *)
     private func configureTopImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -563,7 +574,7 @@ extension UIButton {
         )
         contentHorizontalAlignment = .center
     }
-    
+
     @available(iOS 15.0, *)
     private func configureBottomImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -576,7 +587,7 @@ extension UIButton {
         )
         contentHorizontalAlignment = .center
     }
-    
+
     @available(iOS 15.0, *)
     private func configureBottomImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -589,7 +600,7 @@ extension UIButton {
         )
         contentHorizontalAlignment = .center
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageTopTextBelow(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -602,7 +613,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageLeftTextRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -615,7 +626,7 @@ extension UIButton {
             trailing: space
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageRightTextLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -628,7 +639,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureCenterImageBottomTextAbove(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -641,19 +652,19 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureImageOnly(configuration: inout UIButton.Configuration) {
         configuration.image = image(for: .normal)
         configuration.title = nil
     }
-    
+
     @available(iOS 15.0, *)
     private func configureTextOnly(configuration: inout UIButton.Configuration) {
         configuration.image = nil
         configuration.title = title(for: .normal)
     }
-    
+
     @available(iOS 15.0, *)
     private func configureImageTopTextBelowFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
@@ -665,9 +676,8 @@ extension UIButton {
             bottom: space,
             trailing: contentInsets.trailing
         )
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
-    
+
     @available(iOS 15.0, *)
     private func configureImageLeftTextRightFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
@@ -680,7 +690,7 @@ extension UIButton {
             trailing: space
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureImageRightTextLeftFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
@@ -693,7 +703,7 @@ extension UIButton {
             trailing: contentInsets.trailing
         )
     }
-    
+
     @available(iOS 15.0, *)
     private func configureImageBottomTextAboveFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
@@ -705,7 +715,6 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
 

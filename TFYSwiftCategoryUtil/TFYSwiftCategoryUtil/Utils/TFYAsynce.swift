@@ -116,7 +116,7 @@ private extension TFYAsynce {
 // MARK: - 便利扩展
 public extension TFYAsynce {
     /// 主线程执行
-    static func main(_ block: @escaping TFYSwiftBlock) {
+    static func onMain(_ block: @escaping TFYSwiftBlock) {
         if Thread.isMainThread {
             block()
         } else {
@@ -201,7 +201,7 @@ public extension TFYAsynce {
                     attempt()
                 }
             } else {
-                main {
+                onMain {
                     completion(result)
                 }
             }
