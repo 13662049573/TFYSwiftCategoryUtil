@@ -7,6 +7,11 @@ final class ArrayChainTests: XCTestCase {
         XCTAssertTrue(values.hasDuplicates)
         XCTAssertEqual(values.uniqueOrdered(), [1, 2, 3])
     }
+
+    func testUniqueKeepsStableEncounterOrder() {
+        let values = ["b", "a", "b", "c", "a"]
+        XCTAssertEqual(values.unique(), ["b", "a", "c"])
+    }
     
     func testNonHashableHasDuplicates() {
         let a = NSObject()

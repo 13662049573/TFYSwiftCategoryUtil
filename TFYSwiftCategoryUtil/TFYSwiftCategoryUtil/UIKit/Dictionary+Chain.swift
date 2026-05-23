@@ -87,17 +87,14 @@ public extension Dictionary {
     /// 字典里面所有的key
     /// - Returns: key 数组
     func allKeys() -> [Key] {
-        /*
-         shuffled：不会改变原数组，返回一个新的随机化的数组。  可以用于let 数组
-         */
-        return self.keys.shuffled()
+        return Array(self.keys)
     }
     
     // MARK: 1.6、字典里面所有的 value
     /// 字典里面所有的value
     /// - Returns: value 数组
     func allValues() -> [Value] {
-        return self.values.shuffled()
+        return Array(self.values)
     }
     
     // MARK: 1.7、设置value
@@ -130,14 +127,20 @@ public extension Dictionary {
             guard keys.count == 1, let key = keys[0] as? Dictionary<Key, Value>.Keys.Element else {
                 return false
             }
-            self[key] = (newValue as! Value)
+            guard let typedValue = newValue as? Value else {
+                return false
+            }
+            self[key] = typedValue
             return true
         }
         guard let key = keys[0] as? Dictionary<Key, Value>.Keys.Element, self.keys.contains(key), var value1 = self[key] as? [String: Any] else {
             return false
         }
         let result = Dictionary<String, Any>.value(keys: Array(keys[1..<keys.count]), oldValue: &value1, newValue: newValue)
-        self[key] = (value1 as! Value)
+        guard let typedValue = value1 as? Value else {
+            return false
+        }
+        self[key] = typedValue
         return result
     }
     
@@ -302,5 +305,4 @@ public extension TFY where Base == Dictionary<String, Any> {
         }
     }
 }
-
 

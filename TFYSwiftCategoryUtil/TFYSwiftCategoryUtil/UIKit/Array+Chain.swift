@@ -229,7 +229,7 @@ public extension Array where Element: Hashable {
     /// - Returns: 去重后的数组
     /// - Note: 支持iOS 15+，适配iPhone和iPad
     func unique() -> [Element] where Element: Hashable {
-        return Array(Set(self))
+        return uniqueOrdered()
     }
     
     // MARK: 6.2、数组去重（保持顺序）

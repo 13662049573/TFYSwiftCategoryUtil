@@ -124,6 +124,77 @@ public struct TFYRegexHelper {
         return regex.matches(in: input, range: NSRange(input.startIndex..., in: input))
             .map { $0.range }
     }
+
+    /// 获取首个匹配内容
+    /// - Parameters:
+    ///   - input: 需要匹配的字符串
+    ///   - pattern: 正则表达式
+    ///   - options: 匹配选项
+    /// - Returns: 首个匹配到的字符串
+    public static func firstMatch(
+        _ input: String,
+        pattern: String,
+        options: NSRegularExpression.Options = []
+    ) -> String? {
+        guard let regex = try? regex(for: pattern, options: options) else {
+            return nil
+        }
+        let range = NSRange(input.startIndex..., in: input)
+        guard let match = regex.firstMatch(in: input, range: range),
+              let stringRange = Range(match.range, in: input) else {
+            return nil
+        }
+        return String(input[stringRange])
+    }
+
+    /// 提取首个匹配的捕获组
+    /// - Parameters:
+    ///   - input: 需要匹配的字符串
+    ///   - pattern: 正则表达式
+    ///   - options: 匹配选项
+    /// - Returns: 捕获组数组，不包含第 0 个整体匹配项
+    public static func captureGroups(
+        _ input: String,
+        pattern: String,
+        options: NSRegularExpression.Options = []
+    ) -> [String] {
+        guard let regex = try? regex(for: pattern, options: options) else {
+            return []
+        }
+        let range = NSRange(input.startIndex..., in: input)
+        guard let match = regex.firstMatch(in: input, range: range), match.numberOfRanges > 1 else {
+            return []
+        }
+
+        return (1..<match.numberOfRanges).compactMap { index in
+            let groupRange = match.range(at: index)
+            guard groupRange.location != NSNotFound,
+                  let stringRange = Range(groupRange, in: input) else {
+                return nil
+            }
+            return String(input[stringRange])
+        }
+    }
+
+    /// 替换所有匹配到的内容
+    /// - Parameters:
+    ///   - input: 原始字符串
+    ///   - pattern: 正则表达式
+    ///   - template: 替换模板
+    ///   - options: 匹配选项
+    /// - Returns: 替换后的结果；若正则非法则返回原字符串
+    public static func replacingMatches(
+        in input: String,
+        pattern: String,
+        with template: String,
+        options: NSRegularExpression.Options = []
+    ) -> String {
+        guard let regex = try? regex(for: pattern, options: options) else {
+            return input
+        }
+        let range = NSRange(input.startIndex..., in: input)
+        return regex.stringByReplacingMatches(in: input, range: range, withTemplate: template)
+    }
     
     // MARK: - 常用验证方法
     
@@ -172,6 +243,25 @@ public extension String {
     /// 是否匹配指定的正则表达式
     func matches(_ pattern: String, options: NSRegularExpression.Options = []) -> Bool {
         return TFYRegexHelper.match(self, pattern: pattern, options: options)
+    }
+
+    /// 获取首个匹配内容
+    func firstMatch(_ pattern: String, options: NSRegularExpression.Options = []) -> String? {
+        TFYRegexHelper.firstMatch(self, pattern: pattern, options: options)
+    }
+
+    /// 获取首个匹配的捕获组
+    func captureGroups(_ pattern: String, options: NSRegularExpression.Options = []) -> [String] {
+        TFYRegexHelper.captureGroups(self, pattern: pattern, options: options)
+    }
+
+    /// 替换所有匹配到的内容
+    func replacingMatches(
+        _ pattern: String,
+        with template: String,
+        options: NSRegularExpression.Options = []
+    ) -> String {
+        TFYRegexHelper.replacingMatches(in: self, pattern: pattern, with: template, options: options)
     }
     
     /// 是否是有效的邮箱

@@ -61,6 +61,9 @@
 		36D110442834C3ED0068E67E /* TFYRegexHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110432834C3ED0068E67E /* TFYRegexHelper.swift */; };
 		36D110462834CDCD0068E67E /* Date+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D110452834CDCD0068E67E /* Date+Chain.swift */; };
 		36D1C5E6284DCEB0008F11BF /* TFYSwiftPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */; };
+		36AA00012F00000100000002 /* URL+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA00012F00000100000001 /* URL+Chain.swift */; };
+		36AA00012F00000100000004 /* URLRequest+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA00012F00000100000003 /* URLRequest+Chain.swift */; };
+		36AA00012F00000100000006 /* URLSession+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA00012F00000100000005 /* URLSession+Chain.swift */; };
 		36DAFEBE2787FEAA00D05EE1 /* NotificationCenter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */; };
 		36DAFEBF2787FEAA00D05EE1 /* DateFormatter+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */; };
 		36DAFEC02787FEAA00D05EE1 /* UserDefaults+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DAFEBB2787FEAA00D05EE1 /* UserDefaults+Chain.swift */; };
@@ -250,6 +253,9 @@
 		36D110432834C3ED0068E67E /* TFYRegexHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYRegexHelper.swift; sourceTree = "<group>"; };
 		36D110452834CDCD0068E67E /* Date+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Chain.swift"; sourceTree = "<group>"; };
 		36D1C5E5284DCEB0008F11BF /* TFYSwiftPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFYSwiftPopupView.swift; sourceTree = "<group>"; };
+		36AA00012F00000100000001 /* URL+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Chain.swift"; sourceTree = "<group>"; };
+		36AA00012F00000100000003 /* URLRequest+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Chain.swift"; sourceTree = "<group>"; };
+		36AA00012F00000100000005 /* URLSession+Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEB32787FC6000D05EE1 /* HasFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasFont.swift; sourceTree = "<group>"; };
 		36DAFEB92787FEAA00D05EE1 /* NotificationCenter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Chain.swift"; sourceTree = "<group>"; };
 		36DAFEBA2787FEAA00D05EE1 /* DateFormatter+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Chain.swift"; sourceTree = "<group>"; };
@@ -535,6 +541,9 @@
 				36F283092834DB9F00460789 /* NSRange+Chain.swift */,
 				36F2830B2834DC2D00460789 /* NumberFormatter+Chain.swift */,
 				36F2830D2834DC7B00460789 /* Timer+Chain.swift */,
+				36AA00012F00000100000001 /* URL+Chain.swift */,
+				36AA00012F00000100000003 /* URLRequest+Chain.swift */,
+				36AA00012F00000100000005 /* URLSession+Chain.swift */,
 				36F2830F2834DFE600460789 /* CAGradientLayer+Chain.swift */,
 				36F283112834E02A00460789 /* CATextLayer+Chain.swift */,
 				36F2835D2834E45700460789 /* UIApplication+Chain.swift */,
@@ -895,6 +904,7 @@
 				367264CF26536E6C00049CEF /* TFYTimer.swift in Sources */,
 				36E0CA072839ED7C0063C0F1 /* UIFont+Chain.swift in Sources */,
 				365477BB2830779500E4DE22 /* Bundle+Chain.swift in Sources */,
+				36AA00012F00000100000002 /* URL+Chain.swift in Sources */,
 				36FA19872941D6290099BB35 /* CLLocationManager.swift in Sources */,
 				36DAFEE72787FF9D00D05EE1 /* UICollectionViewFlowLayout+Chain.swift in Sources */,
 				36DAFEE02787FF9D00D05EE1 /* UIControl+Chain.swift in Sources */,
@@ -904,6 +914,7 @@
 				365477FF2830802200E4DE22 /* UIStoryboard+Chain.swift in Sources */,
 				848337262E331BD7007D163E /* TFYSwiftCacheKit.swift in Sources */,
 				36E0CA052839ED040063C0F1 /* UIBezierPath+Chain.swift in Sources */,
+				36AA00012F00000100000004 /* URLRequest+Chain.swift in Sources */,
 				36F283662835E83800460789 /* TFYSwiftJsonKit.swift in Sources */,
 				84230E0F2EABA12800157EB8 /* TFYSwiftRTLAlignedFlowLayout.swift in Sources */,
 				36F1B82F278808360005E8B6 /* HasText.swift in Sources */,
@@ -955,6 +966,7 @@
 				36DAFEE22787FF9D00D05EE1 /* UIStepper+Chain.swift in Sources */,
 				36F283082834DB1500460789 /* NSObject+Chain.swift in Sources */,
 				36DAFEEA2787FF9D00D05EE1 /* UIImageView+Chain.swift in Sources */,
+				36AA00012F00000100000006 /* URLSession+Chain.swift in Sources */,
 				3612E13A26475B6700476696 /* AppDelegate.swift in Sources */,
 				365477BF283077FC00E4DE22 /* NSNumber+Chain.swift in Sources */,
 				36616C92282E41A400E0E1B1 /* String+Chain.swift in Sources */,

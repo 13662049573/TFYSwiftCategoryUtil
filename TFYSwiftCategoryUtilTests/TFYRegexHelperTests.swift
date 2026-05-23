@@ -15,4 +15,17 @@ final class TFYRegexHelperTests: XCTestCase {
         XCTAssertFalse(TFYRegexHelper.match("abc", pattern: "["))
         XCTAssertTrue(TFYRegexHelper.matchRanges("abc", pattern: "[").isEmpty)
     }
+
+    func testCaptureGroupsAndReplacementHelpers() {
+        let input = "name:Alice age:18"
+        XCTAssertEqual(TFYRegexHelper.firstMatch(input, pattern: "name:\\w+"), "name:Alice")
+        XCTAssertEqual(
+            TFYRegexHelper.captureGroups(input, pattern: "name:(\\w+)\\s+age:(\\d+)"),
+            ["Alice", "18"]
+        )
+        XCTAssertEqual(
+            TFYRegexHelper.replacingMatches(in: input, pattern: "\\d+", with: "20"),
+            "name:Alice age:20"
+        )
+    }
 }

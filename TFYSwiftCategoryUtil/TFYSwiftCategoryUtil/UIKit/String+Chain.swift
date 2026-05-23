@@ -159,6 +159,10 @@ public extension String {
 }
 
 public extension String {
+    private func tfy_clampedUTF16Offset(_ value: Int) -> Int {
+        min(max(value, 0), utf16.count)
+    }
+
     func contains(regular: String) -> Bool {
         return range(of: regular, options: .regularExpression, range: nil, locale: nil) != nil
     }
@@ -184,20 +188,22 @@ public extension String {
     }
     
     func subString(to: Int) -> String {
+        let safeOffset = tfy_clampedUTF16Offset(to)
         #if swift(>=5.0)
-        let endIndex = String.Index(utf16Offset: to, in: self)
+        let endIndex = String.Index(utf16Offset: safeOffset, in: self)
         #else
-        let endIndex = String.Index.init(encodedOffset: to)
+        let endIndex = String.Index.init(encodedOffset: safeOffset)
         #endif
         let subStr = self[self.startIndex..<endIndex]
         return String(subStr)
     }
     
     func subString(from: Int) -> String {
+        let safeOffset = tfy_clampedUTF16Offset(from)
         #if swift(>=5.0)
-        let startIndex = String.Index(utf16Offset: from, in: self)
+        let startIndex = String.Index(utf16Offset: safeOffset, in: self)
         #else
-        let startIndex = String.Index.init(encodedOffset: from)
+        let startIndex = String.Index.init(encodedOffset: safeOffset)
         #endif
         let subStr = self[startIndex..<self.endIndex]
         return String(subStr)
@@ -2458,4 +2464,3 @@ public extension TFY where Base == String {
         return String(data: decryptedData, encoding: .utf8)
     }
 }
-

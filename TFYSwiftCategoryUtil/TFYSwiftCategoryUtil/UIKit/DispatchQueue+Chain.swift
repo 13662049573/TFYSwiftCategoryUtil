@@ -20,16 +20,49 @@ public extension TFY where Base == DispatchQueue {
     ///   - block: 执行的闭包
     /// - Returns: 一次性函数
     static func once(token: String, block: () -> ()) {
+        guard !token.isEmpty else {
+            block()
+            return
+        }
         var shouldExecute = false
         onceLock.lock()
+        defer { onceLock.unlock() }
         if !_onceTracker.contains(token) {
             _onceTracker.insert(token)
             shouldExecute = true
         }
-        onceLock.unlock()
         if shouldExecute {
             block()
         }
+    }
+
+    // MARK: 1.2、重置函数只执行一次的标识
+    /// 重置指定 token 的执行状态
+    /// - Parameter token: 函数标识
+    static func resetOnce(token: String) {
+        guard !token.isEmpty else { return }
+        onceLock.lock()
+        defer { onceLock.unlock() }
+        _onceTracker.remove(token)
+    }
+
+    // MARK: 1.3、重置全部函数只执行一次的标识
+    /// 清空所有 once token
+    static func resetAllOnceTokens() {
+        onceLock.lock()
+        defer { onceLock.unlock() }
+        _onceTracker.removeAll()
+    }
+
+    // MARK: 1.4、检查 token 是否已执行
+    /// 检查指定 token 是否已经执行过
+    /// - Parameter token: 函数标识
+    /// - Returns: 是否已执行
+    static func hasExecuted(token: String) -> Bool {
+        guard !token.isEmpty else { return false }
+        onceLock.lock()
+        defer { onceLock.unlock() }
+        return _onceTracker.contains(token)
     }
 }
 

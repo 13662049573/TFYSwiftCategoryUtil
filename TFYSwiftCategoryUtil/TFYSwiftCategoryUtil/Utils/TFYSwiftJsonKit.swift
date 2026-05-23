@@ -250,6 +250,16 @@ public class TFYSwiftJsonKit: NSObject {
             return .failure(.decodingFailed(error))
         }
     }
+
+    /// 将JSON字符串转换为字典
+    /// - Parameter string: JSON字符串
+    /// - Returns: 转换结果
+    public static func dictionary(from string: String) -> Result<[String: Any], TFYJsonError> {
+        guard let data = string.data(using: .utf8), !data.isEmpty else {
+            return .failure(.invalidData)
+        }
+        return dictionary(from: data)
+    }
     
     /// 将JSON数据转换为数组
     /// - Parameter data: JSON数据
@@ -263,6 +273,16 @@ public class TFYSwiftJsonKit: NSObject {
         } catch {
             return .failure(.decodingFailed(error))
         }
+    }
+
+    /// 将JSON字符串转换为数组
+    /// - Parameter string: JSON字符串
+    /// - Returns: 转换结果
+    public static func array(from string: String) -> Result<[Any], TFYJsonError> {
+        guard let data = string.data(using: .utf8), !data.isEmpty else {
+            return .failure(.invalidData)
+        }
+        return array(from: data)
     }
     
     // MARK: - 模型转换
