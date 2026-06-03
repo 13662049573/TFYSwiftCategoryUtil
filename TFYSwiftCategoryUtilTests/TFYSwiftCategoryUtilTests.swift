@@ -723,7 +723,7 @@ final class TFYSwiftCategoryUtilTests: XCTestCase {
     func testCAGradientLayerNormalizesColorsAndLocations() {
         let layer = CAGradientLayer()
 
-        layer.tfy.gradientLayer(
+        _ = layer.tfy.gradientLayer(
             .vertical,
             [UIColor.red, UIColor.blue, "ignored"],
             [NSNumber(value: 1), NSNumber(value: 0)]
@@ -794,10 +794,13 @@ final class TFYSwiftCategoryUtilTests: XCTestCase {
     func testTimerHelpersNormalizeInvalidIntervals() {
         let timer = Timer(safeTimerWithTimeInterval: -5, repeats: false) { _ in }
         defer { timer.invalidate() }
+        let scheduledTimer = Timer.scheduledSafeTimer(timeInterval: -5, repeats: false) { _ in }
+        defer { scheduledTimer.invalidate() }
 
-        XCTAssertEqual(timer.timeInterval, Timer.tfy_safeInterval(-5))
-        XCTAssertEqual(Timer.tfy_safeInterval(.nan), 0.001)
-        XCTAssertEqual(Timer.tfy_safeInterval(0), 0.001)
+        XCTAssertNotNil(timer.tfy_userInfo)
+        XCTAssertTrue(scheduledTimer.tfy_isValid)
+        XCTAssertEqual(Timer.tfy_safeInterval(.nan), 0.01)
+        XCTAssertEqual(Timer.tfy_safeInterval(0), 0.01)
         XCTAssertEqual(Timer.tfy_safeInterval(2), 2)
     }
 
@@ -816,6 +819,53 @@ final class TFYSwiftCategoryUtilTests: XCTestCase {
         XCTAssertTrue(customIndicator.hidesWhenStopped)
         XCTAssertTrue(UIActivityIndicatorView.large().hidesWhenStopped)
         XCTAssertTrue(UIActivityIndicatorView.medium().hidesWhenStopped)
+    }
+
+    func testUIAlertControllerHelpersClampInvalidLayoutValues() {
+        let alert = UIAlertController.create(title: "Title", message: "Message")
+        let contentViewController = UIViewController()
+
+        alert
+            .setContent(vc: contentViewController, height: -44)
+            .changeWidth(-120)
+            .setAlertStyle(cornerRadius: -8)
+            .addTextField(placeholder: "Name")
+
+        XCTAssertEqual(contentViewController.preferredContentSize.height, 0)
+        XCTAssertEqual(alert.preferredContentSize.height, 0)
+        XCTAssertNotNil(alert.textField(at: 0))
+        XCTAssertNil(alert.textField(at: -1))
+        XCTAssertNil(alert.textField(at: 99))
+    }
+
+    func testUIApplicationHelpersNormalizeURLsAndEmptySnapshots() {
+        XCTAssertEqual(
+            UIApplication.appUrlWithID(" 123456 "),
+            "itms-apps://itunes.apple.com/app/id123456?mt=8"
+        )
+        XCTAssertEqual(
+            UIApplication.appDetailUrlWithID(" 123456 "),
+            "https://itunes.apple.com/cn/lookup?id=123456"
+        )
+
+        let emptyView = UIView(frame: .zero)
+        XCTAssertEqual(UIApplication.snapShot(emptyView).size, .zero)
+        XCTAssertLessThanOrEqual(UIApplication.appLaunchTime.timeIntervalSinceNow, 0)
+    }
+
+    func testUIWindowHelpersClampInvalidStyleValues() {
+        let window = UIWindow(frame: .zero)
+
+        window.setCornerRadius(-6)
+        window.setShadow(color: .black, offset: .zero, radius: -3, opacity: 2)
+        window.hide(animated: false)
+
+        XCTAssertEqual(window.layer.cornerRadius, 0)
+        XCTAssertEqual(window.layer.shadowRadius, 0)
+        XCTAssertEqual(window.layer.shadowOpacity, 1)
+        XCTAssertTrue(window.isHidden)
+        XCTAssertEqual(window.alpha, 0)
+        XCTAssertNil(window.takeScreenshot())
     }
 
 }

@@ -20,10 +20,6 @@ public extension Timer {
     ///   - block: 执行代码的block
     convenience init(safeTimerWithTimeInterval timeInterval: TimeInterval, repeats: Bool, block: @escaping ((Timer) -> Void)) {
         let safeInterval = Timer.tfy_safeInterval(timeInterval)
-        if #available(iOS 10.0, *) {
-            self.init(timeInterval: safeInterval, repeats: repeats, block: block)
-            return
-        }
         self.init(timeInterval: safeInterval, target: Timer.self, selector: #selector(Timer.timerCB(timer:)), userInfo: block, repeats: repeats)
     }
     
@@ -354,8 +350,8 @@ public extension Timer {
     /// - Parameter interval: 原始时间间隔
     /// - Returns: 安全时间间隔
     static func tfy_safeInterval(_ interval: TimeInterval) -> TimeInterval {
-        guard interval.isFinite else { return 0.001 }
-        return max(0.001, interval)
+        guard interval.isFinite else { return 0.01 }
+        return max(0.01, interval)
     }
 }
 
