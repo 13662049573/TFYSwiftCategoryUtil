@@ -1,0 +1,37 @@
+# Swift Package Manager（由 swift build / SourceKit-LSP 自动生成，勿提交）
+.build/
+.swiftpm/
+.spm-scratch/
+Package.resolved
+
+# Xcode
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# CocoaPods（若本地 pod install）
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# 其它
+*.swp
+*~

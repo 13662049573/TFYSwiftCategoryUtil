@@ -1,0 +1,15 @@
+{
+  "swift.backgroundIndexing": false,
+  "files.exclude": {
+    "**/.build": true,
+    "**/.spm-scratch": true
+  },
+  "files.watcherExclude": {
+    "**/.build/**": true,
+    "**/.spm-scratch/**": true
+  },
+  "search.exclude": {
+    "**/.build": true,
+    "**/.spm-scratch": true
+  }
+}
