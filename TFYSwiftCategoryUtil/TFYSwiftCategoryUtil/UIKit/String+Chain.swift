@@ -2266,12 +2266,11 @@ public extension TFY where Base == String {
 public extension TFY where Base == String {
 
     private func replacingMatches(pattern: String, withTemplate template: String) -> String {
-        let string = base as! String
         guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
-            return string
+            return base
         }
-        let range = NSRange(location: 0, length: string.utf16.count)
-        return regex.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: template)
+        let range = NSRange(location: 0, length: base.utf16.count)
+        return regex.stringByReplacingMatches(in: base, options: [], range: range, withTemplate: template)
     }
 
     // MARK: 19.1、字符串验证

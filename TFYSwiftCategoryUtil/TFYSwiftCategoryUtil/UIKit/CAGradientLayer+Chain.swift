@@ -85,8 +85,9 @@ private extension TFY where Base: CAGradientLayer {
             if let uiColor = color as? UIColor {
                 return uiColor.cgColor
             }
-            if let cgColor = color as? CGColor {
-                return cgColor
+            let cfColor = color as CFTypeRef
+            if CFGetTypeID(cfColor) == CGColor.typeID {
+                return unsafeBitCast(cfColor, to: CGColor.self)
             }
             return nil
         }

@@ -21,7 +21,7 @@ public extension UIWindow {
                     .flatMap { $0.windows }
                     .first(where: { !$0.isHidden && $0.alpha > 0 })
         }
-        return UIApplication.shared.keyWindow
+        return UIApplication.shared.delegate?.window ?? nil
     }
 
     static var statusBarFrame: CGRect {
@@ -93,7 +93,7 @@ public extension UIWindow {
                 .first(where: \.isKeyWindow)
                 ?? UIWindow.keyWindow
         } else {
-            return UIApplication.shared.keyWindow
+            return UIApplication.shared.delegate?.window ?? nil
         }
     }
     
