@@ -20,7 +20,7 @@ public enum GradientDirection {
     case rightOblique
     /// 其他情况.
     case other(CGPoint, CGPoint)
-    
+
     public func point() -> (CGPoint, CGPoint) {
         switch self {
         case .horizontal:
@@ -37,7 +37,7 @@ public enum GradientDirection {
     }
 }
 public extension TFY where Base: CAGradientLayer {
-    
+
     // MARK: 1.1、设置渐变色图层
     /// 设置渐变色图层
     /// - Parameters:
@@ -85,9 +85,8 @@ private extension TFY where Base: CAGradientLayer {
             if let uiColor = color as? UIColor {
                 return uiColor.cgColor
             }
-            let cfColor = color as CFTypeRef
-            if CFGetTypeID(cfColor) == CGColor.typeID {
-                return (color as! CGColor)
+            if let cgColor = color as? CGColor {
+                return cgColor
             }
             return nil
         }

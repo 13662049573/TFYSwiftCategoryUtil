@@ -81,7 +81,8 @@ public extension TFY where Base: UIControl {
             objc_setAssociatedObject(base, key, eventHandler, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         eventHandler.handler = { control in
-            handler(control as! Base)
+            guard let typedControl = control as? Base else { return }
+            handler(typedControl)
         }
         base.addTarget(eventHandler, action: #selector(TFYControlEventHandler.invoke), for: event)
     }
