@@ -11,34 +11,34 @@ import UIKit
 
 /// 按钮图片方向枚举
 public enum ButtonImageDirection: Int {
-    // 基础模式
-    case centerImageTop = 1
-    case centerImageLeft = 2
-    case centerImageRight = 3
-    case centerImageBottom = 4
-    case leftImageLeft = 5
-    case leftImageRight = 6
-    case rightImageLeft = 7
-    case rightImageRight = 8
-    
-    // 固定间距模式
-    case centerImageTopFixedSpace = 9
-    case centerImageLeftFixedSpace = 10
-    case centerImageRightFixedSpace = 11
-    case centerImageBottomFixedSpace = 12
-    
-    // 顶部/底部对齐模式
-    case topImageTop = 13
-    case topImageBottom = 14
-    case bottomImageTop = 15
-    case bottomImageBottom = 16
-    
-    // 新增模式
-    case centerImageTopTextBelow = 17  // 图片在上，文字在下，文字换行
+    // 基础模式（内容整体居中）
+    case centerImageTop = 1     // 图片在上，文字在下，内容居中
+    case centerImageLeft = 2    // 图片在左，文字在右，内容居中
+    case centerImageRight = 3   // 图片在右，文字在左，内容居中
+    case centerImageBottom = 4  // 图片在下，文字在上，内容居中
+    case leftImageLeft = 5      // 图片在左，文字在右，内容整体靠左
+    case leftImageRight = 6     // 图片在右，文字在左，内容整体靠左
+    case rightImageLeft = 7     // 图片在左，文字在右，内容整体靠右
+    case rightImageRight = 8    // 图片在右，文字在左，内容整体靠右
+
+    // 固定间距模式（显式设置 imagePadding 固定图文间距）
+    case centerImageTopFixedSpace = 9     // 图片在上，文字在下，内容居中，固定间距
+    case centerImageLeftFixedSpace = 10   // 图片在左，文字在右，内容居中，固定间距
+    case centerImageRightFixedSpace = 11  // 图片在右，文字在左，内容居中，固定间距
+    case centerImageBottomFixedSpace = 12 // 图片在下，文字在上，内容居中，固定间距
+
+    // 顶部/底部对齐模式（水平居中，标题按 leading/trailing 对齐）
+    case topImageTop = 13       // 图片在上，文字在下，标题左对齐
+    case topImageBottom = 14    // 图片在下，文字在上，标题左对齐
+    case bottomImageTop = 15    // 图片在上，文字在下，标题右对齐
+    case bottomImageBottom = 16 // 图片在下，文字在上，标题右对齐
+
+    // 文字换行模式
+    case centerImageTopTextBelow = 17 // 图片在上，文字在下，文字换行
     case centerImageLeftTextRight = 18 // 图片在左，文字在右，文字换行
     case centerImageRightTextLeft = 19 // 图片在右，文字在左，文字换行
     case centerImageBottomTextAbove = 20 // 图片在下，文字在上，文字换行
-    
+
     // 更多新增模式
     case imageOnly = 21 // 仅显示图片
     case textOnly = 22 // 仅显示文字
@@ -46,6 +46,12 @@ public enum ButtonImageDirection: Int {
     case imageLeftTextRightFixedWidth = 24 // 图片在左，文字在右，固定宽度
     case imageRightTextLeftFixedWidth = 25 // 图片在右，文字在左，固定宽度
     case imageBottomTextAboveFixedHeight = 26 // 图片在下，文字在上，固定高度
+
+    // 文字压缩不换行模式（单行显示，宽度不足时自动缩小字号，最多缩至 50%）
+    case imageTopTextCompress = 27    // 图片在上，文字在下，文字压缩不换行
+    case imageLeftTextCompress = 28   // 图片在左，文字在右，文字压缩不换行
+    case imageRightTextCompress = 29  // 图片在右，文字在左，文字压缩不换行
+    case imageBottomTextCompress = 30 // 图片在下，文字在上，文字压缩不换行
 }
 
 /// 按钮链式编程扩展
@@ -205,7 +211,6 @@ public extension TFY where Base: UIButton {
 }
 
 extension UIButton {
-    
     // MARK: - Public Methods
 
     /// 设置图片和文字的相对位置
@@ -214,11 +219,21 @@ extension UIButton {
     ///   - space: 图片和文字之间的间距
     @available(iOS 15.0, *)
     public func imageDirection(_ type: ButtonImageDirection, _ space: CGFloat) {
-        applyModernConfiguration(type: type, space: space, contentInsets: .zero)
+        applyModernConfiguration(type: type, space: space, contentInsets: .zero, honorContentInsets: false)
     }
     
-    // 设置内容内边距
+    // 设置内容内边距（兼容传统 titleLabel.font / setTitleColor / setTitle:）
+    // 用法：必须在调用本方法之前，先用 titleLabel?.font / setTitleColor:for: 设置好字体和颜色
     func setContentEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+        // 1. 进入 Configuration 模式前，先快照已有的字体/颜色
+        //    （切换到 Configuration 后，titleLabel?.font 会被系统接管，再读就不是我们设的值了）
+        let preservedFont: UIFont = titleLabel?.font ?? .systemFont(ofSize: 14)
+        let preservedNormalColor: UIColor = titleColor(for: .normal) ?? .black
+        let preservedHighlightedColor: UIColor? = titleColor(for: .highlighted)
+        let preservedSelectedColor: UIColor? = titleColor(for: .selected)
+        let preservedDisabledColor: UIColor? = titleColor(for: .disabled)
+
+        // 2. 设置 contentInsets
         var config = self.configuration ?? UIButton.Configuration.plain()
         config.contentInsets = NSDirectionalEdgeInsets(
             top: top,
@@ -226,7 +241,46 @@ extension UIButton {
             bottom: bottom,
             trailing: right
         )
+
+        // 3. 如果当前已经有 setTitle 设置的标题，先把样式 + 文本绑成 attributedTitle
+        if let title = title(for: .normal), !title.isEmpty {
+            var container = AttributeContainer()
+            container.font = preservedFont
+            container.foregroundColor = preservedNormalColor
+            config.attributedTitle = AttributedString(title, attributes: container)
+        }
+
+        // 4. 用 titleTextAttributesTransformer 锁定字体和颜色
+        //    这是 Configuration 模式下保证字体永远不被覆盖最稳的做法 —— 不论是首次渲染还是
+        //    后续 setTitle:/状态变化触发的 attributedTitle 重建，都会经过这个 transformer。
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = preservedFont
+            outgoing.foregroundColor = preservedNormalColor
+            return outgoing
+        }
+
         self.configuration = config
+
+        // 5. 状态变化时（高亮/选中/禁用）把对应颜色再刷一次
+        self.configurationUpdateHandler = { button in
+            var updated = button.configuration
+            let stateColor: UIColor = {
+                switch button.state {
+                case .highlighted: return preservedHighlightedColor ?? preservedNormalColor
+                case .selected:    return preservedSelectedColor    ?? preservedNormalColor
+                case .disabled:    return preservedDisabledColor    ?? preservedNormalColor
+                default:           return preservedNormalColor
+                }
+            }()
+            updated?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = preservedFont
+                outgoing.foregroundColor = stateColor
+                return outgoing
+            }
+            button.configuration = updated
+        }
     }
 
     /// 设置图片和文字的相对位置（自定义内容边距）
@@ -236,17 +290,26 @@ extension UIButton {
     ///   - contentInsets: 自定义内容边距
     @available(iOS 15.0, *)
     public func imageDirectionCustomize(_ type: ButtonImageDirection, _ space: CGFloat, _ contentInsets: NSDirectionalEdgeInsets) {
-        applyModernConfiguration(type: type, space: space, contentInsets: contentInsets)
+        applyModernConfiguration(type: type, space: space, contentInsets: contentInsets, honorContentInsets: true)
     }
 
     // MARK: - Private Methods
 
+    /// - Parameter honorContentInsets: 是否完全按传入的 contentInsets 生效。
+    ///   为 true（自定义内边距）时，布局方法写入某条边的 `space` 会被最终覆盖，
+    ///   图文间距改由 `imagePadding` 保证，避免 space 覆盖用户设置的左右/上下间距；
+    ///   为 false（简单调用）时保持既有行为不变。
     @available(iOS 15.0, *)
-    private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+    private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets, honorContentInsets: Bool) {
         var configuration = createBaseConfiguration(space: space)
 
         // 配置布局
         configureLayout(for: type, space: space, contentInsets: contentInsets, in: &configuration)
+
+        // 自定义内边距：图文间距由 imagePadding 承载，四边内边距完全按用户传入值生效
+        if honorContentInsets {
+            configuration.contentInsets = contentInsets
+        }
 
         // 应用配置
         self.configuration = configuration
@@ -363,6 +426,18 @@ extension UIButton {
 
         case .imageBottomTextAboveFixedHeight:
             configureImageBottomTextAboveFixedHeight(configuration: &configuration, space: space, contentInsets: contentInsets)
+
+        case .imageTopTextCompress:
+            configureImageTopTextCompress(configuration: &configuration, space: space, contentInsets: contentInsets)
+
+        case .imageLeftTextCompress:
+            configureImageLeftTextCompress(configuration: &configuration, space: space, contentInsets: contentInsets)
+
+        case .imageRightTextCompress:
+            configureImageRightTextCompress(configuration: &configuration, space: space, contentInsets: contentInsets)
+
+        case .imageBottomTextCompress:
+            configureImageBottomTextCompress(configuration: &configuration, space: space, contentInsets: contentInsets)
         }
     }
 
@@ -379,12 +454,13 @@ extension UIButton {
             updatedConfig?.background.strokeColor = .clear
 
             updatedConfig?.background.cornerRadius = button.layer.cornerRadius
-            // 更新字体和颜色
-            let newFont = button.titleLabel?.font ?? buttonFont
+            // 更新字体和颜色：
+            // Configuration 模式下 titleLabel?.font 会被系统接管，读到的可能是默认字体，
+            // 因此字体固定用进入配置前快照的 buttonFont；颜色可通过 setTitleColor 动态刷新，故保留读取。
             let newColor = button.titleColor(for: .normal) ?? buttonColor
 
             var newAttributes = AttributeContainer()
-            newAttributes.font = newFont
+            newAttributes.font = buttonFont
             newAttributes.foregroundColor = newColor
 
             if let title = button.title(for: .normal) {
@@ -715,6 +791,74 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
+    }
+
+    // MARK: - 文字压缩不换行
+
+    /// 让标题单行显示、宽度不足时自动缩小字号（不换行）
+    /// - Parameter minimumScaleFactor: 最小缩放比例，默认 0.5
+    @available(iOS 15.0, *)
+    private func applyCompressSingleLine(minimumScaleFactor: CGFloat = 0.5) {
+        titleLabel?.numberOfLines = 1
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        titleLabel?.minimumScaleFactor = minimumScaleFactor
+        titleLabel?.lineBreakMode = .byTruncatingTail
+    }
+
+    @available(iOS 15.0, *)
+    private func configureImageTopTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .top
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byTruncatingTail
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: space,
+            trailing: contentInsets.trailing
+        )
+        applyCompressSingleLine()
+    }
+
+    @available(iOS 15.0, *)
+    private func configureImageLeftTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .leading
+        configuration.titleAlignment = .leading
+        configuration.titleLineBreakMode = .byTruncatingTail
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: space
+        )
+        applyCompressSingleLine()
+    }
+
+    @available(iOS 15.0, *)
+    private func configureImageRightTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .trailing
+        configuration.titleAlignment = .trailing
+        configuration.titleLineBreakMode = .byTruncatingTail
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: contentInsets.top,
+            leading: space,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        applyCompressSingleLine()
+    }
+
+    @available(iOS 15.0, *)
+    private func configureImageBottomTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
+        configuration.imagePlacement = .bottom
+        configuration.titleAlignment = .center
+        configuration.titleLineBreakMode = .byTruncatingTail
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: space,
+            leading: contentInsets.leading,
+            bottom: contentInsets.bottom,
+            trailing: contentInsets.trailing
+        )
+        applyCompressSingleLine()
     }
 }
 

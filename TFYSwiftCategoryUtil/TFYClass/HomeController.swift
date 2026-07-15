@@ -56,7 +56,12 @@ class HomeController: UIViewController {
         .imageTopTextBelowFixedHeight,   // 图片在上文字在下，固定高度
         .imageLeftTextRightFixedWidth,   // 图片在左文字在右，固定宽度
         .imageRightTextLeftFixedWidth,   // 图片在右文字在左，固定宽度
-        .imageBottomTextAboveFixedHeight // 图片在下文字在上，固定高度
+        .imageBottomTextAboveFixedHeight, // 图片在下文字在上，固定高度
+        
+        .imageTopTextCompress,   // 图片在上，文字在下，文字压缩不换行
+        .imageLeftTextCompress,   // 图片在左，文字在右，文字压缩不换行
+        .imageRightTextCompress, // 图片在右，文字在左，文字压缩不换行
+         .imageBottomTextCompress // 图片在下，文字在上，文字压缩不换行
     ]
 
     private func setupUI() {
@@ -162,6 +167,11 @@ class HomeController: UIViewController {
             return "\(direction) - 固定高度模式"
         case .imageLeftTextRightFixedWidth, .imageRightTextLeftFixedWidth:
             return "\(direction) - 固定宽度模式"
+        case .imageTopTextCompress,
+                .imageLeftTextCompress,
+                .imageRightTextCompress,
+                .imageBottomTextCompress:
+            return "\(direction) - 这是一段较长的文字，文字压缩不换行显示效果"
         }
     }
     
@@ -174,13 +184,13 @@ class HomeController: UIViewController {
     
     private func addCollectionViewDemoButton() {
         let demoButton = UIButton(type: .system)
-        demoButton.setTitle("UICollectionView自适应演示", for: .normal)
+        demoButton.setTitle("UICollectionView测试文字显示了解客户开发好看自适应演示", for: .normal)
         demoButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        //demoButton.backgroundColor = .systemBlue
+        demoButton.setImage(UIImage(named: "home_search"), for: .normal)
         demoButton.setTitleColor(.white, for: .normal)
         demoButton.layer.cornerRadius = 12
         demoButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        demoButton.imageDirectionCustomize(.imageLeftTextCompress, 5, NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         demoButton.addTarget(self, action: #selector(collectionViewDemoTapped), for: .touchUpInside)
         demoButton.tfy_setGradientBackground(direction: .level, colors: [.tfy.random,.tfy.random,.tfy.random],cornerRadius: 12)
         stackView.addArrangedSubview(demoButton)
