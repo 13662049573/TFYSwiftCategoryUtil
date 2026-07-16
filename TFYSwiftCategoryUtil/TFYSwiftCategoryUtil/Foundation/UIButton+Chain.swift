@@ -52,6 +52,16 @@ public enum ButtonImageDirection: Int {
     case imageLeftTextCompress = 28   // 图片在左，文字在右，文字压缩不换行
     case imageRightTextCompress = 29  // 图片在右，文字在左，文字压缩不换行
     case imageBottomTextCompress = 30 // 图片在下，文字在上，文字压缩不换行
+
+    /// 是否为「文字压缩不换行」模式（需在设置 configuration 之后再刷新 titleLabel 才能生效）
+    var isCompressTitle: Bool {
+        switch self {
+        case .imageTopTextCompress, .imageLeftTextCompress, .imageRightTextCompress, .imageBottomTextCompress:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 /// 按钮链式编程扩展
@@ -314,9 +324,18 @@ extension UIButton {
         // 应用配置
         self.configuration = configuration
 
-        // 设置配置更新处理器
+        // 「文字压缩不换行」的字号自适应：必须在设置 configuration 之后再配置 titleLabel，
+        // 否则赋值 configuration 会重置系统托管的 titleLabel，导致 adjustsFontSizeToFitWidth 失效（表现为截断而非缩小）。
+        let compressScaleFactor: CGFloat? = type.isCompressTitle ? 0.5 : nil
+
+        // 设置配置更新处理器（compress 模式下每次配置刷新后重新应用字号自适应）
         setupConfigurationUpdateHandler(buttonFont: configuration.attributedTitle?.font ?? UIFont.systemFont(ofSize: 14),
-                                        buttonColor: configuration.attributedTitle?.foregroundColor ?? .black)
+                                        buttonColor: configuration.attributedTitle?.foregroundColor ?? .black,
+                                        compressMinimumScaleFactor: compressScaleFactor)
+
+        if let scaleFactor = compressScaleFactor {
+            applyCompressSingleLine(minimumScaleFactor: scaleFactor)
+        }
     }
 
     @available(iOS 15.0, *)
@@ -442,7 +461,7 @@ extension UIButton {
     }
 
     @available(iOS 15.0, *)
-    private func setupConfigurationUpdateHandler(buttonFont: UIFont, buttonColor: UIColor) {
+    private func setupConfigurationUpdateHandler(buttonFont: UIFont, buttonColor: UIColor, compressMinimumScaleFactor: CGFloat? = nil) {
         configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
 
@@ -468,6 +487,11 @@ extension UIButton {
             }
 
             button.configuration = updatedConfig
+
+            // compress 模式：配置刷新会重置 titleLabel，需在此重新开启字号自适应，保证缩小而非截断
+            if let scaleFactor = compressMinimumScaleFactor {
+                button.applyCompressSingleLine(minimumScaleFactor: scaleFactor)
+            }
         }
     }
 
@@ -816,7 +840,6 @@ extension UIButton {
             bottom: space,
             trailing: contentInsets.trailing
         )
-        applyCompressSingleLine()
     }
 
     @available(iOS 15.0, *)
@@ -830,7 +853,6 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: space
         )
-        applyCompressSingleLine()
     }
 
     @available(iOS 15.0, *)
@@ -844,7 +866,6 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
-        applyCompressSingleLine()
     }
 
     @available(iOS 15.0, *)
@@ -858,7 +879,6 @@ extension UIButton {
             bottom: contentInsets.bottom,
             trailing: contentInsets.trailing
         )
-        applyCompressSingleLine()
     }
 }
 
