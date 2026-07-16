@@ -232,18 +232,13 @@ extension UIButton {
         applyModernConfiguration(type: type, space: space, contentInsets: .zero, honorContentInsets: false)
     }
     
-    // 设置内容内边距（兼容传统 titleLabel.font / setTitleColor / setTitle:）
-    // 用法：必须在调用本方法之前，先用 titleLabel?.font / setTitleColor:for: 设置好字体和颜色
     func setContentEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
-        // 1. 进入 Configuration 模式前，先快照已有的字体/颜色
-        //    （切换到 Configuration 后，titleLabel?.font 会被系统接管，再读就不是我们设的值了）
         let preservedFont: UIFont = titleLabel?.font ?? .systemFont(ofSize: 14)
         let preservedNormalColor: UIColor = titleColor(for: .normal) ?? .black
         let preservedHighlightedColor: UIColor? = titleColor(for: .highlighted)
         let preservedSelectedColor: UIColor? = titleColor(for: .selected)
         let preservedDisabledColor: UIColor? = titleColor(for: .disabled)
 
-        // 2. 设置 contentInsets
         var config = self.configuration ?? UIButton.Configuration.plain()
         config.contentInsets = NSDirectionalEdgeInsets(
             top: top,
@@ -252,7 +247,6 @@ extension UIButton {
             trailing: right
         )
 
-        // 3. 如果当前已经有 setTitle 设置的标题，先把样式 + 文本绑成 attributedTitle
         if let title = title(for: .normal), !title.isEmpty {
             var container = AttributeContainer()
             container.font = preservedFont
@@ -260,9 +254,6 @@ extension UIButton {
             config.attributedTitle = AttributedString(title, attributes: container)
         }
 
-        // 4. 用 titleTextAttributesTransformer 锁定字体和颜色
-        //    这是 Configuration 模式下保证字体永远不被覆盖最稳的做法 —— 不论是首次渲染还是
-        //    后续 setTitle:/状态变化触发的 attributedTitle 重建，都会经过这个 transformer。
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = preservedFont
@@ -272,7 +263,6 @@ extension UIButton {
 
         self.configuration = config
 
-        // 5. 状态变化时（高亮/选中/禁用）把对应颜色再刷一次
         self.configurationUpdateHandler = { button in
             var updated = button.configuration
             let stateColor: UIColor = {
