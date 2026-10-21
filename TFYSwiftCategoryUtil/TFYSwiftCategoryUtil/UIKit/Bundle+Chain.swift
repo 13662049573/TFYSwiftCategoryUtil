@@ -176,7 +176,7 @@ public extension Bundle {
     // MARK: 3.1、获取Bundle中的所有资源文件
     /// 获取Bundle中的所有资源文件
     /// - Returns: 资源文件路径数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func allResourcePaths() -> [String] {
         return self.paths(forResourcesOfType: nil, inDirectory: nil)
     }
@@ -184,7 +184,7 @@ public extension Bundle {
     // MARK: 3.2、获取Bundle中的图片资源
     /// 获取Bundle中的图片资源
     /// - Returns: 图片资源路径数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func imageResourcePaths() -> [String] {
         let imageExtensions = ["png", "jpg", "jpeg", "gif", "bmp", "tiff", "webp"]
         var paths: [String] = []
@@ -197,7 +197,7 @@ public extension Bundle {
     // MARK: 3.3、获取Bundle中的JSON文件
     /// 获取Bundle中的JSON文件
     /// - Returns: JSON文件路径数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func jsonResourcePaths() -> [String] {
         return self.paths(forResourcesOfType: "json", inDirectory: nil)
     }
@@ -205,7 +205,7 @@ public extension Bundle {
     // MARK: 3.4、获取Bundle中的Plist文件
     /// 获取Bundle中的Plist文件
     /// - Returns: Plist文件路径数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func plistResourcePaths() -> [String] {
         return self.paths(forResourcesOfType: "plist", inDirectory: nil)
     }
@@ -216,7 +216,7 @@ public extension Bundle {
     ///   - name: 资源名称
     ///   - type: 资源类型
     /// - Returns: 如果包含返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func containsResource(named name: String, ofType type: String?) -> Bool {
         return self.path(forResource: name, ofType: type) != nil
     }
@@ -224,7 +224,7 @@ public extension Bundle {
     // MARK: 3.6、获取Bundle的大小
     /// 获取Bundle的大小
     /// - Returns: Bundle大小（字节）
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func size() -> Int64 {
         let fileManager = FileManager.default
         let bundlePath = self.bundlePath
@@ -275,7 +275,7 @@ public extension Bundle {
     // MARK: 3.7、获取Bundle的格式化大小
     /// 获取Bundle的格式化大小
     /// - Returns: 格式化的大小字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func formattedSize() -> String {
         let formatter = ByteCountFormatter()
         formatter.allowedUnits = [.useKB, .useMB, .useGB]
@@ -286,7 +286,7 @@ public extension Bundle {
     // MARK: 3.8、获取Bundle的创建时间
     /// 获取Bundle的创建时间
     /// - Returns: 创建时间，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func creationDate() -> Date? {
         let fileManager = FileManager.default
         let bundlePath = self.bundlePath
@@ -303,7 +303,7 @@ public extension Bundle {
     // MARK: 3.9、获取Bundle的修改时间
     /// 获取Bundle的修改时间
     /// - Returns: 修改时间，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func modificationDate() -> Date? {
         let fileManager = FileManager.default
         let bundlePath = self.bundlePath
@@ -320,7 +320,7 @@ public extension Bundle {
     // MARK: 3.10、获取Bundle的信息字典
     /// 获取Bundle的信息字典
     /// - Returns: 信息字典，失败返回空字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func infoDictionary() -> [String: Any] {
         return self.infoDictionary ?? [:]
     }
@@ -331,7 +331,7 @@ public extension Bundle {
     ///   - key: 字符串键
     ///   - comment: 注释
     /// - Returns: 本地化字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func localizedString(forKey key: String, comment: String = "") -> String {
         return NSLocalizedString(key, bundle: self, comment: comment)
     }
@@ -343,7 +343,7 @@ public extension Bundle {
     ///   - defaultValue: 默认值
     ///   - comment: 注释
     /// - Returns: 本地化字符串或默认值
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func localizedString(forKey key: String, defaultValue: String, comment: String = "") -> String {
         let localizedString = NSLocalizedString(key, bundle: self, comment: comment)
         return localizedString == key ? defaultValue : localizedString

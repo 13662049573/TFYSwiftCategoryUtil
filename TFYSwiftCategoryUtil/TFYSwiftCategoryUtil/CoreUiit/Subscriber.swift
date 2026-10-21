@@ -2,7 +2,7 @@ import Combine
 
 // MARK: - Subscriber Extensions
 /// Subscriber 扩展，提供便捷的订阅者操作
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 
 public extension Subscribers {
     

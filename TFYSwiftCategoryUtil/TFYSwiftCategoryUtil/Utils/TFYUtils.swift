@@ -3348,25 +3348,17 @@ extension UINavigationController {
 public enum Window {
     /// 获取当前窗口
     public static var current: UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .flatMap { $0.windows }
-                .first { $0.isKeyWindow }
-        } else {
-            return UIApplication.shared.keyWindow
-        }
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
     }
     
     /// 获取所有窗口
     public static var all: [UIWindow] {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .flatMap { $0.windows }
-        } else {
-            return UIApplication.shared.windows
-        }
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
     }
     
     /// 获取根视图控制器
@@ -3516,32 +3508,18 @@ public enum Device {
     
     /// 检查是否为刘海屏
     public static var hasNotch: Bool {
-        if #available(iOS 11.0, *) {
-            if #available(iOS 15.0, *) {
-                return UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first?.safeAreaInsets.top ?? 0 > 20
-            } else {
-                return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 > 20
-            }
-        }
-        return false
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first?.safeAreaInsets.top ?? 0 > 20
     }
     
     /// 获取安全区域
     public static var safeAreaInsets: UIEdgeInsets {
-        if #available(iOS 11.0, *) {
-            if #available(iOS 15.0, *) {
-                return UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first?.safeAreaInsets ?? .zero
-            } else {
-                return UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
-            }
-        }
-        return .zero
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first?.safeAreaInsets ?? .zero
     }
     
     /// 获取电池电量

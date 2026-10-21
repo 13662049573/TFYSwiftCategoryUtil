@@ -72,7 +72,7 @@ public extension Dictionary {
     // MARK: 1.4、字典 -> JSON字符串
     /// 字典转换为JSONString
     /// - Returns: JSON字符串，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toJSON() -> String? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: self, options: [])
@@ -198,7 +198,7 @@ public extension Dictionary {
     ///   - key: 键
     ///   - defaultValue: 默认值
     /// - Returns: 值或默认值
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func safeValue<T>(for key: Key, defaultValue: T) -> T {
         return self[key] as? T ?? defaultValue
     }
@@ -207,7 +207,7 @@ public extension Dictionary {
     /// 深度合并字典
     /// - Parameter other: 要合并的字典
     /// - Returns: 合并后的字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_deepMerge(with other: [Key: Value]) -> [Key: Value] {
         var result = self
 
@@ -228,7 +228,7 @@ public extension Dictionary {
     /// 过滤字典
     /// - Parameter predicate: 过滤条件
     /// - Returns: 过滤后的字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func filter(_ predicate: (Key, Value) -> Bool) -> [Key: Value] {
         return self.filter { predicate($0.key, $0.value) }
     }
@@ -237,7 +237,7 @@ public extension Dictionary {
     /// 转换字典值
     /// - Parameter transform: 转换函数
     /// - Returns: 转换后的字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_mapValues<T>(_ transform: (Value) -> T) -> [Key: T] {
         var result = [Key: T]()
         for (k, v) in self {
@@ -249,7 +249,7 @@ public extension Dictionary {
     // MARK: 1.23、检查字典是否为空
     /// 检查字典是否为空
     /// - Returns: 是否为空
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isEmpty: Bool {
         return self.count == 0
     }
@@ -257,7 +257,7 @@ public extension Dictionary {
     // MARK: 1.24、获取字典大小
     /// 获取字典大小
     /// - Returns: 字典大小
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var size: Int {
         return self.count
     }
@@ -265,7 +265,7 @@ public extension Dictionary {
     // MARK: 1.25、创建空字典
     /// 创建空字典
     /// - Returns: 空字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func empty() -> [Key: Value] {
         return [:]
     }
@@ -276,7 +276,7 @@ public extension Dictionary {
     ///   - array: 数组
     ///   - keyPath: 键路径
     /// - Returns: 字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func fromArray<T>(_ array: [T], keyPath: (T) -> Key, valuePath: (T) -> Value) -> [Key: Value] {
         var result: [Key: Value] = [:]
         for item in array {

@@ -86,24 +86,24 @@ public extension TFY where Base: UICollectionView {
         return self
     }
     
-    /// 设置选择模式（iOS 15.0+）
-    @available(iOS 15.0, *)
+    /// 设置选择模式（iOS 16.0+）
+    @available(iOS 16.0, *)
     @discardableResult
     func selectionFollowsFocus(_ selectionFollowsFocus: Bool) -> Self {
         base.selectionFollowsFocus = selectionFollowsFocus
         return self
     }
     
-    /// 设置是否启用焦点（iOS 15.0+）
-    @available(iOS 15.0, *)
+    /// 设置是否启用焦点（iOS 16.0+）
+    @available(iOS 16.0, *)
     @discardableResult
     func allowsFocus(_ allowsFocus: Bool) -> Self {
         base.allowsFocus = allowsFocus
         return self
     }
     
-    /// 设置焦点组（iOS 15.0+）
-    @available(iOS 15.0, *)
+    /// 设置焦点组（iOS 16.0+）
+    @available(iOS 16.0, *)
     @discardableResult
     func focusGroupIdentifier(_ identifier: String?) -> Self {
         base.focusGroupIdentifier = identifier
@@ -346,10 +346,10 @@ extension UICollectionView {
         return view
     }
     
-    // MARK: - iOS 15+ 新增方法
+    // MARK: - iOS 16+ 新增方法
     
-    /// 安全获取Cell（iOS 15+，支持配置）
-    @available(iOS 15.0, *)
+    /// 安全获取Cell（iOS 16+，支持配置）
+    @available(iOS 16.0, *)
     public func dequeueReusable<C: UICollectionViewCell>(
         cell clz: C.Type,
         for indexPath: IndexPath,
@@ -360,8 +360,8 @@ extension UICollectionView {
         return cell
     }
     
-    /// 安全获取Header（iOS 15+，支持配置）
-    @available(iOS 15.0, *)
+    /// 安全获取Header（iOS 16+，支持配置）
+    @available(iOS 16.0, *)
     public func dequeueReusable<C: UICollectionReusableView>(
         header clz: C.Type,
         for indexPath: IndexPath,
@@ -373,8 +373,8 @@ extension UICollectionView {
         return view
     }
     
-    /// 安全获取Footer（iOS 15+，支持配置）
-    @available(iOS 15.0, *)
+    /// 安全获取Footer（iOS 16+，支持配置）
+    @available(iOS 16.0, *)
     public func dequeueReusable<C: UICollectionReusableView>(
         footer clz: C.Type,
         for indexPath: IndexPath,
@@ -418,17 +418,17 @@ extension UICollectionView {
         nibFooterClasses.forEach { register(nibFooter: $0) }
     }
     
-    /// 预加载Cell（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 预加载Cell（iOS 16+）
+    @available(iOS 16.0, *)
     public func prefetchItems(at indexPaths: [IndexPath]) {
-        // iOS 15+ 的预加载功能
+        // iOS 16+ 的预加载功能
         if let prefetchDataSource = prefetchDataSource {
             prefetchDataSource.collectionView(self, prefetchItemsAt: indexPaths)
         }
     }
     
-    /// 取消预加载Cell（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 取消预加载Cell（iOS 16+）
+    @available(iOS 16.0, *)
     public func cancelPrefetching(forItemsAt indexPaths: [IndexPath]) {
         if let prefetchDataSource = prefetchDataSource {
             prefetchDataSource.collectionView?(self, cancelPrefetchingForItemsAt: indexPaths)
@@ -499,8 +499,8 @@ public extension UICollectionView {
         }
     }
     
-    /// 配置CollectionView为高性能自适应布局（iOS 15+推荐）
-    @available(iOS 15.0, *)
+    /// 配置CollectionView为高性能自适应布局（iOS 16+推荐）
+    @available(iOS 16.0, *)
     func configureHighPerformanceAutoSizing(
         scrollDirection: UICollectionView.ScrollDirection = .vertical,
         minimumLineSpacing: CGFloat = 10,
@@ -578,8 +578,8 @@ public extension UICollectionView {
         return UICollectionViewCompositionalLayout(section: section)
     }
     
-    /// 创建高性能CompositionalLayout（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 创建高性能CompositionalLayout（iOS 16+）
+    @available(iOS 16.0, *)
     static func createHighPerformanceCompositionalLayout(
         scrollDirection: UICollectionView.ScrollDirection = .vertical,
         minimumLineSpacing: CGFloat = 10,
@@ -611,7 +611,7 @@ public extension UICollectionView {
         section.interGroupSpacing = minimumLineSpacing
         section.contentInsets = sectionInset
         
-        // iOS 15+ 新增的优化配置
+        // iOS 16+ 新增的优化配置
         section.orthogonalScrollingBehavior = .none
         section.visibleItemsInvalidationHandler = { items, offset, environment in
             // 可以在这里添加可见性处理逻辑
@@ -657,8 +657,8 @@ public extension UICollectionView {
         return UICollectionViewCompositionalLayout(section: section)
     }
     
-    /// 创建瀑布流布局CompositionalLayout（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 创建瀑布流布局CompositionalLayout（iOS 16+）
+    @available(iOS 16.0, *)
     static func createWaterfallCompositionalLayout(
         columns: Int = 2,
         minimumLineSpacing: CGFloat = 10,
@@ -738,8 +738,8 @@ public extension UICollectionView {
         setCollectionViewLayout(layout, animated: false)
     }
     
-    /// 应用瀑布流布局（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 应用瀑布流布局（iOS 16+）
+    @available(iOS 16.0, *)
     func applyWaterfallLayout(
         columns: Int = 2,
         minimumLineSpacing: CGFloat = 10,
@@ -788,10 +788,10 @@ public extension UICollectionView {
         CATransaction.commit()
     }
     
-    /// 高性能刷新（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 高性能刷新（iOS 16+）
+    @available(iOS 16.0, *)
     func reloadDataWithHighPerformance(completion: @escaping () -> Void = {}) {
-        // iOS 15+ 的优化刷新方法
+        // iOS 16+ 的优化刷新方法
         performBatchUpdates({
             self.reloadData()
         }, completion: { _ in
@@ -914,14 +914,14 @@ public extension UICollectionViewCell {
         )
     }
     
-    /// 高性能计算合适尺寸（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 高性能计算合适尺寸（iOS 16+）
+    @available(iOS 16.0, *)
     func calculateFittingSizeWithHighPerformance(
         targetSize: CGSize,
         horizontalPriority: UILayoutPriority = .required,
         verticalPriority: UILayoutPriority = .fittingSizeLevel
     ) -> CGSize {
-        // iOS 15+ 的优化尺寸计算
+        // iOS 16+ 的优化尺寸计算
         return contentView.systemLayoutSizeFitting(
             targetSize,
             withHorizontalFittingPriority: horizontalPriority,
@@ -1008,7 +1008,7 @@ public extension UICollectionViewCell {
         }
     }
     
-    // MARK: - iOS 15+ 新增特性
+    // MARK: - iOS 16+ 新增特性
     
     /// 设置背景配置（iOS 14.0+）
     @available(iOS 14.0, *)
@@ -1034,13 +1034,13 @@ public extension UICollectionViewCell {
         return configuration
     }
 
-    /// 设置焦点组标识符（iOS 15.0+）
-    @available(iOS 15.0, *)
+    /// 设置焦点组标识符（iOS 16.0+）
+    @available(iOS 16.0, *)
     func setFocusGroupIdentifier(_ identifier: String?) {
         self.focusGroupIdentifier = identifier
     }
-    /// 优化Cell重用（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 优化Cell重用（iOS 16+）
+    @available(iOS 16.0, *)
     func optimizeForReuse() {
         // 清理不需要的资源
         contentView.subviews.forEach { subview in
@@ -1140,8 +1140,8 @@ public extension UICollectionViewFlowLayout {
         self.sectionInset = sectionInset
     }
     
-    /// 配置为高性能自适应布局（iOS 15+）
-    @available(iOS 15.0, *)
+    /// 配置为高性能自适应布局（iOS 16+）
+    @available(iOS 16.0, *)
     func configureHighPerformanceAutoSizing(
         scrollDirection: UICollectionView.ScrollDirection = .vertical,
         minimumLineSpacing: CGFloat = 10,
@@ -1154,7 +1154,7 @@ public extension UICollectionViewFlowLayout {
         self.minimumInteritemSpacing = minimumInteritemSpacing
         self.sectionInset = sectionInset
         
-        // iOS 15+ 的优化设置
+        // iOS 16+ 的优化设置
         self.itemSize = UICollectionViewFlowLayout.automaticSize
     }
     
@@ -1430,10 +1430,7 @@ open class TFYSwiftAutoSizingCollectionViewCell: UICollectionViewCell {
         isConfigured = false
         configurationCompletion = nil
         
-        // 优化重用
-        if #available(iOS 15.0, *) {
-            optimizeForReuse()
-        }
+        optimizeForReuse()
         
         // 重置状态
         resetToDefaultState()
@@ -1528,7 +1525,7 @@ open class TFYSwiftAutoSizingCollectionViewCell: UICollectionViewCell {
     }
     
     /// 预加载内容
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     open func preloadContent() {
         setNeedsLayout()
         layoutIfNeeded()

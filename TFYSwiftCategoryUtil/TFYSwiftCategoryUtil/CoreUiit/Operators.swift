@@ -2,7 +2,7 @@ import CoreGraphics
 
 // MARK: - CGSize Operators
 /// 扩展 CGSize 的操作符，提供便捷的数学运算
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 
 /// CGSize 加法操作符
 /// - Parameters:

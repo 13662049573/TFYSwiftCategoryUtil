@@ -18,7 +18,7 @@ import UIKit
     
     // MARK: 1.1、系统类型
     /// 系统类型
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var systemType: UIBarButtonItem.SystemItem {
         get {
             if let obj = objc_getAssociatedObject(self, AssociatedItemKeys.systemType) as? UIBarButtonItem.SystemItem {
@@ -34,7 +34,7 @@ import UIKit
     // MARK: 1.2、添加回调
     /// UIBarButtonItem 回调
     /// - Parameter closure: 回调闭包
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addAction(_ closure: @escaping ((UIBarButtonItem) -> Void)) {
         objc_setAssociatedObject(self,AssociatedItemKeys.closure, closure, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         target = self
@@ -43,7 +43,7 @@ import UIKit
 
     // MARK: 1.3、私有调用方法
     /// 私有调用方法
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     private func p_invoke() {
         if let closure = objc_getAssociatedObject(self,AssociatedItemKeys.closure) as? ((UIBarButtonItem) -> Void) {
             closure(self)
@@ -58,7 +58,7 @@ import UIKit
     ///   - tag: 标签，默认0
     ///   - target: 目标对象
     ///   - action: 选择器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init(obj: String, style: UIBarButtonItem.Style = .plain, tag: Int = 0, target: Any? = nil, action: Selector? = nil) {
         if let image = UIImage(named: obj) {
             self.init(image: image, style: style, target: target, action: action)
@@ -75,7 +75,7 @@ import UIKit
     ///   - style: 样式，默认plain
     ///   - tag: 标签，默认0
     ///   - action: 回调闭包
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init(obj: String, style: UIBarButtonItem.Style = .plain, tag: Int = 0, action: @escaping ((UIBarButtonItem) -> Void)) {
         self.init(obj: obj, style: style, tag: tag, target: nil, action: nil)
         self.addAction(action)
@@ -87,7 +87,7 @@ import UIKit
     ///   - systemItem: 系统项类型
     ///   - tag: 标签，默认0
     ///   - action: 回调闭包
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init(systemItem: UIBarButtonItem.SystemItem, tag: Int = 0, action: @escaping ((UIBarButtonItem) -> Void)) {
         self.init(barButtonSystemItem: systemItem, target: nil, action: nil)
         self.tag = tag
@@ -100,7 +100,7 @@ import UIKit
     /// - Parameters:
     ///   - target: 目标对象
     ///   - action: 选择器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addTargetForAction(_ target: AnyObject, action: Selector) {
         self.target = target
         self.action = action
@@ -112,7 +112,7 @@ import UIKit
     ///   - textColor: 文字颜色
     ///   - state: 状态
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTitleColor(_ textColor: UIColor, for state: UIControl.State) -> Self {
         guard var attributes = titleTextAttributes(for: state) else {
@@ -129,7 +129,7 @@ import UIKit
     ///   - font: 字体
     ///   - state: 状态
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTitleFont(_ font: UIFont, for state: UIControl.State) -> Self {
         guard var attributes = titleTextAttributes(for: state) else {
@@ -147,7 +147,7 @@ import UIKit
     ///   - target: 目标对象
     ///   - action: 选择器
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func fixedSpace(width: CGFloat, target: Any? = nil, action: Selector? = nil) -> UIBarButtonItem {
         let barButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: target, action: action)
         barButtonItem.width = width
@@ -160,7 +160,7 @@ import UIKit
     ///   - target: 目标对象
     ///   - action: 选择器
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func flexibleSpace(_ target: Any? = nil, action: Selector? = nil) -> UIBarButtonItem {
         return UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: target, action: action)
     }
@@ -176,7 +176,7 @@ public extension UIBarButtonItem{
     ///   - target: 目标对象
     ///   - action: 选择器
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func space(_ width: CGFloat? = nil, target: Any? = nil, action: Selector? = nil) -> UIBarButtonItem {
         if let width = width {
             let barButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
@@ -193,7 +193,7 @@ public extension UIBarButtonItem{
     ///   - style: 样式，默认plain
     ///   - action: 回调闭包
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func imageButton(image: UIImage?, style: UIBarButtonItem.Style = .plain, action: @escaping ((UIBarButtonItem) -> Void)) -> UIBarButtonItem {
         let button = UIBarButtonItem(image: image, style: style, target: nil, action: nil)
         button.addAction(action)
@@ -207,7 +207,7 @@ public extension UIBarButtonItem{
     ///   - style: 样式，默认plain
     ///   - action: 回调闭包
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func titleButton(title: String, style: UIBarButtonItem.Style = .plain, action: @escaping ((UIBarButtonItem) -> Void)) -> UIBarButtonItem {
         let button = UIBarButtonItem(title: title, style: style, target: nil, action: nil)
         button.addAction(action)
@@ -220,7 +220,7 @@ public extension UIBarButtonItem{
     ///   - customView: 自定义视图
     ///   - action: 回调闭包
     /// - Returns: UIBarButtonItem实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func customButton(customView: UIView, action: @escaping ((UIBarButtonItem) -> Void)) -> UIBarButtonItem {
         let button = UIBarButtonItem(customView: customView)
         button.addAction(action)
@@ -231,7 +231,7 @@ public extension UIBarButtonItem{
     /// 设置按钮是否可用
     /// - Parameter enabled: 是否可用
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setEnabled(_ enabled: Bool) -> Self {
         self.isEnabled = enabled
@@ -242,7 +242,7 @@ public extension UIBarButtonItem{
     /// 设置按钮宽度
     /// - Parameter width: 宽度
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setWidth(_ width: CGFloat) -> Self {
         self.width = width
@@ -253,7 +253,7 @@ public extension UIBarButtonItem{
     /// 设置按钮标签
     /// - Parameter tag: 标签
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTag(_ tag: Int) -> Self {
         self.tag = tag
@@ -264,7 +264,7 @@ public extension UIBarButtonItem{
     /// 设置按钮样式
     /// - Parameter style: 样式
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setStyle(_ style: UIBarButtonItem.Style) -> Self {
         self.style = style

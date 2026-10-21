@@ -63,15 +63,11 @@ public extension TFY where Base: UIViewController {
     
     /// 获取当前活动窗口
     private static func getCurrentWindow() -> UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .first { $0.activationState == .foregroundActive }?
-                .windows
-                .first(where: \.isKeyWindow)
-        } else {
-            return UIApplication.shared.keyWindow
-        }
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }?
+            .windows
+            .first(where: \.isKeyWindow)
     }
     
     private static func topestController(withRootViewController rootViewController: UIViewController? = nil) -> UIViewController? {
@@ -653,14 +649,14 @@ public extension UIViewController{
     
     /// 检查是否在导航栈中
     /// - Returns: 如果在导航栈中返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isInNavigationStack: Bool {
         return navigationController?.viewControllers.contains(self) ?? false
     }
     
     /// 获取导航栈中的位置
     /// - Returns: 在导航栈中的位置，如果不在栈中返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var navigationStackIndex: Int? {
         guard let viewControllers = navigationController?.viewControllers else { return nil }
         return viewControllers.firstIndex(of: self)
@@ -668,21 +664,21 @@ public extension UIViewController{
     
     /// 检查是否为根视图控制器
     /// - Returns: 如果是根视图控制器返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isRootViewController: Bool {
         return navigationController?.viewControllers.first == self
     }
     
     /// 检查是否为顶层视图控制器
     /// - Returns: 如果是顶层视图控制器返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isTopViewController: Bool {
         return navigationController?.topViewController == self
     }
     
     /// 获取视图控制器的层级深度
     /// - Returns: 层级深度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var viewControllerDepth: Int {
         var depth = 0
         var currentVC: UIViewController? = self
@@ -698,7 +694,7 @@ public extension UIViewController{
     /// 安全地弹出到指定类型的视图控制器
     /// - Parameter type: 目标视图控制器类型
     /// - Returns: 是否成功弹出
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func popToViewController<T: UIViewController>(ofType type: T.Type) -> Bool {
         guard let navigationController = navigationController else { return false }
         
@@ -714,7 +710,7 @@ public extension UIViewController{
     
     /// 安全地弹出到根视图控制器
     /// - Returns: 是否成功弹出
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func popToRootViewController() -> Bool {
         guard let navigationController = navigationController else { return false }
         navigationController.popToRootViewController(animated: true)
@@ -723,7 +719,7 @@ public extension UIViewController{
     
     /// 安全地弹出当前视图控制器
     /// - Returns: 是否成功弹出
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func popViewController() -> Bool {
         guard let navigationController = navigationController else { return false }
         navigationController.popViewController(animated: true)
@@ -735,7 +731,7 @@ public extension UIViewController{
     ///   - viewController: 要推送的视图控制器
     ///   - animated: 是否动画
     ///   - completion: 完成回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func pushViewController(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         navigationController?.pushViewController(viewController, animated: animated)
         
@@ -751,7 +747,7 @@ public extension UIViewController{
     ///   - title: 标题
     ///   - color: 标题颜色
     ///   - font: 标题字体
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setNavigationTitle(_ title: String, color: UIColor = .black, font: UIFont = .systemFont(ofSize: 17, weight: .semibold)) {
         navigationItem.title = title
         navigationController?.navigationBar.titleTextAttributes = [
@@ -762,7 +758,7 @@ public extension UIViewController{
     
     /// 设置导航栏背景色
     /// - Parameter color: 背景颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setNavigationBarBackgroundColor(_ color: UIColor) {
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
@@ -777,7 +773,7 @@ public extension UIViewController{
     
     /// 设置导航栏透明
     /// - Parameter isTransparent: 是否透明
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setNavigationBarTransparent(_ isTransparent: Bool) {
         if isTransparent {
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -794,14 +790,14 @@ public extension UIViewController{
     /// - Parameters:
     ///   - hidden: 是否隐藏
     ///   - animated: 是否动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func hideNavigationBar(_ hidden: Bool, animated: Bool = true) {
         (self.navigationController)?.setNavigationBarHidden(hidden, animated: animated)
     }
     
     /// 设置状态栏样式
     /// - Parameter style: 状态栏样式
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     private struct AssociatedKeys {
         static var statusBarStyleKey = UnsafeRawPointer(bitPattern: "TFY_StatusBarStyleKey".hashValue)!
     }
@@ -826,7 +822,7 @@ public extension UIViewController{
     
     /// 获取当前视图控制器的截图
     /// - Returns: 截图图片
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func takeScreenshot() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, UIScreen.main.scale)
         defer { UIGraphicsEndImageContext() }
@@ -841,7 +837,7 @@ public extension UIViewController{
     /// - Parameters:
     ///   - willShow: 键盘将要显示的回调
     ///   - willHide: 键盘将要隐藏的回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addKeyboardNotifications(willShow: ((CGRect) -> Void)? = nil, willHide: (() -> Void)? = nil) {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
             if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
@@ -855,7 +851,7 @@ public extension UIViewController{
     }
     
     /// 移除键盘通知
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func removeKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -863,21 +859,21 @@ public extension UIViewController{
     
     /// 检查设备方向
     /// - Returns: 当前设备方向
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var deviceOrientation: UIDeviceOrientation {
         return UIDevice.current.orientation
     }
     
     /// 检查是否为iPad
     /// - Returns: 如果是iPad返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isIPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
     
     /// 检查是否为iPhone
     /// - Returns: 如果是iPhone返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isIPhone: Bool {
         return UIDevice.current.userInterfaceIdiom == .phone
     }

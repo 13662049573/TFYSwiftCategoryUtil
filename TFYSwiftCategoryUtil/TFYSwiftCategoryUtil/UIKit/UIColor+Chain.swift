@@ -387,14 +387,14 @@ public extension UIColor {
     
     /// 获取颜色的对比色
     /// - Returns: 对比色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var contrastingColor: UIColor {
         return isLight ? .black : .white
     }
     
     /// 获取颜色的互补色
     /// - Returns: 互补色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var complementaryColor: UIColor {
         guard let components = rgbaComponents() else { return self }
         return UIColor(red: 1.0 - components.red,
@@ -405,7 +405,7 @@ public extension UIColor {
     
     /// 获取颜色的灰度值
     /// - Returns: 灰度颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var grayscale: UIColor {
         guard let components = rgbaComponents() else { return self }
         let gray = 0.299 * components.red + 0.587 * components.green + 0.114 * components.blue
@@ -415,7 +415,7 @@ public extension UIColor {
     /// 设置颜色的透明度
     /// - Parameter alpha: 透明度值
     /// - Returns: 新的颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func withAlpha(_ alpha: CGFloat) -> UIColor {
         return withAlphaComponent(alpha)
     }
@@ -425,7 +425,7 @@ public extension UIColor {
     ///   - lightColor: 浅色模式颜色
     ///   - darkColor: 深色模式颜色
     /// - Returns: 动态颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @available(iOS 13.0, *)
     static func adaptiveColor(light: UIColor, dark: UIColor) -> UIColor {
         return UIColor { traitCollection in
@@ -445,7 +445,7 @@ public extension UIColor {
     ///   - colors: 颜色数组
     ///   - locations: 位置数组（可选）
     /// - Returns: 渐变层
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func gradientLayer(colors: [UIColor], locations: [NSNumber]? = nil) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = colors.map { $0.cgColor }
@@ -455,7 +455,7 @@ public extension UIColor {
     
     /// 检查颜色是否透明
     /// - Returns: 如果颜色透明返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isTransparent: Bool {
         guard let components = rgbaComponents() else { return false }
         return components.alpha < 0.1
@@ -463,7 +463,7 @@ public extension UIColor {
     
     /// 检查颜色是否完全不透明
     /// - Returns: 如果颜色完全不透明返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isOpaque: Bool {
         guard let components = rgbaComponents() else { return false }
         return components.alpha > 0.99
@@ -471,7 +471,7 @@ public extension UIColor {
     
     /// 获取颜色的十六进制值（不带#）
     /// - Returns: 十六进制字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var hexValue: String {
         guard let components = rgbaComponents() else { return "000000" }
         let r = Int(components.red * 255)
@@ -482,7 +482,7 @@ public extension UIColor {
     
     /// 获取颜色的ARGB十六进制值
     /// - Returns: ARGB十六进制字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var argbHexValue: String {
         guard let components = rgbaComponents() else { return "00000000" }
         let a = Int(components.alpha * 255)
@@ -495,7 +495,7 @@ public extension UIColor {
     /// 创建颜色并应用亮度调整
     /// - Parameter brightness: 亮度调整值 (-1.0 到 1.0)
     /// - Returns: 调整后的颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func withBrightness(_ brightness: CGFloat) -> UIColor {
         guard let components = hsbaComponents() else { return self }
         let newBrightness = max(0, min(1, components.brightness + brightness))
@@ -508,7 +508,7 @@ public extension UIColor {
     /// 创建颜色并应用饱和度调整
     /// - Parameter saturation: 饱和度调整值 (-1.0 到 1.0)
     /// - Returns: 调整后的颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func withSaturation(_ saturation: CGFloat) -> UIColor {
         guard let components = hsbaComponents() else { return self }
         let newSaturation = max(0, min(1, components.saturation + saturation))
@@ -521,7 +521,7 @@ public extension UIColor {
     /// 创建颜色并应用色相调整
     /// - Parameter hue: 色相调整值 (-1.0 到 1.0)
     /// - Returns: 调整后的颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func withHue(_ hue: CGFloat) -> UIColor {
         guard let components = hsbaComponents() else { return self }
         let newHue = (components.hue + hue).truncatingRemainder(dividingBy: 1.0)

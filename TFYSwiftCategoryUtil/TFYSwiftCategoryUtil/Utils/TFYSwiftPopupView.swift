@@ -666,17 +666,11 @@ public extension TFYSwiftPopupView {
             fatalError("TFYSwiftPopupView: 配置验证失败，请检查配置参数")
         }
         
-        // 获取当前窗口（兼容 iOS 15 及以上版本）
-        let window: UIWindow? = {
-            if #available(iOS 15.0, *) {
-                return UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first { $0.isKeyWindow }
-            } else {
-                return UIApplication.shared.windows.first { $0.isKeyWindow }
-            }
-        }()
+        // 获取当前 key window（iOS 16+）
+        let window = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
         
         guard let window = window else {
             fatalError("TFYSwiftPopupView: 无法获取当前窗口")
