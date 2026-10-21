@@ -110,76 +110,60 @@ public extension TFY where Base: UIButton {
     /// 设置标题内边距
     @discardableResult
     func titleEdgeInsets(_ edgeInsets: UIEdgeInsets) -> Self {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: max(0, edgeInsets.top),
-                leading: max(0, edgeInsets.left),
-                bottom: max(0, edgeInsets.bottom),
-                trailing: max(0, edgeInsets.right)
-            )
-            configuration.titlePadding = max(0, edgeInsets.left)
-            base.configuration = configuration
-        } else {
-            base.titleEdgeInsets = edgeInsets
-        }
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: max(0, edgeInsets.top),
+            leading: max(0, edgeInsets.left),
+            bottom: max(0, edgeInsets.bottom),
+            trailing: max(0, edgeInsets.right)
+        )
+        configuration.titlePadding = max(0, edgeInsets.left)
+        base.configuration = configuration
         return self
     }
     
     /// 设置标题内边距（分开设置）
     @discardableResult
     func titleEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: max(0, top),
-                leading: max(0, left),
-                bottom: max(0, bottom),
-                trailing: max(0, right)
-            )
-            configuration.titlePadding = max(0, left)
-            base.configuration = configuration
-        } else {
-            base.titleEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-        }
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: max(0, top),
+            leading: max(0, left),
+            bottom: max(0, bottom),
+            trailing: max(0, right)
+        )
+        configuration.titlePadding = max(0, left)
+        base.configuration = configuration
         return self
     }
     
     /// 设置图片内边距
     @discardableResult
     func imageEdgeInsets(_ edgeInsets: UIEdgeInsets) -> Self {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: max(0, edgeInsets.top),
-                leading: max(0, edgeInsets.left),
-                bottom: max(0, edgeInsets.bottom),
-                trailing: max(0, edgeInsets.right)
-            )
-            configuration.imagePadding = max(0, edgeInsets.left)
-            base.configuration = configuration
-        } else {
-            base.imageEdgeInsets = edgeInsets
-        }
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: max(0, edgeInsets.top),
+            leading: max(0, edgeInsets.left),
+            bottom: max(0, edgeInsets.bottom),
+            trailing: max(0, edgeInsets.right)
+        )
+        configuration.imagePadding = max(0, edgeInsets.left)
+        base.configuration = configuration
         return self
     }
     
     /// 设置图片内边距（分开设置）
     @discardableResult
     func imageEdgeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> Self {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(
-                top: max(0, top),
-                leading: max(0, left),
-                bottom: max(0, bottom),
-                trailing: max(0, right)
-            )
-            configuration.imagePadding = max(0, left)
-            base.configuration = configuration
-        } else {
-            base.imageEdgeInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-        }
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+            top: max(0, top),
+            leading: max(0, left),
+            bottom: max(0, bottom),
+            trailing: max(0, right)
+        )
+        configuration.imagePadding = max(0, left)
+        base.configuration = configuration
         return self
     }
     
@@ -227,7 +211,7 @@ extension UIButton {
     /// - Parameters:
     ///   - type: 图片位置类型
     ///   - space: 图片和文字之间的间距
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     public func imageDirection(_ type: ButtonImageDirection, _ space: CGFloat) {
         applyModernConfiguration(type: type, space: space, contentInsets: .zero, honorContentInsets: false)
     }
@@ -288,7 +272,7 @@ extension UIButton {
     ///   - type: 图片位置类型
     ///   - space: 图片和文字之间的间距
     ///   - contentInsets: 自定义内容边距
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     public func imageDirectionCustomize(_ type: ButtonImageDirection, _ space: CGFloat, _ contentInsets: NSDirectionalEdgeInsets) {
         applyModernConfiguration(type: type, space: space, contentInsets: contentInsets, honorContentInsets: true)
     }
@@ -299,7 +283,7 @@ extension UIButton {
     ///   为 true（自定义内边距）时，布局方法写入某条边的 `space` 会被最终覆盖，
     ///   图文间距改由 `imagePadding` 保证，避免 space 覆盖用户设置的左右/上下间距；
     ///   为 false（简单调用）时保持既有行为不变。
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func applyModernConfiguration(type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets, honorContentInsets: Bool) {
         var configuration = createBaseConfiguration(space: space)
 
@@ -328,7 +312,7 @@ extension UIButton {
         }
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func createBaseConfiguration(space: CGFloat) -> UIButton.Configuration {
         var configuration = UIButton.Configuration.plain()
 
@@ -355,7 +339,7 @@ extension UIButton {
         return configuration
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureLayout(for type: ButtonImageDirection, space: CGFloat, contentInsets: NSDirectionalEdgeInsets, in configuration: inout UIButton.Configuration) {
         switch type {
         case .centerImageTop:
@@ -450,7 +434,7 @@ extension UIButton {
         }
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func setupConfigurationUpdateHandler(buttonFont: UIFont, buttonColor: UIColor, compressMinimumScaleFactor: CGFloat? = nil) {
         configurationUpdateHandler = { button in
             var updatedConfig = button.configuration
@@ -487,7 +471,7 @@ extension UIButton {
 
     // MARK: - Configuration Helper Methods
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .center
@@ -499,7 +483,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .center
@@ -511,7 +495,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .center
@@ -523,7 +507,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .center
@@ -535,7 +519,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureLeftImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .leading
@@ -548,7 +532,7 @@ extension UIButton {
         contentHorizontalAlignment = .leading
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureLeftImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .leading
@@ -561,7 +545,7 @@ extension UIButton {
         contentHorizontalAlignment = .leading
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureRightImageLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .trailing
@@ -574,7 +558,7 @@ extension UIButton {
         contentHorizontalAlignment = .trailing
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureRightImageRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .trailing
@@ -587,7 +571,7 @@ extension UIButton {
         contentHorizontalAlignment = .trailing
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageTopFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .center
@@ -600,7 +584,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageLeftFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .center
@@ -613,7 +597,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageRightFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .center
@@ -626,7 +610,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageBottomFixedSpace(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .center
@@ -639,7 +623,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureTopImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .leading
@@ -652,7 +636,7 @@ extension UIButton {
         contentHorizontalAlignment = .center
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureTopImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .leading
@@ -665,7 +649,7 @@ extension UIButton {
         contentHorizontalAlignment = .center
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureBottomImageTop(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .trailing
@@ -678,7 +662,7 @@ extension UIButton {
         contentHorizontalAlignment = .center
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureBottomImageBottom(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .trailing
@@ -691,7 +675,7 @@ extension UIButton {
         contentHorizontalAlignment = .center
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageTopTextBelow(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .center
@@ -704,7 +688,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageLeftTextRight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .leading
@@ -717,7 +701,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageRightTextLeft(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .trailing
@@ -730,7 +714,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureCenterImageBottomTextAbove(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .center
@@ -743,19 +727,19 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageOnly(configuration: inout UIButton.Configuration) {
         configuration.image = image(for: .normal)
         configuration.title = nil
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureTextOnly(configuration: inout UIButton.Configuration) {
         configuration.image = nil
         configuration.title = title(for: .normal)
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageTopTextBelowFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .center
@@ -768,7 +752,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageLeftTextRightFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .leading
@@ -781,7 +765,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageRightTextLeftFixedWidth(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .trailing
@@ -794,7 +778,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageBottomTextAboveFixedHeight(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .center
@@ -811,7 +795,7 @@ extension UIButton {
 
     /// 让标题单行显示、宽度不足时自动缩小字号（不换行）
     /// - Parameter minimumScaleFactor: 最小缩放比例，默认 0.5
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func applyCompressSingleLine(minimumScaleFactor: CGFloat = 0.5) {
         titleLabel?.numberOfLines = 1
         titleLabel?.adjustsFontSizeToFitWidth = true
@@ -819,7 +803,7 @@ extension UIButton {
         titleLabel?.lineBreakMode = .byTruncatingTail
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageTopTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .top
         configuration.titleAlignment = .center
@@ -832,7 +816,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageLeftTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .leading
         configuration.titleAlignment = .leading
@@ -845,7 +829,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageRightTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .trailing
         configuration.titleAlignment = .trailing
@@ -858,7 +842,7 @@ extension UIButton {
         )
     }
 
-    @available(iOS 15.0, *)
+    @available(iOS 16.0, *)
     private func configureImageBottomTextCompress(configuration: inout UIButton.Configuration, space: CGFloat, contentInsets: NSDirectionalEdgeInsets) {
         configuration.imagePlacement = .bottom
         configuration.titleAlignment = .center

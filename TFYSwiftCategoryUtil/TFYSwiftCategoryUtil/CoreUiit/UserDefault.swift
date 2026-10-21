@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - UserDefault Property Wrapper
 /// UserDefault 属性包装器，提供便捷的 UserDefaults 访问
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 /// 支持 iPhone 和 iPad 适配
 
 @propertyWrapper

@@ -26,7 +26,7 @@ public extension UIAlertController {
     ///   - message: 消息
     ///   - style: 样式
     /// - Returns: UIAlertController实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     static func create(title: String? = nil, message: String? = nil, style: UIAlertController.Style = .alert) -> UIAlertController {
         return UIAlertController(title: title, message: message, preferredStyle: style)
@@ -45,7 +45,7 @@ public extension UIAlertController {
     // MARK: 1.2、获取标题 UILabel
     /// 获取标题 UILabel
     /// - Returns: 标题标签，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var titleLabel: UILabel? {
         guard let subView5 = subView5, subView5.subviews.count > 2 else { return nil }
         return subView5.subviews[1] as? UILabel
@@ -54,7 +54,7 @@ public extension UIAlertController {
     // MARK: 1.3、获取消息 UILabel
     /// 获取消息 UILabel
     /// - Returns: 消息标签，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var messageLabel: UILabel? {
         guard let subView5 = subView5 else { return nil }
         let messageLabelIndex = title == nil ? 1 : 2
@@ -70,7 +70,7 @@ public extension UIAlertController {
     ///   - items: 选项数组
     ///   - handler: 处理回调
     /// - Returns: UIAlertController实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     static func createSheet(title: String?, message: String? = nil, items: [String]? = nil, handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
         let alertVC = self.init(title: title, message: message, preferredStyle: .actionSheet)
@@ -98,7 +98,7 @@ public extension UIAlertController {
     ///   - message: 消息
     ///   - items: 选项数组
     ///   - handler: 处理回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func showSheet(_ title: String?,
                           message: String? = nil,
                           items: [String]? = nil,
@@ -116,7 +116,7 @@ public extension UIAlertController {
     ///   - actionTitles: 按钮标题数组，默认["确定"]
     ///   - block: 段落样式设置块
     ///   - handler: 处理回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func showAlert(_ title: String? = "提示",
                           message: String?,
                           actionTitles: [String]? = ["确定"],
@@ -142,7 +142,7 @@ public extension UIAlertController {
     /// - Parameters:
     ///   - title: 标题，默认"提示"
     ///   - message: 消息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func showAlert(_ title: String? = "提示", message: String?) {
         //富文本效果
         UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -154,7 +154,7 @@ public extension UIAlertController {
     /// 根据时间间隔控制是否显示
     /// - Parameter interval: 时间间隔（秒），默认604800秒（7天）
     /// - Returns: 是否可以显示
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func canShow(_ interval: Int = Int(604800)) -> Bool {
         let nowTimestamp = Date().timeIntervalSince1970
         
@@ -174,7 +174,7 @@ public extension UIAlertController {
     ///   - titles: 按钮标题数组，默认["取消","确定"]
     ///   - handler: 处理回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addActionTitles(_ titles: [String]? = ["取消","确定"], handler: ((UIAlertController, UIAlertAction) -> Void)? = nil) -> Self {
         titles?.forEach({ (string) in
@@ -191,7 +191,7 @@ public extension UIAlertController {
     ///   - placeholders: 占位符数组
     ///   - handler: 文本框配置回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addTextFieldPlaceholders(_ placeholders: [String]?, handler: ((UITextField) -> Void)? = nil) -> Self {
         if self.preferredStyle != .alert {
@@ -210,7 +210,7 @@ public extension UIAlertController {
     /// 设置标题颜色
     /// - Parameter color: 颜色，默认白色
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTitleColor(_ color: UIColor = .white) -> Self {
         guard let title = title else {
@@ -227,7 +227,7 @@ public extension UIAlertController {
     /// 设置Message文本换行,对齐方式
     /// - Parameter paraStyle: 段落样式
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setMessageParaStyle(_ paraStyle: NSMutableParagraphStyle) -> Self {
         guard let message = message else {
@@ -251,7 +251,7 @@ public extension UIAlertController {
     ///   - lineBreakMode: 换行模式，默认按字符换行
     ///   - lineSpacing: 行间距，默认5.0
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setMessageStyle(_ font: UIFont,
                          textColor: UIColor,
@@ -274,7 +274,7 @@ public extension UIAlertController {
     ///   - vc: 视图控制器
     ///   - height: 高度
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setContent(vc: UIViewController, height: CGFloat) -> Self {
         let safeHeight = max(0, height)
@@ -288,7 +288,7 @@ public extension UIAlertController {
     /// 改变宽度
     /// - Parameter newWidth: 新宽度，默认屏幕宽度的80%
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func changeWidth(_ newWidth: CGFloat = UIScreen.main.bounds.width * 0.8) -> Self {
         if preferredStyle != .alert {
@@ -341,7 +341,7 @@ public extension UIAlertController {
     ///   - backgroundColor: 背景色
     ///   - tintColor: 着色
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setAlertStyle(cornerRadius: CGFloat = 8.0, backgroundColor: UIColor = .white, tintColor: UIColor? = nil) -> Self {
         if let alertView = view.subviews.first?.subviews.first?.subviews.first?.subviews.first?.subviews.first {
@@ -363,7 +363,7 @@ public extension UIAlertController {
     ///   - isSecure: 是否安全输入
     ///   - configurationHandler: 配置回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addTextField(placeholder: String? = nil, text: String? = nil, keyboardType: UIKeyboardType = .default, isSecure: Bool = false, configurationHandler: ((UITextField) -> Void)? = nil) -> Self {
         addTextField { textField in
@@ -379,7 +379,7 @@ public extension UIAlertController {
     // MARK: 1.18、获取所有输入框
     /// 获取所有输入框
     /// - Returns: 输入框数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var allTextFields: [UITextField] {
         return self.textFields ?? []
     }
@@ -388,7 +388,7 @@ public extension UIAlertController {
     /// 获取指定索引的输入框
     /// - Parameter index: 索引
     /// - Returns: 输入框，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func textField(at index: Int) -> UITextField? {
         guard let textFields = self.textFields, index >= 0, index < textFields.count else { return nil }
         return textFields[index]
@@ -398,7 +398,7 @@ public extension UIAlertController {
     /// 设置弹窗优先级
     /// - Parameter priority: 优先级
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setModalPresentationStyle(_ style: UIModalPresentationStyle) -> Self {
         self.modalPresentationStyle = style
@@ -414,7 +414,7 @@ public extension TFY where Base: UIAlertController {
     ///   - viewController: 展示的视图控制器
     ///   - completion: 完成回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func show(in viewController: UIViewController?, completion: (() -> Void)? = nil) -> Self {
         guard let viewController = viewController else {
@@ -431,7 +431,7 @@ public extension TFY where Base: UIAlertController {
     ///   - delay: 延迟时间
     ///   - completion: 完成回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func dismiss(after delay: TimeInterval, completion: (() -> Void)? = nil) -> Self {
         let safeDelay = delay.isFinite ? max(0, delay) : 0
@@ -445,7 +445,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置标题
     /// - Parameter a: 标题文本
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func title(_ a:String) -> Self {
         base.title = a
@@ -455,7 +455,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置标题字体
     /// - Parameter font: 字体
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func title(_ font:UIFont) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
@@ -468,7 +468,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置标题颜色
     /// - Parameter color: 颜色
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func title(_ color:UIColor) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedTitle) as? NSAttributedString ?? NSMutableAttributedString(string: base.title ?? "")
@@ -481,7 +481,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置标题富文本
     /// - Parameter attributed: 富文本
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func title(_ attributed:NSAttributedString) -> Self {
         base.setValue(attributed, forKey: AlertKeys.attributedTitle)
@@ -491,7 +491,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置消息
     /// - Parameter a: 消息文本
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func message(_ a:String) -> Self {
         base.message = a
@@ -501,7 +501,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置消息字体
     /// - Parameter font: 字体
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func message(_ font:UIFont) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
@@ -514,7 +514,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置消息颜色
     /// - Parameter color: 颜色
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func message(_ color:UIColor) -> Self {
         let attributed:NSAttributedString = base.value(forKey: AlertKeys.attributedMessage) as? NSAttributedString ?? NSMutableAttributedString(string: base.message ?? "")
@@ -527,7 +527,7 @@ public extension TFY where Base: UIAlertController {
     /// 设置消息富文本
     /// - Parameter attributed: 富文本
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func message(_ attributed:NSAttributedString) -> Self {
         base.setValue(attributed, forKey: AlertKeys.attributedMessage)
@@ -542,7 +542,7 @@ public extension TFY where Base: UIAlertController {
     ///   - custom: 自定义配置回调
     ///   - handler: 点击处理回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func action(_ title:String,
                 style:UIAlertAction.Style = .default,
@@ -561,7 +561,7 @@ public extension TFY where Base: UIAlertAction {
     /// 设置标题
     /// - Parameter title: 标题
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTitle(_ title: String) -> Self {
         base.setValue(title, forKey: "title")
@@ -572,7 +572,7 @@ public extension TFY where Base: UIAlertAction {
     /// 设置标题颜色
     /// - Parameter color: 颜色
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setTitleColor(_ color: UIColor) -> Self {
         base.setValue(color, forKey: AlertKeys.actionColor)
@@ -583,7 +583,7 @@ public extension TFY where Base: UIAlertAction {
     /// 设置样式
     /// - Parameter style: 样式
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func setStyle(_ style: UIAlertAction.Style) -> Self {
         base.setValue(style, forKey: "style")
@@ -594,7 +594,7 @@ public extension TFY where Base: UIAlertAction {
     /// 设置处理回调
     /// - Parameter a: 处理回调
     /// - Returns: 自身实例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func handler(_ a:((UIAlertAction) -> Void)? = nil) -> Self {
         base.setValue(a, forKey: "handler")

@@ -16,7 +16,7 @@ extension TFY where Base == NumberFormatter {
     ///   - value: 值
     ///   - nstyle: 相应的显示样式
     /// - Returns: 格式化后的字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     public static func numberFormatting(value: Float, number nstyle: NumberFormatter.Style = .none) -> String {
         //原始数字（需要先转成NSNumber类型）
         let number = NSNumber(value: value)
@@ -42,7 +42,7 @@ extension TFY where Base == NumberFormatter {
     ///   - value: 值
     ///   - nstyle: 相应的显示样式
     /// - Returns: 格式化后的字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     public static func numberFormatting(value: Double, number nstyle: NumberFormatter.Style = .none) -> String {
         //原始数字（需要先转成NSNumber类型）
         let number = NSNumber(value: value)
@@ -55,7 +55,7 @@ extension TFY where Base == NumberFormatter {
     ///   - value: 字符串值
     ///   - nstyle: 相应的显示样式
     /// - Returns: 格式化后的字符串，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     public static func stringFormattingNumber(value: String, number nstyle: NumberFormatter.Style = .none) -> String? {
         // 从字符串装成数字
         guard let number = Self.number(from: value) else {

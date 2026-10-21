@@ -3,7 +3,7 @@
 //  TFYSwiftAdaptiveKit
 //
 //  Created by TFYSwift on 2024/12/12.
-//  Perfect Screen Adaptive Kit for iOS 15+，支持 iPhone/iPad 适配，自动适配分屏、刘海屏等多场景，建议全局调用 setupAuto()。
+//  Perfect Screen Adaptive Kit for iOS 16+，支持 iPhone/iPad 适配，自动适配分屏、刘海屏等多场景，建议全局调用 setupAuto()。
 //
 //  用途：全局屏幕适配工具，支持链式调用和多端适配。
 //

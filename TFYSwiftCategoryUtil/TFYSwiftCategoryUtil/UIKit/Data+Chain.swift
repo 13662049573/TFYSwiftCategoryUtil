@@ -14,7 +14,7 @@ public extension Data {
     // MARK: 1.1、base64编码成 Data
     /// base64编码成Data
     /// - Returns: base64编码后的Data，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var encodeToData: Data? {
         return self.base64EncodedData()
     }
@@ -22,7 +22,7 @@ public extension Data {
     // MARK: 1.2、base64解码成 Data
     /// base64解码成Data
     /// - Returns: base64解码后的Data，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var decodeToData: Data? {
         return Data(base64Encoded: self)
     }
@@ -31,7 +31,7 @@ public extension Data {
     /// 转换为字符串
     /// - Parameter encoding: 字符串编码
     /// - Returns: 转换后的字符串，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toString(encoding: String.Encoding = .utf8) -> String? {
         return String(data: self, encoding: encoding)
     }
@@ -39,7 +39,7 @@ public extension Data {
     // MARK: 1.4、转换为字节数组
     /// 转换为字节数组
     /// - Returns: 字节数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toBytes() -> [UInt8] {
         return [UInt8](self)
     }
@@ -47,7 +47,7 @@ public extension Data {
     // MARK: 1.5、转换为字典
     /// 转换为字典
     /// - Returns: 字典，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toDict() -> Dictionary<String, Any>? {
         do {
             return try JSONSerialization.jsonObject(with: self, options: .allowFragments) as? [String: Any]
@@ -62,7 +62,7 @@ public extension Data {
     /// - Parameter options: 读取选项
     /// - Throws: 解析失败抛出异常
     /// - Returns: 解析后的对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toObject(options: JSONSerialization.ReadingOptions = []) throws -> Any {
         return try JSONSerialization.jsonObject(with: self, options: options)
     }
@@ -71,7 +71,7 @@ public extension Data {
     /// 指定Model类型
     /// - Parameter type: 解码的类型
     /// - Returns: 解码后的模型，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toModel<T>(_ type: T.Type) -> T? where T: Decodable {
         do {
             return try JSONDecoder().decode(type, from: self)
@@ -84,7 +84,7 @@ public extension Data {
     // MARK: 1.8、转换为UTF8字符串
     /// 转换为UTF8字符串
     /// - Returns: UTF8字符串，失败返回空字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func utf8String() -> String {
         if self.count > 0 {
             return String(data: self, encoding: .utf8) ?? ""
@@ -95,7 +95,7 @@ public extension Data {
     // MARK: 1.9、JSON解码为对象
     /// JSON解码为对象
     /// - Returns: 解码后的对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func jsonValueDecoded() -> Any? {
         do {
             let value = try JSONSerialization.jsonObject(with: self, options: .allowFragments)
@@ -109,7 +109,7 @@ public extension Data {
     // MARK: 1.10、压缩数据
     /// 压缩数据
     /// - Returns: 压缩后的数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func compress() -> Data? {
         guard !self.isEmpty else { return nil }
         
@@ -125,7 +125,7 @@ public extension Data {
     // MARK: 1.11、解压数据
     /// 解压数据
     /// - Returns: 解压后的数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func decompress() -> Data? {
         guard !self.isEmpty else { return nil }
         
@@ -141,7 +141,7 @@ public extension Data {
     // MARK: 1.13、计算SHA256哈希
     /// 计算SHA256哈希
     /// - Returns: SHA256哈希字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func sha256() -> String {
         let length = Int(CC_SHA256_DIGEST_LENGTH)
         var digest = [UInt8](repeating: 0, count: length)
@@ -157,7 +157,7 @@ public extension Data {
     // MARK: 1.14、转换为图片
     /// 转换为图片
     /// - Returns: UIImage对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toImage() -> UIImage? {
         return UIImage(data: self)
     }
@@ -165,7 +165,7 @@ public extension Data {
     // MARK: 1.15、获取文件大小描述
     /// 获取文件大小描述
     /// - Returns: 格式化的大小字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func sizeDescription() -> String {
         let formatter = ByteCountFormatter()
         formatter.allowedUnits = [.useKB, .useMB, .useGB]
@@ -176,7 +176,7 @@ public extension Data {
     // MARK: 1.16、检查是否为图片数据
     /// 检查是否为图片数据
     /// - Returns: 如果是图片数据返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isImageData: Bool {
         return UIImage(data: self) != nil
     }
@@ -184,7 +184,7 @@ public extension Data {
     // MARK: 1.17、检查是否为JSON数据
     /// 检查是否为JSON数据
     /// - Returns: 如果是有效的JSON数据返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isJSONData: Bool {
         do {
             _ = try JSONSerialization.jsonObject(with: self, options: [])
@@ -197,7 +197,7 @@ public extension Data {
     // MARK: 1.18、转换为十六进制字符串
     /// 转换为十六进制字符串
     /// - Returns: 十六进制字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toHexString() -> String {
         return self.map { String(format: "%02x", $0) }.joined()
     }
@@ -206,7 +206,7 @@ public extension Data {
     /// 从十六进制字符串创建Data
     /// - Parameter hexString: 十六进制字符串
     /// - Returns: Data对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func fromHexString(_ hexString: String) -> Data? {
         guard hexString.count % 2 == 0 else { return nil }
         
@@ -232,7 +232,7 @@ public extension Data {
     ///   - start: 起始位置
     ///   - end: 结束位置
     /// - Returns: 切片后的数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func safeSubdata(from start: Int, to end: Int) -> Data? {
         guard start >= 0, end <= self.count, start <= end else { return nil }
         return self.subdata(in: start..<end)
@@ -246,7 +246,7 @@ public extension Data {
     /// 追加数据
     /// - Parameter data: 要追加的数据
     /// - Returns: 追加后的数据
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func appending(_ data: Data) -> Data {
         var result = self
         result.append(data)
@@ -259,7 +259,7 @@ public extension Data {
     ///   - data: 要插入的数据
     ///   - at: 插入位置
     /// - Returns: 插入后的数据，失败返回原数据
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func inserting(_ data: Data, at index: Int) -> Data {
         guard index >= 0, index <= self.count else { return self }
         
@@ -274,7 +274,7 @@ public extension Data {
     ///   - data: 要替换的数据
     ///   - range: 替换范围
     /// - Returns: 替换后的数据，失败返回原数据
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func replacing(with data: Data, in range: Range<Int>) -> Data {
         guard range.lowerBound >= 0, range.upperBound <= self.count else { return self }
         
@@ -293,7 +293,7 @@ public extension Data {
     ///   - key: 密钥
     ///   - iv: 初始化向量
     /// - Returns: 加密后的数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func aesEncrypt(key: Data, iv: Data) -> Data? {
         guard key.count == kCCKeySizeAES128 || key.count == kCCKeySizeAES192 || key.count == kCCKeySizeAES256,
               iv.count == kCCBlockSizeAES128 else {
@@ -345,7 +345,7 @@ public extension Data {
     ///   - key: 密钥
     ///   - iv: 初始化向量
     /// - Returns: 解密后的数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func aesDecrypt(key: Data, iv: Data) -> Data? {
         guard key.count == kCCKeySizeAES128 || key.count == kCCKeySizeAES192 || key.count == kCCKeySizeAES256,
               iv.count == kCCBlockSizeAES128 else {

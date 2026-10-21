@@ -17,7 +17,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - value: 属性值
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) -> Self {
         guard let safeRange = resolvedRange(range) else { return self }
@@ -31,7 +31,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - attrs: 属性字典
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) -> Self {
         guard let safeRange = resolvedRange(range), !attrs.isEmpty else { return self }
@@ -45,7 +45,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - name: 属性名
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) -> Self {
         guard let safeRange = resolvedRange(range) else { return self }
@@ -59,7 +59,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - font: 字体
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func font(_ font: UIFont, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -76,7 +76,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - fontSize: 字体大小
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func systemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -93,7 +93,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - fontSize: 字体大小
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func boldSystemFont(ofSize fontSize: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -110,7 +110,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - paragraphStyle: 段落样式
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func paragraphStyle(_ paragraphStyle: NSParagraphStyle, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -127,7 +127,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - foregroundColor: 前景色
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func foregroundColor(_ foregroundColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -144,7 +144,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - backgroundColor: 背景色
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func backgroundColor(_ backgroundColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -161,7 +161,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - ligature: 连字值
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func ligature(_ ligature: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -178,7 +178,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - kern: 字间距
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func kern(_ kern: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -195,7 +195,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - strikethroughStyle: 删除线样式
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func strikethroughStyle(_ strikethroughStyle: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -212,7 +212,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - underlineStyle: 下划线样式
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func underlineStyle(_ underlineStyle: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -229,7 +229,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - strokeColor: 描边颜色
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func strokeColor(_ strokeColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -246,7 +246,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - strokeWidth: 描边宽度
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func strokeWidth(_ strokeWidth: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -263,7 +263,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - shadow: 阴影对象
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func shadow(_ shadow: NSShadow, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -280,7 +280,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - textEffect: 文本效果
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func textEffect(_ textEffect: String, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -297,7 +297,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - attachment: 文本附件
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func attachment(_ attachment: NSTextAttachment, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -314,7 +314,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - link: 链接URL
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func link(_ link: URL, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -331,7 +331,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - baselineOffset: 基线偏移
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func baselineOffset(_ baselineOffset: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -348,7 +348,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - underlineColor: 下划线颜色
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func underlineColor(_ underlineColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -365,7 +365,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - strikethroughColor: 删除线颜色
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func strikethroughColor(_ strikethroughColor: UIColor, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -382,7 +382,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - obliqueness: 倾斜度
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func obliqueness(_ obliqueness: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -399,7 +399,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - expansion: 扩展值
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func expansion(_ expansion: CGFloat, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -416,7 +416,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - writingDirection: 书写方向数组
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func writingDirection(_ writingDirection: [Int], range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -433,7 +433,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - verticalGlyphForm: 垂直字形形式
     ///   - range: 范围，nil表示全部
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func verticalGlyphForm(_ verticalGlyphForm: Int, range: NSRange? = nil) -> Self {
         guard let range = range else {
@@ -450,7 +450,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - lineSpacing: 行间距
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func lineSpacing(_ lineSpacing: CGFloat, range: NSRange? = nil) -> Self {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -464,7 +464,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - alignment: 对齐方式
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func textAlignment(_ alignment: NSTextAlignment, range: NSRange? = nil) -> Self {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -478,7 +478,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - firstLineHeadIndent: 首行缩进
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func firstLineHeadIndent(_ firstLineHeadIndent: CGFloat, range: NSRange? = nil) -> Self {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -492,7 +492,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - paragraphSpacing: 段落间距
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func paragraphSpacing(_ paragraphSpacing: CGFloat, range: NSRange? = nil) -> Self {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -506,7 +506,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - characterSpacing: 字间距
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func characterSpacing(_ characterSpacing: CGFloat, range: NSRange? = nil) -> Self {
         return self.kern(characterSpacing, range: range)
@@ -519,7 +519,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - style: 删除线样式
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func strikethrough(color: UIColor, style: NSUnderlineStyle = .single, range: NSRange? = nil) -> Self {
         let finalRange = range ?? NSMakeRange(0, base.length)
@@ -535,7 +535,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - style: 下划线样式
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func underline(color: UIColor, style: NSUnderlineStyle = .single, range: NSRange? = nil) -> Self {
         let finalRange = range ?? NSMakeRange(0, base.length)
@@ -552,7 +552,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - color: 阴影颜色
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func shadow(offset: CGSize = CGSize(width: 0, height: 1), blurRadius: CGFloat = 0, color: UIColor = .black, range: NSRange? = nil) -> Self {
         let shadow = NSShadow()
@@ -569,7 +569,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - locations: 位置数组
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func gradientText(colors: [UIColor], locations: [CGFloat]? = nil, range: NSRange? = nil) -> Self {
         let gradient = CAGradientLayer()
@@ -589,7 +589,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - width: 描边宽度
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func stroke(color: UIColor, width: CGFloat, range: NSRange? = nil) -> Self {
         let finalRange = range ?? NSMakeRange(0, base.length)
@@ -604,7 +604,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - angle: 倾斜角度
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func italic(angle: CGFloat = 0.2, range: NSRange? = nil) -> Self {
         return self.obliqueness(angle, range: range)
@@ -616,7 +616,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - scale: 缩放比例
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func scale(_ scale: CGFloat, range: NSRange? = nil) -> Self {
         return self.expansion(scale - 1.0, range: range)
@@ -628,7 +628,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - color: 高亮颜色
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func highlight(color: UIColor, range: NSRange? = nil) -> Self {
         return self.backgroundColor(color, range: range)
@@ -641,7 +641,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - width: 边框宽度
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func border(color: UIColor, width: CGFloat, range: NSRange? = nil) -> Self {
         let finalRange = range ?? NSMakeRange(0, base.length)
@@ -657,7 +657,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - cornerRadius: 圆角半径
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func roundedBackground(color: UIColor, cornerRadius: CGFloat, range: NSRange? = nil) -> Self {
         // 这里需要特殊处理，因为NSAttributedString不直接支持圆角背景
@@ -673,7 +673,7 @@ public extension TFY where Base: NSMutableAttributedString {
     ///   - locations: 位置数组
     ///   - range: 范围
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func gradientBackground(colors: [UIColor], locations: [CGFloat]? = nil, range: NSRange? = nil) -> Self {
         // 这里需要特殊处理，因为NSAttributedString不直接支持渐变背景
@@ -700,7 +700,7 @@ public extension NSMutableAttributedString {
     /// 创建富文本
     /// - Parameter string: 字符串
     /// - Returns: 富文本对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init(attributedString: String) {
         self.init(string: attributedString)
     }
@@ -709,7 +709,7 @@ public extension NSMutableAttributedString {
     /// 从HTML创建富文本
     /// - Parameter htmlString: HTML字符串
     /// - Returns: 富文本对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init?(htmlString: String) {
         guard let data = htmlString.data(using: .utf8) else { return nil }
         try? self.init(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
@@ -719,7 +719,7 @@ public extension NSMutableAttributedString {
     /// 从RTF创建富文本
     /// - Parameter rtfData: RTF数据
     /// - Returns: 富文本对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     convenience init?(rtfData: Data) {
         try? self.init(data: rtfData, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
     }
@@ -727,7 +727,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.4、获取纯文本
     /// 获取纯文本
     /// - Returns: 纯文本字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var plainText: String {
         return self.string
     }
@@ -735,7 +735,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.5、获取HTML字符串
     /// 获取HTML字符串
     /// - Returns: HTML字符串，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func htmlString() -> String? {
         do {
             let data = try self.data(from: NSRange(location: 0, length: self.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.html])
@@ -749,7 +749,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.6、获取RTF数据
     /// 获取RTF数据
     /// - Returns: RTF数据，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func rtfData() -> Data? {
         do {
             return try self.data(from: NSRange(location: 0, length: self.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf])
@@ -763,7 +763,7 @@ public extension NSMutableAttributedString {
     /// 计算文本大小
     /// - Parameter maxSize: 最大尺寸
     /// - Returns: 文本尺寸
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func size(maxSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> CGSize {
         let boundingRect = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         return boundingRect.size
@@ -773,7 +773,7 @@ public extension NSMutableAttributedString {
     /// 计算文本高度
     /// - Parameter width: 宽度
     /// - Returns: 文本高度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func height(width: CGFloat) -> CGFloat {
         return self.size(maxSize: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
     }
@@ -782,7 +782,7 @@ public extension NSMutableAttributedString {
     /// 计算文本宽度
     /// - Parameter height: 高度
     /// - Returns: 文本宽度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func width(height: CGFloat) -> CGFloat {
         return self.size(maxSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
     }
@@ -793,7 +793,7 @@ public extension NSMutableAttributedString {
     ///   - image: 图片
     ///   - bounds: 边界
     ///   - index: 插入位置
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addImage(_ image: UIImage, bounds: CGRect? = nil, at index: Int) {
         let attachment = NSTextAttachment()
         attachment.image = image
@@ -810,7 +810,7 @@ public extension NSMutableAttributedString {
     /// - Parameters:
     ///   - string: 要替换的字符串
     ///   - with: 替换后的字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func replaceText(_ string: String, with replacement: String) {
         let range = NSRange(location: 0, length: self.length)
         self.replaceCharacters(in: range, with: replacement)
@@ -819,7 +819,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.12、删除指定范围的文本
     /// 删除指定范围的文本
     /// - Parameter range: 范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func deleteText(in range: NSRange) {
         self.replaceCharacters(in: range, with: "")
     }
@@ -829,7 +829,7 @@ public extension NSMutableAttributedString {
     /// - Parameters:
     ///   - string: 要插入的文本
     ///   - index: 插入位置
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func insertText(_ string: String, at index: Int) {
         let range = NSRange(location: index, length: 0)
         self.replaceCharacters(in: range, with: string)
@@ -838,14 +838,14 @@ public extension NSMutableAttributedString {
     // MARK: 2.14、追加文本
     /// 追加文本
     /// - Parameter string: 要追加的文本
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func appendText(_ string: String) {
         self.insertText(string, at: self.length)
     }
     
     // MARK: 2.15、清空文本
     /// 清空文本
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func clear() {
         let range = NSRange(location: 0, length: self.length)
         self.replaceCharacters(in: range, with: "")
@@ -855,7 +855,7 @@ public extension NSMutableAttributedString {
     /// 获取指定位置的字符
     /// - Parameter index: 位置索引
     /// - Returns: 字符，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func character(at index: Int) -> Character? {
         guard index >= 0, index < self.length else { return nil }
         let range = NSRange(location: index, length: 1)
@@ -867,7 +867,7 @@ public extension NSMutableAttributedString {
     /// 获取指定范围的子字符串
     /// - Parameter range: 范围
     /// - Returns: 子字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func substring(in range: NSRange) -> String {
         return self.attributedSubstring(from: range).string
     }
@@ -876,7 +876,7 @@ public extension NSMutableAttributedString {
     /// 检查是否包含指定字符串
     /// - Parameter string: 要检查的字符串
     /// - Returns: 是否包含
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func contains(_ string: String) -> Bool {
         return self.string.contains(string)
     }
@@ -885,7 +885,7 @@ public extension NSMutableAttributedString {
     /// 查找字符串位置
     /// - Parameter string: 要查找的字符串
     /// - Returns: 位置范围，未找到返回NSRange(location: NSNotFound, length: 0)
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func range(of string: String) -> NSRange {
         return (self.string as NSString).range(of: string)
     }
@@ -895,7 +895,7 @@ public extension NSMutableAttributedString {
     /// - Parameters:
     ///   - target: 目标字符串
     ///   - replacement: 替换字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func replaceAllOccurrences(of target: String, with replacement: String) {
         var range = self.range(of: target)
         while range.location != NSNotFound {
@@ -912,7 +912,7 @@ public extension NSMutableAttributedString {
     /// 获取行数
     /// - Parameter width: 宽度
     /// - Returns: 行数
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func numberOfLines(width: CGFloat) -> Int {
         let size = self.size(maxSize: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
         let lineHeight = UIFont.systemFont(ofSize: 17).lineHeight
@@ -922,7 +922,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.22、获取字符数
     /// 获取字符数
     /// - Returns: 字符数
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var characterCount: Int {
         return self.length
     }
@@ -930,7 +930,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.23、获取单词数
     /// 获取单词数
     /// - Returns: 单词数
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var wordCount: Int {
         let words = self.string.components(separatedBy: .whitespacesAndNewlines)
         return words.filter { !$0.isEmpty }.count
@@ -939,7 +939,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.24、获取行数
     /// 获取行数
     /// - Returns: 行数
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var lineCount: Int {
         let lines = self.string.components(separatedBy: .newlines)
         return lines.count
@@ -948,7 +948,7 @@ public extension NSMutableAttributedString {
     // MARK: 2.25、检查是否为空
     /// 检查是否为空
     /// - Returns: 是否为空
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isEmpty: Bool {
         return self.length == 0
     }
@@ -956,14 +956,14 @@ public extension NSMutableAttributedString {
     // MARK: 2.26、检查是否只包含空白字符
     /// 检查是否只包含空白字符
     /// - Returns: 是否只包含空白字符
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isBlank: Bool {
         return self.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
     // MARK: 2.27、去除首尾空白字符
     /// 去除首尾空白字符
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func trim() {
         let trimmedString = self.string.trimmingCharacters(in: .whitespacesAndNewlines)
         self.replaceText(self.string, with: trimmedString)
@@ -971,21 +971,21 @@ public extension NSMutableAttributedString {
     
     // MARK: 2.28、转换为大写
     /// 转换为大写
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toUppercase() {
         self.replaceText(self.string, with: self.string.uppercased())
     }
     
     // MARK: 2.29、转换为小写
     /// 转换为小写
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toLowercase() {
         self.replaceText(self.string, with: self.string.lowercased())
     }
     
     // MARK: 2.30、首字母大写
     /// 首字母大写
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func capitalize() {
         self.replaceText(self.string, with: self.string.capitalized)
     }

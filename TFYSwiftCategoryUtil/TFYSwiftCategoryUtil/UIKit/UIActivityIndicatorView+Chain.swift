@@ -14,7 +14,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置活动指示器样式
     /// - Parameter activityIndicatorViewStyle: 活动指示器样式
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func activityIndicatorViewStyle(_ activityIndicatorViewStyle: UIActivityIndicatorView.Style) -> Self {
         #if swift(>=4.2)
@@ -29,7 +29,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置停止时是否隐藏
     /// - Parameter hidesWhenStopped: 停止时是否隐藏
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func hidesWhenStopped(_ hidesWhenStopped: Bool) -> Self {
         base.hidesWhenStopped = hidesWhenStopped
@@ -40,7 +40,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置颜色
     /// - Parameter color: 颜色
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func color(_ color: UIColor?) -> Self {
         base.color = color
@@ -50,7 +50,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     // MARK: 1.4、开始动画
     /// 开始动画
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func startAnimating() -> Self {
         base.startAnimating()
@@ -60,7 +60,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     // MARK: 1.5、停止动画
     /// 停止动画
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func stopAnimating() -> Self {
         base.stopAnimating()
@@ -71,7 +71,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置大小
     /// - Parameter size: 大小
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func size(_ size: CGSize) -> Self {
         base.frame.size = size.tfy_nonNegative
@@ -82,7 +82,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置中心点
     /// - Parameter center: 中心点
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func center(_ center: CGPoint) -> Self {
         base.center = center
@@ -93,7 +93,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置背景色
     /// - Parameter backgroundColor: 背景色
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func backgroundColor(_ backgroundColor: UIColor?) -> Self {
         base.backgroundColor = backgroundColor
@@ -104,7 +104,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置透明度
     /// - Parameter alpha: 透明度
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func alpha(_ alpha: CGFloat) -> Self {
         base.alpha = min(1, max(0, alpha))
@@ -115,7 +115,7 @@ public extension TFY where Base: UIActivityIndicatorView {
     /// 设置是否隐藏
     /// - Parameter isHidden: 是否隐藏
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func isHidden(_ isHidden: Bool) -> Self {
         base.isHidden = isHidden
@@ -130,7 +130,7 @@ public extension UIActivityIndicatorView {
     /// 创建标准活动指示器
     /// - Parameter style: 样式
     /// - Returns: 活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func standard(style: UIActivityIndicatorView.Style = .medium) -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(style: style)
         indicator.hidesWhenStopped = true
@@ -140,7 +140,7 @@ public extension UIActivityIndicatorView {
     // MARK: 2.2、创建大型活动指示器
     /// 创建大型活动指示器
     /// - Returns: 活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func large() -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.hidesWhenStopped = true
@@ -150,7 +150,7 @@ public extension UIActivityIndicatorView {
     // MARK: 2.3、创建中型活动指示器
     /// 创建中型活动指示器
     /// - Returns: 活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func medium() -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.hidesWhenStopped = true
@@ -159,7 +159,7 @@ public extension UIActivityIndicatorView {
     
     // MARK: 2.5、显示活动指示器
     /// 显示活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func show() {
         self.isHidden = false
         self.startAnimating()
@@ -167,7 +167,7 @@ public extension UIActivityIndicatorView {
     
     // MARK: 2.6、隐藏活动指示器
     /// 隐藏活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func hide() {
         self.stopAnimating()
         if self.hidesWhenStopped {
@@ -178,7 +178,7 @@ public extension UIActivityIndicatorView {
     // MARK: 2.7、设置活动指示器到视图中心
     /// 设置活动指示器到视图中心
     /// - Parameter view: 父视图
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func centerInView(_ view: UIView) {
         self.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
@@ -189,7 +189,7 @@ public extension UIActivityIndicatorView {
     ///   - style: 样式
     ///   - backgroundColor: 背景色
     /// - Returns: 活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func withBackground(style: UIActivityIndicatorView.Style = .medium, backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.5)) -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(style: style)
         indicator.backgroundColor = backgroundColor
@@ -204,7 +204,7 @@ public extension UIActivityIndicatorView {
     ///   - size: 大小
     ///   - color: 颜色
     /// - Returns: 活动指示器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func custom(size: CGSize, color: UIColor = .systemBlue) -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.frame.size = size.tfy_nonNegative
@@ -216,7 +216,7 @@ public extension UIActivityIndicatorView {
     // MARK: 2.10、添加活动指示器到视图
     /// 添加活动指示器到视图
     /// - Parameter view: 父视图
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addToView(_ view: UIView) {
         view.addSubview(self)
         self.centerInView(view)
@@ -225,7 +225,7 @@ public extension UIActivityIndicatorView {
     // MARK: 2.4、检查是否正在动画
     /// 检查是否正在动画
     /// - Returns: 是否正在动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isCurrentlyAnimating: Bool {
         return self.isAnimating
     }

@@ -15,7 +15,7 @@ public extension UIBezierPath {
     ///   - text: 要转换为路径的文本，不能为空
     ///   - font: 用于生成字形的字体，不能为空
     /// - Returns: 包含文本路径的UIBezierPath对象，如果参数无效则返回空路径
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     class func bezierPath(with text: String, font: UIFont) -> UIBezierPath {
         // 参数验证
         guard !text.isEmpty, font != UIFont.systemFont(ofSize: 0) else {

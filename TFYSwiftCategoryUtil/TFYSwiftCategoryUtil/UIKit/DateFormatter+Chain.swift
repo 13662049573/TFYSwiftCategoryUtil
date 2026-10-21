@@ -14,7 +14,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置日期格式
     /// - Parameter dateFormat: 日期格式字符串
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func dateFormat(_ dateFormat: String) -> Self {
         base.dateFormat = dateFormat
@@ -25,7 +25,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置日期样式
     /// - Parameter dateStyle: 日期样式
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func dateStyle(_ dateStyle: DateFormatter.Style) -> Self {
         base.dateStyle = dateStyle
@@ -36,7 +36,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置时间样式
     /// - Parameter timeStyle: 时间样式
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func timeStyle(_ timeStyle: DateFormatter.Style) -> Self {
         base.timeStyle = timeStyle
@@ -47,7 +47,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置地区
     /// - Parameter locale: 地区设置
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func locale(_ locale: Locale) -> Self {
         base.locale = locale
@@ -58,7 +58,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置是否生成日历日期
     /// - Parameter generatesCalendarDates: 是否生成
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func generatesCalendarDates(_ generatesCalendarDates: Bool) -> Self {
         base.generatesCalendarDates = generatesCalendarDates
@@ -69,7 +69,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置格式化行为
     /// - Parameter formatterBehavior: 格式化行为
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func formatterBehavior(_ formatterBehavior: DateFormatter.Behavior) -> Self {
         base.formatterBehavior = formatterBehavior
@@ -80,7 +80,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置时区
     /// - Parameter timeZone: 时区
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func timeZone(_ timeZone: TimeZone) -> Self {
         base.timeZone = timeZone
@@ -91,7 +91,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置日历
     /// - Parameter calendar: 日历对象
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func calendar(_ calendar: Calendar) -> Self {
         base.calendar = calendar
@@ -104,7 +104,7 @@ public extension TFY where Base: DateFormatter {
     ///   - amSymbol: AM符号
     ///   - pmSymbol: PM符号
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func amPmSymbols(am: String, pm: String) -> Self {
         base.amSymbol = am
@@ -116,7 +116,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置月份名称
     /// - Parameter monthSymbols: 月份名称数组
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func monthSymbols(_ monthSymbols: [String]) -> Self {
         base.monthSymbols = monthSymbols
@@ -127,7 +127,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置短月份名称
     /// - Parameter shortMonthSymbols: 短月份名称数组
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func shortMonthSymbols(_ shortMonthSymbols: [String]) -> Self {
         base.shortMonthSymbols = shortMonthSymbols
@@ -138,7 +138,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置星期名称
     /// - Parameter weekdaySymbols: 星期名称数组
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func weekdaySymbols(_ weekdaySymbols: [String]) -> Self {
         base.weekdaySymbols = weekdaySymbols
@@ -149,7 +149,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置短星期名称
     /// - Parameter shortWeekdaySymbols: 短星期名称数组
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func shortWeekdaySymbols(_ shortWeekdaySymbols: [String]) -> Self {
         base.shortWeekdaySymbols = shortWeekdaySymbols
@@ -160,7 +160,7 @@ public extension TFY where Base: DateFormatter {
     /// 设置是否使用相对日期格式
     /// - Parameter doesRelativeDateFormatting: 是否使用相对格式
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func doesRelativeDateFormatting(_ doesRelativeDateFormatting: Bool) -> Self {
         base.doesRelativeDateFormatting = doesRelativeDateFormatting
@@ -175,7 +175,7 @@ public extension DateFormatter {
     /// 创建标准日期格式器
     /// - Parameter format: 日期格式
     /// - Returns: 配置好的DateFormatter
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func standard(format: String,
                          locale: Locale = Locale.current,
                          timeZone: TimeZone = TimeZone.current) -> DateFormatter {
@@ -199,7 +199,7 @@ public extension DateFormatter {
     // MARK: 2.2、创建ISO8601格式器
     /// 创建ISO8601格式器
     /// - Returns: ISO8601格式的DateFormatter
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func iso8601() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -212,7 +212,7 @@ public extension DateFormatter {
     /// 创建中文日期格式器
     /// - Parameter format: 日期格式
     /// - Returns: 中文格式的DateFormatter
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func chinese(format: String) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -224,7 +224,7 @@ public extension DateFormatter {
     // MARK: 2.4、创建相对日期格式器
     /// 创建相对日期格式器
     /// - Returns: 相对日期格式的DateFormatter
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func relative() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.doesRelativeDateFormatting = true
@@ -237,7 +237,7 @@ public extension DateFormatter {
     /// 安全格式化日期
     /// - Parameter date: 要格式化的日期
     /// - Returns: 格式化后的字符串，失败返回空字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func safeString(from date: Date?) -> String {
         guard let date = date else { return "" }
         return self.string(from: date)
@@ -247,7 +247,7 @@ public extension DateFormatter {
     /// 安全解析日期字符串
     /// - Parameter string: 日期字符串
     /// - Returns: 解析后的日期，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func safeDate(from string: String?) -> Date? {
         guard let string = string?.trimmingCharacters(in: .whitespacesAndNewlines), !string.isEmpty else { return nil }
         return self.date(from: string)
@@ -256,7 +256,7 @@ public extension DateFormatter {
     // MARK: 2.7、获取当前时间的格式化字符串
     /// 获取当前时间的格式化字符串
     /// - Returns: 当前时间的格式化字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func currentDateString() -> String {
         return self.string(from: Date())
     }
@@ -265,7 +265,7 @@ public extension DateFormatter {
     /// 格式化时间间隔
     /// - Parameter timeInterval: 时间间隔（秒）
     /// - Returns: 格式化后的时间字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func string(fromTimeInterval timeInterval: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timeInterval)
         return self.string(from: date)
@@ -275,7 +275,7 @@ public extension DateFormatter {
     /// 格式化时间戳
     /// - Parameter timestamp: 时间戳（毫秒）
     /// - Returns: 格式化后的时间字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func string(fromTimestamp timestamp: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timestamp / 1000.0)
         return self.string(from: date)
@@ -285,7 +285,7 @@ public extension DateFormatter {
     /// 获取日期组件
     /// - Parameter date: 日期
     /// - Returns: 日期组件字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func dateComponents(from date: Date) -> [String: Int] {
         let calendar = self.calendar ?? Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second, .weekday], from: date)
@@ -324,7 +324,7 @@ public extension DateFormatter {
     /// 创建预设格式的DateFormatter
     /// - Parameter format: 预设格式
     /// - Returns: 配置好的DateFormatter
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func preset(_ format: CommonFormat) -> DateFormatter {
         switch format {
         case .fullDateTime:

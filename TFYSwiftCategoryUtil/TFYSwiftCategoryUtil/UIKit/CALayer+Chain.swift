@@ -10,7 +10,7 @@ import UIKit
 
 public extension CALayer {
     /// 暂停动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func pauseAnimation() {
         let pausedTime = convertTime(CACurrentMediaTime(), from: nil)
         speed = 0.0
@@ -18,7 +18,7 @@ public extension CALayer {
     }
 
     /// 恢复动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func resumeAnimation() {
         let pausedTime = timeOffset
         speed = 1.0

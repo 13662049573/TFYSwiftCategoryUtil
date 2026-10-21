@@ -18,7 +18,7 @@ public extension TFY where Base: NotificationCenter {
     ///   - aName: 通知名称
     ///   - anObject: 对象
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func addObserver(_ observer: Any,
                      selector aSelector: Selector,
@@ -32,7 +32,7 @@ public extension TFY where Base: NotificationCenter {
     /// 发送通知
     /// - Parameter notification: 通知对象
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func post(_ notification: Notification) -> Self {
         base.post(notification)
@@ -46,7 +46,7 @@ public extension TFY where Base: NotificationCenter {
     ///   - anObject: 对象
     ///   - aUserInfo: 用户信息
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func post(name aName: NSNotification.Name,
               object anObject: Any? = nil,
@@ -62,7 +62,7 @@ public extension TFY where Base: NotificationCenter {
     ///   - aName: 通知名称
     ///   - anObject: 对象
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func removeObserver(_ observer: Any,
                         name aName: NSNotification.Name?,
@@ -75,7 +75,7 @@ public extension TFY where Base: NotificationCenter {
     /// 移除所有观察者
     /// - Parameter observer: 观察者
     /// - Returns: 链式调用对象
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func removeObserver(_ observer: Any) -> Self {
         base.removeObserver(observer)
@@ -114,7 +114,7 @@ public extension NotificationCenter {
     ///   - name: 通知名称
     ///   - object: 对象
     ///   - userInfo: 用户信息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func postOnMainThread(name: NSNotification.Name, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         if Thread.isMainThread {
             self.post(name: name, object: object, userInfo: userInfo)
@@ -131,7 +131,7 @@ public extension NotificationCenter {
     ///   - name: 通知名称
     ///   - object: 对象
     ///   - userInfo: 用户信息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func postAsync(name: NSNotification.Name, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         DispatchQueue.global().async {
             self.post(name: name, object: object, userInfo: userInfo)
@@ -145,7 +145,7 @@ public extension NotificationCenter {
     ///   - delay: 延迟时间
     ///   - object: 对象
     ///   - userInfo: 用户信息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func postDelayed(name: NSNotification.Name, delay: TimeInterval, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         let normalizedDelay = max(0, delay)
         DispatchQueue.main.asyncAfter(deadline: .now() + normalizedDelay) {

@@ -7,7 +7,7 @@
 [Xcode](https://developer.apple.com/xcode)
 [iOS](https://ios.com)
 
-TFYSwiftCategoryUtil 是一个功能丰富的 Swift 工具库，提供了大量实用的扩展和工具类，帮助开发者更高效地进行 iOS 开发。采用链式编程风格，让代码更简洁优雅。支持 iPhone 和 iPad 适配，最低支持 iOS 15.0+。
+TFYSwiftCategoryUtil 是一个功能丰富的 Swift 工具库，提供了大量实用的扩展和工具类，帮助开发者更高效地进行 iOS 开发。采用链式编程风格，让代码更简洁优雅。支持 iPhone 和 iPad 适配，最低支持 iOS 16.0+。
 
 ## ✨ 特性
 
@@ -40,7 +40,7 @@ pod 'TFYSwiftCategoryUtil'
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/13662049573/TFYSwiftCategoryUtil.git", .upToNextMajor(from: "2.4.5"))
+    .package(url: "https://github.com/13662049573/TFYSwiftCategoryUtil.git", .upToNextMajor(from: "2.5.0"))
 ]
 ```
 
@@ -468,7 +468,7 @@ webManager.evaluateJavaScript("window.showMessage('Hello')") { result, error in
 
 ## 🔧 系统要求
 
-- **iOS 15.0+**
+- **iOS 16.0+**
 - **Swift 5.0+**
 - **Xcode 14.0+**
 - **支持 iPhone 和 iPad**
