@@ -16,7 +16,7 @@ public extension TFY where Base == NSRange {
     /// NSRange转换成Range的方法
     /// - Parameter string: 父字符串
     /// - Returns: Range<String.Index>，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toRange(string: String) -> Range<String.Index>? {
         guard
             let from16 = string.utf16.index(string.utf16.startIndex, offsetBy: self.base.location, limitedBy: string.utf16.endIndex),
@@ -31,7 +31,7 @@ public extension TFY where Base == NSRange {
     /// 检查范围是否有效
     /// - Parameter stringLength: 字符串长度
     /// - Returns: 是否有效
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func isValid(in stringLength: Int) -> Bool {
         guard stringLength >= 0,
               self.base.location >= 0,
@@ -47,7 +47,7 @@ public extension TFY where Base == NSRange {
     // MARK: 1.3、获取范围的结束位置
     /// 获取范围的结束位置
     /// - Returns: 结束位置
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var endLocation: Int {
         guard self.base.location >= 0, self.base.length >= 0 else { return self.base.location }
         return self.base.location.addingReportingOverflow(self.base.length).overflow ? Int.max : self.base.location + self.base.length
@@ -56,7 +56,7 @@ public extension TFY where Base == NSRange {
     // MARK: 1.4、检查范围是否为空
     /// 检查范围是否为空
     /// - Returns: 是否为空
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isEmpty: Bool {
         return self.base.length == 0
     }
@@ -65,7 +65,7 @@ public extension TFY where Base == NSRange {
     /// 检查两个范围是否重叠
     /// - Parameter other: 另一个范围
     /// - Returns: 是否重叠
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func overlaps(with other: NSRange) -> Bool {
         guard self.base.location >= 0, self.base.length >= 0, other.location >= 0, other.length >= 0 else {
             return false
@@ -79,7 +79,7 @@ public extension TFY where Base == NSRange {
     /// 获取两个范围的交集
     /// - Parameter other: 另一个范围
     /// - Returns: 交集范围，如果没有交集返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func intersection(with other: NSRange) -> NSRange? {
         guard self.overlaps(with: other) else { return nil }
         
@@ -94,7 +94,7 @@ public extension TFY where Base == NSRange {
     /// 获取两个范围的并集
     /// - Parameter other: 另一个范围
     /// - Returns: 并集范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func union(with other: NSRange) -> NSRange {
         let startLocation = min(self.base.location, other.location)
         let selfEnd = self.endLocation
@@ -107,7 +107,7 @@ public extension TFY where Base == NSRange {
     /// 检查范围是否包含指定位置
     /// - Parameter location: 位置
     /// - Returns: 是否包含
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func contains(_ location: Int) -> Bool {
         guard self.base.location >= 0, self.base.length >= 0 else { return false }
         let selfEnd = self.endLocation
@@ -118,7 +118,7 @@ public extension TFY where Base == NSRange {
     /// 检查范围是否完全包含另一个范围
     /// - Parameter other: 另一个范围
     /// - Returns: 是否完全包含
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func contains(_ other: NSRange) -> Bool {
         guard self.base.location >= 0, self.base.length >= 0, other.location >= 0, other.length >= 0 else {
             return false
@@ -134,7 +134,7 @@ public extension TFY where Base == NSRange {
     ///   - by: 扩展的长度
     ///   - stringLength: 字符串长度
     /// - Returns: 扩展后的范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func expanded(by length: Int, in stringLength: Int) -> NSRange {
         let expansion = max(0, length)
         let safeStringLength = max(0, stringLength)
@@ -149,7 +149,7 @@ public extension TFY where Base == NSRange {
     /// 缩小范围
     /// - Parameter by: 缩小的长度
     /// - Returns: 缩小后的范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func contracted(by length: Int) -> NSRange {
         let contraction = max(0, length)
         let appliedContraction = min(contraction, self.base.length / 2)
@@ -162,7 +162,7 @@ public extension TFY where Base == NSRange {
     /// 移动范围
     /// - Parameter by: 移动的距离
     /// - Returns: 移动后的范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func moved(by offset: Int) -> NSRange {
         return NSRange(location: self.base.location + offset, length: self.base.length)
     }
@@ -184,7 +184,7 @@ public extension TFY where Base == NSRange {
     /// 调整范围长度
     /// - Parameter to: 新的长度
     /// - Returns: 调整后的范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func resized(to length: Int) -> NSRange {
         return NSRange(location: self.base.location, length: max(0, length))
     }
@@ -203,7 +203,7 @@ public extension TFY where Base == NSRange {
     // MARK: 1.14、获取范围的描述
     /// 获取范围的描述
     /// - Returns: 范围描述字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var description: String {
         return "NSRange(location: \(self.base.location), length: \(self.base.length))"
     }
@@ -216,7 +216,7 @@ public extension NSRange {
     /// 创建空范围
     /// - Parameter location: 位置
     /// - Returns: 空范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func empty(at location: Int = 0) -> NSRange {
         return NSRange(location: max(0, location), length: 0)
     }
@@ -225,7 +225,7 @@ public extension NSRange {
     /// 创建全范围
     /// - Parameter length: 总长度
     /// - Returns: 全范围
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func full(length: Int) -> NSRange {
         return NSRange(location: 0, length: max(0, length))
     }
@@ -236,7 +236,7 @@ public extension NSRange {
     ///   - range: Range对象
     ///   - string: 字符串
     /// - Returns: NSRange对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func from(_ range: Range<String.Index>, in string: String) -> NSRange? {
         guard let lowerBound = range.lowerBound.samePosition(in: string.utf16),
               let upperBound = range.upperBound.samePosition(in: string.utf16) else {
@@ -254,7 +254,7 @@ public extension NSRange {
     ///   - minLocation: 最小位置
     ///   - maxLocation: 最大位置
     /// - Returns: 是否在有效范围内
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func isWithin(minLocation: Int, maxLocation: Int) -> Bool {
         let selfEnd = self.location + self.length
         return self.location >= minLocation && selfEnd <= maxLocation
@@ -263,7 +263,7 @@ public extension NSRange {
     // MARK: 2.5、获取范围的中间位置
     /// 获取范围的中间位置
     /// - Returns: 中间位置
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var middleLocation: Int {
         return self.location + self.length / 2
     }
@@ -272,7 +272,7 @@ public extension NSRange {
     /// 分割范围
     /// - Parameter at: 分割位置
     /// - Returns: 分割后的两个范围，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func split(at location: Int) -> (NSRange, NSRange)? {
         guard self.contains(location) else { return nil }
         
@@ -288,7 +288,7 @@ public extension NSRange {
     ///   - offset: 偏移量
     ///   - length: 长度
     /// - Returns: 子范围，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func subrange(offset: Int, length: Int) -> NSRange? {
         guard offset >= 0, length >= 0 else { return nil }
         let newLocation = self.location + offset
@@ -303,7 +303,7 @@ public extension NSRange {
     /// 比较两个范围
     /// - Parameter other: 另一个范围
     /// - Returns: 比较结果
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func compare(with other: NSRange) -> ComparisonResult {
         if self.location < other.location {
             return .orderedAscending
@@ -323,7 +323,7 @@ public extension NSRange {
     // MARK: 2.9、获取范围的边界
     /// 获取范围的边界
     /// - Returns: 边界元组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var bounds: (start: Int, end: Int) {
         let selfEnd = self.location + self.length
         return (start: self.location, end: selfEnd)
@@ -333,7 +333,7 @@ public extension NSRange {
     /// 检查范围是否相邻
     /// - Parameter other: 另一个范围
     /// - Returns: 是否相邻
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func isAdjacent(to other: NSRange) -> Bool {
         let selfEnd = self.location + self.length
         let otherEnd = other.location + other.length

@@ -49,7 +49,7 @@ public extension TFY where Base: CLLocation {
     ///   - from: 起始位置
     ///   - to: 目标位置
     /// - Returns: 距离（米）
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func distance(from: CLLocation, to: CLLocation) -> CLLocationDistance {
         return from.distance(from: to)
     }
@@ -60,7 +60,7 @@ public extension TFY where Base: CLLocation {
     ///   - from: 起始位置
     ///   - to: 目标位置
     /// - Returns: 方位角（度）
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func bearing(from: CLLocation, to: CLLocation) -> CLLocationDirection {
         guard isValid(from), isValid(to) else { return 0 }
         let lat1 = from.coordinate.latitude.radians
@@ -78,7 +78,7 @@ public extension TFY where Base: CLLocation {
     /// 检查位置是否有效
     /// - Parameter location: 位置对象
     /// - Returns: 如果位置有效返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func isValid(_ location: CLLocation) -> Bool {
         return isValidCoordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
     }
@@ -87,7 +87,7 @@ public extension TFY where Base: CLLocation {
     /// 获取位置描述
     /// - Parameter location: 位置对象
     /// - Returns: 位置描述字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func description(for location: CLLocation) -> String {
         let accuracy = max(0, location.horizontalAccuracy)
         return "纬度: \(location.coordinate.latitude), 经度: \(location.coordinate.longitude), 精度: \(accuracy)m"

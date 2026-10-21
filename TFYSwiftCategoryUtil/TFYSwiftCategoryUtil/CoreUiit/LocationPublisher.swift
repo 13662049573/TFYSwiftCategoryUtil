@@ -3,7 +3,7 @@ import CoreLocation
 
 // MARK: - Location Publisher Protocols
 /// 位置发布者协议，定义位置更新回调
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 
 /// 发布者位置代理协议
 public protocol PublisherLocationDelegate: AnyObject {

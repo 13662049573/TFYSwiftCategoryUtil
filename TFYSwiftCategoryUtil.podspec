@@ -3,12 +3,12 @@ Pod::Spec.new do |spec|
 
   spec.name         = "TFYSwiftCategoryUtil"
 
-  spec.version      = "2.4.5"
+  spec.version      = "2.5.0"
 
-  spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS15 Swift5 "
+  spec.summary      = "Swift版的链式编程，点语法，一条龙完成控件布局，最低支持IOS16 Swift5 "
 
   spec.description  = <<-DESC
-  TFYSwiftCategoryUtil 是一个功能丰富的 Swift 工具库，提供了大量实用的扩展和工具类，帮助开发者更高效地进行 iOS 开发。采用链式编程风格，让代码更简洁优雅。支持 iPhone 和 iPad 适配，最低支持 iOS 15.0+。
+  TFYSwiftCategoryUtil 是一个功能丰富的 Swift 工具库，提供了大量实用的扩展和工具类，帮助开发者更高效地进行 iOS 开发。采用链式编程风格，让代码更简洁优雅。支持 iPhone 和 iPad 适配，最低支持 iOS 16.0+。
 
   主要特性：
   - 🔗 优雅的链式编程支持
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
 
   spec.author       = { "田风有" => "420144542@qq.com" }
   
-  spec.platform     = :ios, "15.0"
+  spec.platform     = :ios, "16.0"
 
   spec.swift_version = '5.0'
 

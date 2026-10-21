@@ -205,7 +205,7 @@ public extension Array {
     // MARK: 6.8、数组是否包含重复元素
     /// 数组是否包含重复元素
     /// - Returns: 如果包含重复元素返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var hasDuplicates: Bool {
         guard count > 1 else { return false }
         let nsArray = self as NSArray
@@ -227,7 +227,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.1、数组去重
     /// 数组去重
     /// - Returns: 去重后的数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func unique() -> [Element] where Element: Hashable {
         return uniqueOrdered()
     }
@@ -235,7 +235,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.2、数组去重（保持顺序）
     /// 数组去重（保持顺序）
     /// - Returns: 去重后的数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func uniqueOrdered() -> [Element] where Element: Equatable {
         var seen = Set<Element>()
         return filter { seen.insert($0).inserted }
@@ -257,7 +257,7 @@ public extension Array where Element: Hashable {
     /// 数组分组
     /// - Parameter keyPath: 分组键路径
     /// - Returns: 分组后的字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func group<Key: Hashable>(by keyPath: KeyPath<Element, Key>) -> [Key: [Element]] {
         return Dictionary(grouping: self, by: { $0[keyPath: keyPath] })
     }
@@ -270,7 +270,7 @@ public extension Array where Element: Hashable {
     ///   - isIncluded: 过滤条件
     ///   - transform: 转换函数
     /// - Returns: 过滤并转换后的数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func filterMap<T>(_ isIncluded: (Element) throws -> Bool, transform: (Element) throws -> T) rethrows -> [T] {
         return try self.filter(isIncluded).map(transform)
     }
@@ -278,7 +278,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.9、数组是否为空或nil
     /// 数组是否为空或nil
     /// - Returns: 如果数组为空返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isEmptyOrNil: Bool {
         return self.isEmpty
     }
@@ -286,7 +286,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.10、数组的第一个元素
     /// 数组的第一个元素
     /// - Returns: 第一个元素，数组为空返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_first: Element? {
         return self.first
     }
@@ -294,7 +294,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.11、数组的最后一个元素
     /// 数组的最后一个元素
     /// - Returns: 最后一个元素，数组为空返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_last: Element? {
         return self.last
     }
@@ -302,7 +302,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.12、数组的中间元素
     /// 数组的中间元素
     /// - Returns: 中间元素，数组为空返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_middle: Element? {
         guard !isEmpty else { return nil }
         let middleIndex = count / 2
@@ -313,7 +313,7 @@ public extension Array where Element: Hashable {
     /// 数组的前N个元素
     /// - Parameter n: 元素数量
     /// - Returns: 前N个元素的数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_prefix(_ n: Int) -> [Element] {
         return Array((self as [Element]).prefix(n))
     }
@@ -322,7 +322,7 @@ public extension Array where Element: Hashable {
     /// 数组的后N个元素
     /// - Parameter n: 元素数量
     /// - Returns: 后N个元素的数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_suffix(_ n: Int) -> [Element] {
         return Array((self as [Element]).suffix(n))
     }
@@ -330,7 +330,7 @@ public extension Array where Element: Hashable {
     // MARK: 6.15、数组的统计信息
     /// 数组的统计信息
     /// - Returns: 包含统计信息的字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var statistics: [String: Any] {
         var result: [String: Any] = [
             "count": count,

@@ -30,7 +30,7 @@ public extension Timer {
     ///   - repeats: 是否重复执行
     ///   - block: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     static func scheduledSafeTimer(timeInterval: TimeInterval, repeats: Bool, block: @escaping ((Timer) -> Void)) -> Timer {
         let safeInterval = tfy_safeInterval(timeInterval)
@@ -46,7 +46,7 @@ public extension Timer {
     ///   - timeInterval: 时间间隔
     ///   - handler: 定时器的回调
     /// - Returns: 返回 Timer，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     static func runThisEvery(timeInterval: TimeInterval, handler: @escaping (Timer?) -> Void) -> Timer? {
         let safeInterval = tfy_safeInterval(timeInterval)
@@ -76,7 +76,7 @@ public extension Timer {
     ///   - repeats: 是否重复执行，默认true
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     static func scheduled(_ Interval: TimeInterval = 60, repeats: Bool = true, action: @escaping((Timer) -> Void)) -> Timer {
         return scheduledTimer(timeInterval: tfy_safeInterval(Interval), target: self, selector: #selector(handleInvoke(_:)), userInfo: action, repeats: repeats)
@@ -89,14 +89,14 @@ public extension Timer {
     }
     // MARK: 1.5、激活定时器
     /// 激活定时器：触发时间设置在现在，这样定时器自动进入马上进入工作状态
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func activate() {
         self.fireDate = .distantPast
     }
     
     // MARK: 1.6、暂停定时器
     /// 暂停定时器：触发时间设置在未来，既很久之后，这样定时器自动进入等待触发的状态
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func pause() {
         self.fireDate = .distantFuture
     }
@@ -107,7 +107,7 @@ public extension Timer {
     ///   - repeats: 是否重复执行，默认true
     ///   - action: 执行代码的block
     /// - Returns: 返回 DispatchSourceTimer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func createGCDTimer(_ interval: TimeInterval = 60, repeats: Bool = true, action: @escaping(() -> Void)) -> DispatchSourceTimer {
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: DispatchQueue.global())
         let safeInterval = DispatchTimeInterval.tfy_fromSeconds(interval)
@@ -126,7 +126,7 @@ public extension Timer {
     // MARK: 1.8、取消GCD定时器
     /// 取消GCD定时器
     /// - Parameter timer: 要取消的定时器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func cancelGCDTimer(_ timer: DispatchSourceTimer?) {
         timer?.cancel()
     }
@@ -141,7 +141,7 @@ public extension DispatchSourceTimer{
     ///   - repeats: 是否重复执行，默认true
     ///   - action: 执行代码的block
     /// - Returns: 返回 DispatchSourceTimer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func create(_ interval: TimeInterval = 60, repeats: Bool = true, action: @escaping(() -> Void)) -> DispatchSourceTimer {
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: DispatchQueue.global())
         let safeInterval = DispatchTimeInterval.tfy_fromSeconds(interval)
@@ -164,7 +164,7 @@ public extension DispatchSourceTimer{
     ///   - repeats: 是否重复执行
     ///   - action: 执行代码的block
     /// - Returns: 返回 DispatchSourceTimer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func createPrecise(_ interval: TimeInterval, repeats: Bool = true, action: @escaping(() -> Void)) -> DispatchSourceTimer {
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: DispatchQueue.global())
         let safeInterval = DispatchTimeInterval.tfy_fromSeconds(interval)
@@ -187,7 +187,7 @@ public extension DispatchSourceTimer{
     ///   - repeats: 是否重复执行
     ///   - action: 执行代码的block
     /// - Returns: 返回 DispatchSourceTimer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func createMilliseconds(_ milliseconds: Int, repeats: Bool = true, action: @escaping(() -> Void)) -> DispatchSourceTimer {
         let codeTimer = DispatchSource.makeTimerSource(flags: .init(rawValue: 0), queue: DispatchQueue.global())
         codeTimer.schedule(deadline: .now(), repeating: .milliseconds(max(1, milliseconds)))
@@ -204,14 +204,14 @@ public extension DispatchSourceTimer{
     
     // MARK: 2.4、暂停GCD定时器
     /// 暂停GCD定时器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_pause() {
         self.suspend()
     }
     
     // MARK: 2.5、恢复GCD定时器
     /// 恢复GCD定时器
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func tfy_resume() {
         self.resume()
     }
@@ -219,7 +219,7 @@ public extension DispatchSourceTimer{
     // MARK: 2.6、检查GCD定时器是否已取消
     /// 检查GCD定时器是否已取消
     /// - Returns: 是否已取消
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_isCancelled: Bool {
         return self.isCancelled
     }
@@ -234,7 +234,7 @@ public extension Timer {
     ///   - seconds: 倒计时秒数
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func countdown(_ seconds: Int, action: @escaping((Int) -> Void)) -> Timer {
         var remainingSeconds = max(0, seconds)
         return Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -252,7 +252,7 @@ public extension Timer {
     ///   - delay: 延迟时间
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func delay(_ delay: TimeInterval, action: @escaping() -> Void) -> Timer {
         return Timer.scheduledTimer(withTimeInterval: tfy_safeInterval(delay), repeats: false) { _ in
             action()
@@ -265,7 +265,7 @@ public extension Timer {
     ///   - interval: 时间间隔
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func repeatTask(_ interval: TimeInterval, action: @escaping() -> Void) -> Timer {
         return Timer.scheduledTimer(withTimeInterval: tfy_safeInterval(interval), repeats: true) { _ in
             action()
@@ -279,7 +279,7 @@ public extension Timer {
     ///   - repeats: 是否重复执行
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func mainThread(_ interval: TimeInterval, repeats: Bool = true, action: @escaping() -> Void) -> Timer {
         return Timer.scheduledTimer(withTimeInterval: tfy_safeInterval(interval), repeats: repeats) { _ in
             DispatchQueue.main.async {
@@ -295,7 +295,7 @@ public extension Timer {
     ///   - repeats: 是否重复执行
     ///   - action: 执行代码的block
     /// - Returns: 返回 Timer
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func background(_ interval: TimeInterval, repeats: Bool = true, action: @escaping() -> Void) -> Timer {
         return Timer.scheduledTimer(withTimeInterval: tfy_safeInterval(interval), repeats: repeats) { _ in
             DispatchQueue.global().async {
@@ -307,7 +307,7 @@ public extension Timer {
     // MARK: 3.6、检查定时器是否有效
     /// 检查定时器是否有效
     /// - Returns: 是否有效
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_isValid: Bool {
         return self.isValid
     }
@@ -315,7 +315,7 @@ public extension Timer {
     // MARK: 3.7、获取定时器的下次触发时间
     /// 获取定时器的下次触发时间
     /// - Returns: 下次触发时间
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var nextFireDate: Date? {
         return self.fireDate
     }
@@ -323,7 +323,7 @@ public extension Timer {
     // MARK: 3.8、设置定时器的下次触发时间
     /// 设置定时器的下次触发时间
     /// - Parameter date: 下次触发时间
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setNextFireDate(_ date: Date) {
         guard date.timeIntervalSince1970.isFinite else { return }
         self.fireDate = date
@@ -332,7 +332,7 @@ public extension Timer {
     // MARK: 3.9、获取定时器的时间间隔
     /// 获取定时器的时间间隔
     /// - Returns: 时间间隔
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_timeInterval: TimeInterval {
         return self.timeInterval
     }
@@ -340,7 +340,7 @@ public extension Timer {
     // MARK: 3.10、获取定时器的用户信息
     /// 获取定时器的用户信息
     /// - Returns: 用户信息
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var tfy_userInfo: Any? {
         return self.userInfo
     }

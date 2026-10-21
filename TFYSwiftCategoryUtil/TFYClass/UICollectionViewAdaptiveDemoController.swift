@@ -83,7 +83,7 @@ class UICollectionViewAdaptiveDemoController: UIViewController {
         // 高级功能
         CollectionDemoItem(
             title: "高性能布局",
-            description: "iOS 15+ 优化性能的布局",
+            description: "iOS 16+ 优化性能的布局",
             action: .highPerformanceLayout,
             icon: "⚡"
         ),
@@ -101,7 +101,7 @@ class UICollectionViewAdaptiveDemoController: UIViewController {
         ),
         CollectionDemoItem(
             title: "预取功能",
-            description: "iOS 15+ 数据预取优化",
+            description: "iOS 16+ 数据预取优化",
             action: .prefetching,
             icon: "🚀"
         ),

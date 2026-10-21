@@ -162,7 +162,7 @@ public extension CATextLayer {
     /// 设置行间距
     /// - Parameter lineSpacing: 行间距
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func lineSpacing(_ lineSpacing: CGFloat) -> Self {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -188,7 +188,7 @@ public extension CATextLayer {
     ///   - offset: 阴影偏移
     ///   - radius: 阴影半径
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func textShadow(color: UIColor, offset: CGSize, radius: CGFloat) -> Self {
         self.shadowColor = color.cgColor
@@ -202,7 +202,7 @@ public extension CATextLayer {
     /// 设置背景色
     /// - Parameter color: 背景颜色
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color.cgColor
@@ -215,7 +215,7 @@ public extension CATextLayer {
     ///   - color: 边框颜色
     ///   - width: 边框宽度
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func border(color: UIColor, width: CGFloat) -> Self {
         self.borderColor = color.cgColor
@@ -227,7 +227,7 @@ public extension CATextLayer {
     /// 设置圆角
     /// - Parameter radius: 圆角半径
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func cornerRadius(_ radius: CGFloat) -> Self {
         self.cornerRadius = max(0, radius)
@@ -239,7 +239,7 @@ public extension CATextLayer {
     /// 设置透明度
     /// - Parameter opacity: 透明度值（0-1）
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func opacity(_ opacity: Float) -> Self {
         self.opacity = min(1, max(0, opacity))
@@ -250,7 +250,7 @@ public extension CATextLayer {
     /// 设置是否隐藏
     /// - Parameter isHidden: 是否隐藏
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func isHidden(_ isHidden: Bool) -> Self {
         self.isHidden = isHidden
@@ -261,7 +261,7 @@ public extension CATextLayer {
     /// 设置位置和大小
     /// - Parameter frame: 位置和大小
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func frame(_ frame: CGRect) -> Self {
         self.frame = frame.standardized
@@ -272,7 +272,7 @@ public extension CATextLayer {
     /// 设置锚点
     /// - Parameter anchorPoint: 锚点
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func anchorPoint(_ anchorPoint: CGPoint) -> Self {
         self.anchorPoint = CGPoint(
@@ -286,7 +286,7 @@ public extension CATextLayer {
     /// 设置变换
     /// - Parameter transform: 变换矩阵
     /// - Returns: 返回自身
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     @discardableResult
     func transform(_ transform: CATransform3D) -> Self {
         self.transform = transform

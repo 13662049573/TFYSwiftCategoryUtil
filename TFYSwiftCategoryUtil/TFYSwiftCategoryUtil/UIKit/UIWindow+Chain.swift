@@ -10,18 +10,15 @@ import UIKit
 
 public extension UIWindow {
     static var keyWindow: UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .filter { $0.activationState == .foregroundActive }
+            .flatMap { $0.windows }
+            .first(where: \.isKeyWindow)
+            ?? UIApplication.shared.connectedScenes
                 .compactMap { $0 as? UIWindowScene }
-                .filter { $0.activationState == .foregroundActive }
                 .flatMap { $0.windows }
-                .first(where: \.isKeyWindow)
-                ?? UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first(where: { !$0.isHidden && $0.alpha > 0 })
-        }
-        return UIApplication.shared.delegate?.window ?? nil
+                .first(where: { !$0.isHidden && $0.alpha > 0 })
     }
 
     static var statusBarFrame: CGRect {
@@ -83,57 +80,49 @@ public extension UIWindow {
     
     /// 获取当前窗口
     /// - Returns: 当前窗口
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var currentWindow: UIWindow? {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .first { $0.activationState == .foregroundActive }?
-                .windows
-                .first(where: \.isKeyWindow)
-                ?? UIWindow.keyWindow
-        } else {
-            return UIApplication.shared.delegate?.window ?? nil
-        }
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }?
+            .windows
+            .first(where: \.isKeyWindow)
+            ?? UIWindow.keyWindow
     }
     
     /// 获取所有窗口
     /// - Returns: 所有窗口数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var allWindows: [UIWindow] {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .flatMap { $0.windows }
-        } else {
-            return UIApplication.shared.windows
-        }
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
     }
     
     /// 获取可见窗口
     /// - Returns: 可见窗口数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var visibleWindows: [UIWindow] {
         return allWindows.filter { !$0.isHidden && $0.alpha > 0 }
     }
     
     /// 获取窗口的可见区域
     /// - Returns: 可见区域
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var visibleFrame: CGRect {
         return bounds.inset(by: safeAreaInsets)
     }
     
     /// 检查窗口是否可见
     /// - Returns: 如果窗口可见返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isVisible: Bool {
         return !isHidden && alpha > 0 && windowLevel == .normal
     }
     
     /// 设置窗口的层级深度
     /// - Parameter level: 层级深度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setWindowLevel(_ level: UIWindow.Level) {
         // windowLevel是只读属性，需要通过其他方式设置
         // 这里提供一个替代方案：通过修改窗口的zPosition来实现类似效果
@@ -142,7 +131,7 @@ public extension UIWindow {
     
     /// 显示窗口
     /// - Parameter animated: 是否动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func show(animated: Bool = true) {
         if animated {
             alpha = 0
@@ -158,7 +147,7 @@ public extension UIWindow {
     
     /// 隐藏窗口
     /// - Parameter animated: 是否动画
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func hide(animated: Bool = true) {
         if animated {
             UIView.animate(withDuration: 0.3, animations: {
@@ -174,7 +163,7 @@ public extension UIWindow {
     
     /// 添加子窗口
     /// - Parameter window: 子窗口
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func addSubwindow(_ window: UIWindow) {
         addSubview(window)
         window.frame = bounds
@@ -183,28 +172,28 @@ public extension UIWindow {
     
     /// 移除子窗口
     /// - Parameter window: 子窗口
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func removeSubwindow(_ window: UIWindow) {
         window.removeFromSuperview()
     }
     
     /// 获取所有子窗口
     /// - Returns: 子窗口数组
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var subwindows: [UIWindow] {
         return subviews.compactMap { $0 as? UIWindow }
     }
     
     /// 设置窗口的背景色
     /// - Parameter color: 背景颜色
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setBackgroundColor(_ color: UIColor) {
         backgroundColor = color
     }
     
     /// 设置窗口的圆角
     /// - Parameter radius: 圆角半径
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setCornerRadius(_ radius: CGFloat) {
         layer.cornerRadius = max(0, radius)
         layer.masksToBounds = true
@@ -216,7 +205,7 @@ public extension UIWindow {
     ///   - offset: 阴影偏移
     ///   - radius: 阴影半径
     ///   - opacity: 阴影透明度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
         layer.shadowColor = color.cgColor
         layer.shadowOffset = offset
@@ -226,14 +215,14 @@ public extension UIWindow {
     
     /// 获取窗口的变换
     /// - Returns: 变换矩阵
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var windowTransform: CGAffineTransform {
         return self.layer.affineTransform()
     }
     
     /// 设置窗口的变换
     /// - Parameter transform: 变换矩阵
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setTransform(_ transform: CGAffineTransform) {
         // transform是只读属性，需要通过layer的transform来设置
         self.layer.setAffineTransform(transform)
@@ -244,7 +233,7 @@ public extension UIWindow {
     ///   - transform: 目标变换
     ///   - duration: 动画时长
     ///   - completion: 完成回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func animateTransform(_ transform: CGAffineTransform, duration: TimeInterval = 0.3, completion: (() -> Void)? = nil) {
         let safeDuration = duration.isFinite ? max(0, duration) : 0
         UIView.animate(withDuration: safeDuration, animations: {
@@ -259,7 +248,7 @@ public extension UIWindow {
     ///   - viewController: 根视图控制器
     ///   - animated: 是否动画
     ///   - completion: 完成回调
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func setRootViewController(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         if animated {
             UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
@@ -275,7 +264,7 @@ public extension UIWindow {
     
     /// 获取窗口的截图
     /// - Returns: 截图图片
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func takeScreenshot() -> UIImage? {
         guard bounds.width > 0, bounds.height > 0 else { return nil }
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)

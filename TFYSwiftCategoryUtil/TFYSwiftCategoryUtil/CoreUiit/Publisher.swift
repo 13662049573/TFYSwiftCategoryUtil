@@ -4,7 +4,7 @@ import UIKit
 
 // MARK: - Publisher Extensions
 /// Publisher 扩展，提供便捷的 Combine 操作
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 
 public extension Publisher where Failure == Never {
 

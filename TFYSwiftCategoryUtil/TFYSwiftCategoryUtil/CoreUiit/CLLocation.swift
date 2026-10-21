@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - CLLocation Extensions
 /// CLLocation 扩展，提供便捷的位置操作
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 /// 支持 iPhone 和 iPad 适配
 
 public extension CLLocation {
