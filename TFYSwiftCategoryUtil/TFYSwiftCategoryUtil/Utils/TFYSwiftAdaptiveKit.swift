@@ -126,14 +126,10 @@ public struct TFYAdaptiveConfigValidation {
         
         /// 当前屏幕方向
         public static var orientation: UIInterfaceOrientation {
-            if #available(iOS 13.0, *) {
-                guard let windowScene = getCurrentWindow()?.windowScene else {
-                    return .portrait
-                }
-                return windowScene.interfaceOrientation
-            } else {
-                return UIApplication.shared.statusBarOrientation
+            guard let windowScene = getCurrentWindow()?.windowScene else {
+                return .portrait
             }
+            return windowScene.interfaceOrientation
         }
         
         /// 是否为竖屏
@@ -148,23 +144,15 @@ public struct TFYAdaptiveConfigValidation {
         
         /// 获取当前窗口
         public static func getCurrentWindow() -> UIWindow? {
-            if #available(iOS 13.0, *) {
-                return UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap(\.windows)
-                    .first { $0.isKeyWindow }
-            } else {
-                return UIApplication.shared.keyWindow
-            }
+            UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap(\.windows)
+                .first { $0.isKeyWindow }
         }
         
         /// 获取安全区域
         public static func getSafeAreaInsets() -> UIEdgeInsets {
-            guard let window = getCurrentWindow() else { return .zero }
-            if #available(iOS 11.0, *) {
-                return window.safeAreaInsets
-            }
-            return .zero
+            getCurrentWindow()?.safeAreaInsets ?? .zero
         }
         
         /// 获取顶部安全区域高度
@@ -263,15 +251,11 @@ public struct TFYAdaptiveConfigValidation {
         
         /// 状态栏高度
         public static var statusBarHeight: CGFloat {
-            if #available(iOS 13.0, *) {
-                guard let windowScene = Device.getCurrentWindow()?.windowScene,
-                      let statusBarManager = windowScene.statusBarManager else {
-                    return 44
-                }
-                return statusBarManager.statusBarFrame.height
-            } else {
-                return UIApplication.shared.statusBarFrame.height
+            guard let windowScene = Device.getCurrentWindow()?.windowScene,
+                  let statusBarManager = windowScene.statusBarManager else {
+                return 44
             }
+            return statusBarManager.statusBarFrame.height
         }
         
         /// 导航栏高度
