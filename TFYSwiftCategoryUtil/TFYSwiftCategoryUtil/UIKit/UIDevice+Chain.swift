@@ -422,7 +422,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取设备标识符
     /// - Returns: 设备标识符
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var deviceIdentifier: String {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -436,7 +436,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取设备类型枚举
     /// - Returns: 设备类型
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var deviceFamily: DeviceFamily {
         let deviceType = UIDevice.current.model
         switch deviceType {
@@ -453,110 +453,96 @@ public extension TFY where Base: UIDevice {
     
     /// 检查是否为刘海屏设备
     /// - Returns: 如果是刘海屏设备返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var hasNotch: Bool {
-        if #available(iOS 15.0, *) {
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = windowScene?.windows.first { $0.isKeyWindow }
-            return window?.safeAreaInsets.top ?? 0 > 20
-        } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-            return window?.safeAreaInsets.top ?? 0 > 20
-        }
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let window = windowScene?.windows.first { $0.isKeyWindow }
+        return window?.safeAreaInsets.top ?? 0 > 20
     }
     
     /// 获取安全区域边距
     /// - Returns: 安全区域边距
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var safeAreaInsets: UIEdgeInsets {
-        if #available(iOS 15.0, *) {
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = windowScene?.windows.first { $0.isKeyWindow }
-            return window?.safeAreaInsets ?? .zero
-        } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-            return window?.safeAreaInsets ?? .zero
-        }
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let window = windowScene?.windows.first { $0.isKeyWindow }
+        return window?.safeAreaInsets ?? .zero
     }
     
     /// 获取状态栏高度
     /// - Returns: 状态栏高度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var statusBarHeight: CGFloat {
-        if #available(iOS 13.0, *) {
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            return windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        } else {
-            return UIApplication.shared.statusBarFrame.height
-        }
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        return windowScene?.statusBarManager?.statusBarFrame.height ?? 0
     }
     
     /// 获取导航栏高度
     /// - Returns: 导航栏高度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var navigationBarHeight: CGFloat {
         return 44.0
     }
     
     /// 获取标签栏高度
     /// - Returns: 标签栏高度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var tabBarHeight: CGFloat {
         return 49.0
     }
     
     /// 获取屏幕尺寸
     /// - Returns: 屏幕尺寸
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var screenSize: CGSize {
         return UIScreen.main.bounds.size
     }
     
     /// 获取屏幕宽度
     /// - Returns: 屏幕宽度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var screenWidth: CGFloat {
         return UIScreen.main.bounds.width
     }
     
     /// 获取屏幕高度
     /// - Returns: 屏幕高度
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var screenHeight: CGFloat {
         return UIScreen.main.bounds.height
     }
     
     /// 获取屏幕比例
     /// - Returns: 屏幕比例
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var screenScale: CGFloat {
         return UIScreen.main.scale
     }
     
     /// 检查是否为竖屏
     /// - Returns: 如果是竖屏返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var isPortrait: Bool {
         return UIDevice.current.orientation.isPortrait
     }
     
     /// 检查是否为横屏
     /// - Returns: 如果是横屏返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var isLandscape: Bool {
         return UIDevice.current.orientation.isLandscape
     }
     
     /// 获取设备方向
     /// - Returns: 设备方向
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var deviceOrientation: UIDeviceOrientation {
         return UIDevice.current.orientation
     }
     
     /// 获取电池电量
     /// - Returns: 电池电量 (0.0-1.0)
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var batteryLevel: Float {
         UIDevice.current.isBatteryMonitoringEnabled = true
         return UIDevice.current.batteryLevel
@@ -564,7 +550,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取电池状态
     /// - Returns: 电池状态
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var batteryState: UIDevice.BatteryState {
         UIDevice.current.isBatteryMonitoringEnabled = true
         return UIDevice.current.batteryState
@@ -572,14 +558,14 @@ public extension TFY where Base: UIDevice {
     
     /// 检查是否正在充电
     /// - Returns: 如果正在充电返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var isCharging: Bool {
         return batteryState == .charging || batteryState == .full
     }
     
     /// 获取可用内存大小
     /// - Returns: 可用内存大小（字节）
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var memoryAvailable: UInt64 {
         var pagesize: vm_size_t = 0
         var stats = vm_statistics64()
@@ -598,7 +584,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取内存使用率
     /// - Returns: 内存使用率 (0.0-1.0)
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var memoryUsage: Double {
         let total = memoryTotal
         let available = memoryAvailable
@@ -608,7 +594,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取CPU使用率
     /// - Returns: CPU使用率 (0.0-1.0)
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var cpuUsage: Double {
         var totalUsageOfCPU: Double = 0.0
         var threadList: thread_act_array_t?
@@ -640,7 +626,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取网络类型
     /// - Returns: 网络类型
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var networkType: NetworkType {
         let reachability = Reachability()
         switch reachability.connection {
@@ -656,7 +642,7 @@ public extension TFY where Base: UIDevice {
     /// 获取格式化的大小字符串
     /// - Parameter bytes: 字节数
     /// - Returns: 格式化的大小字符串
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static func formatBytes(_ bytes: Int64) -> String {
         let formatter = ByteCountFormatter()
         formatter.allowedUnits = [.useKB, .useMB, .useGB, .useTB]
@@ -666,7 +652,7 @@ public extension TFY where Base: UIDevice {
     
     /// 获取设备信息字典
     /// - Returns: 设备信息字典
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     static var deviceInfo: [String: Any] {
         return [
             "model": modelName,

@@ -66,7 +66,6 @@ public extension TFY where Base: URLSession {
     ///   - request: 请求
     ///   - validStatusCodes: 有效状态码范围
     /// - Returns: 数据和 HTTP 响应
-    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     func data(for request: URLRequest,
               validStatusCodes: Range<Int> = 200..<300) async throws -> (Data, HTTPURLResponse) {
         let (data, response) = try await base.data(for: request)

@@ -4,7 +4,7 @@ import CoreLocation
 
 // MARK: - Authorization Publisher Protocols
 /// 授权发布者协议，定义授权状态回调
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 
 /// 发布者授权代理协议
 protocol PublisherAuthorizationDelegate: AnyObject {

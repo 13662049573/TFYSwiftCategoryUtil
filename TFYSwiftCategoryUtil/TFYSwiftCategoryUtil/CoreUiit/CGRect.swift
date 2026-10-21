@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - CGRect Extensions
 /// CGRect 扩展，提供便捷的矩形操作
-/// 支持 iOS 15.0 及以上版本
+/// 支持 iOS 16.0 及以上版本
 /// 支持 iPhone 和 iPad 适配
 
 public extension CGRect {

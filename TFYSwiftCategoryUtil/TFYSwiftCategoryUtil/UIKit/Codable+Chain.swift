@@ -51,7 +51,7 @@ public extension TFYCodable {
     
     /// 转换为格式化的JSON字符串
     /// - Returns: 格式化的JSON字符串，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func toPrettyString() -> String? {
         guard let data = toData() else { return nil }
         do {
@@ -66,7 +66,7 @@ public extension TFYCodable {
     
     /// 深拷贝对象
     /// - Returns: 深拷贝的对象，失败返回nil
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     func deepCopy() -> Self? {
         guard let data = toData() else { return nil }
         do {
@@ -79,7 +79,7 @@ public extension TFYCodable {
     
     /// 验证对象是否有效
     /// - Returns: 如果对象可以正确编码和解码则返回true
-    /// - Note: 支持iOS 15+，适配iPhone和iPad
+    /// - Note: 支持iOS 16+，适配iPhone和iPad
     var isValid: Bool {
         guard let data = toData() else { return false }
         do {
